@@ -1,20 +1,30 @@
--- Supabase Schema for Slideverse
+-- Supabase Schema for Slideverse (Updated for Multi-Language Support)
+
+DROP TABLE IF EXISTS otps;
+DROP TABLE IF EXISTS appearance;
+DROP TABLE IF EXISTS grievances;
+DROP TABLE IF EXISTS reviews;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS users;
 
 -- Categories Table
 CREATE TABLE IF NOT EXISTS categories (
   id TEXT PRIMARY KEY,
-  title TEXT NOT NULL,
-  description TEXT,
+  title JSONB NOT NULL,
+  description JSONB,
   price NUMERIC DEFAULT 0,
   image_url TEXT,
+  features TEXT[] DEFAULT '{}',
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- Products Table
 CREATE TABLE IF NOT EXISTS products (
   id TEXT PRIMARY KEY,
-  title TEXT NOT NULL,
-  description TEXT,
+  title JSONB NOT NULL,
+  description JSONB,
   price NUMERIC NOT NULL,
   category_id TEXT REFERENCES categories(id) ON DELETE SET NULL,
   image_url TEXT,
@@ -40,6 +50,7 @@ CREATE TABLE IF NOT EXISTS orders (
   id TEXT PRIMARY KEY,
   customer TEXT,
   email TEXT,
+  phone TEXT,
   product TEXT,
   amount NUMERIC,
   status TEXT DEFAULT 'pending',
@@ -52,9 +63,11 @@ CREATE TABLE IF NOT EXISTS orders (
 -- Reviews Table
 CREATE TABLE IF NOT EXISTS reviews (
   id TEXT PRIMARY KEY,
-  name TEXT NOT NULL,
-  rating INTEGER CHECK (rating >= 1 AND rating <= 5),
-  comment TEXT,
+  name JSONB NOT NULL,
+  role JSONB,
+  text JSONB,
+  code TEXT,
+  rating INTEGER DEFAULT 5,
   date TEXT,
   status TEXT DEFAULT 'pending',
   created_at TIMESTAMPTZ DEFAULT NOW()
@@ -94,13 +107,6 @@ ALTER TABLE reviews ENABLE ROW LEVEL SECURITY;
 ALTER TABLE grievances ENABLE ROW LEVEL SECURITY;
 ALTER TABLE appearance ENABLE ROW LEVEL SECURITY;
 ALTER TABLE otps ENABLE ROW LEVEL SECURITY;
-
--- Create Policies (Public Read, Admin Write for now)
--- Note: In a production app, you should restrict write access to admin users/roles
-CREATE POLICY "Allow public read on categories" ON categories FOR SELECT USING (true);
-CREATE POLICY "Allow public read on products" ON products FOR SELECT USING (true);
-CREATE POLICY "Allow public read on reviews" ON reviews FOR SELECT USING (true);
-CREATE POLICY "Allow public read on appearance" ON appearance FOR SELECT USING (true);
 
 -- Allow all for testing (Replace with proper Auth later)
 CREATE POLICY "Allow all for categories" ON categories FOR ALL USING (true);

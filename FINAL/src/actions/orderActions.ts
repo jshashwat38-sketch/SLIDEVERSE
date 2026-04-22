@@ -1,33 +1,60 @@
 "use server";
-
-import fs from "fs/promises";
-import path from "path";
 import { revalidatePath } from "next/cache";
-
-const dataFilePath = path.join(process.cwd(), "src", "data", "orders.json");
+import { supabase } from "@/lib/supabase";
 
 export async function getOrders() {
   try {
-    const fileContents = await fs.readFile(dataFilePath, "utf8");
-    return JSON.parse(fileContents);
+    const { data, error } = await supabase
+      .from('orders')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return data || [];
+  } catch { return []; }
+}
+
+export async function createOrder(orderData: any) {
+  try {
+    const newOrder = {
+      id: `ord-${Date.now()}`,
+      customer: orderData.customer,
+      email: orderData.email,
+      phone: orderData.phone,
+      product: orderData.product,
+      amount: Number(orderData.amount),
+      status: "pending",
+      date: new Date().toLocaleDateString(),
+      razorpay_order_id: orderData.razorpayOrderId
+    };
+
+    const { error } = await supabase.from('orders').insert(newOrder);
+    if (error) throw error;
+
+    revalidatePath("/admin/orders");
+    return { success: true, order: newOrder };
   } catch (error) {
-    console.error("Error reading orders:", error);
-    return [];
+    console.error("Create order error:", error);
+    return { success: false, error: "Failed to create order" };
   }
 }
 
-export async function updateOrderStatus(orderId: string, newStatus: string) {
+export async function updateOrderStatus(id: string, status: string, paymentId?: string) {
   try {
-    const orders = await getOrders();
-    const updatedOrders = orders.map((order: any) => 
-      order.id === orderId ? { ...order, status: newStatus } : order
-    );
+    const updateData: any = { status };
+    if (paymentId) updateData.payment_id = paymentId;
+
+    const { error } = await supabase
+      .from('orders')
+      .update(updateData)
+      .eq('id', id);
     
-    await fs.writeFile(dataFilePath, JSON.stringify(updatedOrders, null, 2));
-    revalidatePath("/admin");
-    return { success: true, orders: updatedOrders };
+    if (error) throw error;
+
+    revalidatePath("/admin/orders");
+    return { success: true };
   } catch (error) {
-    console.error("Error updating order:", error);
-    return { success: false, error: "Failed to update order" };
+    console.error("Update order status error:", error);
+    return { success: false, error: "Failed to update order status" };
   }
 }

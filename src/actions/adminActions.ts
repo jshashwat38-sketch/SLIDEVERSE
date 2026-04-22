@@ -2,10 +2,12 @@
 import { revalidatePath } from "next/cache";
 import { supabase } from "@/lib/supabase";
 
-export async function uploadImage(formData: FormData) {
+export type UploadResult = 
+  | { success: true; url: string } 
+  | { success: false; error: string };
+
+export async function uploadImage(formData: FormData): Promise<UploadResult> {
   // Image uploads to local public/uploads will NOT work on Netlify.
-  // For now, we return the URL if it's already a URL, 
-  // or instruct to use external hosting.
   // Real implementation would use Supabase Storage.
   return { success: false, error: "Local uploads disabled for production. Please use external URLs." };
 }

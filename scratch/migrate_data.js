@@ -29,36 +29,56 @@ async function migrate() {
       
       const mappedData = data.map(record => {
         const newRecord = { ...record };
-        if (record.categoryId) {
+        
+        // Use 'in' operator to check for existence, even if value is falsy
+        if ('categoryId' in record) {
           newRecord.category_id = record.categoryId;
           delete newRecord.categoryId;
         }
-        if (record.imageUrl) {
+        if ('imageUrl' in record) {
           newRecord.image_url = record.imageUrl;
           delete newRecord.imageUrl;
         }
-        if (record.driveLink) {
+        if ('driveLink' in record) {
           newRecord.drive_link = record.driveLink;
           delete newRecord.driveLink;
         }
-        if (record.createdAt) {
+        if ('createdAt' in record) {
           newRecord.created_at = record.createdAt;
           delete newRecord.createdAt;
         }
-        if (record.paymentId) {
+        if ('paymentId' in record) {
           newRecord.payment_id = record.paymentId;
           delete newRecord.paymentId;
         }
-        if (record.razorpayOrderId) {
+        if ('razorpayOrderId' in record) {
           newRecord.razorpay_order_id = record.razorpayOrderId;
           delete newRecord.razorpayOrderId;
         }
+
+        // Fix for categories/products title and description
+        if (item.table === 'categories' || item.table === 'products') {
+          if (typeof record.title === 'string') {
+            newRecord.title = { en: record.title };
+          }
+          if (typeof record.description === 'string') {
+            newRecord.description = { en: record.description };
+          }
+        }
+
         return newRecord;
       });
 
-      const { error } = await supabase.from(item.table).upsert(mappedData);
-      if (error) console.error(`Error migrating ${item.table}:`, error);
-      else console.log(`Successfully migrated ${item.table}`);
+      for (let i = 0; i < mappedData.length; i += 50) {
+        const chunk = mappedData.slice(i, i + 50);
+        const { error } = await supabase.from(item.table).upsert(chunk);
+        if (error) {
+          console.error(`Error migrating chunk ${i/50} of ${item.table}:`, error);
+          break;
+        }
+      }
+      
+      console.log(`Finished ${item.table}`);
     } catch (err) {
       console.warn(`Skipping ${item.file}: ${err.message}`);
     }
