@@ -1,0 +1,1328 @@
+[
+  {
+    "id": "cat-business",
+    "title": {
+      "en": "Business",
+      "zh": "[ZH] Business",
+      "hi": "[HI] Business",
+      "es": "[ES] Business",
+      "fr": "[FR] Business",
+      "ar": "[AR] Business",
+      "bn": "[BN] Business",
+      "ru": "[RU] Business",
+      "pt": "[PT] Business",
+      "de": "[DE] Business"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Business.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Business.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Business.",
+      "es": "[ES] Discover top presentations, documents, and resources about Business.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Business.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Business.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Business.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Business.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Business.",
+      "de": "[DE] Discover top presentations, documents, and resources about Business."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/business/800/600"
+  },
+  {
+    "id": "cat-mobile",
+    "title": {
+      "en": "Mobile",
+      "zh": "[ZH] Mobile",
+      "hi": "[HI] Mobile",
+      "es": "[ES] Mobile",
+      "fr": "[FR] Mobile",
+      "ar": "[AR] Mobile",
+      "bn": "[BN] Mobile",
+      "ru": "[RU] Mobile",
+      "pt": "[PT] Mobile",
+      "de": "[DE] Mobile"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Mobile.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Mobile.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Mobile.",
+      "es": "[ES] Discover top presentations, documents, and resources about Mobile.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Mobile.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Mobile.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Mobile.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Mobile.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Mobile.",
+      "de": "[DE] Discover top presentations, documents, and resources about Mobile."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/mobile/800/600"
+  },
+  {
+    "id": "cat-social-media",
+    "title": {
+      "en": "Social Media",
+      "zh": "[ZH] Social Media",
+      "hi": "[HI] Social Media",
+      "es": "[ES] Social Media",
+      "fr": "[FR] Social Media",
+      "ar": "[AR] Social Media",
+      "bn": "[BN] Social Media",
+      "ru": "[RU] Social Media",
+      "pt": "[PT] Social Media",
+      "de": "[DE] Social Media"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Social Media.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Social Media.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Social Media.",
+      "es": "[ES] Discover top presentations, documents, and resources about Social Media.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Social Media.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Social Media.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Social Media.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Social Media.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Social Media.",
+      "de": "[DE] Discover top presentations, documents, and resources about Social Media."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/social-media/800/600"
+  },
+  {
+    "id": "cat-marketing",
+    "title": {
+      "en": "Marketing",
+      "zh": "[ZH] Marketing",
+      "hi": "[HI] Marketing",
+      "es": "[ES] Marketing",
+      "fr": "[FR] Marketing",
+      "ar": "[AR] Marketing",
+      "bn": "[BN] Marketing",
+      "ru": "[RU] Marketing",
+      "pt": "[PT] Marketing",
+      "de": "[DE] Marketing"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Marketing.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Marketing.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Marketing.",
+      "es": "[ES] Discover top presentations, documents, and resources about Marketing.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Marketing.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Marketing.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Marketing.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Marketing.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Marketing.",
+      "de": "[DE] Discover top presentations, documents, and resources about Marketing."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/marketing/800/600"
+  },
+  {
+    "id": "cat-technology",
+    "title": {
+      "en": "Technology",
+      "zh": "[ZH] Technology",
+      "hi": "[HI] Technology",
+      "es": "[ES] Technology",
+      "fr": "[FR] Technology",
+      "ar": "[AR] Technology",
+      "bn": "[BN] Technology",
+      "ru": "[RU] Technology",
+      "pt": "[PT] Technology",
+      "de": "[DE] Technology"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Technology.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Technology.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Technology.",
+      "es": "[ES] Discover top presentations, documents, and resources about Technology.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Technology.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Technology.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Technology.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Technology.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Technology.",
+      "de": "[DE] Discover top presentations, documents, and resources about Technology."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/technology/800/600"
+  },
+  {
+    "id": "cat-art-photos",
+    "title": {
+      "en": "Art & Photos",
+      "zh": "[ZH] Art & Photos",
+      "hi": "[HI] Art & Photos",
+      "es": "[ES] Art & Photos",
+      "fr": "[FR] Art & Photos",
+      "ar": "[AR] Art & Photos",
+      "bn": "[BN] Art & Photos",
+      "ru": "[RU] Art & Photos",
+      "pt": "[PT] Art & Photos",
+      "de": "[DE] Art & Photos"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Art & Photos.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Art & Photos.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Art & Photos.",
+      "es": "[ES] Discover top presentations, documents, and resources about Art & Photos.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Art & Photos.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Art & Photos.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Art & Photos.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Art & Photos.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Art & Photos.",
+      "de": "[DE] Discover top presentations, documents, and resources about Art & Photos."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/art-photos/800/600"
+  },
+  {
+    "id": "cat-career",
+    "title": {
+      "en": "Career",
+      "zh": "[ZH] Career",
+      "hi": "[HI] Career",
+      "es": "[ES] Career",
+      "fr": "[FR] Career",
+      "ar": "[AR] Career",
+      "bn": "[BN] Career",
+      "ru": "[RU] Career",
+      "pt": "[PT] Career",
+      "de": "[DE] Career"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Career.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Career.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Career.",
+      "es": "[ES] Discover top presentations, documents, and resources about Career.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Career.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Career.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Career.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Career.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Career.",
+      "de": "[DE] Discover top presentations, documents, and resources about Career."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/career/800/600"
+  },
+  {
+    "id": "cat-design",
+    "title": {
+      "en": "Design",
+      "zh": "[ZH] Design",
+      "hi": "[HI] Design",
+      "es": "[ES] Design",
+      "fr": "[FR] Design",
+      "ar": "[AR] Design",
+      "bn": "[BN] Design",
+      "ru": "[RU] Design",
+      "pt": "[PT] Design",
+      "de": "[DE] Design"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Design.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Design.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Design.",
+      "es": "[ES] Discover top presentations, documents, and resources about Design.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Design.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Design.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Design.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Design.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Design.",
+      "de": "[DE] Discover top presentations, documents, and resources about Design."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/design/800/600"
+  },
+  {
+    "id": "cat-education",
+    "title": {
+      "en": "Education",
+      "zh": "[ZH] Education",
+      "hi": "[HI] Education",
+      "es": "[ES] Education",
+      "fr": "[FR] Education",
+      "ar": "[AR] Education",
+      "bn": "[BN] Education",
+      "ru": "[RU] Education",
+      "pt": "[PT] Education",
+      "de": "[DE] Education"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Education.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Education.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Education.",
+      "es": "[ES] Discover top presentations, documents, and resources about Education.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Education.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Education.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Education.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Education.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Education.",
+      "de": "[DE] Discover top presentations, documents, and resources about Education."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/education/800/600"
+  },
+  {
+    "id": "cat-presentations-public-speaking",
+    "title": {
+      "en": "Presentations & Public Speaking",
+      "zh": "[ZH] Presentations & Public Speaking",
+      "hi": "[HI] Presentations & Public Speaking",
+      "es": "[ES] Presentations & Public Speaking",
+      "fr": "[FR] Presentations & Public Speaking",
+      "ar": "[AR] Presentations & Public Speaking",
+      "bn": "[BN] Presentations & Public Speaking",
+      "ru": "[RU] Presentations & Public Speaking",
+      "pt": "[PT] Presentations & Public Speaking",
+      "de": "[DE] Presentations & Public Speaking"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Presentations & Public Speaking.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Presentations & Public Speaking.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Presentations & Public Speaking.",
+      "es": "[ES] Discover top presentations, documents, and resources about Presentations & Public Speaking.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Presentations & Public Speaking.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Presentations & Public Speaking.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Presentations & Public Speaking.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Presentations & Public Speaking.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Presentations & Public Speaking.",
+      "de": "[DE] Discover top presentations, documents, and resources about Presentations & Public Speaking."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/presentations/800/600"
+  },
+  {
+    "id": "cat-government-nonprofit",
+    "title": {
+      "en": "Government & Nonprofit",
+      "zh": "[ZH] Government & Nonprofit",
+      "hi": "[HI] Government & Nonprofit",
+      "es": "[ES] Government & Nonprofit",
+      "fr": "[FR] Government & Nonprofit",
+      "ar": "[AR] Government & Nonprofit",
+      "bn": "[BN] Government & Nonprofit",
+      "ru": "[RU] Government & Nonprofit",
+      "pt": "[PT] Government & Nonprofit",
+      "de": "[DE] Government & Nonprofit"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Government & Nonprofit.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Government & Nonprofit.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Government & Nonprofit.",
+      "es": "[ES] Discover top presentations, documents, and resources about Government & Nonprofit.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Government & Nonprofit.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Government & Nonprofit.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Government & Nonprofit.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Government & Nonprofit.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Government & Nonprofit.",
+      "de": "[DE] Discover top presentations, documents, and resources about Government & Nonprofit."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/government/800/600"
+  },
+  {
+    "id": "cat-healthcare",
+    "title": {
+      "en": "Healthcare",
+      "zh": "[ZH] Healthcare",
+      "hi": "[HI] Healthcare",
+      "es": "[ES] Healthcare",
+      "fr": "[FR] Healthcare",
+      "ar": "[AR] Healthcare",
+      "bn": "[BN] Healthcare",
+      "ru": "[RU] Healthcare",
+      "pt": "[PT] Healthcare",
+      "de": "[DE] Healthcare"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Healthcare.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Healthcare.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Healthcare.",
+      "es": "[ES] Discover top presentations, documents, and resources about Healthcare.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Healthcare.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Healthcare.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Healthcare.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Healthcare.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Healthcare.",
+      "de": "[DE] Discover top presentations, documents, and resources about Healthcare."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/healthcare/800/600"
+  },
+  {
+    "id": "cat-internet",
+    "title": {
+      "en": "Internet",
+      "zh": "[ZH] Internet",
+      "hi": "[HI] Internet",
+      "es": "[ES] Internet",
+      "fr": "[FR] Internet",
+      "ar": "[AR] Internet",
+      "bn": "[BN] Internet",
+      "ru": "[RU] Internet",
+      "pt": "[PT] Internet",
+      "de": "[DE] Internet"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Internet.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Internet.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Internet.",
+      "es": "[ES] Discover top presentations, documents, and resources about Internet.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Internet.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Internet.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Internet.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Internet.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Internet.",
+      "de": "[DE] Discover top presentations, documents, and resources about Internet."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/internet/800/600"
+  },
+  {
+    "id": "cat-law",
+    "title": {
+      "en": "Law",
+      "zh": "[ZH] Law",
+      "hi": "[HI] Law",
+      "es": "[ES] Law",
+      "fr": "[FR] Law",
+      "ar": "[AR] Law",
+      "bn": "[BN] Law",
+      "ru": "[RU] Law",
+      "pt": "[PT] Law",
+      "de": "[DE] Law"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Law.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Law.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Law.",
+      "es": "[ES] Discover top presentations, documents, and resources about Law.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Law.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Law.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Law.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Law.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Law.",
+      "de": "[DE] Discover top presentations, documents, and resources about Law."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/law/800/600"
+  },
+  {
+    "id": "cat-leadership-management",
+    "title": {
+      "en": "Leadership & Management",
+      "zh": "[ZH] Leadership & Management",
+      "hi": "[HI] Leadership & Management",
+      "es": "[ES] Leadership & Management",
+      "fr": "[FR] Leadership & Management",
+      "ar": "[AR] Leadership & Management",
+      "bn": "[BN] Leadership & Management",
+      "ru": "[RU] Leadership & Management",
+      "pt": "[PT] Leadership & Management",
+      "de": "[DE] Leadership & Management"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Leadership & Management.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Leadership & Management.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Leadership & Management.",
+      "es": "[ES] Discover top presentations, documents, and resources about Leadership & Management.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Leadership & Management.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Leadership & Management.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Leadership & Management.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Leadership & Management.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Leadership & Management.",
+      "de": "[DE] Discover top presentations, documents, and resources about Leadership & Management."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/leadership/800/600"
+  },
+  {
+    "id": "cat-automotive",
+    "title": {
+      "en": "Automotive",
+      "zh": "[ZH] Automotive",
+      "hi": "[HI] Automotive",
+      "es": "[ES] Automotive",
+      "fr": "[FR] Automotive",
+      "ar": "[AR] Automotive",
+      "bn": "[BN] Automotive",
+      "ru": "[RU] Automotive",
+      "pt": "[PT] Automotive",
+      "de": "[DE] Automotive"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Automotive.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Automotive.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Automotive.",
+      "es": "[ES] Discover top presentations, documents, and resources about Automotive.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Automotive.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Automotive.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Automotive.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Automotive.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Automotive.",
+      "de": "[DE] Discover top presentations, documents, and resources about Automotive."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/automotive/800/600"
+  },
+  {
+    "id": "cat-engineering",
+    "title": {
+      "en": "Engineering",
+      "zh": "[ZH] Engineering",
+      "hi": "[HI] Engineering",
+      "es": "[ES] Engineering",
+      "fr": "[FR] Engineering",
+      "ar": "[AR] Engineering",
+      "bn": "[BN] Engineering",
+      "ru": "[RU] Engineering",
+      "pt": "[PT] Engineering",
+      "de": "[DE] Engineering"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Engineering.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Engineering.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Engineering.",
+      "es": "[ES] Discover top presentations, documents, and resources about Engineering.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Engineering.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Engineering.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Engineering.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Engineering.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Engineering.",
+      "de": "[DE] Discover top presentations, documents, and resources about Engineering."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/engineering/800/600"
+  },
+  {
+    "id": "cat-software",
+    "title": {
+      "en": "Software",
+      "zh": "[ZH] Software",
+      "hi": "[HI] Software",
+      "es": "[ES] Software",
+      "fr": "[FR] Software",
+      "ar": "[AR] Software",
+      "bn": "[BN] Software",
+      "ru": "[RU] Software",
+      "pt": "[PT] Software",
+      "de": "[DE] Software"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Software.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Software.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Software.",
+      "es": "[ES] Discover top presentations, documents, and resources about Software.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Software.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Software.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Software.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Software.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Software.",
+      "de": "[DE] Discover top presentations, documents, and resources about Software."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/software/800/600"
+  },
+  {
+    "id": "cat-recruiting-hr",
+    "title": {
+      "en": "Recruiting & HR",
+      "zh": "[ZH] Recruiting & HR",
+      "hi": "[HI] Recruiting & HR",
+      "es": "[ES] Recruiting & HR",
+      "fr": "[FR] Recruiting & HR",
+      "ar": "[AR] Recruiting & HR",
+      "bn": "[BN] Recruiting & HR",
+      "ru": "[RU] Recruiting & HR",
+      "pt": "[PT] Recruiting & HR",
+      "de": "[DE] Recruiting & HR"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Recruiting & HR.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Recruiting & HR.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Recruiting & HR.",
+      "es": "[ES] Discover top presentations, documents, and resources about Recruiting & HR.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Recruiting & HR.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Recruiting & HR.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Recruiting & HR.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Recruiting & HR.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Recruiting & HR.",
+      "de": "[DE] Discover top presentations, documents, and resources about Recruiting & HR."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/recruiting/800/600"
+  },
+  {
+    "id": "cat-retail",
+    "title": {
+      "en": "Retail",
+      "zh": "[ZH] Retail",
+      "hi": "[HI] Retail",
+      "es": "[ES] Retail",
+      "fr": "[FR] Retail",
+      "ar": "[AR] Retail",
+      "bn": "[BN] Retail",
+      "ru": "[RU] Retail",
+      "pt": "[PT] Retail",
+      "de": "[DE] Retail"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Retail.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Retail.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Retail.",
+      "es": "[ES] Discover top presentations, documents, and resources about Retail.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Retail.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Retail.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Retail.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Retail.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Retail.",
+      "de": "[DE] Discover top presentations, documents, and resources about Retail."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/retail/800/600"
+  },
+  {
+    "id": "cat-sales",
+    "title": {
+      "en": "Sales",
+      "zh": "[ZH] Sales",
+      "hi": "[HI] Sales",
+      "es": "[ES] Sales",
+      "fr": "[FR] Sales",
+      "ar": "[AR] Sales",
+      "bn": "[BN] Sales",
+      "ru": "[RU] Sales",
+      "pt": "[PT] Sales",
+      "de": "[DE] Sales"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Sales.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Sales.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Sales.",
+      "es": "[ES] Discover top presentations, documents, and resources about Sales.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Sales.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Sales.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Sales.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Sales.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Sales.",
+      "de": "[DE] Discover top presentations, documents, and resources about Sales."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/sales/800/600"
+  },
+  {
+    "id": "cat-services",
+    "title": {
+      "en": "Services",
+      "zh": "[ZH] Services",
+      "hi": "[HI] Services",
+      "es": "[ES] Services",
+      "fr": "[FR] Services",
+      "ar": "[AR] Services",
+      "bn": "[BN] Services",
+      "ru": "[RU] Services",
+      "pt": "[PT] Services",
+      "de": "[DE] Services"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Services.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Services.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Services.",
+      "es": "[ES] Discover top presentations, documents, and resources about Services.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Services.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Services.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Services.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Services.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Services.",
+      "de": "[DE] Discover top presentations, documents, and resources about Services."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/services/800/600"
+  },
+  {
+    "id": "cat-science",
+    "title": {
+      "en": "Science",
+      "zh": "[ZH] Science",
+      "hi": "[HI] Science",
+      "es": "[ES] Science",
+      "fr": "[FR] Science",
+      "ar": "[AR] Science",
+      "bn": "[BN] Science",
+      "ru": "[RU] Science",
+      "pt": "[PT] Science",
+      "de": "[DE] Science"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Science.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Science.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Science.",
+      "es": "[ES] Discover top presentations, documents, and resources about Science.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Science.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Science.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Science.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Science.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Science.",
+      "de": "[DE] Discover top presentations, documents, and resources about Science."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/science/800/600"
+  },
+  {
+    "id": "cat-small-business-entrepreneurship",
+    "title": {
+      "en": "Small Business & Entrepreneurship",
+      "zh": "[ZH] Small Business & Entrepreneurship",
+      "hi": "[HI] Small Business & Entrepreneurship",
+      "es": "[ES] Small Business & Entrepreneurship",
+      "fr": "[FR] Small Business & Entrepreneurship",
+      "ar": "[AR] Small Business & Entrepreneurship",
+      "bn": "[BN] Small Business & Entrepreneurship",
+      "ru": "[RU] Small Business & Entrepreneurship",
+      "pt": "[PT] Small Business & Entrepreneurship",
+      "de": "[DE] Small Business & Entrepreneurship"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Small Business & Entrepreneurship.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Small Business & Entrepreneurship.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Small Business & Entrepreneurship.",
+      "es": "[ES] Discover top presentations, documents, and resources about Small Business & Entrepreneurship.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Small Business & Entrepreneurship.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Small Business & Entrepreneurship.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Small Business & Entrepreneurship.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Small Business & Entrepreneurship.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Small Business & Entrepreneurship.",
+      "de": "[DE] Discover top presentations, documents, and resources about Small Business & Entrepreneurship."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/small-business/800/600"
+  },
+  {
+    "id": "cat-food",
+    "title": {
+      "en": "Food",
+      "zh": "[ZH] Food",
+      "hi": "[HI] Food",
+      "es": "[ES] Food",
+      "fr": "[FR] Food",
+      "ar": "[AR] Food",
+      "bn": "[BN] Food",
+      "ru": "[RU] Food",
+      "pt": "[PT] Food",
+      "de": "[DE] Food"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Food.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Food.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Food.",
+      "es": "[ES] Discover top presentations, documents, and resources about Food.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Food.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Food.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Food.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Food.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Food.",
+      "de": "[DE] Discover top presentations, documents, and resources about Food."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/food/800/600"
+  },
+  {
+    "id": "cat-environment",
+    "title": {
+      "en": "Environment",
+      "zh": "[ZH] Environment",
+      "hi": "[HI] Environment",
+      "es": "[ES] Environment",
+      "fr": "[FR] Environment",
+      "ar": "[AR] Environment",
+      "bn": "[BN] Environment",
+      "ru": "[RU] Environment",
+      "pt": "[PT] Environment",
+      "de": "[DE] Environment"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Environment.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Environment.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Environment.",
+      "es": "[ES] Discover top presentations, documents, and resources about Environment.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Environment.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Environment.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Environment.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Environment.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Environment.",
+      "de": "[DE] Discover top presentations, documents, and resources about Environment."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/environment/800/600"
+  },
+  {
+    "id": "cat-economy-finance",
+    "title": {
+      "en": "Economy & Finance",
+      "zh": "[ZH] Economy & Finance",
+      "hi": "[HI] Economy & Finance",
+      "es": "[ES] Economy & Finance",
+      "fr": "[FR] Economy & Finance",
+      "ar": "[AR] Economy & Finance",
+      "bn": "[BN] Economy & Finance",
+      "ru": "[RU] Economy & Finance",
+      "pt": "[PT] Economy & Finance",
+      "de": "[DE] Economy & Finance"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Economy & Finance.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Economy & Finance.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Economy & Finance.",
+      "es": "[ES] Discover top presentations, documents, and resources about Economy & Finance.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Economy & Finance.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Economy & Finance.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Economy & Finance.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Economy & Finance.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Economy & Finance.",
+      "de": "[DE] Discover top presentations, documents, and resources about Economy & Finance."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/economy/800/600"
+  },
+  {
+    "id": "cat-data-analytics",
+    "title": {
+      "en": "Data & Analytics",
+      "zh": "[ZH] Data & Analytics",
+      "hi": "[HI] Data & Analytics",
+      "es": "[ES] Data & Analytics",
+      "fr": "[FR] Data & Analytics",
+      "ar": "[AR] Data & Analytics",
+      "bn": "[BN] Data & Analytics",
+      "ru": "[RU] Data & Analytics",
+      "pt": "[PT] Data & Analytics",
+      "de": "[DE] Data & Analytics"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Data & Analytics.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Data & Analytics.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Data & Analytics.",
+      "es": "[ES] Discover top presentations, documents, and resources about Data & Analytics.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Data & Analytics.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Data & Analytics.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Data & Analytics.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Data & Analytics.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Data & Analytics.",
+      "de": "[DE] Discover top presentations, documents, and resources about Data & Analytics."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/data/800/600"
+  },
+  {
+    "id": "cat-investor-relations",
+    "title": {
+      "en": "Investor Relations",
+      "zh": "[ZH] Investor Relations",
+      "hi": "[HI] Investor Relations",
+      "es": "[ES] Investor Relations",
+      "fr": "[FR] Investor Relations",
+      "ar": "[AR] Investor Relations",
+      "bn": "[BN] Investor Relations",
+      "ru": "[RU] Investor Relations",
+      "pt": "[PT] Investor Relations",
+      "de": "[DE] Investor Relations"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Investor Relations.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Investor Relations.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Investor Relations.",
+      "es": "[ES] Discover top presentations, documents, and resources about Investor Relations.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Investor Relations.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Investor Relations.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Investor Relations.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Investor Relations.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Investor Relations.",
+      "de": "[DE] Discover top presentations, documents, and resources about Investor Relations."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/investor/800/600"
+  },
+  {
+    "id": "cat-sports",
+    "title": {
+      "en": "Sports",
+      "zh": "[ZH] Sports",
+      "hi": "[HI] Sports",
+      "es": "[ES] Sports",
+      "fr": "[FR] Sports",
+      "ar": "[AR] Sports",
+      "bn": "[BN] Sports",
+      "ru": "[RU] Sports",
+      "pt": "[PT] Sports",
+      "de": "[DE] Sports"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Sports.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Sports.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Sports.",
+      "es": "[ES] Discover top presentations, documents, and resources about Sports.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Sports.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Sports.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Sports.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Sports.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Sports.",
+      "de": "[DE] Discover top presentations, documents, and resources about Sports."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/sports/800/600"
+  },
+  {
+    "id": "cat-spiritual",
+    "title": {
+      "en": "Spiritual",
+      "zh": "[ZH] Spiritual",
+      "hi": "[HI] Spiritual",
+      "es": "[ES] Spiritual",
+      "fr": "[FR] Spiritual",
+      "ar": "[AR] Spiritual",
+      "bn": "[BN] Spiritual",
+      "ru": "[RU] Spiritual",
+      "pt": "[PT] Spiritual",
+      "de": "[DE] Spiritual"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Spiritual.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Spiritual.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Spiritual.",
+      "es": "[ES] Discover top presentations, documents, and resources about Spiritual.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Spiritual.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Spiritual.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Spiritual.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Spiritual.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Spiritual.",
+      "de": "[DE] Discover top presentations, documents, and resources about Spiritual."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/spiritual/800/600"
+  },
+  {
+    "id": "cat-news-politics",
+    "title": {
+      "en": "News & Politics",
+      "zh": "[ZH] News & Politics",
+      "hi": "[HI] News & Politics",
+      "es": "[ES] News & Politics",
+      "fr": "[FR] News & Politics",
+      "ar": "[AR] News & Politics",
+      "bn": "[BN] News & Politics",
+      "ru": "[RU] News & Politics",
+      "pt": "[PT] News & Politics",
+      "de": "[DE] News & Politics"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about News & Politics.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about News & Politics.",
+      "hi": "[HI] Discover top presentations, documents, and resources about News & Politics.",
+      "es": "[ES] Discover top presentations, documents, and resources about News & Politics.",
+      "fr": "[FR] Discover top presentations, documents, and resources about News & Politics.",
+      "ar": "[AR] Discover top presentations, documents, and resources about News & Politics.",
+      "bn": "[BN] Discover top presentations, documents, and resources about News & Politics.",
+      "ru": "[RU] Discover top presentations, documents, and resources about News & Politics.",
+      "pt": "[PT] Discover top presentations, documents, and resources about News & Politics.",
+      "de": "[DE] Discover top presentations, documents, and resources about News & Politics."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/news/800/600"
+  },
+  {
+    "id": "cat-travel",
+    "title": {
+      "en": "Travel",
+      "zh": "[ZH] Travel",
+      "hi": "[HI] Travel",
+      "es": "[ES] Travel",
+      "fr": "[FR] Travel",
+      "ar": "[AR] Travel",
+      "bn": "[BN] Travel",
+      "ru": "[RU] Travel",
+      "pt": "[PT] Travel",
+      "de": "[DE] Travel"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Travel.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Travel.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Travel.",
+      "es": "[ES] Discover top presentations, documents, and resources about Travel.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Travel.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Travel.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Travel.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Travel.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Travel.",
+      "de": "[DE] Discover top presentations, documents, and resources about Travel."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/travel/800/600"
+  },
+  {
+    "id": "cat-self-improvement",
+    "title": {
+      "en": "Self Improvement",
+      "zh": "[ZH] Self Improvement",
+      "hi": "[HI] Self Improvement",
+      "es": "[ES] Self Improvement",
+      "fr": "[FR] Self Improvement",
+      "ar": "[AR] Self Improvement",
+      "bn": "[BN] Self Improvement",
+      "ru": "[RU] Self Improvement",
+      "pt": "[PT] Self Improvement",
+      "de": "[DE] Self Improvement"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Self Improvement.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Self Improvement.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Self Improvement.",
+      "es": "[ES] Discover top presentations, documents, and resources about Self Improvement.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Self Improvement.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Self Improvement.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Self Improvement.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Self Improvement.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Self Improvement.",
+      "de": "[DE] Discover top presentations, documents, and resources about Self Improvement."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/self-improvement/800/600"
+  },
+  {
+    "id": "cat-real-estate",
+    "title": {
+      "en": "Real Estate",
+      "zh": "[ZH] Real Estate",
+      "hi": "[HI] Real Estate",
+      "es": "[ES] Real Estate",
+      "fr": "[FR] Real Estate",
+      "ar": "[AR] Real Estate",
+      "bn": "[BN] Real Estate",
+      "ru": "[RU] Real Estate",
+      "pt": "[PT] Real Estate",
+      "de": "[DE] Real Estate"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Real Estate.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Real Estate.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Real Estate.",
+      "es": "[ES] Discover top presentations, documents, and resources about Real Estate.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Real Estate.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Real Estate.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Real Estate.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Real Estate.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Real Estate.",
+      "de": "[DE] Discover top presentations, documents, and resources about Real Estate."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/real-estate/800/600"
+  },
+  {
+    "id": "cat-entertainment-humor",
+    "title": {
+      "en": "Entertainment & Humor",
+      "zh": "[ZH] Entertainment & Humor",
+      "hi": "[HI] Entertainment & Humor",
+      "es": "[ES] Entertainment & Humor",
+      "fr": "[FR] Entertainment & Humor",
+      "ar": "[AR] Entertainment & Humor",
+      "bn": "[BN] Entertainment & Humor",
+      "ru": "[RU] Entertainment & Humor",
+      "pt": "[PT] Entertainment & Humor",
+      "de": "[DE] Entertainment & Humor"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Entertainment & Humor.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Entertainment & Humor.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Entertainment & Humor.",
+      "es": "[ES] Discover top presentations, documents, and resources about Entertainment & Humor.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Entertainment & Humor.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Entertainment & Humor.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Entertainment & Humor.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Entertainment & Humor.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Entertainment & Humor.",
+      "de": "[DE] Discover top presentations, documents, and resources about Entertainment & Humor."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/entertainment/800/600"
+  },
+  {
+    "id": "cat-health-medicine",
+    "title": {
+      "en": "Health & Medicine",
+      "zh": "[ZH] Health & Medicine",
+      "hi": "[HI] Health & Medicine",
+      "es": "[ES] Health & Medicine",
+      "fr": "[FR] Health & Medicine",
+      "ar": "[AR] Health & Medicine",
+      "bn": "[BN] Health & Medicine",
+      "ru": "[RU] Health & Medicine",
+      "pt": "[PT] Health & Medicine",
+      "de": "[DE] Health & Medicine"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Health & Medicine.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Health & Medicine.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Health & Medicine.",
+      "es": "[ES] Discover top presentations, documents, and resources about Health & Medicine.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Health & Medicine.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Health & Medicine.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Health & Medicine.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Health & Medicine.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Health & Medicine.",
+      "de": "[DE] Discover top presentations, documents, and resources about Health & Medicine."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/health/800/600"
+  },
+  {
+    "id": "cat-devices-hardware",
+    "title": {
+      "en": "Devices & Hardware",
+      "zh": "[ZH] Devices & Hardware",
+      "hi": "[HI] Devices & Hardware",
+      "es": "[ES] Devices & Hardware",
+      "fr": "[FR] Devices & Hardware",
+      "ar": "[AR] Devices & Hardware",
+      "bn": "[BN] Devices & Hardware",
+      "ru": "[RU] Devices & Hardware",
+      "pt": "[PT] Devices & Hardware",
+      "de": "[DE] Devices & Hardware"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Devices & Hardware.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Devices & Hardware.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Devices & Hardware.",
+      "es": "[ES] Discover top presentations, documents, and resources about Devices & Hardware.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Devices & Hardware.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Devices & Hardware.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Devices & Hardware.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Devices & Hardware.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Devices & Hardware.",
+      "de": "[DE] Discover top presentations, documents, and resources about Devices & Hardware."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/hardware/800/600"
+  },
+  {
+    "id": "cat-lifestyle",
+    "title": {
+      "en": "Lifestyle",
+      "zh": "[ZH] Lifestyle",
+      "hi": "[HI] Lifestyle",
+      "es": "[ES] Lifestyle",
+      "fr": "[FR] Lifestyle",
+      "ar": "[AR] Lifestyle",
+      "bn": "[BN] Lifestyle",
+      "ru": "[RU] Lifestyle",
+      "pt": "[PT] Lifestyle",
+      "de": "[DE] Lifestyle"
+    },
+    "description": {
+      "en": "Discover top presentations, documents, and resources about Lifestyle.",
+      "zh": "[ZH] Discover top presentations, documents, and resources about Lifestyle.",
+      "hi": "[HI] Discover top presentations, documents, and resources about Lifestyle.",
+      "es": "[ES] Discover top presentations, documents, and resources about Lifestyle.",
+      "fr": "[FR] Discover top presentations, documents, and resources about Lifestyle.",
+      "ar": "[AR] Discover top presentations, documents, and resources about Lifestyle.",
+      "bn": "[BN] Discover top presentations, documents, and resources about Lifestyle.",
+      "ru": "[RU] Discover top presentations, documents, and resources about Lifestyle.",
+      "pt": "[PT] Discover top presentations, documents, and resources about Lifestyle.",
+      "de": "[DE] Discover top presentations, documents, and resources about Lifestyle."
+    },
+    "price": 499,
+    "features": [
+      "Premium Content",
+      "100% Editable",
+      "Instant Download"
+    ],
+    "imageUrl": "https://picsum.photos/seed/lifestyle/800/600"
+  }
+]
