@@ -99,10 +99,10 @@ export default function SignInPage() {
           </div>
 
           <div>
-            <div className="flex justify-between items-center mb-3">
-              <label className="block text-xs font-black text-zinc-500 uppercase tracking-[0.2em]">{t("password")}</label>
+            <div className="flex justify-end mb-3">
               <a href="/forgot-password" className="text-xs font-black text-primary hover:text-primary-hover transition-all uppercase tracking-widest">Forgot?</a>
             </div>
+
           <PasswordInput
             name="password"
             value={password}

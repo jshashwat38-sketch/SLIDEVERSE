@@ -230,7 +230,9 @@ export default function ProductDetailsPage() {
               <span className="text-[10px] font-black text-primary uppercase tracking-[0.5em] italic">Secure Asset Deployment</span>
             </div>
 
-            <h1 className="text-5xl lg:text-7xl font-black text-white italic uppercase tracking-tighter mb-8 leading-[0.9]">{product.title}</h1>
+            <h1 className="text-5xl lg:text-7xl font-black text-white italic uppercase tracking-tighter mb-8 leading-[0.9]">
+              {typeof product.title === 'object' ? (product.title.en || Object.values(product.title)[0]) : product.title}
+            </h1>
             
             <div className="flex items-center gap-6 mb-12 p-6 bg-white/[0.02] border border-white/5 rounded-[2rem]">
               <div className="flex flex-col">
@@ -247,7 +249,9 @@ export default function ProductDetailsPage() {
               </div>
             </div>
 
-            <p className="text-zinc-400 text-lg mb-12 leading-relaxed font-medium">{product.description}</p>
+            <p className="text-zinc-400 text-lg mb-12 leading-relaxed font-medium">
+              {typeof product.description === 'object' ? (product.description.en || Object.values(product.description)[0]) : product.description}
+            </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
               {(product.features || []).map((feature: string, i: number) => (

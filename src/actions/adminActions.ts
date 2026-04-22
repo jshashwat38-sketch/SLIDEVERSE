@@ -28,8 +28,8 @@ export async function getCategories() {
 export async function saveCategory(category: any) {
   try {
     const data = {
-      title: category.title,
-      description: category.description,
+      title: typeof category.title === 'string' ? { en: category.title } : category.title,
+      description: typeof category.description === 'string' ? { en: category.description } : category.description,
       price: Number(category.price),
       image_url: category.imageUrl
     };
