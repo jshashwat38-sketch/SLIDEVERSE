@@ -21,6 +21,8 @@ import { createRazorpayOrder, verifyPayment } from "@/actions/paymentActions";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-hot-toast";
+import { useLanguage } from "@/context/LanguageContext";
+import { getLangString } from "@/utils/lang";
 
 
 declare global {
@@ -34,6 +36,7 @@ export default function ProductDetailsPage() {
   const router = useRouter();
   const { addToCart } = useCart();
   const { user } = useAuth();
+  const { language } = useLanguage();
 
   const [product, setProduct] = useState<any>(null);
   const [activeImage, setActiveImage] = useState(0);
@@ -79,7 +82,7 @@ export default function ProductDetailsPage() {
   const handleAddToCart = () => {
     addToCart({ 
       id: product.id, 
-      title: product.title, 
+      title: getLangString(product.title, language), 
       price: product.price, 
       imageUrl: allImages[0] 
     });
@@ -118,13 +121,13 @@ export default function ProductDetailsPage() {
         amount: res.order.amount,
         currency: res.order.currency,
         name: "Slideverse Pro",
-        description: `Acquisition of ${product.title}`,
+        description: `Acquisition of ${getLangString(product.title, language)}`,
         order_id: res.order.id,
         handler: async function (response: any) {
           const verificationRes = await verifyPayment(response, {
             customer: user?.name || "Verified Curator",
             email: user?.email || "curator@slideverse.pro",
-            product: product.title,
+            product: getLangString(product.title, language),
             amount: product.price,
           });
 

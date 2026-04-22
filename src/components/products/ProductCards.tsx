@@ -29,11 +29,11 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
   const displayDescription = typeof description === 'object' && description !== null ? ((description as any)[language] || (description as any).en || "") : (description || "");
 
   const handleAddToCart = () => {
-    addToCart({ id, title, price, imageUrl: displayImage });
+    addToCart({ id, title: displayTitle, price, imageUrl: displayImage });
   };
 
   const handleShopNow = () => {
-    addToCart({ id, title, price, imageUrl: displayImage });
+    addToCart({ id, title: displayTitle, price, imageUrl: displayImage });
     router.push("/cart");
   };
 
@@ -107,11 +107,11 @@ export function HeroProductCard({ id, title, description, price, features, image
   const displayDescription = typeof description === 'object' && description !== null ? ((description as any)[language] || (description as any).en || "") : (description || "");
 
   const handleAddToCart = () => {
-    addToCart({ id, title, price, imageUrl: imageUrl });
+    addToCart({ id, title: displayTitle, price, imageUrl: imageUrl });
   };
 
   const handleShopNow = () => {
-    addToCart({ id, title, price, imageUrl: imageUrl });
+    addToCart({ id, title: displayTitle, price, imageUrl: imageUrl });
     router.push("/cart");
   };
 

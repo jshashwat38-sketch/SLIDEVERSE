@@ -10,6 +10,8 @@ import { Trash2, Plus, Minus, ArrowRight, ShoppingBag, PlusCircle, ShieldCheck, 
 import { useRouter } from "next/navigation";
 import { createRazorpayOrder, verifyPayment } from "@/actions/paymentActions";
 import { toast } from "react-hot-toast";
+import { useLanguage } from "@/context/LanguageContext";
+import { getLangString } from "@/utils/lang";
 
 declare global {
   interface Window {
@@ -21,6 +23,7 @@ export default function CartPage() {
   const { items, removeFromCart, updateQuantity, totalPrice, totalItems, clearCart } = useCart();
   const { user } = useAuth();
   const router = useRouter();
+  const { language } = useLanguage();
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleCheckout = async () => {
@@ -179,13 +182,15 @@ export default function CartPage() {
                 <div className="flex-1 w-full text-center sm:text-left">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                     <div>
-                      <h3 className="text-2xl font-black text-white mb-2 tracking-tighter italic uppercase group-hover:text-primary transition-colors leading-none">{item.title}</h3>
+                      <h3 className="text-2xl font-black text-white mb-2 tracking-tighter italic uppercase group-hover:text-primary transition-colors leading-none">
+                        {getLangString(item.title, language)}
+                      </h3>
                       <p className="text-zinc-500 text-[9px] font-black uppercase tracking-widest flex items-center justify-center sm:justify-start gap-2 mt-2">
                         <Zap className="w-3 h-3 text-primary" />
                         Instant Deployment Delivery
                       </p>
                     </div>
-                    <div className="text-2xl font-black text-white italic tracking-tighter italic">
+                    <div className="text-2xl font-black text-white italic tracking-tighter">
                       ₹{item.price * item.quantity}
                     </div>
                   </div>
@@ -264,7 +269,7 @@ export default function CartPage() {
             <div className="pt-10 border-t border-white/10 mb-12 flex justify-between items-end">
               <div className="space-y-2">
                 <span className="block text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] italic">Final Total Valuation</span>
-                <span className="block text-6xl font-black text-white italic tracking-tighter italic leading-none">₹{totalPrice}</span>
+                <span className="block text-6xl font-black text-white italic tracking-tighter leading-none">₹{totalPrice}</span>
               </div>
             </div>
 
