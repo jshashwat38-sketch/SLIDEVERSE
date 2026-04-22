@@ -95,6 +95,17 @@ export async function getAppearance() {
     site: {
       logo: "/logo.png",
       name: "Slideverse"
+    },
+    contact: {
+      email: "support@slideverse.pro",
+      mobile: "+91 99999 99999"
+    },
+    policies: {
+      userAgreement: "Standard User Agreement text...",
+      shipping: "Shipping Policy details...",
+      refund: "Refund Policy details...",
+      privacy: "Privacy Policy details...",
+      terms: "Terms of Service details..."
     }
   };
 
@@ -119,8 +130,11 @@ export async function getAppearance() {
       hero: { ...defaultAppearance.hero, ...(data.data?.hero || {}) },
       about: { ...defaultAppearance.about, ...(data.data?.about || {}) },
       story: { ...defaultAppearance.story, ...(data.data?.story || {}) },
-      site: { ...defaultAppearance.site, ...(data.data?.site || {}) }
+      site: { ...defaultAppearance.site, ...(data.data?.site || {}) },
+      contact: { ...defaultAppearance.contact, ...(data.data?.contact || {}) },
+      policies: { ...defaultAppearance.policies, ...(data.data?.policies || {}) }
     };
+
   } catch (error) {
     console.error("Error fetching appearance:", error);
     return defaultAppearance;

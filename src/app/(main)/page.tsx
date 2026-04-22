@@ -359,7 +359,7 @@ export default function HomePage() {
                 </div>
                 <div>
                   <h3 className="text-[8px] font-black text-zinc-600 uppercase tracking-[0.4em] mb-1">Direct Relay</h3>
-                  <p className="text-sm md:text-lg text-white font-bold tracking-tight">slideversestudio@gmail.com</p>
+                  <p className="text-sm md:text-lg text-white font-bold tracking-tight">{appearance?.contact?.email || "slideversestudio@gmail.com"}</p>
                 </div>
               </div>
               
@@ -369,8 +369,9 @@ export default function HomePage() {
                 </div>
                 <div>
                   <h3 className="text-[8px] font-black text-zinc-600 uppercase tracking-[0.4em] mb-1">Secure Line</h3>
-                  <p className="text-sm md:text-lg text-white font-bold tracking-tight">+1 (800) SLIDEVERSE</p>
+                  <p className="text-sm md:text-lg text-white font-bold tracking-tight">{appearance?.contact?.mobile || "+1 (800) SLIDEVERSE"}</p>
                 </div>
+
               </div>
             </div>
           </div>

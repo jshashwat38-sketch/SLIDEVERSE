@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Package, Users, LogOut, Settings, Lock, Sparkles, MessageSquare, Menu, X } from "lucide-react";
+import { LayoutDashboard, Package, Users, LogOut, Settings, Lock, Sparkles, MessageSquare, Menu, X, Phone } from "lucide-react";
+
 import PasswordInput from "@/components/common/PasswordInput";
 
 
@@ -46,9 +47,11 @@ export default function AdminLayout({
     { href: "/admin/users", label: "Users", icon: Users },
     { href: "/admin/categories", label: "Categories", icon: Settings },
     { href: "/admin/appearance", label: "Appearance", icon: Sparkles },
+    { href: "/admin/contact", label: "Contact Settings", icon: Phone },
     { href: "/admin/reviews", label: "Reviews", icon: MessageSquare },
     { href: "/admin/grievances", label: "Grievances", icon: MessageSquare },
   ];
+
 
   if (isChecking) return <div className="min-h-screen bg-background" />;
 

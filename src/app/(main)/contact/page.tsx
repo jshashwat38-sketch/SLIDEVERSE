@@ -2,7 +2,16 @@
 
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 
+import { useState, useEffect } from "react";
+import { getAppearance } from "@/actions/adminActions";
+
 export default function ContactPage() {
+  const [appearance, setAppearance] = useState<any>(null);
+
+  useEffect(() => {
+    getAppearance().then(setAppearance);
+  }, []);
+
   return (
     <div className="animate-in fade-in duration-700 max-w-6xl mx-auto py-24 px-6">
       <div className="flex flex-col items-center text-center mb-16">
@@ -26,7 +35,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] mb-1">Secure Relay</h3>
-                  <p className="text-xl text-white font-bold tracking-tight">slideversestudio@gmail.com</p>
+                  <p className="text-xl text-white font-bold tracking-tight">{appearance?.contact?.email || "slideversestudio@gmail.com"}</p>
                 </div>
               </div>
               
@@ -36,12 +45,13 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] mb-1">Direct Line</h3>
-                  <p className="text-xl text-white font-bold tracking-tight">+1 (800) SLIDEVERSE</p>
+                  <p className="text-xl text-white font-bold tracking-tight">{appearance?.contact?.mobile || "+1 (800) SLIDEVERSE"}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
 
         <div className="bg-white/[0.02] p-10 lg:p-12 rounded-[3.5rem] border border-white/5 backdrop-blur-3xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[120px] -mr-32 -mt-32 pointer-events-none" />

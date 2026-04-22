@@ -81,8 +81,9 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           </button>
           
           {isCategoriesOpen && (
-            <div className="mt-2 ml-4 pl-4 border-l border-zinc-800 space-y-1">
+            <div className="mt-2 ml-4 pl-4 border-l border-zinc-800 space-y-1 max-h-64 overflow-y-auto custom-scrollbar">
               {categories.map((cat) => (
+
                 <Link
                   key={cat.id}
                   href={`/category/${cat.id.replace('cat-', '')}`}

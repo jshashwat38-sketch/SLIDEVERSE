@@ -59,7 +59,25 @@ body {
   animation: spin 8s linear infinite;
 }
 
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(197, 165, 114, 0.2);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(197, 165, 114, 0.4);
+}
+
 @keyframes spin {
+
   from {
     transform: rotate(0deg);
   }
