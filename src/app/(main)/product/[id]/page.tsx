@@ -19,7 +19,9 @@ import {
 import { getProducts } from "@/actions/productActions";
 import { createRazorpayOrder, verifyPayment } from "@/actions/paymentActions";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-hot-toast";
+
 
 declare global {
   interface Window {
@@ -31,6 +33,8 @@ export default function ProductDetailsPage() {
   const { id } = useParams();
   const router = useRouter();
   const { addToCart } = useCart();
+  const { user } = useAuth();
+
   const [product, setProduct] = useState<any>(null);
   const [activeImage, setActiveImage] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -82,7 +86,14 @@ export default function ProductDetailsPage() {
   };
 
   const handleAcquire = async () => {
+    if (!user) {
+      toast.error("Authentication required for acquisition.");
+      router.push(`/signin?redirect=/product/${id}`);
+      return;
+    }
+
     if (typeof window === "undefined") return;
+
 
     if (!window.Razorpay) {
       toast.error("Payment gateway is still initializing. Please wait a moment.");
@@ -111,11 +122,12 @@ export default function ProductDetailsPage() {
         order_id: res.order.id,
         handler: async function (response: any) {
           const verificationRes = await verifyPayment(response, {
-            customer: "Verified Curator",
-            email: "curator@slideverse.pro",
+            customer: user?.name || "Verified Curator",
+            email: user?.email || "curator@slideverse.pro",
             product: product.title,
             amount: product.price,
           });
+
           
           if (verificationRes.success) {
             toast.success("Asset acquired successfully. Transferring to vault...");
@@ -125,9 +137,10 @@ export default function ProductDetailsPage() {
           }
         },
         prefill: {
-          name: "Verified Curator",
-          email: "curator@slideverse.pro",
+          name: user?.name || "",
+          email: user?.email || "",
         },
+
         theme: {
           color: "#D4FF00",
         },
