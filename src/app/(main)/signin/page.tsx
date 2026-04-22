@@ -7,6 +7,8 @@ import { Lock, Mail, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { validateEmail } from "@/utils/validation";
 import { verifyEmailDomain } from "@/actions/validationActions";
+import PasswordInput from "@/components/common/PasswordInput";
+
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
@@ -101,17 +103,15 @@ export default function SignInPage() {
               <label className="block text-xs font-black text-zinc-500 uppercase tracking-[0.2em]">{t("password")}</label>
               <a href="/forgot-password" className="text-xs font-black text-primary hover:text-primary-hover transition-all uppercase tracking-widest">Forgot?</a>
             </div>
-            <div className="relative">
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-14 pr-6 py-4 bg-white/5 border border-white/10 rounded-2xl focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary/50 transition-all text-white"
-                placeholder="••••••••"
-                required
-              />
-              <Lock className="w-6 h-6 text-zinc-500 absolute left-5 top-1/2 -translate-y-1/2 group-focus-within:text-primary transition-colors" />
-            </div>
+          <PasswordInput
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            label={t("password")}
+            placeholder="••••••••"
+          />
+
+
           </div>
 
           <button

@@ -3,7 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Package, Users, LogOut, Settings, Lock, Sparkles, MessageSquare } from "lucide-react";
+import { LayoutDashboard, Package, Users, LogOut, Settings, Lock, Sparkles, MessageSquare, Menu, X } from "lucide-react";
+import PasswordInput from "@/components/common/PasswordInput";
+
+
 
 export default function AdminLayout({
   children,
@@ -15,6 +18,8 @@ export default function AdminLayout({
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isChecking, setIsChecking] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
 
   useEffect(() => {
     const auth = localStorage.getItem("adminAuth");
@@ -64,17 +69,15 @@ export default function AdminLayout({
           <p className="text-center text-zinc-500 mb-10 font-medium tracking-tight">System authentication required.</p>
           
           <form onSubmit={handleLogin} className="space-y-6">
-            <div>
-              <label className="block text-xs font-black text-zinc-500 uppercase tracking-[0.2em] mb-3">System Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary/50 transition-all text-white placeholder:text-zinc-700 font-mono"
-                autoFocus
-              />
-            </div>
+            <PasswordInput
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              label="System Password"
+              placeholder="••••••••"
+            />
+
+
             
             {error && (
               <p className="text-red-500 text-sm text-center font-bold uppercase tracking-wider animate-bounce">{error}</p>
@@ -101,21 +104,44 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-background">
-      <aside className="w-64 bg-sidebar text-sidebar-foreground flex flex-col min-h-screen border-r border-white/5 z-50">
-        <div className="p-8 border-b border-white/5">
+    <div className="flex min-h-screen bg-background relative">
+      {/* Mobile Header */}
+      <div className="lg:hidden fixed top-0 left-0 w-full bg-sidebar border-b border-white/5 p-4 z-[60] flex items-center justify-between">
+        <h1 className="text-lg font-black tracking-tighter text-white flex items-center gap-2 italic uppercase">
+          <Settings className="w-5 h-5 text-primary" />
+          Admin <span className="text-primary">Ops</span>
+        </h1>
+        <button 
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="p-2 bg-white/5 rounded-lg text-white"
+        >
+          {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
+
+      {/* Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[55]"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      <aside className={`fixed lg:relative top-0 left-0 h-full w-64 bg-sidebar text-sidebar-foreground flex flex-col border-r border-white/5 z-[60] transition-transform duration-300 transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
+        <div className="p-8 border-b border-white/5 hidden lg:block">
           <h1 className="text-xl font-black tracking-tighter text-white flex items-center gap-3 italic uppercase">
             <Settings className="w-6 h-6 text-primary neon-text" />
             Admin <span className="text-primary neon-text">Ops</span>
           </h1>
         </div>
-        <nav className="flex-1 px-4 space-y-2 mt-8">
+        <nav className="flex-1 px-4 space-y-2 mt-20 lg:mt-8">
           {links.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
                 key={link.href}
                 href={link.href}
+                onClick={() => setIsSidebarOpen(false)}
                 className={`flex items-center gap-4 px-6 py-4 rounded-xl transition-all ${
                   isActive 
                     ? "bg-primary/10 text-primary font-black shadow-[0_0_15px_rgba(197,165,114,0.15)] border border-primary/20" 
@@ -141,11 +167,12 @@ export default function AdminLayout({
           </button>
         </div>
       </aside>
-      <main className="flex-1 overflow-y-auto bg-[radial-gradient(circle_at_top_right,rgba(212,255,0,0.02),transparent)]">
-        <div className="max-w-7xl mx-auto p-12">
+      <main className="flex-1 overflow-y-auto bg-[radial-gradient(circle_at_top_right,rgba(212,255,0,0.02),transparent)] mt-16 lg:mt-0">
+        <div className="max-w-7xl mx-auto p-6 lg:p-12">
           {children}
         </div>
       </main>
     </div>
   );
+
 }

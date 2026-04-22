@@ -3,14 +3,10 @@ import { revalidatePath } from "next/cache";
 import { supabase } from "@/lib/supabase";
 import nodemailer from "nodemailer";
 
-// Create Nodemailer transporter
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+// Transporter is now created inside the function for serverless stability
+
+
+
 
 export async function loginUser(email: string, pass: string) {
   try {
@@ -31,6 +27,7 @@ export async function loginUser(email: string, pass: string) {
 }
 
 export async function sendOTP(email: string, type: 'reset' | 'signup' = 'reset') {
+  console.log(`[AUTH] Initiating OTP dispatch for ${email} (${type})`);
   try {
     // Check if user exists
     const { data: user } = await supabase
@@ -42,10 +39,12 @@ export async function sendOTP(email: string, type: 'reset' | 'signup' = 'reset')
     const userExists = !!user;
     
     if (type === 'reset' && !userExists) {
+      console.log(`[AUTH] Reset failed: Email ${email} not registered.`);
       return { success: false, error: "Email not registered." };
     }
 
     if (type === 'signup' && userExists) {
+      console.log(`[AUTH] Signup failed: Email ${email} already registered.`);
       return { success: false, error: "Email already registered." };
     }
 
@@ -53,13 +52,33 @@ export async function sendOTP(email: string, type: 'reset' | 'signup' = 'reset')
     const expires = new Date(Date.now() + 10 * 60 * 1000).toISOString();
 
     // Remove old OTPs for this email and insert new one
+    console.log(`[AUTH] Generating OTP: ${otp}`);
     await supabase.from('otps').delete().eq('email', email.toLowerCase());
-    await supabase.from('otps').insert({ email: email.toLowerCase(), otp, expires });
+    const { error: dbError } = await supabase.from('otps').insert({ email: email.toLowerCase(), otp, expires });
+    
+    if (dbError) {
+      console.error("[AUTH] Database error during OTP insert:", dbError);
+      return { success: false, error: "Vault synchronization failure." };
+    }
     
     // Send Real Email
     if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
       try {
+        const transporter = nodemailer.createTransport({
+          host: "smtp.gmail.com",
+          port: 587,
+          secure: false,
+          auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+          },
+          tls: {
+            rejectUnauthorized: false
+          }
+        });
+
         await transporter.sendMail({
+
           from: `"Slideverse Security" <${process.env.EMAIL_USER}>`,
           to: email,
           subject: `${otp} is your Slideverse Verification Sequence`,
@@ -84,15 +103,18 @@ export async function sendOTP(email: string, type: 'reset' | 'signup' = 'reset')
           `,
         });
       } catch (err) {
-        console.error("Failed to send real email:", err);
+        console.error("[AUTH] Failed to send real email:", err);
+        return { success: false, error: "Communication channel failure. Please try again later." };
       }
+    } else {
+      console.warn("[AUTH] Email credentials missing. Skipping real email dispatch.");
     }
 
     console.log("------------------------------------------");
     console.log(`SECURE OTP FOR ${email.toUpperCase()}: ${otp}`);
     console.log("------------------------------------------");
 
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // await new Promise(resolve => setTimeout(resolve, 1500)); // Removed delay to speed up dispatch
     return { success: true, message: "Authorization sequence dispatched." };
   } catch (error) {
     return { success: false, error: "System failure during OTP dispatch." };

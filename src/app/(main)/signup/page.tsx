@@ -10,6 +10,9 @@ import { verifyEmailDomain } from "@/actions/validationActions";
 import { sendOTP, verifyOTP } from "@/actions/authActions";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-hot-toast";
+import PasswordInput from "@/components/common/PasswordInput";
+import PasswordRequirements from "@/components/auth/PasswordRequirements";
+
 
 type Step = "form" | "otp";
 
@@ -224,37 +227,26 @@ export default function SignUpPage() {
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-2 ml-4">Access Key (Password)</label>
-                  <div className="relative">
-                    <input
-                      type="password"
+                <div className="md:col-span-2 space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <PasswordInput
                       name="password"
                       value={formData.password}
                       onChange={handleChange}
-                      className="w-full pl-14 pr-6 py-4 bg-white/5 border border-white/10 rounded-2xl focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white text-sm font-bold placeholder:text-zinc-800"
+                      label="Access Key (Password)"
                       placeholder="••••••••"
-                      required
                     />
-                    <Lock className="w-5 h-5 text-zinc-600 absolute left-5 top-1/2 -translate-y-1/2" />
-                  </div>
-                </div>
-
-                <div className="md:col-span-2">
-                  <label className="block text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-2 ml-4">Confirm Access Key</label>
-                  <div className="relative">
-                    <input
-                      type="password"
+                    <PasswordInput
                       name="confirmPassword"
                       value={formData.confirmPassword}
                       onChange={handleChange}
-                      className="w-full pl-14 pr-6 py-4 bg-white/5 border border-white/10 rounded-2xl focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white text-sm font-bold placeholder:text-zinc-800"
+                      label="Confirm Access Key"
                       placeholder="••••••••"
-                      required
                     />
-                    <Lock className="w-5 h-5 text-zinc-600 absolute left-5 top-1/2 -translate-y-1/2" />
                   </div>
+                  <PasswordRequirements password={formData.password} />
                 </div>
+
 
                 <div className="md:col-span-2 pt-4">
                   <button

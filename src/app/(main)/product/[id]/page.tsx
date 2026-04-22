@@ -82,10 +82,23 @@ export default function ProductDetailsPage() {
   };
 
   const handleAcquire = async () => {
+    if (typeof window === "undefined") return;
+
+    if (!window.Razorpay) {
+      toast.error("Payment gateway is still initializing. Please wait a moment.");
+      return;
+    }
+
+    if (!process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID) {
+      toast.error("Payment configuration missing. Contact administrator.");
+      console.error("NEXT_PUBLIC_RAZORPAY_KEY_ID is not defined");
+      return;
+    }
+
     try {
       const res = await createRazorpayOrder(product.price);
       if (!res.success || !res.order) {
-        toast.error("Failed to initiate secure payment.");
+        toast.error("Failed to initialize secure payment.");
         return;
       }
 
@@ -98,25 +111,25 @@ export default function ProductDetailsPage() {
         order_id: res.order.id,
         handler: async function (response: any) {
           const verificationRes = await verifyPayment(response, {
-            customer: "Customer Name", // This should come from a form or auth
-            email: "customer@example.com",
+            customer: "Verified Curator",
+            email: "curator@slideverse.pro",
             product: product.title,
             amount: product.price,
           });
           
           if (verificationRes.success) {
             toast.success("Asset acquired successfully. Transferring to vault...");
-            router.push("/admin"); // Redirect to orders or success page
+            router.push("/success");
           } else {
             toast.error("Payment verification failed.");
           }
         },
         prefill: {
-          name: "Customer Name",
-          email: "customer@example.com",
+          name: "Verified Curator",
+          email: "curator@slideverse.pro",
         },
         theme: {
-          color: "#C5A572",
+          color: "#D4FF00",
         },
       };
 
@@ -127,6 +140,8 @@ export default function ProductDetailsPage() {
       toast.error("Could not launch payment gateway.");
     }
   };
+
+
 
   return (
     <div className="min-h-screen bg-[#09090B] text-white pt-24 pb-32">

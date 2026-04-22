@@ -32,6 +32,19 @@ export default function CartPage() {
 
     if (items.length === 0) return;
 
+    if (typeof window === "undefined") return;
+
+    if (!window.Razorpay) {
+      toast.error("Payment gateway is still initializing. Please wait a moment.");
+      return;
+    }
+
+    if (!process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID) {
+      toast.error("Payment configuration missing. Contact administrator.");
+      console.error("NEXT_PUBLIC_RAZORPAY_KEY_ID is not defined");
+      return;
+    }
+
     setIsProcessing(true);
     try {
       const res = await createRazorpayOrder(totalPrice);
@@ -71,7 +84,7 @@ export default function CartPage() {
           email: user.email || "",
         },
         theme: {
-          color: "#C5A572",
+          color: "#D4FF00",
         },
         modal: {
           ondismiss: function() {
@@ -88,6 +101,7 @@ export default function CartPage() {
       setIsProcessing(false);
     }
   };
+
 
   if (items.length === 0) {
     return (

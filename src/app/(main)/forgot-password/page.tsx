@@ -7,6 +7,8 @@ import { Mail, ShieldCheck, Lock, ArrowRight, ChevronLeft, RefreshCw, CheckCircl
 import { validateEmail, validatePassword } from "@/utils/validation";
 import { sendOTP, verifyOTP, resetPassword } from "@/actions/authActions";
 import { toast } from "react-hot-toast";
+import PasswordInput from "@/components/common/PasswordInput";
+
 
 type Step = "email" | "otp" | "reset" | "success";
 
@@ -304,65 +306,32 @@ export default function ForgotPasswordPage() {
 
               <form onSubmit={handleResetPassword} className="space-y-8">
                 <div className="space-y-6">
-                  <div>
-                    <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-3">New Vault Key</label>
-                    <div className="relative group">
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        className="w-full pl-14 pr-14 py-5 bg-white/5 border border-white/10 rounded-2xl focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary/50 transition-all text-white placeholder:text-zinc-700"
-                        placeholder="••••••••"
-                        required
-                      />
-                      <Lock className="w-6 h-6 text-zinc-500 absolute left-5 top-1/2 -translate-y-1/2 group-focus-within:text-primary transition-colors" />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white transition-colors"
-                      >
-                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                      </button>
-                    </div>
-                    
-                    {/* Strength Meter */}
-                    <div className="mt-4 flex gap-1 h-1">
-                      {[25, 50, 75, 100].map((threshold) => (
-                        <div 
-                          key={threshold}
-                          className={`flex-1 rounded-full transition-all duration-500 ${
-                            getPasswordStrength(newPassword) >= threshold 
-                              ? (getPasswordStrength(newPassword) <= 50 ? "bg-red-500" : getPasswordStrength(newPassword) <= 75 ? "bg-yellow-500" : "bg-green-500") 
-                              : "bg-white/5"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-3">Confirm Key</label>
-                    <div className="relative group">
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        className={`w-full pl-14 pr-6 py-5 bg-white/5 border rounded-2xl focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all text-white placeholder:text-zinc-700 ${
-                          confirmPassword && newPassword !== confirmPassword ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-primary/50"
-                        }`}
-                        placeholder="••••••••"
-                        required
-                      />
-                      <Lock className="w-6 h-6 text-zinc-500 absolute left-5 top-1/2 -translate-y-1/2 group-focus-within:text-primary transition-colors" />
-                      {confirmPassword && newPassword !== confirmPassword && (
-                        <div className="absolute -bottom-6 left-0 flex items-center gap-1 text-[8px] font-black text-red-500 uppercase tracking-widest">
-                          <ShieldAlert className="w-3 h-3" />
-                          Keys do not match
-                        </div>
-                      )}
-                    </div>
+                  <PasswordInput
+                    name="newPassword"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    label="New Vault Key"
+                    placeholder="••••••••"
+                  />
+                  
+                  <div className="space-y-2">
+                    <PasswordInput
+                      name="confirmPassword"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      label="Confirm Key"
+                      placeholder="••••••••"
+                    />
+                    {confirmPassword && newPassword !== confirmPassword && (
+                      <div className="flex items-center gap-1 text-[8px] font-black text-red-500 uppercase tracking-widest ml-4">
+                        <ShieldAlert className="w-3 h-3" />
+                        Keys do not match
+                      </div>
+                    )}
                   </div>
                 </div>
+
+
 
                 <button
                   type="submit"

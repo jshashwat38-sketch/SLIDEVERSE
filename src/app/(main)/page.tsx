@@ -9,6 +9,8 @@ import { getAppearance, getReviews, saveGrievance } from "@/actions/adminActions
 import { toast } from "react-hot-toast";
 import { ProductCard, HeroProductCard } from "@/components/products/ProductCards";
 import { useLanguage } from "@/context/LanguageContext";
+import { getLangString } from "@/utils/lang";
+
 
 export default function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
@@ -69,17 +71,18 @@ export default function HomePage() {
             <motion.h1 
               variants={itemVariants} 
               className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-white mb-8 leading-[1.1] tracking-tight italic uppercase"
-              dangerouslySetInnerHTML={{ __html: appearance?.hero?.title || t("hero_title") }}
+              dangerouslySetInnerHTML={{ __html: getLangString(appearance?.hero?.title, language) || t("hero_title") }}
             />
             
             <motion.p 
               variants={itemVariants} 
               className="text-lg md:text-xl text-zinc-400 mb-12 max-w-lg leading-relaxed font-medium tracking-normal"
             >
-              {appearance?.hero?.subtitle || t("hero_subtitle")}
+              {getLangString(appearance?.hero?.subtitle, language) || t("hero_subtitle")}
             </motion.p>
             
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-6">
+
               <Link href="#featured" className="group relative w-full sm:w-auto">
                 <button className="relative w-full sm:w-auto bg-primary hover:bg-white text-black px-10 py-5 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-3 uppercase tracking-wider italic">
                   {t("explore_collection")} <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
@@ -104,12 +107,13 @@ export default function HomePage() {
                 className="w-full h-auto object-cover rounded-[2.3rem] md:rounded-[2.8rem] opacity-90 group-hover:opacity-100 transition-opacity duration-1000" 
               />
               <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 bg-black/60 backdrop-blur-2xl border border-white/10 p-4 md:p-6 rounded-2xl z-20">
-                <div className="text-primary font-bold italic uppercase tracking-tighter text-lg md:text-xl">{appearance?.hero?.badge || "Core.v3"}</div>
+                <div className="text-primary font-bold italic uppercase tracking-tighter text-lg md:text-xl">{getLangString(appearance?.hero?.badge, language) || "Core.v3"}</div>
               </div>
             </div>
           </motion.div>
         </div>
       </section>
+
 
       {/* Featured Products Section - Refined */}
       {featuredProducts.length > 0 && (
@@ -181,11 +185,12 @@ export default function HomePage() {
             </div>
             <h2 
               className="text-5xl md:text-6xl font-heading font-bold text-white mb-8 tracking-tighter italic uppercase leading-[0.9]"
-              dangerouslySetInnerHTML={{ __html: appearance?.about?.title || 'The Digital <span class="text-primary">Atelier</span>' }}
+              dangerouslySetInnerHTML={{ __html: getLangString(appearance?.about?.title, language) || 'The Digital <span class="text-primary">Atelier</span>' }}
             />
             <p className="text-xl text-zinc-400 mb-12 leading-relaxed font-medium italic border-l-2 border-primary/20 pl-8">
-              {appearance?.about?.description || "We are a specialized laboratory of digital architects, dedicated to engineering the most sophisticated presentation frameworks in the modern era."}
+              {getLangString(appearance?.about?.description, language) || "We are a specialized laboratory of digital architects, dedicated to engineering the most sophisticated presentation frameworks in the modern era."}
             </p>
+
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <div className="bg-white/[0.02] p-8 rounded-[2rem] border border-white/5 hover:border-primary/30 transition-all group">
@@ -232,11 +237,12 @@ export default function HomePage() {
               </div>
               <h2 
                 className="text-5xl md:text-7xl font-heading font-bold text-white mb-10 tracking-tighter italic uppercase leading-[0.85]"
-                dangerouslySetInnerHTML={{ __html: appearance?.story?.title || `Beyond the <br /> <span class="text-primary">Standard</span>` }}
+                dangerouslySetInnerHTML={{ __html: getLangString(appearance?.story?.title, language) || `Beyond the <br /> <span class="text-primary">Standard</span>` }}
               />
               <p className="text-xl text-zinc-500 mb-12 leading-relaxed font-medium italic border-l-4 border-primary/20 pl-8">
-                {appearance?.story?.subtitle || "Elevating professional narratives into cinematic experiences of architectural clarity."}
+                {getLangString(appearance?.story?.subtitle, language) || "Elevating professional narratives into cinematic experiences of architectural clarity."}
               </p>
+
               
               <div className="bg-white/[0.03] p-10 rounded-[2.5rem] border border-white/5 hover:border-primary/20 transition-all group relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl -mr-16 -mt-16 group-hover:bg-primary/10 transition-colors" />
