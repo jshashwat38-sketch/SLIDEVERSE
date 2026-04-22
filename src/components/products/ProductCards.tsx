@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CheckCircle2, ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "@/context/LanguageContext";
 
 export interface ProductProps {
   id: string;
@@ -19,9 +20,13 @@ export interface ProductProps {
 export function ProductCard({ id, title, description, price, features, imageUrl, images }: ProductProps) {
   const { addToCart } = useCart();
   const router = useRouter();
+  const { language } = useLanguage();
   
   const displayImage = imageUrl || (images && images.length > 0 ? images[0] : "");
   const safeFeatures = Array.isArray(features) ? features : [];
+  
+  const displayTitle = typeof title === 'object' && title !== null ? (title[language] || title.en || "") : (title || "");
+  const displayDescription = typeof description === 'object' && description !== null ? (description[language] || description.en || "") : (description || "");
 
   const handleAddToCart = () => {
     addToCart({ id, title, price, imageUrl: displayImage });
@@ -53,7 +58,7 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
       <div className="p-6 md:p-8 flex flex-col flex-1 relative z-10">
         <div className="mb-4">
           <Link href={`/product/${id}`}>
-            <h3 className="text-xl font-black text-white italic uppercase tracking-tighter group-hover:text-primary transition-colors cursor-pointer">{title}</h3>
+            <h3 className="text-xl font-black text-white italic uppercase tracking-tighter group-hover:text-primary transition-colors cursor-pointer">{displayTitle}</h3>
           </Link>
           <div className="flex items-center gap-2 mt-2">
             <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
@@ -61,7 +66,7 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
           </div>
         </div>
         
-        <p className="text-zinc-400 text-xs mb-6 line-clamp-2 leading-relaxed font-normal">{description}</p>
+        <p className="text-zinc-400 text-xs mb-6 line-clamp-2 leading-relaxed font-normal">{displayDescription}</p>
         
         <div className="space-y-3 mb-8 flex-1">
           {safeFeatures.slice(0, 3).map((feature, i) => (
@@ -94,8 +99,12 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
 export function HeroProductCard({ id, title, description, price, features, imageUrl }: ProductProps) {
   const { addToCart } = useCart();
   const router = useRouter();
+  const { language } = useLanguage();
 
   const safeFeatures = Array.isArray(features) ? features : [];
+  
+  const displayTitle = typeof title === 'object' && title !== null ? (title[language] || title.en || "") : (title || "");
+  const displayDescription = typeof description === 'object' && description !== null ? (description[language] || description.en || "") : (description || "");
 
   const handleAddToCart = () => {
     addToCart({ id, title, price, imageUrl: imageUrl });
@@ -119,9 +128,9 @@ export function HeroProductCard({ id, title, description, price, features, image
         </div>
         
         <Link href={`/product/${id}`}>
-          <h2 className="text-3xl md:text-4xl lg:text-6xl font-black text-white italic uppercase tracking-tighter mb-6 group-hover:text-primary transition-colors cursor-pointer leading-[0.9]">{title}</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-6xl font-black text-white italic uppercase tracking-tighter mb-6 group-hover:text-primary transition-colors cursor-pointer leading-[0.9]">{displayTitle}</h2>
         </Link>
-        <p className="text-zinc-400 text-lg mb-10 max-w-xl font-medium leading-relaxed">{description}</p>
+        <p className="text-zinc-400 text-lg mb-10 max-w-xl font-medium leading-relaxed">{displayDescription}</p>
         
         <div className="grid grid-cols-2 gap-x-12 gap-y-6 mb-12">
           {safeFeatures.slice(0, 4).map((feature, i) => (

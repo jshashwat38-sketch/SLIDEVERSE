@@ -81,8 +81,8 @@ function SearchContent() {
               <ProductCard 
                 key={c.id} 
                 {...c} 
-                title={typeof c.title === 'object' ? (c.title.en || Object.values(c.title)[0] as string) : c.title}
-                description={typeof c.description === 'object' ? (c.description.en || Object.values(c.description)[0] as string) : c.description}
+                title={typeof c.title === 'object' && c.title !== null ? (c.title.en || (Object.values(c.title)[0] as string) || "") : (c.title || "")}
+                description={typeof c.description === 'object' && c.description !== null ? (c.description.en || (Object.values(c.description)[0] as string) || "") : (c.description || "")}
               />
             ))}
           </div>
