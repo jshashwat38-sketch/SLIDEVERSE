@@ -108,7 +108,7 @@ export default function AppearancePage() {
                 <div className="flex flex-col gap-4">
                   <div className="flex gap-4">
                     <input 
-                      value={appearance.hero.image}
+                      value={appearance?.hero?.image || ""}
                       onChange={(e) => setAppearance({...appearance, hero: {...(appearance.hero || {}), image: e.target.value}})}
                       className="flex-1 bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-[10px] font-mono focus:outline-none focus:border-primary transition-all"
                     />
@@ -179,7 +179,7 @@ export default function AppearancePage() {
                     <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, "about")} />
                   </label>
                   <input 
-                    value={appearance.about.image}
+                    value={appearance?.about?.image || ""}
                     onChange={(e) => setAppearance({...appearance, about: {...(appearance.about || {}), image: e.target.value}})}
                     className="w-full bg-black/60 backdrop-blur-xl border border-white/20 rounded-xl px-4 py-2 text-white text-[10px] font-mono text-center focus:outline-none focus:border-primary"
                   />
@@ -231,7 +231,7 @@ export default function AppearancePage() {
                     <input type="file" className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, "story")} />
                   </label>
                   <input 
-                    value={appearance.story.image}
+                    value={appearance?.story?.image || ""}
                     onChange={(e) => setAppearance({...appearance, story: {...(appearance.story || {}), image: e.target.value}})}
                     className="w-full bg-black/60 backdrop-blur-xl border border-white/20 rounded-xl px-4 py-2 text-white text-[10px] font-mono text-center focus:outline-none focus:border-primary"
                   />
