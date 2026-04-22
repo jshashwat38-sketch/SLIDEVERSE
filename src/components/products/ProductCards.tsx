@@ -21,6 +21,7 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
   const router = useRouter();
   
   const displayImage = imageUrl || (images && images.length > 0 ? images[0] : "");
+  const safeFeatures = Array.isArray(features) ? features : [];
 
   const handleAddToCart = () => {
     addToCart({ id, title, price, imageUrl: displayImage });
@@ -63,7 +64,7 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
         <p className="text-zinc-400 text-xs mb-6 line-clamp-2 leading-relaxed font-normal">{description}</p>
         
         <div className="space-y-3 mb-8 flex-1">
-          {features.slice(0, 3).map((feature, i) => (
+          {safeFeatures.slice(0, 3).map((feature, i) => (
             <div key={i} className="flex items-center text-[10px] font-semibold text-zinc-500 gap-2 uppercase tracking-widest">
               <div className="w-1 h-1 rounded-full bg-primary/40" />
               <span className="truncate">{feature}</span>
@@ -94,6 +95,8 @@ export function HeroProductCard({ id, title, description, price, features, image
   const { addToCart } = useCart();
   const router = useRouter();
 
+  const safeFeatures = Array.isArray(features) ? features : [];
+
   const handleAddToCart = () => {
     addToCart({ id, title, price, imageUrl: imageUrl });
   };
@@ -121,7 +124,7 @@ export function HeroProductCard({ id, title, description, price, features, image
         <p className="text-zinc-400 text-lg mb-10 max-w-xl font-medium leading-relaxed">{description}</p>
         
         <div className="grid grid-cols-2 gap-x-12 gap-y-6 mb-12">
-          {features.slice(0, 4).map((feature, i) => (
+          {safeFeatures.slice(0, 4).map((feature, i) => (
             <div key={i} className="flex items-center gap-4 group/item">
               <div className="w-1.5 h-1.5 rounded-full bg-primary/20 group-hover/item:bg-primary transition-colors" />
               <span className="text-zinc-500 font-bold uppercase text-[10px] tracking-widest group-hover/item:text-zinc-300 transition-colors">{feature}</span>

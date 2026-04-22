@@ -320,14 +320,14 @@ export default function HomePage() {
                 </div>
                 <div className="text-zinc-600 text-[8px] font-bold uppercase tracking-[0.4em] mb-6">Encrypted Feed // {testimonial.code}</div>
                 <p className="text-zinc-300 text-lg leading-relaxed font-medium italic mb-10">
-                  "{typeof testimonial.text === 'object' ? (testimonial.text[language] || testimonial.text.en) : testimonial.text}"
+                  "{typeof testimonial.text === 'object' && testimonial.text !== null ? (testimonial.text[language] || testimonial.text.en || "") : (testimonial.text || "")}"
                 </p>
                 <div className="border-t border-white/5 pt-8">
                   <div className="text-white font-bold text-sm uppercase tracking-widest">
-                    {typeof testimonial.name === 'object' ? (testimonial.name[language] || testimonial.name.en) : testimonial.name}
+                    {typeof testimonial.name === 'object' && testimonial.name !== null ? (testimonial.name[language] || testimonial.name.en || "") : (testimonial.name || "")}
                   </div>
                   <div className="text-primary text-[9px] font-bold uppercase tracking-[0.3em] mt-1">
-                    {typeof testimonial.role === 'object' ? (testimonial.role[language] || testimonial.role.en) : testimonial.role}
+                    {typeof testimonial.role === 'object' && testimonial.role !== null ? (testimonial.role[language] || testimonial.role.en || "") : (testimonial.role || "")}
                   </div>
                 </div>
               </motion.div>
