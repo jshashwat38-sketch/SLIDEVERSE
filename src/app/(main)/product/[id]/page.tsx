@@ -178,7 +178,7 @@ export default function ProductDetailsPage() {
               <AnimatePresence mode="wait">
                 <motion.img
                   key={activeImage}
-                  src={allImages[activeImage] || "/placeholder-product.png"}
+                  src={allImages[activeImage] || "https://placehold.co/600x400?text=No+Image"}
                   alt={product.title}
                   initial={{ opacity: 0, scale: 1.1 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -214,7 +214,7 @@ export default function ProductDetailsPage() {
                   className={`aspect-square rounded-2xl overflow-hidden border-2 transition-all ${activeImage === i ? 'border-primary shadow-[0_0_15px_rgba(197, 165, 114, 0.3)]' : 'border-white/5 hover:border-white/20'}`}
                 >
                   <img 
-                    src={img || "/placeholder-product.png"} 
+                    src={img || "https://placehold.co/600x400?text=No+Image"} 
                     className="w-full h-full object-cover opacity-60 hover:opacity-100 transition-opacity" 
                     alt="" 
                     onError={(e) => {

@@ -170,7 +170,7 @@ export default function CartPage() {
                 
                 <div className="w-32 h-32 rounded-3xl overflow-hidden shrink-0 bg-white/5 border border-white/10 group-hover:border-primary/30 transition-colors">
                   <img 
-                    src={item.imageUrl || "/placeholder-product.png"} 
+                    src={item.imageUrl || "https://placehold.co/600x400?text=No+Image"} 
                     alt={item.title} 
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
                     onError={(e) => {
