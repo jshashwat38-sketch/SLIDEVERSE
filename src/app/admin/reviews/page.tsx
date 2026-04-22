@@ -135,17 +135,17 @@ export default function ReviewsPage() {
               <div>
                 <div className="text-zinc-600 text-[9px] font-black uppercase tracking-[0.4em]">{review.code}</div>
                 <div className="text-white font-black uppercase italic tracking-tighter text-xl mt-1">
-                  {typeof review.name === 'object' ? review.name.en : review.name}
+                  {typeof review.name === 'object' && review.name !== null ? (review.name.en || "") : (review.name || "")}
                 </div>
               </div>
             </div>
             
             <p className="text-zinc-400 text-base font-medium leading-relaxed italic mb-8">
-              "{typeof review.text === 'object' ? review.text.en : review.text}"
+              "{typeof review.text === 'object' && review.text !== null ? (review.text.en || "") : (review.text || "")}"
             </p>
             
             <div className="text-primary text-[10px] font-black uppercase tracking-[0.3em] pt-6 border-t border-white/5">
-              Source Designation: {typeof review.role === 'object' ? review.role.en : review.role}
+              Source Designation: {typeof review.role === 'object' && review.role !== null ? (review.role.en || "") : (review.role || "")}
             </div>
           </div>
         ))}

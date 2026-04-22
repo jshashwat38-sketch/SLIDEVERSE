@@ -392,15 +392,17 @@ export default function AdminProducts() {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                           </div>
                           <div>
-                            <p className="font-black text-white uppercase tracking-tighter italic text-xl group-hover:text-primary transition-colors">{product.title}</p>
+                            <p className="font-black text-white uppercase tracking-tighter italic text-xl group-hover:text-primary transition-colors">
+                              {typeof product.title === 'object' && product.title !== null ? (product.title.en || Object.values(product.title)[0] || "") : (product.title || "")}
+                            </p>
                             <p className="text-zinc-600 text-[10px] mt-2 font-black uppercase tracking-widest flex items-center gap-2">
                               <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
-                              {categories.find(c => c.id === product.categoryId)?.title 
-                                ? (typeof categories.find(c => c.id === product.categoryId)?.title === 'object' 
-                                    ? categories.find(c => c.id === product.categoryId)?.title.en 
-                                    : categories.find(c => c.id === product.categoryId)?.title
-                                  ).toUpperCase() 
-                                : "Unclassified"}
+                              {(() => {
+                                const category = categories.find(c => c.id === product.categoryId);
+                                if (!category) return "Unclassified";
+                                const title = category.title;
+                                return (typeof title === 'object' && title !== null ? (title.en || Object.values(title)[0] || "Unclassified") : (title || "Unclassified")).toUpperCase();
+                              })()}
                             </p>
                           </div>
                         </div>

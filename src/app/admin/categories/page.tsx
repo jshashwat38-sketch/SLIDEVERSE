@@ -192,10 +192,10 @@ export default function CategoriesPage() {
             
             <div className="text-primary font-black text-[9px] uppercase tracking-[0.4em] mb-4">Code: {category.id.split('-')[1]}</div>
             <h3 className="text-2xl font-black text-white uppercase italic tracking-tighter mb-4">
-              {typeof category.title === 'object' ? category.title.en : category.title}
+              {typeof category.title === 'object' && category.title !== null ? (category.title.en || "") : (category.title || "")}
             </h3>
             <p className="text-zinc-500 text-sm font-medium leading-relaxed mb-8 line-clamp-2">
-              {typeof category.description === 'object' ? category.description.en : category.description}
+              {typeof category.description === 'object' && category.description !== null ? (category.description.en || "") : (category.description || "")}
             </p>
             <div className="flex items-center justify-between border-t border-white/5 pt-6">
               <span className="text-zinc-400 text-xs font-black uppercase tracking-widest">Valuation</span>
