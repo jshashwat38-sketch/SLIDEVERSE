@@ -1,13 +1,5 @@
 [
   {
-    "id": "usr_admin789",
-    "name": "Admin User",
-    "email": "admin@slideverse.pro",
-    "phone": "+91 0000000000",
-    "password": "slideverse@build",
-    "createdAt": "2026-04-01T09:00:00Z"
-  },
-  {
     "id": "usr_0i2j3dheb",
     "name": "shashwat",
     "email": "jshashwat38@gmail.com",

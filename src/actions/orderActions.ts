@@ -1,15 +1,16 @@
 "use server";
-
-import fs from "fs/promises";
-import path from "path";
 import { revalidatePath } from "next/cache";
-
-const dataFilePath = path.join(process.cwd(), "src", "data", "orders.json");
+import { supabase } from "@/lib/supabase";
 
 export async function getOrders() {
   try {
-    const fileContents = await fs.readFile(dataFilePath, "utf8");
-    return JSON.parse(fileContents);
+    const { data, error } = await supabase
+      .from('orders')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return data || [];
   } catch (error) {
     console.error("Error reading orders:", error);
     return [];
@@ -18,14 +19,14 @@ export async function getOrders() {
 
 export async function updateOrderStatus(orderId: string, newStatus: string) {
   try {
-    const orders = await getOrders();
-    const updatedOrders = orders.map((order: any) => 
-      order.id === orderId ? { ...order, status: newStatus } : order
-    );
+    const { error } = await supabase
+      .from('orders')
+      .update({ status: newStatus })
+      .eq('id', orderId);
     
-    await fs.writeFile(dataFilePath, JSON.stringify(updatedOrders, null, 2));
+    if (error) throw error;
     revalidatePath("/admin");
-    return { success: true, orders: updatedOrders };
+    return { success: true };
   } catch (error) {
     console.error("Error updating order:", error);
     return { success: false, error: "Failed to update order" };
@@ -34,10 +35,12 @@ export async function updateOrderStatus(orderId: string, newStatus: string) {
 
 export async function deleteOrder(orderId: string) {
   try {
-    const orders = await getOrders();
-    const filteredOrders = orders.filter((order: any) => order.id !== orderId);
+    const { error } = await supabase
+      .from('orders')
+      .delete()
+      .eq('id', orderId);
     
-    await fs.writeFile(dataFilePath, JSON.stringify(filteredOrders, null, 2));
+    if (error) throw error;
     revalidatePath("/admin");
     return { success: true };
   } catch (error) {
@@ -48,16 +51,22 @@ export async function deleteOrder(orderId: string) {
 
 export async function saveOrder(order: any) {
   try {
-    const orders = await getOrders();
     const newOrder = {
-      ...order,
       id: order.id || `ORD-${Date.now()}`,
-      date: order.date || new Date().toLocaleDateString(),
+      customer: order.customer,
+      email: order.email,
+      product: order.product,
+      amount: order.amount,
       status: order.status || "pending",
+      date: order.date || new Date().toLocaleDateString(),
+      payment_id: order.paymentId,
+      razorpay_order_id: order.razorpayOrderId,
+      created_at: new Date().toISOString()
     };
     
-    orders.push(newOrder);
-    await fs.writeFile(dataFilePath, JSON.stringify(orders, null, 2));
+    const { error } = await supabase.from('orders').insert(newOrder);
+    if (error) throw error;
+
     revalidatePath("/admin");
     return { success: true, order: newOrder };
   } catch (error) {

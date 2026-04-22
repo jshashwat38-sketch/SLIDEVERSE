@@ -1,15 +1,16 @@
 "use server";
-
-import fs from "fs/promises";
-import path from "path";
 import { revalidatePath } from "next/cache";
-
-const dataFilePath = path.join(process.cwd(), "src", "data", "products.json");
+import { supabase } from "@/lib/supabase";
 
 export async function getProducts() {
   try {
-    const fileContents = await fs.readFile(dataFilePath, "utf8");
-    return JSON.parse(fileContents);
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return data || [];
   } catch (error) {
     console.error("Error reading products:", error);
     return [];
@@ -18,63 +19,43 @@ export async function getProducts() {
 
 export async function addProduct(formData: FormData) {
   try {
-    const products = await getProducts();
-    
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
     const price = formData.get("price") as string;
-    const features = formData.get("features") as string;
+    const featuresStr = formData.get("features") as string;
     const driveLink = formData.get("driveLink") as string;
     const categoryId = formData.get("categoryId") as string;
     
     const imageUrls = formData.getAll("imageUrls") as string[];
-    const imageFiles = formData.getAll("imageFiles") as File[];
+    // Note: Local image file uploads would need Supabase Storage
+    // For now, we use the provided URLs
     
     const questions = formData.getAll("questions") as string[];
     const answers = formData.getAll("answers") as string[];
     
-    const images: string[] = [];
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-
-    try {
-      await fs.access(uploadDir);
-    } catch {
-      await fs.mkdir(uploadDir, { recursive: true });
-    }
-
-    imageUrls.forEach(url => {
-      if (url && url.trim()) images.push(url.trim());
-    });
-
-    for (const file of imageFiles) {
-      if (file && file.size > 0) {
-        const buffer = Buffer.from(await file.arrayBuffer());
-        const filename = `${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
-        await fs.writeFile(path.join(uploadDir, filename), buffer);
-        images.push(`/uploads/${filename}`);
-      }
-    }
-
+    const images = imageUrls.filter(url => url && url.trim()).slice(0, 6);
     const faqs = questions.map((q, i) => ({
       question: q.trim(),
       answer: answers[i]?.trim() || ""
     })).filter(faq => faq.question && faq.answer).slice(0, 7);
 
     const newProduct = {
+      id: `prod-${Date.now()}`,
       title,
       description,
-      driveLink,
-      categoryId,
-      images: images.slice(0, 6),
-      imageUrl: images[0] || "",
-      faqs,
-      id: `prod-${Date.now()}`,
       price: Number(price),
-      features: features.split(',').map((f: string) => f.trim()).filter(Boolean)
+      category_id: categoryId,
+      image_url: images[0] || "",
+      images,
+      features: featuresStr.split(',').map((f: string) => f.trim()).filter(Boolean),
+      drive_link: driveLink,
+      faqs,
+      created_at: new Date().toISOString()
     };
     
-    products.push(newProduct);
-    await fs.writeFile(dataFilePath, JSON.stringify(products, null, 2));
+    const { error } = await supabase.from('products').insert(newProduct);
+    if (error) throw error;
+
     revalidatePath("/");
     revalidatePath("/admin/products");
     return { success: true, product: newProduct };
@@ -86,69 +67,48 @@ export async function addProduct(formData: FormData) {
 
 export async function updateProduct(id: string, formData: FormData) {
   try {
-    const products = await getProducts();
-    const index = products.findIndex((p: any) => p.id === id);
-    if (index === -1) return { success: false, error: "Product not found" };
-
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
     const price = formData.get("price") as string;
-    const features = formData.get("features") as string;
+    const featuresStr = formData.get("features") as string;
     const driveLink = formData.get("driveLink") as string;
     const categoryId = formData.get("categoryId") as string;
     
     const imageUrls = formData.getAll("imageUrls") as string[];
-    const imageFiles = formData.getAll("imageFiles") as File[];
-
     const questions = formData.getAll("questions") as string[];
     const answers = formData.getAll("answers") as string[];
     
-    const images: string[] = [];
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-
-    try {
-      await fs.access(uploadDir);
-    } catch {
-      await fs.mkdir(uploadDir, { recursive: true });
-    }
-
-    imageUrls.forEach(url => {
-      if (url && url.trim()) images.push(url.trim());
-    });
-
-    for (const file of imageFiles) {
-      if (file && file.size > 0) {
-        const buffer = Buffer.from(await file.arrayBuffer());
-        const filename = `${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
-        await fs.writeFile(path.join(uploadDir, filename), buffer);
-        images.push(`/uploads/${filename}`);
-      }
-    }
-
-    const finalImages = images.length > 0 ? images.slice(0, 6) : (products[index].images || [products[index].imageUrl]);
-
+    const images = imageUrls.filter(url => url && url.trim()).slice(0, 6);
     const faqs = questions.map((q, i) => ({
       question: q.trim(),
       answer: answers[i]?.trim() || ""
     })).filter(faq => faq.question && faq.answer).slice(0, 7);
 
-    products[index] = {
-      ...products[index],
+    const updateData: any = {
       title,
       description,
-      driveLink,
-      categoryId,
-      images: finalImages,
-      imageUrl: finalImages[0] || "",
-      faqs: faqs.length > 0 ? faqs : products[index].faqs,
       price: Number(price),
-      features: features.split(',').map((f: string) => f.trim()).filter(Boolean)
+      category_id: categoryId,
+      features: featuresStr.split(',').map((f: string) => f.trim()).filter(Boolean),
+      drive_link: driveLink,
+      faqs
     };
+
+    if (images.length > 0) {
+      updateData.images = images;
+      updateData.image_url = images[0];
+    }
+
+    const { error } = await supabase
+      .from('products')
+      .update(updateData)
+      .eq('id', id);
     
-    await fs.writeFile(dataFilePath, JSON.stringify(products, null, 2));
+    if (error) throw error;
+
     revalidatePath("/");
     revalidatePath("/admin/products");
-    return { success: true, product: products[index] };
+    return { success: true };
   } catch (error) {
     console.error("CRITICAL ERROR: Failed to update product:", error);
     return { success: false, error: error instanceof Error ? error.message : "Failed to update product" };
@@ -157,9 +117,14 @@ export async function updateProduct(id: string, formData: FormData) {
 
 export async function deleteProduct(id: string) {
   try {
-    const products = await getProducts();
-    const newProducts = products.filter((p: any) => p.id !== id);
-    await fs.writeFile(dataFilePath, JSON.stringify(newProducts, null, 2));
+    console.log(`[SYSTEM] Initiating deletion for product: ${id}`);
+    const { error, count } = await supabase
+      .from('products')
+      .delete({ count: 'exact' })
+      .eq('id', id);
+    
+    if (error) throw error;
+    
     revalidatePath("/");
     revalidatePath("/admin/products");
     return { success: true };

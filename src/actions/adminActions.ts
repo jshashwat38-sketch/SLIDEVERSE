@@ -1,143 +1,218 @@
 "use server";
-
-import fs from "fs/promises";
-import path from "path";
 import { revalidatePath } from "next/cache";
+import { supabase } from "@/lib/supabase";
 
 export async function uploadImage(formData: FormData) {
-  try {
-    const imageFile = formData.get("imageFile") as File;
-    if (!imageFile || imageFile.size === 0) return { success: false, error: "No file provided" };
-
-    const buffer = Buffer.from(await imageFile.arrayBuffer());
-    const filename = `${Date.now()}-${imageFile.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-
-    try {
-      await fs.access(uploadDir);
-    } catch {
-      await fs.mkdir(uploadDir, { recursive: true });
-    }
-
-    await fs.writeFile(path.join(uploadDir, filename), buffer);
-    return { success: true, url: `/uploads/${filename}` };
-  } catch (error) {
-    console.error("Upload error:", error);
-    return { success: false, error: "Upload failed" };
-  }
+  // Image uploads to local public/uploads will NOT work on Netlify.
+  // For now, we return the URL if it's already a URL, 
+  // or instruct to use external hosting.
+  // Real implementation would use Supabase Storage.
+  return { success: false, error: "Local uploads disabled for production. Please use external URLs." };
 }
-
-const categoriesPath = path.join(process.cwd(), "src", "data", "categories.json");
-const appearancePath = path.join(process.cwd(), "src", "data", "appearance.json");
-const reviewsPath = path.join(process.cwd(), "src", "data", "reviews.json");
-const grievancesPath = path.join(process.cwd(), "src", "data", "grievances.json");
 
 // --- CATEGORIES ---
 export async function getCategories() {
   try {
-    const data = await fs.readFile(categoriesPath, "utf8");
-    return JSON.parse(data);
+    const { data, error } = await supabase
+      .from('categories')
+      .select('*')
+      .order('title', { ascending: true });
+    
+    if (error) throw error;
+    return data || [];
   } catch { return []; }
 }
 
 export async function saveCategory(category: any) {
-  const categories = await getCategories();
-  const index = categories.findIndex((c: any) => c.id === category.id);
-  
-  if (index > -1) {
-    categories[index] = category;
-  } else {
-    categories.push({ ...category, id: `cat-${Date.now()}` });
+  try {
+    const data = {
+      title: category.title,
+      description: category.description,
+      price: Number(category.price),
+      image_url: category.imageUrl
+    };
+
+    let error;
+    if (category.id && category.id.startsWith('cat-')) {
+      const { error: err } = await supabase
+        .from('categories')
+        .update(data)
+        .eq('id', category.id);
+      error = err;
+    } else {
+      const { error: err } = await supabase
+        .from('categories')
+        .insert({ ...data, id: `cat-${Date.now()}` });
+      error = err;
+    }
+    
+    if (error) throw error;
+    revalidatePath("/admin/categories");
+    return { success: true };
+  } catch (error) {
+    console.error("Save category error:", error);
+    return { success: false, error: "Failed to save category" };
   }
-  
-  await fs.writeFile(categoriesPath, JSON.stringify(categories, null, 2));
-  revalidatePath("/admin/categories");
-  return { success: true };
 }
 
 export async function deleteCategory(id: string) {
-  const categories = await getCategories();
-  const filtered = categories.filter((c: any) => c.id !== id);
-  await fs.writeFile(categoriesPath, JSON.stringify(filtered, null, 2));
-  revalidatePath("/admin/categories");
-  return { success: true };
+  try {
+    const { error } = await supabase
+      .from('categories')
+      .delete()
+      .eq('id', id);
+    
+    if (error) throw error;
+    revalidatePath("/admin/categories");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to delete category:", error);
+    return { success: false, error: "System failure during category termination." };
+  }
 }
 
 // --- APPEARANCE ---
 export async function getAppearance() {
   try {
-    const data = await fs.readFile(appearancePath, "utf8");
-    return JSON.parse(data);
+    const { data, error } = await supabase
+      .from('appearance')
+      .select('data')
+      .eq('id', 'global')
+      .single();
+    
+    if (error) throw error;
+    return data.data || {};
   } catch { return {}; }
 }
 
 export async function updateAppearance(data: any) {
-  await fs.writeFile(appearancePath, JSON.stringify(data, null, 2));
-  revalidatePath("/");
-  revalidatePath("/admin/appearance");
-  return { success: true };
+  try {
+    const { error } = await supabase
+      .from('appearance')
+      .upsert({ id: 'global', data });
+    
+    if (error) throw error;
+    revalidatePath("/");
+    revalidatePath("/admin/appearance");
+    return { success: true };
+  } catch (error) {
+    console.error("Update appearance error:", error);
+    return { success: false, error: "Failed to update appearance" };
+  }
 }
 
 // --- REVIEWS ---
 export async function getReviews() {
   try {
-    const data = await fs.readFile(reviewsPath, "utf8");
-    return JSON.parse(data);
+    const { data, error } = await supabase
+      .from('reviews')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return data || [];
   } catch { return []; }
 }
 
 export async function saveReview(review: any) {
-  const reviews = await getReviews();
-  const index = reviews.findIndex((r: any) => r.id === review.id);
-  
-  if (index > -1) {
-    reviews[index] = review;
-  } else {
-    reviews.push({ ...review, id: `rev-${Date.now()}` });
+  try {
+    const data = {
+      name: review.name,
+      rating: Number(review.rating),
+      comment: review.comment,
+      date: review.date || new Date().toLocaleDateString(),
+      status: review.status || "pending"
+    };
+
+    let error;
+    if (review.id && review.id.startsWith('rev-')) {
+      const { error: err } = await supabase
+        .from('reviews')
+        .update(data)
+        .eq('id', review.id);
+      error = err;
+    } else {
+      const { error: err } = await supabase
+        .from('reviews')
+        .insert({ ...data, id: `rev-${Date.now()}` });
+      error = err;
+    }
+    
+    if (error) throw error;
+    revalidatePath("/");
+    revalidatePath("/admin/reviews");
+    return { success: true };
+  } catch (error) {
+    console.error("Save review error:", error);
+    return { success: false, error: "Failed to save review" };
   }
-  
-  await fs.writeFile(reviewsPath, JSON.stringify(reviews, null, 2));
-  revalidatePath("/");
-  revalidatePath("/admin/reviews");
-  return { success: true };
 }
 
 export async function deleteReview(id: string) {
-  const reviews = await getReviews();
-  const filtered = reviews.filter((r: any) => r.id !== id);
-  await fs.writeFile(reviewsPath, JSON.stringify(filtered, null, 2));
-  revalidatePath("/");
-  revalidatePath("/admin/reviews");
-  return { success: true };
+  try {
+    const { error } = await supabase
+      .from('reviews')
+      .delete()
+      .eq('id', id);
+    
+    if (error) throw error;
+    revalidatePath("/");
+    revalidatePath("/admin/reviews");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to delete review:", error);
+    return { success: false, error: "System failure during review termination." };
+  }
 }
 
 // --- GRIEVANCES ---
 export async function getGrievances() {
   try {
-    const data = await fs.readFile(grievancesPath, "utf8");
-    return JSON.parse(data);
+    const { data, error } = await supabase
+      .from('grievances')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return data || [];
   } catch { return []; }
 }
 
 export async function saveGrievance(grievance: any) {
-  const grievances = await getGrievances();
-  const newGrievance = {
-    ...grievance,
-    id: `grv-${Date.now()}`,
-    createdAt: new Date().toISOString(),
-    status: "pending"
-  };
-  
-  grievances.push(newGrievance);
-  await fs.writeFile(grievancesPath, JSON.stringify(grievances, null, 2));
-  revalidatePath("/admin/grievances");
-  return { success: true };
+  try {
+    const newGrievance = {
+      id: `grv-${Date.now()}`,
+      name: grievance.name,
+      email: grievance.email,
+      subject: grievance.subject,
+      message: grievance.message,
+      status: "pending",
+      created_at: new Date().toISOString()
+    };
+    
+    const { error } = await supabase.from('grievances').insert(newGrievance);
+    if (error) throw error;
+
+    revalidatePath("/admin/grievances");
+    return { success: true };
+  } catch (error) {
+    console.error("Save grievance error:", error);
+    return { success: false, error: "Failed to save grievance" };
+  }
 }
 
 export async function deleteGrievance(id: string) {
-  const grievances = await getGrievances();
-  const filtered = grievances.filter((g: any) => g.id !== id);
-  await fs.writeFile(grievancesPath, JSON.stringify(filtered, null, 2));
-  revalidatePath("/admin/grievances");
-  return { success: true };
+  try {
+    const { error } = await supabase
+      .from('grievances')
+      .delete()
+      .eq('id', id);
+    
+    if (error) throw error;
+    revalidatePath("/admin/grievances");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to delete grievance:", error);
+    return { success: false, error: "System failure during grievance termination." };
+  }
 }

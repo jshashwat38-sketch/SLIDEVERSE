@@ -1,26 +1,7 @@
 "use server";
 
-import fs from "fs/promises";
-import path from "path";
-import { revalidatePath } from "next/cache";
+import { supabase } from "@/lib/supabase";
 import nodemailer from "nodemailer";
-
-const USERS_PATH = path.join(process.cwd(), "src", "data", "users.json");
-const OTPS_PATH = path.join(process.cwd(), "src", "data", "otps.json");
-
-// Helper to read/write data
-async function getData(filePath: string) {
-  try {
-    const data = await fs.readFile(filePath, "utf8");
-    return JSON.parse(data);
-  } catch {
-    return [];
-  }
-}
-
-async function saveData(filePath: string, data: any) {
-  await fs.writeFile(filePath, JSON.stringify(data, null, 2));
-}
 
 // Create Nodemailer transporter
 const transporter = nodemailer.createTransport({
@@ -33,9 +14,11 @@ const transporter = nodemailer.createTransport({
 
 export async function loginUser(email: string, pass: string) {
   try {
-    await new Promise(resolve => setTimeout(resolve, 800));
-    const users = await getData(USERS_PATH);
-    const user = users.find((u: any) => u.email.toLowerCase() === email.toLowerCase());
+    const { data: user, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', email.toLowerCase())
+      .single();
     
     if (user && user.password === pass) {
       const { password, ...userWithoutPass } = user;
@@ -50,8 +33,13 @@ export async function loginUser(email: string, pass: string) {
 export async function sendOTP(email: string, type: 'reset' | 'signup' = 'reset') {
   try {
     // Check if user exists
-    const users = await getData(USERS_PATH);
-    const userExists = users.some((u: any) => u.email.toLowerCase() === email.toLowerCase());
+    const { data: user } = await supabase
+      .from('users')
+      .select('id')
+      .eq('email', email.toLowerCase())
+      .single();
+    
+    const userExists = !!user;
     
     if (type === 'reset' && !userExists) {
       return { success: false, error: "Email not registered." };
@@ -62,13 +50,11 @@ export async function sendOTP(email: string, type: 'reset' | 'signup' = 'reset')
     }
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expires = Date.now() + 10 * 60 * 1000;
+    const expires = new Date(Date.now() + 10 * 60 * 1000).toISOString();
 
-    const otps = await getData(OTPS_PATH);
-    // Remove old OTPs for this email
-    const filteredOtps = otps.filter((o: any) => o.email !== email);
-    filteredOtps.push({ email, otp, expires });
-    await saveData(OTPS_PATH, filteredOtps);
+    // Remove old OTPs for this email and insert new one
+    await supabase.from('otps').delete().eq('email', email.toLowerCase());
+    await supabase.from('otps').insert({ email: email.toLowerCase(), otp, expires });
     
     // Send Real Email
     if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
@@ -115,13 +101,15 @@ export async function sendOTP(email: string, type: 'reset' | 'signup' = 'reset')
 
 export async function verifyOTP(email: string, otp: string) {
   try {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    const otps = await getData(OTPS_PATH);
-    const record = otps.find((o: any) => o.email === email);
+    const { data: record, error } = await supabase
+      .from('otps')
+      .select('*')
+      .eq('email', email.toLowerCase())
+      .eq('otp', otp)
+      .single();
     
-    if (!record) return { success: false, error: "No active authorization request." };
-    if (Date.now() > record.expires) return { success: false, error: "Authorization sequence expired." };
-    if (record.otp !== otp) return { success: false, error: "Invalid authorization sequence." };
+    if (!record) return { success: false, error: "Invalid authorization sequence or no active request." };
+    if (new Date() > new Date(record.expires)) return { success: false, error: "Authorization sequence expired." };
 
     return { success: true };
   } catch (error) {
@@ -131,22 +119,18 @@ export async function verifyOTP(email: string, otp: string) {
 
 export async function resetPassword(email: string, otp: string, newPassword: string) {
   try {
-    await new Promise(resolve => setTimeout(resolve, 1500));
     const verification = await verifyOTP(email, otp);
     if (!verification.success) return verification;
 
-    const users = await getData(USERS_PATH);
-    const userIndex = users.findIndex((u: any) => u.email.toLowerCase() === email.toLowerCase());
+    const { error } = await supabase
+      .from('users')
+      .update({ password: newPassword })
+      .eq('email', email.toLowerCase());
     
-    if (userIndex === -1) return { success: false, error: "Identity lost during sequence." };
-
-    users[userIndex].password = newPassword;
-    await saveData(USERS_PATH, users);
+    if (error) return { success: false, error: "Failed to update vault credentials." };
 
     // Clear OTP
-    const otps = await getData(OTPS_PATH);
-    const filteredOtps = otps.filter((o: any) => o.email !== email);
-    await saveData(OTPS_PATH, filteredOtps);
+    await supabase.from('otps').delete().eq('email', email.toLowerCase());
 
     return { success: true, message: "Credential vault updated successfully." };
   } catch (error) {
@@ -156,25 +140,21 @@ export async function resetPassword(email: string, otp: string, newPassword: str
 
 export async function registerUser(userData: any) {
   try {
-    await new Promise(resolve => setTimeout(resolve, 1200));
-    const users = await getData(USERS_PATH);
-    
-    // Check if email already exists
-    if (users.some((u: any) => u.email.toLowerCase() === userData.email.toLowerCase())) {
-      return { success: false, error: "Identity endpoint already registered." };
-    }
-
     const newUser = {
       id: `usr_${Math.random().toString(36).substr(2, 9)}`,
       name: userData.name,
-      email: userData.email,
+      email: userData.email.toLowerCase(),
       phone: userData.phone,
-      password: userData.password, // Stored in plain text as requested for admin view
-      createdAt: new Date().toISOString()
+      password: userData.password,
+      created_at: new Date().toISOString()
     };
 
-    users.push(newUser);
-    await saveData(USERS_PATH, users);
+    const { error } = await supabase.from('users').insert(newUser);
+    
+    if (error) {
+      if (error.code === '23505') return { success: false, error: "Identity endpoint already registered." };
+      return { success: false, error: "Registration protocol failure." };
+    }
     
     return { success: true, user: newUser };
   } catch (error) {
@@ -184,7 +164,11 @@ export async function registerUser(userData: any) {
 
 export async function getUsers() {
   try {
-    return await getData(USERS_PATH);
+    const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .order('created_at', { ascending: false });
+    return data || [];
   } catch {
     return [];
   }
@@ -192,12 +176,23 @@ export async function getUsers() {
 
 export async function deleteUser(id: string) {
   try {
-    const users = await getData(USERS_PATH);
-    const filteredUsers = users.filter((u: any) => u.id !== id);
-    await saveData(USERS_PATH, filteredUsers);
+    console.log(`[SYSTEM] Initiating identity termination for: ${id}`);
+    const { error, count } = await supabase
+      .from('users')
+      .delete({ count: 'exact' })
+      .eq('id', id);
+    
+    if (error) throw error;
+    if (count === 0) {
+      console.warn(`[SYSTEM] Identity not found: ${id}`);
+      return { success: false, error: "Identity not found in database." };
+    }
+
+    console.log(`[SYSTEM] Identity terminated: ${id}`);
     revalidatePath("/admin/users");
     return { success: true };
   } catch (error) {
+    console.error("[SYSTEM ERROR] Failed to terminate identity:", error);
     return { success: false, error: "Failed to delete identity." };
   }
 }
