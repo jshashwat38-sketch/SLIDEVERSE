@@ -75,6 +75,29 @@ export async function deleteCategory(id: string) {
 
 // --- APPEARANCE ---
 export async function getAppearance() {
+  const defaultAppearance = {
+    hero: {
+      title: "Design the Future of Presentations",
+      subtitle: "Discover, share, and monetize premium presentation assets.",
+      image: "https://images.unsplash.com/photo-1542744173-8e7e5381bb6e?auto=format&fit=crop&q=80",
+      badge: "V1.0 LIVE"
+    },
+    about: {
+      title: "The Creative Atelier",
+      description: "We are a collective of designers and curators dedicated to elevating the digital asset landscape.",
+      image: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80"
+    },
+    story: {
+      title: "Our Genesis",
+      subtitle: "Born from the need for a more curated presentation ecosystem.",
+      image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80"
+    },
+    site: {
+      logo: "/logo.png",
+      name: "Slideverse"
+    }
+  };
+
   try {
     const { data, error } = await supabase
       .from('appearance')
@@ -82,10 +105,28 @@ export async function getAppearance() {
       .eq('id', 'global')
       .single();
     
-    if (error) throw error;
-    return data.data || {};
-  } catch { return {}; }
+    if (error) {
+      if (error.code === 'PGRST116') { // Record not found
+        return defaultAppearance;
+      }
+      throw error;
+    }
+    
+    // Merge database data with defaults to ensure all fields exist
+    return {
+      ...defaultAppearance,
+      ...(data.data || {}),
+      hero: { ...defaultAppearance.hero, ...(data.data?.hero || {}) },
+      about: { ...defaultAppearance.about, ...(data.data?.about || {}) },
+      story: { ...defaultAppearance.story, ...(data.data?.story || {}) },
+      site: { ...defaultAppearance.site, ...(data.data?.site || {}) }
+    };
+  } catch (error) {
+    console.error("Error fetching appearance:", error);
+    return defaultAppearance;
+  }
 }
+
 
 export async function updateAppearance(data: any) {
   try {

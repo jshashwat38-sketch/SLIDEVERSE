@@ -72,6 +72,44 @@ export default function AppearancePage() {
       </div>
 
       <form onSubmit={handleSave} className="space-y-12">
+        {/* Global Branding Section */}
+        <div className="bg-card/40 backdrop-blur-3xl p-10 rounded-[3rem] border border-white/5 relative overflow-hidden">
+          <div className="flex items-center gap-4 mb-10 pb-6 border-b border-white/5">
+            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
+              <ImageIcon className="w-5 h-5" />
+            </div>
+            <h2 className="text-2xl font-black text-white uppercase italic tracking-tighter">Identity Core</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className="space-y-8">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Platform Name</label>
+                <input 
+                  value={appearance?.site?.name || ""}
+                  onChange={(e) => setAppearance({...appearance, site: {...(appearance.site || {}), name: e.target.value}})}
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary transition-all"
+                  placeholder="SLIDEVERSE"
+                />
+              </div>
+            </div>
+            <div className="space-y-4">
+              <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Platform Logo (URL)</label>
+              <div className="flex gap-4">
+                <input 
+                  value={appearance?.site?.logo || ""}
+                  onChange={(e) => setAppearance({...appearance, site: {...(appearance.site || {}), logo: e.target.value}})}
+                  className="flex-1 bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-[10px] font-mono focus:outline-none focus:border-primary transition-all"
+                  placeholder="/logo.png"
+                />
+                <div className="w-14 h-14 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-500 overflow-hidden shrink-0 p-2">
+                  <img src={appearance?.site?.logo || "/logo.png"} className="w-full h-full object-contain" alt="Logo" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Hero Section */}
         <div className="bg-card/40 backdrop-blur-3xl p-10 rounded-[3rem] border border-white/5 relative overflow-hidden">
           <div className="flex items-center gap-4 mb-10 pb-6 border-b border-white/5">
