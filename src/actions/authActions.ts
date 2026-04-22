@@ -62,54 +62,53 @@ export async function sendOTP(email: string, type: 'reset' | 'signup' = 'reset')
     }
     
     // Send Real Email
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-      try {
-        console.log(`[AUTH] Attempting email dispatch via ${process.env.EMAIL_USER}`);
-        const transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-          },
-        });
+    const user = process.env.EMAIL_USER || 'SLIDEVERSESTUDIO@GMAIL.COM';
+    const pass = process.env.EMAIL_PASS || 'vmmpfnlojdteexza';
 
-        // Test connection
-        await transporter.verify();
-        console.log("[AUTH] SMTP Connection Verified.");
+    try {
+      console.log(`[AUTH] Attempting email dispatch via ${user}`);
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: user,
+          pass: pass,
+        },
+      });
 
-        const info = await transporter.sendMail({
-          from: `"Slideverse Security" <${process.env.EMAIL_USER}>`,
-          to: email,
-          subject: `${otp} is your Slideverse Verification Sequence`,
-          html: `
-            <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #000; color: #fff; padding: 60px 20px; text-align: center;">
-              <div style="max-width: 600px; margin: 0 auto; background-color: #09090b; border: 1px solid #1a1a1a; border-radius: 40px; padding: 50px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
-                <div style="margin-bottom: 40px;">
-                  <h1 style="color: #D4FF00; font-size: 24px; font-weight: 900; letter-spacing: 5px; text-transform: uppercase; margin: 0;">SLIDEVERSE PRO</h1>
-                  <p style="color: #666; font-size: 10px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; margin-top: 10px;">Secure Identity Protocol</p>
-                </div>
-                <h2 style="font-size: 32px; font-weight: 900; font-style: italic; text-transform: uppercase; margin-bottom: 20px;">Verification Required</h2>
-                <p style="color: #888; font-size: 14px; line-height: 1.6; margin-bottom: 40px;">Initiating authorization sequence for your operative account. Enter the following 6-digit code to establish identity.</p>
-                <div style="background-color: rgba(212,255,0,0.1); border: 1px solid rgba(212,255,0,0.3); border-radius: 20px; padding: 30px; display: inline-block; min-width: 200px;">
-                  <span style="font-size: 48px; font-weight: 900; color: #D4FF00; letter-spacing: 10px; font-family: monospace;">${otp}</span>
-                </div>
-                <p style="color: #444; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-top: 40px;">This sequence will expire in 10 minutes.</p>
-                <div style="margin-top: 50px; border-top: 1px solid #1a1a1a; padding-top: 30px;">
-                  <p style="color: #555; font-size: 10px; margin-top: 30px;">If you did not initiate this protocol, ignore this broadcast.</p>
-                </div>
+      // Test connection
+      await transporter.verify();
+      console.log("[AUTH] SMTP Connection Verified.");
+
+      const info = await transporter.sendMail({
+        from: `"Slideverse Security" <${user}>`,
+        to: email,
+        subject: `${otp} is your Slideverse Verification Sequence`,
+        html: `
+          <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #000; color: #fff; padding: 60px 20px; text-align: center;">
+            <div style="max-width: 600px; margin: 0 auto; background-color: #09090b; border: 1px solid #1a1a1a; border-radius: 40px; padding: 50px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+              <div style="margin-bottom: 40px;">
+                <h1 style="color: #D4FF00; font-size: 24px; font-weight: 900; letter-spacing: 5px; text-transform: uppercase; margin: 0;">SLIDEVERSE PRO</h1>
+                <p style="color: #666; font-size: 10px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; margin-top: 10px;">Secure Identity Protocol</p>
+              </div>
+              <h2 style="font-size: 32px; font-weight: 900; font-style: italic; text-transform: uppercase; margin-bottom: 20px;">Verification Required</h2>
+              <p style="color: #888; font-size: 14px; line-height: 1.6; margin-bottom: 40px;">Initiating authorization sequence for your operative account. Enter the following 6-digit code to establish identity.</p>
+              <div style="background-color: rgba(212,255,0,0.1); border: 1px solid rgba(212,255,0,0.3); border-radius: 20px; padding: 30px; display: inline-block; min-width: 200px;">
+                <span style="font-size: 48px; font-weight: 900; color: #D4FF00; letter-spacing: 10px; font-family: monospace;">${otp}</span>
+              </div>
+              <p style="color: #444; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-top: 40px;">This sequence will expire in 10 minutes.</p>
+              <div style="margin-top: 50px; border-top: 1px solid #1a1a1a; padding-top: 30px;">
+                <p style="color: #555; font-size: 10px; margin-top: 30px;">If you did not initiate this protocol, ignore this broadcast.</p>
               </div>
             </div>
-          `,
-        });
-        console.log("[AUTH] Email sent successfully:", info.messageId);
-      } catch (err: any) {
-        console.error("[AUTH] Failed to send real email:", err.message);
-        return { success: false, error: `Communication failure: ${err.message}` };
-      }
-    } else {
-      console.warn("[AUTH] Email credentials missing. Skipping real email dispatch.");
-      return { success: false, error: "System configuration incomplete. Contact admin." };
+          </div>
+        `,
+      });
+      console.log("[AUTH] Email sent successfully:", info.messageId);
+    } catch (err: any) {
+      console.error("[AUTH] Failed to send real email:", err.message);
+      return { success: false, error: `Communication failure: ${err.message}` };
     }
+
 
 
     console.log("------------------------------------------");
