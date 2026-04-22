@@ -88,7 +88,10 @@ export default function CategoriesPage() {
                   <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Category Designation</label>
                   <input 
                     required
-                    value={editingCategory ? editingCategory.title : formData.title}
+                    value={(() => {
+                      const val = editingCategory ? editingCategory.title : formData.title;
+                      return typeof val === 'object' && val !== null ? (val.en || Object.values(val)[0] || "") : (val || "");
+                    })()}
                     onChange={(e) => editingCategory ? setEditingCategory({...editingCategory, title: e.target.value}) : setFormData({...formData, title: e.target.value})}
                     placeholder="E.G. REAL ESTATE..." 
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary transition-all placeholder:text-zinc-800" 
@@ -110,7 +113,10 @@ export default function CategoriesPage() {
                 <textarea 
                   required
                   rows={2}
-                  value={editingCategory ? editingCategory.description : formData.description}
+                  value={(() => {
+                    const val = editingCategory ? editingCategory.description : formData.description;
+                    return typeof val === 'object' && val !== null ? (val.en || Object.values(val)[0] || "") : (val || "");
+                  })()}
                   onChange={(e) => editingCategory ? setEditingCategory({...editingCategory, description: e.target.value}) : setFormData({...formData, description: e.target.value})}
                   placeholder="TAXONOMY DETAILS..." 
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary transition-all placeholder:text-zinc-800 resize-none"

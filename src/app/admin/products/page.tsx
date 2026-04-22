@@ -156,7 +156,10 @@ export default function AdminProducts() {
                   <input
                     type="text"
                     required
-                    value={formData.title}
+                    value={(() => {
+                      const val = formData.title;
+                      return typeof val === 'object' && val !== null ? (val.en || Object.values(val)[0] || "") : (val || "");
+                    })()}
                     onChange={(e) => setFormData({...formData, title: e.target.value})}
                     className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 font-bold uppercase text-sm"
                     placeholder="E.G. TITAN SLIDE DECK"
@@ -187,7 +190,10 @@ export default function AdminProducts() {
                   <textarea
                     required
                     rows={3}
-                    value={formData.description}
+                    value={(() => {
+                      const val = formData.description;
+                      return typeof val === 'object' && val !== null ? (val.en || Object.values(val)[0] || "") : (val || "");
+                    })()}
                     onChange={(e) => setFormData({...formData, description: e.target.value})}
                     className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 resize-none font-medium text-sm leading-relaxed"
                     placeholder="PROVIDE SYSTEM SPECIFICATIONS..."

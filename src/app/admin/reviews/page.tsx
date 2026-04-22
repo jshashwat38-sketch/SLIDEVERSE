@@ -66,7 +66,10 @@ export default function ReviewsPage() {
                   <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Source Identity</label>
                   <input 
                     required
-                    value={editingReview ? editingReview.name : formData.name}
+                    value={(() => {
+                      const val = editingReview ? editingReview.name : formData.name;
+                      return typeof val === 'object' && val !== null ? (val.en || Object.values(val)[0] || "") : (val || "");
+                    })()}
                     onChange={(e) => editingReview ? setEditingReview({...editingReview, name: e.target.value}) : setFormData({...formData, name: e.target.value})}
                     placeholder="E.G. JOHN DOE..." 
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary transition-all placeholder:text-zinc-800" 
@@ -76,7 +79,10 @@ export default function ReviewsPage() {
                   <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Designation</label>
                   <input 
                     required
-                    value={editingReview ? editingReview.role : formData.role}
+                    value={(() => {
+                      const val = editingReview ? editingReview.role : formData.role;
+                      return typeof val === 'object' && val !== null ? (val.en || Object.values(val)[0] || "") : (val || "");
+                    })()}
                     onChange={(e) => editingReview ? setEditingReview({...editingReview, role: e.target.value}) : setFormData({...formData, role: e.target.value})}
                     placeholder="E.G. CEO, ARCHITECT..." 
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary transition-all placeholder:text-zinc-800" 
@@ -97,7 +103,10 @@ export default function ReviewsPage() {
                 <textarea 
                   required
                   rows={3}
-                  value={editingReview ? editingReview.text : formData.text}
+                  value={(() => {
+                    const val = editingReview ? editingReview.text : formData.text;
+                    return typeof val === 'object' && val !== null ? (val.en || Object.values(val)[0] || "") : (val || "");
+                  })()}
                   onChange={(e) => editingReview ? setEditingReview({...editingReview, text: e.target.value}) : setFormData({...formData, text: e.target.value})}
                   placeholder="FEEDBACK DETAILS..." 
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary transition-all placeholder:text-zinc-800 resize-none"

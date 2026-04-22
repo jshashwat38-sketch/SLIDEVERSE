@@ -36,9 +36,11 @@ export default function AppearancePage() {
 
     const result = await uploadImage(formData);
     if (result.success && result.url) {
-      if (section === "hero") setAppearance({...appearance, hero: {...appearance.hero, image: result.url}});
-      if (section === "about") setAppearance({...appearance, about: {...appearance.about, image: result.url}});
-      if (section === "story") setAppearance({...appearance, story: {...appearance.story, image: result.url}});
+      const newAppearance = { ...appearance };
+      if (section === "hero") newAppearance.hero = { ...(newAppearance.hero || {}), image: result.url };
+      if (section === "about") newAppearance.about = { ...(newAppearance.about || {}), image: result.url };
+      if (section === "story") newAppearance.story = { ...(newAppearance.story || {}), image: result.url };
+      setAppearance(newAppearance);
     }
     setIsUploading(null);
   }
@@ -107,11 +109,11 @@ export default function AppearancePage() {
                   <div className="flex gap-4">
                     <input 
                       value={appearance.hero.image}
-                      onChange={(e) => setAppearance({...appearance, hero: {...appearance.hero, image: e.target.value}})}
+                      onChange={(e) => setAppearance({...appearance, hero: {...(appearance.hero || {}), image: e.target.value}})}
                       className="flex-1 bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-[10px] font-mono focus:outline-none focus:border-primary transition-all"
                     />
                     <div className="w-14 h-14 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-500 overflow-hidden shrink-0">
-                      <img src={appearance.hero.image} className="w-full h-full object-cover" />
+                      <img src={typeof appearance?.hero?.image === 'string' ? appearance.hero.image : ""} className="w-full h-full object-cover" />
                     </div>
                   </div>
                   <label className="cursor-pointer group flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl py-3 transition-all">
@@ -167,7 +169,7 @@ export default function AppearancePage() {
             <div className="space-y-4">
               <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Atelier Visual</label>
               <div className="relative group rounded-2xl overflow-hidden border border-white/10 h-48">
-                <img src={appearance.about.image} className="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity" />
+                <img src={typeof appearance?.about?.image === 'string' ? appearance.about.image : ""} className="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-8 bg-black/40">
                   <label className="cursor-pointer group/up flex items-center justify-center gap-3 bg-primary text-black px-6 py-3 rounded-xl transition-all shadow-xl hover:scale-105 active:scale-95 mb-4">
                     <Upload className={`w-4 h-4 ${isUploading === 'about' ? 'animate-spin' : ''}`} />
@@ -178,7 +180,7 @@ export default function AppearancePage() {
                   </label>
                   <input 
                     value={appearance.about.image}
-                    onChange={(e) => setAppearance({...appearance, about: {...appearance.about, image: e.target.value}})}
+                    onChange={(e) => setAppearance({...appearance, about: {...(appearance.about || {}), image: e.target.value}})}
                     className="w-full bg-black/60 backdrop-blur-xl border border-white/20 rounded-xl px-4 py-2 text-white text-[10px] font-mono text-center focus:outline-none focus:border-primary"
                   />
                 </div>
@@ -219,7 +221,7 @@ export default function AppearancePage() {
             <div className="space-y-4">
               <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Story Visual Asset</label>
               <div className="relative group rounded-2xl overflow-hidden border border-white/10 h-48">
-                <img src={appearance.story.image} className="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity" />
+                <img src={typeof appearance?.story?.image === 'string' ? appearance.story.image : ""} className="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-8 bg-black/40">
                   <label className="cursor-pointer group/up flex items-center justify-center gap-3 bg-primary text-black px-6 py-3 rounded-xl transition-all shadow-xl hover:scale-105 active:scale-95 mb-4">
                     <Upload className={`w-4 h-4 ${isUploading === 'story' ? 'animate-spin' : ''}`} />
@@ -230,7 +232,7 @@ export default function AppearancePage() {
                   </label>
                   <input 
                     value={appearance.story.image}
-                    onChange={(e) => setAppearance({...appearance, story: {...appearance.story, image: e.target.value}})}
+                    onChange={(e) => setAppearance({...appearance, story: {...(appearance.story || {}), image: e.target.value}})}
                     className="w-full bg-black/60 backdrop-blur-xl border border-white/20 rounded-xl px-4 py-2 text-white text-[10px] font-mono text-center focus:outline-none focus:border-primary"
                   />
                 </div>
