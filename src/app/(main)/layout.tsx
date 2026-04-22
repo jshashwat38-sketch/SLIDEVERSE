@@ -2,7 +2,8 @@
 
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import { GlobalFooter } from "@/components/layout/GlobalFooter";
+
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
@@ -40,7 +41,8 @@ export default function MainLayout({
           <div className="max-w-7xl mx-auto p-4 md:p-8">
             {children}
           </div>
-          <Footer />
+          <GlobalFooter />
+
         </main>
       </div>
     </div>
