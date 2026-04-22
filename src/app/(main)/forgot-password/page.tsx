@@ -8,6 +8,8 @@ import { validateEmail, validatePassword } from "@/utils/validation";
 import { sendOTP, verifyOTP, resetPassword } from "@/actions/authActions";
 import { toast } from "react-hot-toast";
 import PasswordInput from "@/components/common/PasswordInput";
+import PasswordRequirements from "@/components/auth/PasswordRequirements";
+
 
 
 type Step = "email" | "otp" | "reset" | "success";
@@ -314,6 +316,8 @@ export default function ForgotPasswordPage() {
                     placeholder="••••••••"
                   />
                   
+                  <PasswordRequirements password={newPassword} />
+                  
                   <div className="space-y-2">
                     <PasswordInput
                       name="confirmPassword"
@@ -330,6 +334,7 @@ export default function ForgotPasswordPage() {
                     )}
                   </div>
                 </div>
+
 
 
 

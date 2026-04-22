@@ -48,7 +48,9 @@ export default function AdminLayout({
     { href: "/admin/categories", label: "Categories", icon: Settings },
     { href: "/admin/appearance", label: "Appearance", icon: Sparkles },
     { href: "/admin/contact", label: "Contact Settings", icon: Phone },
+    { href: "/admin/security", label: "Security", icon: Lock },
     { href: "/admin/reviews", label: "Reviews", icon: MessageSquare },
+
     { href: "/admin/grievances", label: "Grievances", icon: MessageSquare },
   ];
 
@@ -137,7 +139,8 @@ export default function AdminLayout({
             Admin <span className="text-primary neon-text">Ops</span>
           </h1>
         </div>
-        <nav className="flex-1 px-4 space-y-2 mt-20 lg:mt-8">
+        <nav className="flex-1 px-4 space-y-2 mt-20 lg:mt-8 overflow-y-auto custom-scrollbar">
+
           {links.map((link) => {
             const isActive = pathname === link.href;
             return (

@@ -35,7 +35,8 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
   ];
 
   return (
-    <aside className="w-64 bg-sidebar text-sidebar-foreground flex flex-col min-h-screen border-r border-white/5 z-50">
+    <aside className="w-64 bg-sidebar text-sidebar-foreground flex flex-col h-full border-r border-white/5 z-50">
+
       <div className="p-6 border-b border-white/5 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Image 
@@ -54,7 +55,8 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           <X className="w-6 h-6" />
         </button>
       </div>
-      <nav className="flex-1 px-4 space-y-2 mt-4 overflow-y-auto">
+      <nav className="flex-1 px-4 space-y-2 mt-4 overflow-y-auto custom-scrollbar">
+
         <Link
           href="/"
           onClick={onClose}
