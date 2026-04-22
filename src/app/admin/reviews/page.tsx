@@ -68,7 +68,7 @@ export default function ReviewsPage() {
                     required
                     value={(() => {
                       const val = editingReview ? editingReview.name : formData.name;
-                      return typeof val === 'object' && val !== null ? (val.en || Object.values(val)[0] || "") : (val || "");
+                      return typeof val === 'object' && val !== null ? ((val as any).en || Object.values(val)[0] || "") : (val || "");
                     })()}
                     onChange={(e) => editingReview ? setEditingReview({...editingReview, name: e.target.value}) : setFormData({...formData, name: e.target.value})}
                     placeholder="E.G. JOHN DOE..." 
@@ -81,7 +81,7 @@ export default function ReviewsPage() {
                     required
                     value={(() => {
                       const val = editingReview ? editingReview.role : formData.role;
-                      return typeof val === 'object' && val !== null ? (val.en || Object.values(val)[0] || "") : (val || "");
+                      return typeof val === 'object' && val !== null ? ((val as any).en || Object.values(val)[0] || "") : (val || "");
                     })()}
                     onChange={(e) => editingReview ? setEditingReview({...editingReview, role: e.target.value}) : setFormData({...formData, role: e.target.value})}
                     placeholder="E.G. CEO, ARCHITECT..." 
@@ -105,7 +105,7 @@ export default function ReviewsPage() {
                   rows={3}
                   value={(() => {
                     const val = editingReview ? editingReview.text : formData.text;
-                    return typeof val === 'object' && val !== null ? (val.en || Object.values(val)[0] || "") : (val || "");
+                    return typeof val === 'object' && val !== null ? ((val as any).en || Object.values(val)[0] || "") : (val || "");
                   })()}
                   onChange={(e) => editingReview ? setEditingReview({...editingReview, text: e.target.value}) : setFormData({...formData, text: e.target.value})}
                   placeholder="FEEDBACK DETAILS..." 
@@ -144,17 +144,17 @@ export default function ReviewsPage() {
               <div>
                 <div className="text-zinc-600 text-[9px] font-black uppercase tracking-[0.4em]">{review.code}</div>
                 <div className="text-white font-black uppercase italic tracking-tighter text-xl mt-1">
-                  {typeof review.name === 'object' && review.name !== null ? (review.name.en || "") : (review.name || "")}
+                  {typeof review.name === 'object' && review.name !== null ? ((review.name as any).en || "") : (review.name || "")}
                 </div>
               </div>
             </div>
             
             <p className="text-zinc-400 text-base font-medium leading-relaxed italic mb-8">
-              "{typeof review.text === 'object' && review.text !== null ? (review.text.en || "") : (review.text || "")}"
+              "{typeof review.text === 'object' && review.text !== null ? ((review.text as any).en || "") : (review.text || "")}"
             </p>
             
             <div className="text-primary text-[10px] font-black uppercase tracking-[0.3em] pt-6 border-t border-white/5">
-              Source Designation: {typeof review.role === 'object' && review.role !== null ? (review.role.en || "") : (review.role || "")}
+              Source Designation: {typeof review.role === 'object' && review.role !== null ? ((review.role as any).en || "") : (review.role || "")}
             </div>
           </div>
         ))}

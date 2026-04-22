@@ -158,7 +158,7 @@ export default function AdminProducts() {
                     required
                     value={(() => {
                       const val = formData.title;
-                      return typeof val === 'object' && val !== null ? (val.en || Object.values(val)[0] || "") : (val || "");
+                      return typeof val === 'object' && val !== null ? ((val as any).en || Object.values(val)[0] || "") : (val || "");
                     })()}
                     onChange={(e) => setFormData({...formData, title: e.target.value})}
                     className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 font-bold uppercase text-sm"
@@ -179,7 +179,7 @@ export default function AdminProducts() {
                   >
                     {categories.map(cat => (
                       <option key={cat.id} value={cat.id} className="bg-zinc-900 text-white">
-                        {typeof cat.title === 'object' ? (cat.title.en || Object.values(cat.title)[0]).toUpperCase() : cat.title.toUpperCase()}
+                        {typeof cat.title === 'object' ? ((cat.title as any).en || Object.values(cat.title)[0] as string).toUpperCase() : (cat.title as string).toUpperCase()}
                       </option>
                     ))}
                   </select>
@@ -192,7 +192,7 @@ export default function AdminProducts() {
                     rows={3}
                     value={(() => {
                       const val = formData.description;
-                      return typeof val === 'object' && val !== null ? (val.en || Object.values(val)[0] || "") : (val || "");
+                      return typeof val === 'object' && val !== null ? ((val as any).en || Object.values(val)[0] || "") : (val || "");
                     })()}
                     onChange={(e) => setFormData({...formData, description: e.target.value})}
                     className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 resize-none font-medium text-sm leading-relaxed"
@@ -399,7 +399,7 @@ export default function AdminProducts() {
                           </div>
                           <div>
                             <p className="font-black text-white uppercase tracking-tighter italic text-xl group-hover:text-primary transition-colors">
-                              {typeof product.title === 'object' && product.title !== null ? (product.title.en || Object.values(product.title)[0] || "") : (product.title || "")}
+                              {typeof product.title === 'object' && product.title !== null ? ((product.title as any).en || Object.values(product.title)[0] || "") : (product.title || "")}
                             </p>
                             <p className="text-zinc-600 text-[10px] mt-2 font-black uppercase tracking-widest flex items-center gap-2">
                               <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
@@ -407,7 +407,7 @@ export default function AdminProducts() {
                                 const category = categories.find(c => c.id === product.categoryId);
                                 if (!category) return "Unclassified";
                                 const title = category.title;
-                                return (typeof title === 'object' && title !== null ? (title.en || Object.values(title)[0] || "Unclassified") : (title || "Unclassified")).toUpperCase();
+                                return (typeof title === 'object' && title !== null ? ((title as any).en || Object.values(title)[0] || "Unclassified") : (title || "Unclassified")).toUpperCase();
                               })()}
                             </p>
                           </div>
