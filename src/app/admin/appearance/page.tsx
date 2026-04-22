@@ -85,8 +85,8 @@ export default function AppearancePage() {
                 <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Heading Designation</label>
                 <textarea 
                   rows={3}
-                  value={appearance.hero.title}
-                  onChange={(e) => setAppearance({...appearance, hero: {...appearance.hero, title: e.target.value}})}
+                  value={typeof (appearance?.hero?.title) === 'object' && appearance.hero.title !== null ? (appearance.hero.title.en || "") : (appearance?.hero?.title || "")}
+                  onChange={(e) => setAppearance({...appearance, hero: {...(appearance.hero || {}), title: e.target.value}})}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary transition-all placeholder:text-zinc-800"
                 />
               </div>
@@ -94,8 +94,8 @@ export default function AppearancePage() {
                 <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Mission Statement</label>
                 <textarea 
                   rows={3}
-                  value={appearance.hero.subtitle}
-                  onChange={(e) => setAppearance({...appearance, hero: {...appearance.hero, subtitle: e.target.value}})}
+                  value={typeof (appearance?.hero?.subtitle) === 'object' && appearance.hero.subtitle !== null ? (appearance.hero.subtitle.en || "") : (appearance?.hero?.subtitle || "")}
+                  onChange={(e) => setAppearance({...appearance, hero: {...(appearance.hero || {}), subtitle: e.target.value}})}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary transition-all placeholder:text-zinc-800"
                 />
               </div>
@@ -126,8 +126,8 @@ export default function AppearancePage() {
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Strategic Badge</label>
                 <input 
-                  value={appearance.hero.badge}
-                  onChange={(e) => setAppearance({...appearance, hero: {...appearance.hero, badge: e.target.value}})}
+                  value={typeof (appearance?.hero?.badge) === 'object' && appearance.hero.badge !== null ? (appearance.hero.badge.en || "") : (appearance?.hero?.badge || "")}
+                  onChange={(e) => setAppearance({...appearance, hero: {...(appearance.hero || {}), badge: e.target.value}})}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary transition-all"
                 />
               </div>
@@ -149,8 +149,8 @@ export default function AppearancePage() {
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Atelier Heading</label>
                 <input 
-                  value={appearance.about.title}
-                  onChange={(e) => setAppearance({...appearance, about: {...appearance.about, title: e.target.value}})}
+                  value={typeof (appearance?.about?.title) === 'object' && appearance.about.title !== null ? (appearance.about.title.en || "") : (appearance?.about?.title || "")}
+                  onChange={(e) => setAppearance({...appearance, about: {...(appearance.about || {}), title: e.target.value}})}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary transition-all"
                 />
               </div>
@@ -158,8 +158,8 @@ export default function AppearancePage() {
                 <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Laboratory Description</label>
                 <textarea 
                   rows={4}
-                  value={appearance.about.description}
-                  onChange={(e) => setAppearance({...appearance, about: {...appearance.about, description: e.target.value}})}
+                  value={typeof (appearance?.about?.description) === 'object' && appearance.about.description !== null ? (appearance.about.description.en || "") : (appearance?.about?.description || "")}
+                  onChange={(e) => setAppearance({...appearance, about: {...(appearance.about || {}), description: e.target.value}})}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary transition-all"
                 />
               </div>
@@ -201,8 +201,8 @@ export default function AppearancePage() {
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Genesis Heading</label>
                 <input 
-                  value={appearance.story.title}
-                  onChange={(e) => setAppearance({...appearance, story: {...appearance.story, title: e.target.value}})}
+                  value={typeof (appearance?.story?.title) === 'object' && appearance.story.title !== null ? (appearance.story.title.en || "") : (appearance?.story?.title || "")}
+                  onChange={(e) => setAppearance({...appearance, story: {...(appearance.story || {}), title: e.target.value}})}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary transition-all"
                 />
               </div>
@@ -210,8 +210,8 @@ export default function AppearancePage() {
                 <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Narrative Summary</label>
                 <textarea 
                   rows={4}
-                  value={appearance.story.subtitle}
-                  onChange={(e) => setAppearance({...appearance, story: {...appearance.story, subtitle: e.target.value}})}
+                  value={typeof (appearance?.story?.subtitle) === 'object' && appearance.story.subtitle !== null ? (appearance.story.subtitle.en || "") : (appearance?.story?.subtitle || "")}
+                  onChange={(e) => setAppearance({...appearance, story: {...(appearance.story || {}), subtitle: e.target.value}})}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary transition-all"
                 />
               </div>
