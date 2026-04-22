@@ -30,7 +30,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const storedCart = localStorage.getItem("cart");
     if (storedCart) {
       try {
-        setItems(JSON.parse(storedCart));
+        const parsed = JSON.parse(storedCart);
+        // Normalize titles to strings in case of stale object data
+        const normalized = Array.isArray(parsed) ? parsed.map((item: any) => ({
+          ...item,
+          title: typeof item.title === 'object' && item.title !== null ? 
+            (item.title.en || Object.values(item.title)[0] || "Asset") : 
+            (item.title || "Asset")
+        })) : [];
+        setItems(normalized);
       } catch (e) {
         console.error("Failed to parse cart from local storage", e);
       }
