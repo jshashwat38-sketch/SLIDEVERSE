@@ -62,16 +62,16 @@ export async function sendOTP(email: string, type: 'reset' | 'signup' = 'reset')
     }
     
     // Send Real Email
-    const user = process.env.EMAIL_USER || 'SLIDEVERSESTUDIO@GMAIL.COM';
-    const pass = process.env.EMAIL_PASS || 'vmmpfnlojdteexza';
+    const emailUser = process.env.EMAIL_USER || 'SLIDEVERSESTUDIO@GMAIL.COM';
+    const emailPass = process.env.EMAIL_PASS || 'vmmpfnlojdteexza';
 
     try {
-      console.log(`[AUTH] Attempting email dispatch via ${user}`);
+      console.log(`[AUTH] Attempting email dispatch via ${emailUser}`);
       const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: user,
-          pass: pass,
+          user: emailUser,
+          pass: emailPass,
         },
       });
 
@@ -80,7 +80,7 @@ export async function sendOTP(email: string, type: 'reset' | 'signup' = 'reset')
       console.log("[AUTH] SMTP Connection Verified.");
 
       const info = await transporter.sendMail({
-        from: `"Slideverse Security" <${user}>`,
+        from: `"Slideverse Security" <${emailUser}>`,
         to: email,
         subject: `${otp} is your Slideverse Verification Sequence`,
         html: `
@@ -104,6 +104,7 @@ export async function sendOTP(email: string, type: 'reset' | 'signup' = 'reset')
         `,
       });
       console.log("[AUTH] Email sent successfully:", info.messageId);
+
     } catch (err: any) {
       console.error("[AUTH] Failed to send real email:", err.message);
       return { success: false, error: `Communication failure: ${err.message}` };
