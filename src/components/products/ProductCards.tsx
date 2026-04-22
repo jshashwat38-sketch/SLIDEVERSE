@@ -25,8 +25,8 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
   const displayImage = imageUrl || (images && images.length > 0 ? images[0] : "");
   const safeFeatures = Array.isArray(features) ? features : [];
   
-  const displayTitle = typeof title === 'object' && title !== null ? (title[language] || title.en || "") : (title || "");
-  const displayDescription = typeof description === 'object' && description !== null ? (description[language] || description.en || "") : (description || "");
+  const displayTitle = typeof title === 'object' && title !== null ? ((title as any)[language] || (title as any).en || "") : (title || "");
+  const displayDescription = typeof description === 'object' && description !== null ? ((description as any)[language] || (description as any).en || "") : (description || "");
 
   const handleAddToCart = () => {
     addToCart({ id, title, price, imageUrl: displayImage });
@@ -103,8 +103,8 @@ export function HeroProductCard({ id, title, description, price, features, image
 
   const safeFeatures = Array.isArray(features) ? features : [];
   
-  const displayTitle = typeof title === 'object' && title !== null ? (title[language] || title.en || "") : (title || "");
-  const displayDescription = typeof description === 'object' && description !== null ? (description[language] || description.en || "") : (description || "");
+  const displayTitle = typeof title === 'object' && title !== null ? ((title as any)[language] || (title as any).en || "") : (title || "");
+  const displayDescription = typeof description === 'object' && description !== null ? ((description as any)[language] || (description as any).en || "") : (description || "");
 
   const handleAddToCart = () => {
     addToCart({ id, title, price, imageUrl: imageUrl });
