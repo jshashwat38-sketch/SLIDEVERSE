@@ -1,0 +1,18 @@
+{
+  "hero": {
+    "title": "Architectural Mastery <br /> <span class=\"text-primary neon-text\">Digital Curations</span>",
+    "subtitle": "Professional digital repositories engineered for high-end digital storytelling. Precision. Elegance. Authority.",
+    "badge": "Vanguard Collection 2024",
+    "image": "/assets/hero_v3.png"
+  },
+  "about": {
+    "title": "The Digital <span class=\"text-primary\">Atelier</span>",
+    "description": "We are a specialized laboratory of digital architects, dedicated to engineering the most sophisticated presentation frameworks in the modern era.",
+    "image": "/assets/hero_v2.png"
+  },
+  "story": {
+    "title": "The Genesis <br /> <span class=\"text-primary\">Philosophy</span>",
+    "subtitle": "Slideverse was born from a singular need: to bridge the gap between architectural precision and digital storytelling.",
+    "image": "/assets/story_v2.png"
+  }
+}

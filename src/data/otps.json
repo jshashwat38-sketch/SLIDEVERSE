@@ -1,0 +1,32 @@
+[
+  {
+    "email": "demo@slideverse.pro",
+    "otp": "173047",
+    "expires": 1776848735462
+  },
+  {
+    "email": "tester@gmail.com",
+    "otp": "279273",
+    "expires": 1776850013373
+  },
+  {
+    "email": "john.doe@gmail.com",
+    "otp": "257533",
+    "expires": 1776855366676
+  },
+  {
+    "email": "testuser@gmail.com",
+    "otp": "567891",
+    "expires": 1776856298806
+  },
+  {
+    "email": "shashwat@gmail.com",
+    "otp": "713514",
+    "expires": 1776856737075
+  },
+  {
+    "email": "jshashwat38@gmail.com",
+    "otp": "330380",
+    "expires": 1776856997068
+  }
+]

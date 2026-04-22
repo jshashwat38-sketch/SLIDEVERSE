@@ -1,0 +1,77 @@
+[
+  {
+    "title": "Test Product",
+    "description": "Test description",
+    "driveLink": "https://google.com",
+    "categoryId": "cat-mobile",
+    "images": [],
+    "imageUrl": "",
+    "faqs": [],
+    "id": "prod-1776773158601",
+    "price": 10,
+    "features": [
+      "Feature 1",
+      "Feature 2"
+    ]
+  },
+  {
+    "title": "Test Product 2",
+    "description": "This is a second test product description.",
+    "driveLink": "https://example.com/test2",
+    "categoryId": "cat-mobile",
+    "images": [],
+    "imageUrl": "",
+    "faqs": [],
+    "id": "prod-1776777374978",
+    "price": 99,
+    "features": [
+      "Feature 1",
+      "Feature 2"
+    ]
+  },
+  {
+    "title": "Test Product",
+    "description": "This is a test product description.",
+    "driveLink": "https://example.com/test",
+    "categoryId": "cat-mobile",
+    "images": [],
+    "imageUrl": "",
+    "faqs": [],
+    "id": "prod-1776777525989",
+    "price": 99,
+    "features": [
+      "Feature 1",
+      "Feature 2"
+    ]
+  },
+  {
+    "title": "Fixed Business Product",
+    "description": "Test Business Description",
+    "driveLink": "https://example.com/fixed",
+    "categoryId": "cat-business",
+    "images": [],
+    "imageUrl": "",
+    "faqs": [],
+    "id": "prod-1776777915150",
+    "price": 150,
+    "features": [
+      "Fix A",
+      "Fix B"
+    ]
+  },
+  {
+    "title": "Fixed Business Product",
+    "description": "Test Description",
+    "driveLink": "https://example.com/fixed",
+    "categoryId": "cat-business",
+    "images": [],
+    "imageUrl": "",
+    "faqs": [],
+    "id": "prod-1776778133909",
+    "price": 150,
+    "features": [
+      "Fix A",
+      "Fix B"
+    ]
+  }
+]

@@ -1,0 +1,422 @@
+"use client";
+
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { ArrowRight, Zap, Shield, Sparkles, Mail, Phone, Send } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getProducts } from "@/actions/productActions";
+import { getAppearance, getReviews, saveGrievance } from "@/actions/adminActions";
+import { toast } from "react-hot-toast";
+import { ProductCard, HeroProductCard } from "@/components/products/ProductCards";
+import { useLanguage } from "@/context/LanguageContext";
+
+export default function HomePage() {
+  const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
+  const [appearance, setAppearance] = useState<any>(null);
+  const [reviews, setReviews] = useState<any[]>([]);
+  const { t, language } = useLanguage();
+
+  useEffect(() => {
+    getProducts().then(setFeaturedProducts);
+    getAppearance().then(setAppearance);
+    getReviews().then(setReviews);
+  }, []);
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2, delayChildren: 0.1 }
+    }
+  };
+
+  const itemVariants: any = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
+  };
+
+  return (
+    <div className="overflow-hidden bg-background selection:bg-primary selection:text-black font-sans">
+      {/* Subtle Dynamic Scanline */}
+      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.02] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]" />
+
+      {/* Hero Section - Refined */}
+      <section className="relative pt-24 pb-32 min-h-[85vh] flex items-center">
+        <div className="absolute inset-0 -z-10 overflow-hidden">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#141414_1px,transparent_1px),linear-gradient(to_bottom,#141414_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+          
+          {/* Subtle Mesh Glows */}
+          <div className="absolute top-[-5%] left-[-5%] w-[40%] h-[40%] bg-primary/10 blur-[100px] rounded-full" />
+          <div className="absolute bottom-[-5%] right-[-5%] w-[30%] h-[30%] bg-blue-500/5 blur-[120px] rounded-full" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center relative z-10">
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="text-left"
+          >
+            <motion.div 
+              variants={itemVariants} 
+              className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-xl text-primary font-bold px-5 py-2.5 rounded-xl mb-8 text-[9px] uppercase tracking-[0.4em] border border-white/5"
+            >
+              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+              {t("hero_badge")}
+            </motion.div>
+            
+            <motion.h1 
+              variants={itemVariants} 
+              className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-white mb-8 leading-[1.1] tracking-tight italic uppercase"
+              dangerouslySetInnerHTML={{ __html: appearance?.hero?.title || t("hero_title") }}
+            />
+            
+            <motion.p 
+              variants={itemVariants} 
+              className="text-lg md:text-xl text-zinc-400 mb-12 max-w-lg leading-relaxed font-medium tracking-normal"
+            >
+              {appearance?.hero?.subtitle || t("hero_subtitle")}
+            </motion.p>
+            
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-6">
+              <Link href="#featured" className="group relative w-full sm:w-auto">
+                <button className="relative w-full sm:w-auto bg-primary hover:bg-white text-black px-10 py-5 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-3 uppercase tracking-wider italic">
+                  {t("explore_collection")} <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                </button>
+              </Link>
+              <Link href="/signin" className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white px-10 py-5 rounded-xl font-bold text-base transition-all border border-white/5 uppercase tracking-wider italic text-center">
+                {t("sign_in_securely")}
+              </Link>
+            </motion.div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+            className="relative lg:block lg:w-[90%] mx-auto mt-16 lg:mt-0"
+          >
+            <div className="relative z-10 group overflow-hidden rounded-[2.5rem] md:rounded-[3rem] border border-white/5 bg-black/20 backdrop-blur-sm p-2">
+              <img 
+                src={appearance?.hero?.image || "/assets/hero_v3.png"} 
+                alt="Elegant Tech Visual" 
+                className="w-full h-auto object-cover rounded-[2.3rem] md:rounded-[2.8rem] opacity-90 group-hover:opacity-100 transition-opacity duration-1000" 
+              />
+              <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 bg-black/60 backdrop-blur-2xl border border-white/10 p-4 md:p-6 rounded-2xl z-20">
+                <div className="text-primary font-bold italic uppercase tracking-tighter text-lg md:text-xl">{appearance?.hero?.badge || "Core.v3"}</div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Featured Products Section - Refined */}
+      {featuredProducts.length > 0 && (
+        <section id="featured" className="py-32 relative border-t border-white/5">
+          <div className="max-w-7xl mx-auto px-6 mb-20">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center max-w-2xl mx-auto"
+            >
+              <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-6 tracking-tight italic uppercase">
+                Elite <span className="text-primary">Acquisitions</span>
+              </h2>
+              <p className="text-lg text-zinc-500 font-medium leading-relaxed">
+                Refined architectural frameworks for professional digital storytellers.
+              </p>
+            </motion.div>
+          </div>
+          
+          <div className="max-w-7xl mx-auto px-6 space-y-24">
+            <HeroProductCard {...featuredProducts[0]} />
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              {featuredProducts.slice(1, 4).map((product, index) => (
+                <motion.div 
+                  key={product.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1, duration: 0.8 }}
+                >
+                  <ProductCard {...product} />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* About Us Section - RESTORED IMAGE */}
+      <section id="about" className="py-32 relative overflow-hidden bg-black/40">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="relative lg:w-[110%] -ml-[5%]"
+          >
+            <div className="absolute inset-0 bg-primary/10 blur-[120px] rounded-full" />
+            <div className="relative z-10 p-2 bg-gradient-to-br from-primary/20 to-transparent rounded-[3.2rem]">
+              <img 
+                src={appearance?.about?.image || "/assets/hero_v2.png"} 
+                alt="Elite Workspace" 
+                className="rounded-[3rem] border border-white/10 shadow-[0_0_50px_rgba(197,165,114,0.1)] opacity-90 hover:opacity-100 transition-all duration-700" 
+              />
+            </div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="relative"
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-[1px] bg-primary/30" />
+              <span className="text-[10px] font-black text-primary uppercase tracking-[0.5em] italic">Established Excellence</span>
+            </div>
+            <h2 
+              className="text-5xl md:text-6xl font-heading font-bold text-white mb-8 tracking-tighter italic uppercase leading-[0.9]"
+              dangerouslySetInnerHTML={{ __html: appearance?.about?.title || 'The Digital <span class="text-primary">Atelier</span>' }}
+            />
+            <p className="text-xl text-zinc-400 mb-12 leading-relaxed font-medium italic border-l-2 border-primary/20 pl-8">
+              {appearance?.about?.description || "We are a specialized laboratory of digital architects, dedicated to engineering the most sophisticated presentation frameworks in the modern era."}
+            </p>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <div className="bg-white/[0.02] p-8 rounded-[2rem] border border-white/5 hover:border-primary/30 transition-all group">
+                <div className="text-primary font-black text-3xl mb-2 tracking-tighter italic group-hover:scale-110 transition-transform origin-left">99.9%</div>
+                <div className="text-zinc-500 text-[10px] uppercase tracking-[0.3em] font-black">Precision Engineering</div>
+              </div>
+              <div className="bg-white/[0.02] p-8 rounded-[2rem] border border-white/5 hover:border-primary/30 transition-all group">
+                <div className="text-primary font-black text-3xl mb-2 tracking-tighter italic group-hover:scale-110 transition-transform origin-left">24/7</div>
+                <div className="text-zinc-500 text-[10px] uppercase tracking-[0.3em] font-black">Tactical Support</div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Story Section - Expanded & Fuller */}
+      <section id="story" className="py-40 bg-[#070708] relative overflow-hidden border-y border-white/5">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(197,165,114,0.05),transparent_50%)]" />
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center mb-40">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="relative lg:order-2"
+            >
+              <div className="absolute -inset-4 bg-primary/10 blur-3xl rounded-[4rem] opacity-50" />
+              <img 
+                src={appearance?.story?.image || "/assets/story_v2.png"} 
+                alt="Creative Vision" 
+                className="relative z-10 rounded-[3.5rem] border border-white/10 shadow-2xl hover:scale-[1.02] transition-all duration-700" 
+              />
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="lg:order-1"
+            >
+              <div className="flex items-center gap-3 mb-8">
+                <Sparkles className="w-5 h-5 text-primary animate-pulse" />
+                <span className="text-[10px] font-black text-primary uppercase tracking-[0.6em] italic">The Genesis Project</span>
+              </div>
+              <h2 
+                className="text-5xl md:text-7xl font-heading font-bold text-white mb-10 tracking-tighter italic uppercase leading-[0.85]"
+                dangerouslySetInnerHTML={{ __html: appearance?.story?.title || `Beyond the <br /> <span class="text-primary">Standard</span>` }}
+              />
+              <p className="text-xl text-zinc-500 mb-12 leading-relaxed font-medium italic border-l-4 border-primary/20 pl-8">
+                {appearance?.story?.subtitle || "Elevating professional narratives into cinematic experiences of architectural clarity."}
+              </p>
+              
+              <div className="bg-white/[0.03] p-10 rounded-[2.5rem] border border-white/5 hover:border-primary/20 transition-all group relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl -mr-16 -mt-16 group-hover:bg-primary/10 transition-colors" />
+                <h4 className="text-2xl font-heading font-bold text-white mb-6 uppercase tracking-widest italic flex items-center gap-4">
+                  <Zap className="w-6 h-6 text-primary" /> Our Mission
+                </h4>
+                <p className="text-zinc-500 leading-relaxed text-lg font-medium">Slideverse was founded on a singular principle: that every idea of value deserves a medium of equal quality. We bridge the gap between complex intelligence and visual impact.</p>
+              </div>
+            </motion.div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {[
+              { title: "Architectural Integrity", desc: "Every slide is built on a foundation of structural perfection." },
+              { title: "Cinematic Motion", desc: "Transitions that bridge the gap between presentation and cinema." },
+              { title: "Tactical Delivery", desc: "Engineered for high-stakes environments where clarity is paramount." }
+            ].map((pillar, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="p-12 rounded-[3rem] bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] hover:border-primary/30 transition-all text-center group"
+              >
+                <div className="text-primary font-black uppercase tracking-[0.4em] text-[10px] mb-6 group-hover:tracking-[0.6em] transition-all">Pillar 0{i+1}</div>
+                <h4 className="text-white font-bold text-2xl mb-6 italic uppercase tracking-tighter">{pillar.title}</h4>
+                <p className="text-zinc-500 text-base leading-relaxed font-medium">{pillar.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section - Client Transmissions */}
+      <section id="testimonials" className="py-32 relative overflow-hidden bg-[#09090B]">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-20"
+          >
+            <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-6 tracking-tight italic uppercase">
+              Client <span className="text-primary">Transmissions</span>
+            </h2>
+            <p className="text-sm text-zinc-500 uppercase tracking-[0.3em] font-bold">Verified Intelligence from the Field</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {(reviews.length > 0 ? reviews : [
+              { 
+                name: "AR. VIKRAM SETH", 
+                role: "LEAD ARCHITECT", 
+                text: "The structural precision of these templates is unparalleled. It's not just a slide; it's a blueprint for successful delivery.",
+                code: "SIGMA-01"
+              },
+              { 
+                name: "SARAH CHEN", 
+                role: "CREATIVE DIRECTOR", 
+                text: "Finally, a platform that understands the intersection of high-stakes business and cinematic storytelling.",
+                code: "SIGMA-02"
+              },
+              { 
+                name: "MARCUS VANCE", 
+                role: "VENTURE PARTNER", 
+                text: "In the world of high-value acquisitions, clarity is everything. Slideverse provides the tactical edge we need.",
+                code: "SIGMA-03"
+              }
+            ]).map((testimonial: any, i: number) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-white/[0.03] backdrop-blur-sm p-10 rounded-[2.5rem] border border-white/5 relative group hover:border-primary/20 transition-all"
+              >
+                <div className="absolute top-8 right-8 text-primary/20 group-hover:text-primary/40 transition-colors">
+                  <Sparkles className="w-8 h-8" />
+                </div>
+                <div className="text-zinc-600 text-[8px] font-bold uppercase tracking-[0.4em] mb-6">Encrypted Feed // {testimonial.code}</div>
+                <p className="text-zinc-300 text-lg leading-relaxed font-medium italic mb-10">
+                  "{typeof testimonial.text === 'object' ? (testimonial.text[language] || testimonial.text.en) : testimonial.text}"
+                </p>
+                <div className="border-t border-white/5 pt-8">
+                  <div className="text-white font-bold text-sm uppercase tracking-widest">
+                    {typeof testimonial.name === 'object' ? (testimonial.name[language] || testimonial.name.en) : testimonial.name}
+                  </div>
+                  <div className="text-primary text-[9px] font-bold uppercase tracking-[0.3em] mt-1">
+                    {typeof testimonial.role === 'object' ? (testimonial.role[language] || testimonial.role.en) : testimonial.role}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Us Section - Refined */}
+      <section id="contact" className="py-24 md:py-32 relative border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-16 md:gap-20">
+          <div className="lg:col-span-1">
+            <div className="flex items-center gap-3 mb-8">
+              <Sparkles className="w-5 h-5 text-primary animate-pulse" />
+              <span className="text-[10px] font-black text-primary uppercase tracking-[0.6em] italic">The Relay Hub</span>
+            </div>
+            <h2 className="text-4xl md:text-6xl font-heading font-bold text-white mb-10 tracking-tighter italic uppercase leading-[0.9]">Establish <br /> <span className="text-primary">Contact</span></h2>
+            
+            <div className="space-y-8">
+              <div className="flex items-center gap-6 group">
+                <div className="w-12 h-12 md:w-16 md:h-16 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:border-primary/40 transition-colors">
+                  <Mail className="w-5 h-5 md:w-6 md:h-6 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-[8px] font-black text-zinc-600 uppercase tracking-[0.4em] mb-1">Direct Relay</h3>
+                  <p className="text-sm md:text-lg text-white font-bold tracking-tight">slideversestudio@gmail.com</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-6 group">
+                <div className="w-12 h-12 md:w-16 md:h-16 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:border-primary/40 transition-colors">
+                  <Phone className="w-5 h-5 md:w-6 md:h-6 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-[8px] font-black text-zinc-600 uppercase tracking-[0.4em] mb-1">Secure Line</h3>
+                  <p className="text-sm md:text-lg text-white font-bold tracking-tight">+1 (800) SLIDEVERSE</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-2">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-white/[0.03] to-transparent backdrop-blur-3xl p-8 md:p-12 lg:p-16 rounded-[3rem] md:rounded-[4rem] border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.5)] relative overflow-hidden group"
+            >
+              <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[120px] -mr-32 -mt-32 pointer-events-none" />
+              <form className="space-y-8 md:space-y-10 relative z-10" onSubmit={async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const data = {
+                  name: formData.get("name"),
+                  email: formData.get("email"),
+                  message: formData.get("message")
+                };
+                const res = await saveGrievance(data);
+                if (res.success) {
+                  toast.success("Broadcast successful. Comms channel open.");
+                  (e.target as HTMLFormElement).reset();
+                }
+              }}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+                  <div className="space-y-3">
+                    <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.5em] ml-4">Identity Protocol</label>
+                    <input name="name" type="text" required placeholder="ENTER NAME..." className="w-full bg-black/40 border border-white/5 rounded-2xl px-6 md:px-8 py-4 md:py-5 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
+                  </div>
+                  <div className="space-y-3">
+                    <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.5em] ml-4">Relay Endpoint</label>
+                    <input name="email" type="email" required placeholder="ENTER EMAIL..." className="w-full bg-black/40 border border-white/5 rounded-2xl px-6 md:px-8 py-4 md:py-5 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.5em] ml-4">Intelligence Data</label>
+                  <textarea name="message" required rows={5} placeholder="COMPOSE TRANSMISSION..." className="w-full bg-black/40 border border-white/5 rounded-2xl px-6 md:px-8 py-4 md:py-5 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800 resize-none"></textarea>
+                </div>
+                <button type="submit" className="group relative w-full py-5 md:py-6 bg-primary overflow-hidden rounded-2xl transition-all shadow-[0_0_40px_rgba(197,165,114,0.2)] hover:shadow-[0_0_60px_rgba(197,165,114,0.4)] active:scale-[0.98]">
+                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                  <span className="relative z-10 flex items-center justify-center gap-4 text-black font-black text-lg md:text-xl uppercase tracking-[0.3em] italic">
+                    <Send className="w-5 h-5 md:w-6 md:h-6" />
+                    Execute Broadcast
+                  </span>
+                </button>
+              </form>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
