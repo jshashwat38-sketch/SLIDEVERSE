@@ -45,7 +45,7 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
     >
       <Link href={`/product/${id}`} className="block h-48 bg-black relative shrink-0 overflow-hidden cursor-pointer">
         <img 
-          src={displayImage || "/placeholder-product.png"} 
+          src={displayImage || "https://placehold.co/600x400?text=No+Image"} 
           alt={title} 
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100" 
           onError={(e) => {
@@ -159,7 +159,7 @@ export function HeroProductCard({ id, title, description, price, features, image
 
       <Link href={`/product/${id}`} className="w-full lg:w-1/2 relative min-h-[300px] md:min-h-[400px] lg:min-h-full overflow-hidden cursor-pointer order-1 lg:order-2">
         <img 
-          src={imageUrl || "/placeholder-product.png"} 
+          src={imageUrl || "https://placehold.co/600x400?text=No+Image"} 
           alt={title} 
           className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2000ms] opacity-80 group-hover:opacity-100" 
           onError={(e) => {
