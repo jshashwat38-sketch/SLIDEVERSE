@@ -73,7 +73,7 @@ export default function CheckoutPage({ params }: { params: Promise<{ id: string 
     
     try {
       const res = await createRazorpayOrder(productPrice);
-      if (!res.success) {
+      if (!res.success || !res.order) {
         setError("Failed to initialize secure payment.");
         setIsSubmitting(false);
         return;

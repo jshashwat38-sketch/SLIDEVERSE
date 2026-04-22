@@ -92,7 +92,7 @@ export default function SignUpPage() {
       setTimer(60);
       setStep("otp");
     } else {
-      setError(res.error || "Failed to dispatch verification sequence.");
+      setError((res as any).error || "Failed to dispatch verification sequence.");
     }
   };
 
@@ -125,7 +125,7 @@ export default function SignUpPage() {
     
     if (!otpRes.success) {
       setIsError(true);
-      setError(otpRes.error || "Invalid verification sequence.");
+      setError((otpRes as any).error || "Invalid verification sequence.");
       setIsLoading(false);
       setTimeout(() => setIsError(false), 500);
       return;

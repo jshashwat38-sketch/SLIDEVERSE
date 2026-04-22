@@ -35,7 +35,7 @@ export default function CartPage() {
     setIsProcessing(true);
     try {
       const res = await createRazorpayOrder(totalPrice);
-      if (!res.success) {
+      if (!res.success || !res.order) {
         toast.error("Failed to initialize secure payment.");
         setIsProcessing(false);
         return;

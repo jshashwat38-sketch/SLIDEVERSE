@@ -60,11 +60,11 @@ export default function ForgotPasswordPage() {
     setIsLoading(false);
     
     if (res.success) {
-      toast.success(res.message || "Authorization sequence dispatched");
+      toast.success((res as any).message || "Authorization sequence dispatched");
       setTimer(60);
       setStep("otp");
     } else {
-      toast.error(res.error || "System failure during dispatch");
+      toast.error((res as any).error || "System failure during dispatch");
     }
   };
 
@@ -84,7 +84,7 @@ export default function ForgotPasswordPage() {
       setStep("reset");
     } else {
       setIsError(true);
-      toast.error(res.error || "Invalid OTP");
+      toast.error((res as any).error || "Invalid OTP");
       setTimeout(() => setIsError(false), 500);
     }
   };
@@ -128,7 +128,7 @@ export default function ForgotPasswordPage() {
     if (res.success) {
       setStep("success");
     } else {
-      toast.error(res.error || "Failed to reset password");
+      toast.error((res as any).error || "Failed to reset password");
     }
   };
 

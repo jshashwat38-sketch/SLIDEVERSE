@@ -84,7 +84,7 @@ export default function ProductDetailsPage() {
   const handleAcquire = async () => {
     try {
       const res = await createRazorpayOrder(product.price);
-      if (!res.success) {
+      if (!res.success || !res.order) {
         toast.error("Failed to initiate secure payment.");
         return;
       }
