@@ -196,17 +196,6 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           )}
         </div>
       </nav>
-      {isAdmin && (
-        <div className="p-4 border-t border-white/5 bg-black/20">
-          <Link 
-            href="/admin" 
-            className="flex items-center gap-3 px-4 py-3 text-sm text-zinc-500 hover:text-white hover:bg-white/10 rounded-xl transition-all font-medium group"
-          >
-            <LayoutDashboard className="w-4 h-4 group-hover:text-primary" />
-            {t("admin_dashboard")}
-          </Link>
-        </div>
-      )}
     </aside>
   );
 }
