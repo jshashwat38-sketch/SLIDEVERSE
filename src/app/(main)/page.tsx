@@ -94,14 +94,13 @@ export default function HomePage() {
             )}
             
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-6">
-
-              <Link href="#featured" className="group relative w-full sm:w-auto">
+              <Link href={appearance?.buttons?.primary?.link || "#featured"} className="group relative w-full sm:w-auto">
                 <button className="relative w-full sm:w-auto bg-primary hover:bg-white text-black px-10 py-5 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-3 uppercase tracking-wider italic">
-                  {t("explore_collection")} <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                  {appearance?.buttons?.primary?.label || t("explore_collection")} <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
                 </button>
               </Link>
-              <Link href="/signin" className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white px-10 py-5 rounded-xl font-bold text-base transition-all border border-white/5 uppercase tracking-wider italic text-center">
-                {t("sign_in_securely")}
+              <Link href={appearance?.buttons?.secondary?.link || "/signin"} className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white px-10 py-5 rounded-xl font-bold text-base transition-all border border-white/5 uppercase tracking-wider italic text-center">
+                {appearance?.buttons?.secondary?.label || t("sign_in_securely")}
               </Link>
             </motion.div>
           </motion.div>

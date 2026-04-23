@@ -10,6 +10,7 @@ export default function AdminProducts() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [products, setProducts] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -45,17 +46,17 @@ export default function AdminProducts() {
     setFormData({ title: "", description: "", price: "", driveLink: "", features: "", categoryId: categories[0]?.id || "" });
     setImageUrls(["", "", "", "", "", ""]);
     setImageFiles([null, null, null, null, null, null]);
-    setFaqs(Array(7).fill({question: "", answer: ""}));
+    setFaqs(Array.from({ length: 7 }, () => ({ question: "", answer: "" })));
   };
 
   const handleEditClick = (product: any) => {
     setFormData({
-      title: product.title,
-      description: product.description,
+      title: typeof product.title === 'object' ? (product.title.en || Object.values(product.title)[0]) : product.title,
+      description: typeof product.description === 'object' ? (product.description.en || Object.values(product.description)[0]) : product.description,
       price: product.price.toString(),
-      driveLink: product.driveLink,
-      features: product.features.join(", "),
-      categoryId: product.categoryId
+      driveLink: product.drive_link || "",
+      features: Array.isArray(product.features) ? product.features.join(", ") : "",
+      categoryId: product.category_id || ""
     });
     
     const existingImages = product.images || [product.imageUrl];
@@ -65,7 +66,7 @@ export default function AdminProducts() {
     });
     
     const existingFaqs = product.faqs || [];
-    const newFaqs = Array(7).fill({question: "", answer: ""});
+    const newFaqs = Array.from({ length: 7 }, () => ({ question: "", answer: "" }));
     existingFaqs.forEach((faq: any, i: number) => {
       if (i < 7) newFaqs[i] = faq;
     });
@@ -114,7 +115,9 @@ export default function AdminProducts() {
       }
     });
     
+    setIsSubmitting(true);
     const res = editingId ? await updateProduct(editingId, data) : await addProduct(data);
+    setIsSubmitting(false);
     
     if (res.success) {
       await fetchProducts(); // Refresh list first
@@ -362,7 +365,7 @@ export default function AdminProducts() {
                   type="submit"
                   className="bg-primary hover:bg-primary-hover text-black px-12 py-5 rounded-[1.5rem] font-black text-xl transition-all shadow-[0_0_20px_rgba(212,255,0,0.3)] hover:shadow-[0_0_50px_rgba(212,255,0,0.5)] hover:-translate-y-1 uppercase tracking-widest italic"
                 >
-                  Execute Deployment
+                  {isSubmitting ? "Processing..." : "Execute Deployment"}
                 </button>
               </div>
             </form>

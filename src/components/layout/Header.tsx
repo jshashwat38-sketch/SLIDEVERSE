@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Search, ShoppingCart, User as UserIcon, LogOut, Menu } from "lucide-react";
+import { Search, ShoppingCart, User as UserIcon, LogOut, Menu, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import { useState } from "react";

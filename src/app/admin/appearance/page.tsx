@@ -202,6 +202,70 @@ export default function AppearancePage() {
           </div>
         </div>
 
+        {/* Call to Action Buttons */}
+        <div className="bg-card/40 backdrop-blur-3xl p-10 rounded-[3rem] border border-white/5 relative overflow-hidden">
+          <div className="flex items-center gap-4 mb-10 pb-6 border-b border-white/5">
+            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
+              <Save className="w-5 h-5" />
+            </div>
+            <h2 className="text-2xl font-black text-white uppercase italic tracking-tighter">Strategic Call to Action</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full border border-primary/20 mb-4">
+                <span className="text-[8px] font-black text-primary uppercase tracking-widest">Primary Objective</span>
+              </div>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] ml-2">Button Label</label>
+                  <input 
+                    value={appearance?.buttons?.primary?.label || ""}
+                    onChange={(e) => setAppearance({...appearance, buttons: {...(appearance.buttons || {}), primary: {...(appearance.buttons?.primary || {}), label: e.target.value}}})}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-xs font-bold uppercase focus:outline-none focus:border-primary transition-all"
+                    placeholder="ACQUIRE NOW"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] ml-2">Action Destination (Link)</label>
+                  <input 
+                    value={appearance?.buttons?.primary?.link || ""}
+                    onChange={(e) => setAppearance({...appearance, buttons: {...(appearance.buttons || {}), primary: {...(appearance.buttons?.primary || {}), link: e.target.value}}})}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-[10px] font-mono focus:outline-none focus:border-primary transition-all"
+                    placeholder="/#catalog"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10 mb-4">
+                <span className="text-[8px] font-black text-zinc-500 uppercase tracking-widest">Secondary Intelligence</span>
+              </div>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] ml-2">Button Label</label>
+                  <input 
+                    value={appearance?.buttons?.secondary?.label || ""}
+                    onChange={(e) => setAppearance({...appearance, buttons: {...(appearance.buttons || {}), secondary: {...(appearance.buttons?.secondary || {}), label: e.target.value}}})}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-xs font-bold uppercase focus:outline-none focus:border-primary transition-all"
+                    placeholder="LEARN MORE"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] ml-2">Action Destination (Link)</label>
+                  <input 
+                    value={appearance?.buttons?.secondary?.link || ""}
+                    onChange={(e) => setAppearance({...appearance, buttons: {...(appearance.buttons || {}), secondary: {...(appearance.buttons?.secondary || {}), link: e.target.value}}})}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-[10px] font-mono focus:outline-none focus:border-primary transition-all"
+                    placeholder="/#story"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Hero Section */}
         <div className="bg-card/40 backdrop-blur-3xl p-10 rounded-[3rem] border border-white/5 relative overflow-hidden">
           <div className="flex items-center gap-4 mb-10 pb-6 border-b border-white/5">

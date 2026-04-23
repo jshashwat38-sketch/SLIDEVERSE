@@ -7,9 +7,26 @@ export type UploadResult =
   | { success: false; error: string };
 
 export async function uploadImage(formData: FormData): Promise<UploadResult> {
-  // Image uploads to local public/uploads will NOT work on Netlify.
-  // Real implementation would use Supabase Storage.
-  return { success: false, error: "Local uploads disabled for production. Please use external URLs." };
+  try {
+    const file = formData.get("imageFile") as File;
+    if (!file) return { success: false, error: "No file provided" };
+
+    const filename = `appearance/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+    const { data, error } = await supabase.storage
+      .from("product-images")
+      .upload(filename, file);
+
+    if (error) throw error;
+
+    const { data: publicUrlData } = supabase.storage
+      .from("product-images")
+      .getPublicUrl(filename);
+
+    return { success: true, url: publicUrlData.publicUrl };
+  } catch (error: any) {
+    console.error("Upload error:", error);
+    return { success: false, error: error.message || "Failed to upload image" };
+  }
 }
 
 // --- CATEGORIES ---
@@ -100,6 +117,10 @@ export async function getAppearance() {
       email: "support@slideverse.pro",
       mobile: "+91 99999 99999"
     },
+    buttons: {
+      primary: { label: "Acquire Now", link: "/#catalog" },
+      secondary: { label: "Learn More", link: "/#story" }
+    },
     policies: {
       userAgreement: "Standard User Agreement text...",
       shipping: "Shipping Policy details...",
@@ -132,6 +153,7 @@ export async function getAppearance() {
       story: { ...defaultAppearance.story, ...(data.data?.story || {}) },
       site: { ...defaultAppearance.site, ...(data.data?.site || {}) },
       contact: { ...defaultAppearance.contact, ...(data.data?.contact || {}) },
+      buttons: { ...defaultAppearance.buttons, ...(data.data?.buttons || {}) },
       policies: { ...defaultAppearance.policies, ...(data.data?.policies || {}) }
     };
 
