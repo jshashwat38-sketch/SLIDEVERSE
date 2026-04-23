@@ -16,11 +16,15 @@ export default function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
   const [appearance, setAppearance] = useState<any>(null);
   const [reviews, setReviews] = useState<any[]>([]);
+  const [isLoadingAppearance, setIsLoadingAppearance] = useState(true);
   const { t, language } = useLanguage();
 
   useEffect(() => {
     getProducts().then(setFeaturedProducts);
-    getAppearance().then(setAppearance);
+    getAppearance().then((data) => {
+      setAppearance(data);
+      setIsLoadingAppearance(false);
+    });
     getReviews().then(setReviews);
   }, []);
 
@@ -68,18 +72,26 @@ export default function HomePage() {
               {t("hero_badge")}
             </motion.div>
             
-            <motion.h1 
-              variants={itemVariants} 
-              className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-white mb-8 leading-[1.1] tracking-tight italic uppercase"
-              dangerouslySetInnerHTML={{ __html: getLangString(appearance?.hero?.title, language) || t("hero_title") }}
-            />
+            {isLoadingAppearance ? (
+              <div className="h-20 w-3/4 bg-white/5 animate-pulse rounded-2xl mb-8" />
+            ) : (
+              <motion.h1 
+                variants={itemVariants} 
+                className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-white mb-8 leading-[1.1] tracking-tight italic uppercase"
+                dangerouslySetInnerHTML={{ __html: getLangString(appearance?.hero?.title, language) || t("hero_title") }}
+              />
+            )}
             
-            <motion.p 
-              variants={itemVariants} 
-              className="text-lg md:text-xl text-zinc-400 mb-12 max-w-lg leading-relaxed font-medium tracking-normal"
-            >
-              {getLangString(appearance?.hero?.subtitle, language) || t("hero_subtitle")}
-            </motion.p>
+            {isLoadingAppearance ? (
+              <div className="h-6 w-1/2 bg-white/5 animate-pulse rounded-lg mb-12" />
+            ) : (
+              <motion.p 
+                variants={itemVariants} 
+                className="text-lg md:text-xl text-zinc-400 mb-12 max-w-lg leading-relaxed font-medium tracking-normal"
+              >
+                {getLangString(appearance?.hero?.subtitle, language) || t("hero_subtitle")}
+              </motion.p>
+            )}
             
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-6">
 
