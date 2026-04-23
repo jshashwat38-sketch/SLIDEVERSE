@@ -2,18 +2,17 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #09090B;
+  --color-background: #050505;
   --color-foreground: #FAFAFA;
-  --color-primary: #FFD700;
-  --color-primary-hover: #FFEA00;
-  --color-royal-blue: #002366;
-  --color-sidebar: #0C0C0E;
+  --color-primary: #C5A572;
+  --color-primary-hover: #D9B986;
+  --color-sidebar: #080808;
   --color-sidebar-foreground: #A1A1AA;
-  --color-card: #121214;
+  --color-card: #0A0A0C;
   --color-card-foreground: #FAFAFA;
   --color-gray-900: #FAFAFA;
   --color-gray-600: #A1A1AA;
-  --color-gray-100: #27272A;
+  --color-gray-100: #1A1A1C;
   
   --font-sans: 'Inter', sans-serif;
   --font-heading: 'Space Grotesk', sans-serif;
@@ -21,17 +20,16 @@
 }
 
 :root {
-  --background: 240 10% 3.9%;
+  --background: 0 0% 2%;
   --foreground: 0 0% 98%;
-  --primary: 45 100% 50%; /* #FFD700 */
-  --primary-hover: 55 100% 50%;
-  --royal-blue: #002366;
-  --card: 240 10% 5%;
+  --primary: 37 46% 61%; /* #C5A572 */
+  --primary-hover: 37 46% 71%;
+  --card: 240 10% 4%;
   --sidebar: 240 10% 2%;
   --font-sans: 'Inter', sans-serif;
   --font-heading: 'Space Grotesk', sans-serif;
-  --neon-yellow: #FFD700;
-  --neon-glow: rgba(255, 215, 0, 0.3);
+  --logo-gold: #C5A572;
+  --gold-glow: rgba(197, 165, 114, 0.3);
 }
 
 body {
@@ -43,18 +41,18 @@ body {
 }
 
 .neon-border {
-  border: 1px solid var(--neon-yellow);
-  box-shadow: 0 0 10px var(--neon-glow);
+  border: 1px solid var(--logo-gold);
+  box-shadow: 0 0 10px var(--gold-glow);
 }
 
 .neon-text {
-  color: var(--neon-yellow);
-  text-shadow: 0 0 10px var(--neon-glow);
+  color: var(--logo-gold);
+  text-shadow: 0 0 10px var(--gold-glow);
 }
 
 .neon-bg {
-  background-color: var(--neon-yellow);
-  box-shadow: 0 0 20px var(--neon-glow);
+  background-color: var(--logo-gold);
+  box-shadow: 0 0 20px var(--gold-glow);
 }
 
 .animate-spin-slow {

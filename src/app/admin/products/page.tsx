@@ -139,7 +139,7 @@ export default function AdminProducts() {
             if (isAdding) resetForm();
             else setIsAdding(true);
           }}
-          className="bg-primary hover:bg-primary-hover text-black px-8 py-4 rounded-2xl font-black flex items-center gap-2 transition-all shadow-[0_0_15px_rgba(212,255,0,0.2)] hover:shadow-[0_0_25px_rgba(212,255,0,0.4)] hover:-translate-y-0.5 uppercase tracking-widest text-xs"
+          className="bg-primary hover:bg-primary-hover text-black px-8 py-4 rounded-2xl font-black flex items-center gap-2 transition-all shadow-[0_0_15px_rgba(197,165,114,0.2)] hover:shadow-[0_0_25px_rgba(197,165,114,0.4)] hover:-translate-y-0.5 uppercase tracking-widest text-xs"
         >
           {isAdding ? "Cancel Operation" : <><Plus className="w-5 h-5" /> Deploy Product</>}
         </button>
@@ -266,7 +266,7 @@ export default function AdminProducts() {
                             />
                             <label 
                               htmlFor={`image-upload-${index}`}
-                              className={`flex items-center justify-center w-14 h-14 rounded-2xl cursor-pointer transition-all border ${imageFiles[index] ? 'bg-primary text-black border-primary shadow-[0_0_15px_rgba(212,255,0,0.3)]' : 'bg-white/5 text-zinc-500 border-white/10 hover:border-primary/30 hover:bg-primary/5'}`}
+                              className={`flex items-center justify-center w-14 h-14 rounded-2xl cursor-pointer transition-all border ${imageFiles[index] ? 'bg-primary text-black border-primary shadow-[0_0_15px_rgba(197,165,114,0.3)]' : 'bg-white/5 text-zinc-500 border-white/10 hover:border-primary/30 hover:bg-primary/5'}`}
                             >
                               <ImageIcon className="w-5 h-5" />
                             </label>
@@ -363,7 +363,7 @@ export default function AdminProducts() {
                 </button>
                 <button
                   type="submit"
-                  className="bg-primary hover:bg-primary-hover text-black px-12 py-5 rounded-[1.5rem] font-black text-xl transition-all shadow-[0_0_20px_rgba(212,255,0,0.3)] hover:shadow-[0_0_50px_rgba(212,255,0,0.5)] hover:-translate-y-1 uppercase tracking-widest italic"
+                  className="bg-primary hover:bg-primary-hover text-black px-12 py-5 rounded-[1.5rem] font-black text-xl transition-all shadow-[0_0_20px_rgba(197,165,114,0.3)] hover:shadow-[0_0_50px_rgba(197,165,114,0.5)] hover:-translate-y-1 uppercase tracking-widest italic"
                 >
                   {isSubmitting ? "Processing..." : "Execute Deployment"}
                 </button>
@@ -457,7 +457,7 @@ export default function AdminProducts() {
               </p>
               <button 
                 onClick={() => setIsAdding(true)}
-                className="bg-primary hover:bg-primary-hover text-black px-12 py-5 rounded-[1.5rem] font-black text-xl transition-all shadow-[0_0_20px_rgba(212,255,0,0.2)] uppercase tracking-widest italic"
+                className="bg-primary hover:bg-primary-hover text-black px-12 py-5 rounded-[1.5rem] font-black text-xl transition-all shadow-[0_0_20px_rgba(197,165,114,0.2)] uppercase tracking-widest italic"
               >
                 Create First Entry
               </button>

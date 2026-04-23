@@ -274,7 +274,7 @@ export default function SignUpPage() {
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-primary hover:bg-white text-black py-5 rounded-2xl font-black text-lg transition-all shadow-[0_0_30px_rgba(212,255,0,0.2)] hover:shadow-[0_0_50px_rgba(212,255,0,0.4)] hover:-translate-y-1 flex items-center justify-center gap-3 uppercase tracking-widest disabled:opacity-50 italic"
+                    className="w-full bg-primary hover:bg-white text-black py-5 rounded-2xl font-black text-lg transition-all shadow-[0_0_30px_rgba(197,165,114,0.2)] hover:shadow-[0_0_50px_rgba(197,165,114,0.4)] hover:-translate-y-1 flex items-center justify-center gap-3 uppercase tracking-widest disabled:opacity-50 italic"
                   >
                     {isLoading ? (
                       <RefreshCw className="w-6 h-6 animate-spin" />

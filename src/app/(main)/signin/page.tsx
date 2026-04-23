@@ -140,7 +140,7 @@ export default function SignInPage() {
           <button
             type="submit"
             disabled={isLoading || isVerifying}
-            className="w-full bg-primary hover:bg-primary-hover text-black py-5 rounded-2xl font-black text-xl transition-all shadow-[0_0_20px_rgba(212,255,0,0.3)] hover:shadow-[0_0_40px_rgba(212,255,0,0.5)] hover:-translate-y-1 flex items-center justify-center gap-3 uppercase tracking-widest disabled:opacity-50 disabled:hover:translate-y-0"
+            className="w-full bg-primary hover:bg-primary-hover text-black py-5 rounded-2xl font-black text-xl transition-all shadow-[0_0_20px_rgba(197,165,114,0.3)] hover:shadow-[0_0_40px_rgba(197,165,114,0.5)] hover:-translate-y-1 flex items-center justify-center gap-3 uppercase tracking-widest disabled:opacity-50 disabled:hover:translate-y-0"
           >
             {isLoading || isVerifying ? "..." : t("sign_in_securely")}
             {!isLoading && !isVerifying && <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />}

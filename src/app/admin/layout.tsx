@@ -71,7 +71,7 @@ export default function AdminLayout({
         <div className="bg-card p-12 rounded-[3rem] shadow-2xl w-full max-w-md border border-white/5 relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
           
-          <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mb-8 mx-auto border border-primary/20 shadow-[0_0_15px_rgba(212,255,0,0.1)]">
+          <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mb-8 mx-auto border border-primary/20 shadow-[0_0_15px_rgba(197,165,114,0.1)]">
             <Lock className="w-10 h-10 text-primary" />
           </div>
           
@@ -95,7 +95,7 @@ export default function AdminLayout({
             
             <button
               type="submit"
-              className="w-full bg-primary hover:bg-primary-hover text-black py-5 rounded-2xl font-black text-xl transition-all shadow-[0_0_20px_rgba(212,255,0,0.3)] hover:shadow-[0_0_40px_rgba(212,255,0,0.5)] hover:-translate-y-1 uppercase tracking-widest"
+              className="w-full bg-primary hover:bg-primary-hover text-black py-5 rounded-2xl font-black text-xl transition-all shadow-[0_0_20px_rgba(197,165,114,0.3)] hover:shadow-[0_0_40px_rgba(197,165,114,0.5)] hover:-translate-y-1 uppercase tracking-widest"
             >
               Authorize
             </button>
@@ -178,7 +178,7 @@ export default function AdminLayout({
           </button>
         </div>
       </aside>
-      <main className="flex-1 overflow-y-auto bg-[radial-gradient(circle_at_top_right,rgba(212,255,0,0.02),transparent)] mt-16 lg:mt-0">
+      <main className="flex-1 overflow-y-auto bg-[radial-gradient(circle_at_top_right,rgba(197,165,114,0.02),transparent)] mt-16 lg:mt-0">
         <div className="max-w-7xl mx-auto p-6 lg:p-12">
           {children}
         </div>
