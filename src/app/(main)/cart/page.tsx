@@ -6,7 +6,8 @@ import { useAuth } from "@/context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Script from "next/script";
-import { Trash2, Plus, Minus, ArrowRight, ShoppingBag, PlusCircle, ShieldCheck, Zap, RefreshCw } from "lucide-react";
+import { Trash2, Plus, Minus, ArrowRight, ShoppingBag, PlusCircle, ShieldCheck, Zap } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createRazorpayOrder, verifyPayment } from "@/actions/paymentActions";
 import { toast } from "react-hot-toast";
@@ -307,7 +308,12 @@ export default function CartPage() {
               disabled={isProcessing}
               className="w-full bg-primary hover:bg-white text-black py-6 rounded-2xl font-black text-lg transition-all shadow-[0_0_30px_rgba(197,165,114,0.2)] hover:shadow-[0_0_50px_rgba(197,165,114,0.4)] hover:-translate-y-1 flex items-center justify-center gap-3 uppercase tracking-widest italic group disabled:opacity-50"
             >
-              {isProcessing ? <RefreshCw className="w-6 h-6 animate-spin" /> : (
+              {isProcessing ? (
+                <div className="flex items-center gap-3">
+                  <Image src="/logo.png" alt="Logo" width={24} height={24} className="animate-spin" />
+                  <span>Processing...</span>
+                </div>
+              ) : (
                 <>
                   Proceed to Acquisition
                   <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />

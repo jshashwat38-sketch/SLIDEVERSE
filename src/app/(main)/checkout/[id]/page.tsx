@@ -3,7 +3,8 @@
 import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
-import { ArrowLeft, Lock, ShieldCheck, RefreshCw } from "lucide-react";
+import { ArrowLeft, Lock, ShieldCheck } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { getProducts } from "@/actions/productActions";
 import { validateEmail } from "@/utils/validation";
@@ -281,7 +282,10 @@ export default function CheckoutPage({ params }: { params: Promise<{ id: string 
                 className="w-full bg-primary hover:bg-white text-black font-black py-6 px-4 rounded-2xl flex justify-center items-center gap-4 transition-all mt-10 disabled:opacity-50 uppercase tracking-[0.2em] text-lg italic shadow-[0_0_30px_rgba(212,255,0,0.2)]"
               >
                 {isSubmitting ? (
-                  <RefreshCw className="w-6 h-6 animate-spin" />
+                  <div className="flex items-center gap-3">
+                    <Image src="/logo.png" alt="Logo" width={24} height={24} className="animate-spin" />
+                    <span>Processing...</span>
+                  </div>
                 ) : (
                   <>
                     <Lock className="w-5 h-5" />
