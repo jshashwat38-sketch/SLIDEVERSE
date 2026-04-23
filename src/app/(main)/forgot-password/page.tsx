@@ -154,8 +154,8 @@ export default function ForgotPasswordPage() {
               return (
                 <div key={s.id} className="flex flex-col items-center gap-3">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-black transition-all duration-500 ${
-                    isActive ? "bg-primary text-black scale-125 shadow-[0_0_15px_rgba(197,165,114,0.5)]" : 
-                    isPast ? "bg-green-500/20 text-green-500 border border-green-500/30" : 
+                    isActive ? "bg-primary text-black scale-125 shadow-[0_0_15px_rgba(255,215,0,0.5)]" : 
+                    isPast ? "bg-blue-600/20 text-blue-400 border border-blue-600/30" : 
                     "bg-zinc-900 text-zinc-600 border border-white/5"
                   }`}>
                     {isPast ? <CheckCircle2 className="w-4 h-4" /> : idx + 1}
@@ -357,12 +357,12 @@ export default function ForgotPasswordPage() {
               animate={{ opacity: 1, scale: 1 }}
               className="text-center space-y-10"
             >
-              <div className="w-24 h-24 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-green-500/20 shadow-[0_0_30px_rgba(34,197,94,0.1)]">
-                <CheckCircle2 className="w-14 h-14 text-green-500" />
+              <div className="w-24 h-24 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-blue-500/20 shadow-[0_0_30px_rgba(59,130,246,0.1)]">
+                <CheckCircle2 className="w-14 h-14 text-blue-500" />
               </div>
               
               <div>
-                <h1 className="text-4xl font-black text-white italic uppercase tracking-tighter mb-4">Vault <span className="text-green-500">Secured</span></h1>
+                <h1 className="text-4xl font-black text-white italic uppercase tracking-tighter mb-4">Vault <span className="text-blue-500">Secured</span></h1>
                 <p className="text-zinc-500 font-medium tracking-tight">Your credentials have been successfully updated. You may now access the platform.</p>
               </div>
 

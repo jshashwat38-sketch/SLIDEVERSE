@@ -88,7 +88,7 @@ export default function CartPage() {
           email: user.email || "",
         },
         theme: {
-          color: "#D4FF00",
+          color: "#FFD700",
         },
         modal: {
           ondismiss: async function() {

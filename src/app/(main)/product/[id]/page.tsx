@@ -146,7 +146,7 @@ export default function ProductDetailsPage() {
         },
 
         theme: {
-          color: "#D4FF00",
+          color: "#FFD700",
         },
       };
 

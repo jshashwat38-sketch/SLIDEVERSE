@@ -111,7 +111,7 @@ export default function CheckoutPage({ params }: { params: Promise<{ id: string 
           contact: formData.phone,
         },
         theme: {
-          color: "#C5A572",
+          color: "#FFD700",
         },
         modal: {
           ondismiss: async function() {

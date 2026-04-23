@@ -4,8 +4,9 @@
 @theme inline {
   --color-background: #09090B;
   --color-foreground: #FAFAFA;
-  --color-primary: #C5A572;
-  --color-primary-hover: #D5B582;
+  --color-primary: #FFD700;
+  --color-primary-hover: #FFEA00;
+  --color-royal-blue: #002366;
   --color-sidebar: #0C0C0E;
   --color-sidebar-foreground: #A1A1AA;
   --color-card: #121214;
@@ -22,14 +23,15 @@
 :root {
   --background: 240 10% 3.9%;
   --foreground: 0 0% 98%;
-  --primary: 37 43% 61%; /* Gold #C5A572 */
-  --primary-hover: 37 43% 67%;
+  --primary: 45 100% 50%; /* #FFD700 */
+  --primary-hover: 55 100% 50%;
+  --royal-blue: #002366;
   --card: 240 10% 5%;
   --sidebar: 240 10% 2%;
   --font-sans: 'Inter', sans-serif;
   --font-heading: 'Space Grotesk', sans-serif;
-  --neon-yellow: #C5A572;
-  --neon-glow: rgba(197, 165, 114, 0.4);
+  --neon-yellow: #FFD700;
+  --neon-glow: rgba(255, 215, 0, 0.3);
 }
 
 body {
