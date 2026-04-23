@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS products (
   features TEXT[] DEFAULT '{}',
   drive_link TEXT,
   faqs JSONB DEFAULT '[]',
+  variants JSONB DEFAULT '[]',
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 

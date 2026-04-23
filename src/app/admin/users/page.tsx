@@ -30,6 +30,7 @@ export default function AdminUsers() {
   };
 
   const handleDelete = async (id: string) => {
+    console.log("Identity termination sequence initiated for user:", id);
     const res = await deleteUser(id);
     if (res.success) {
       toast.success("Identity successfully terminated.");

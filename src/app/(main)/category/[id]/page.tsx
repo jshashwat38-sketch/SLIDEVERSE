@@ -6,6 +6,8 @@ import { getProducts } from "@/actions/productActions";
 import { getCategories } from "@/actions/adminActions";
 import { notFound } from "next/navigation";
 import LogoLoader from "@/components/common/LogoLoader";
+import { useLanguage } from "@/context/LanguageContext";
+import { getLangString } from "@/utils/lang";
 
 interface CategoryPageProps {
   params: Promise<{
@@ -18,6 +20,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   const [category, setCategory] = useState<any>(null);
   const [categoryProducts, setCategoryProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const { language } = useLanguage();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,7 +64,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
           <div className="w-40 h-40 rounded-[2rem] overflow-hidden shrink-0 border border-white/10 shadow-2xl group-hover:border-primary/50 transition-all duration-500">
             <img 
               src={category.imageUrl || "/placeholder-category.png"} 
-              alt={typeof category.title === 'object' && category.title !== null ? ((category.title as any).en || "") : (category.title || "")} 
+              alt={getLangString(category.title, language)} 
               className="w-full h-full object-cover transition-all duration-700" 
               onError={(e) => {
                 (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=No+Image";
@@ -74,10 +77,10 @@ export default function CategoryPage({ params }: CategoryPageProps) {
               <span className="text-[9px] font-black text-primary uppercase tracking-[0.3em]">Elite Category Segment</span>
             </div>
             <h1 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-tighter italic uppercase">
-              {typeof category.title === 'object' && category.title !== null ? ((category.title as any).en || "") : (category.title || "Unknown")} <span className="text-primary/50">Assets</span>
+              {getLangString(category.title, language)} <span className="text-primary">Assets</span>
             </h1>
             <p className="text-zinc-500 max-w-2xl text-sm font-medium leading-relaxed uppercase tracking-widest italic">
-              {typeof category.description === 'object' && category.description !== null ? ((category.description as any).en || "") : (category.description || "")}
+              {getLangString(category.description, language)}
             </p>
           </div>
         </div>
@@ -107,7 +110,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary/5 rounded-full blur-[80px] -z-10" />
             <h3 className="text-2xl font-black text-white mb-4 uppercase italic italic tracking-tighter">Vault Entry Pending</h3>
             <p className="text-zinc-500 max-w-md mx-auto text-xs font-bold uppercase tracking-widest leading-relaxed">
-              Our curators are currently vetting new {typeof category.title === 'object' && category.title !== null ? ((category.title as any).en || "") : (category.title || "")} assets. check back shortly for deployment.
+              Our curators are currently vetting new {getLangString(category.title, language)} assets. check back shortly for deployment.
             </p>
           </div>
         )}

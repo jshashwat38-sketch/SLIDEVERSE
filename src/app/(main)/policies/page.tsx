@@ -102,7 +102,7 @@ function PoliciesContent() {
                 onClick={() => setActiveTab(tab.id as PolicyKey)}
                 className={`w-full flex items-center justify-between p-6 rounded-3xl border transition-all duration-500 group relative overflow-hidden ${
                   activeTab === tab.id 
-                  ? "bg-primary text-black border-primary shadow-[0_0_40px_rgba(212,255,0,0.2)]" 
+                  ? "bg-primary text-black border-primary shadow-[0_0_40px_rgba(197,165,114,0.3)]" 
                   : "bg-white/5 text-zinc-500 border-white/5 hover:border-white/10 hover:bg-white/10"
                 }`}
               >
@@ -134,7 +134,7 @@ function PoliciesContent() {
                 className="bg-card/40 backdrop-blur-3xl p-10 md:p-16 rounded-[3rem] border border-white/5 min-h-[500px]"
               >
                 <div className="flex items-center gap-4 mb-10 pb-6 border-b border-white/5">
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shadow-[0_0_20px_rgba(212,255,0,0.1)]">
+                  <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shadow-[0_0_20px_rgba(197,165,114,0.2)]">
                     {(() => {
                       const Icon = tabs.find(t => t.id === activeTab)?.icon || FileText;
                       return <Icon className="w-6 h-6" />;
@@ -149,7 +149,7 @@ function PoliciesContent() {
                 </div>
 
                 <div className="prose prose-invert max-w-none">
-                  <p className="text-zinc-400 leading-relaxed text-sm font-medium whitespace-pre-wrap">
+                  <p className="text-primary leading-relaxed text-sm font-medium whitespace-pre-wrap opacity-90">
                     {policies?.[activeTab] || "Policy details loading..."}
                   </p>
                 </div>
@@ -162,7 +162,7 @@ function PoliciesContent() {
                     <button className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-[10px] font-black text-white uppercase tracking-widest transition-all">
                       Print Page
                     </button>
-                    <button className="px-6 py-3 bg-primary text-black rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(212,255,0,0.2)]">
+                    <button className="px-6 py-3 bg-primary text-black rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(197,165,114,0.3)]">
                       Download PDF
                     </button>
                   </div>

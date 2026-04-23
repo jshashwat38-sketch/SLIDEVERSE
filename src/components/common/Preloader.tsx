@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 import { getAppearance } from "@/actions/adminActions";
 
@@ -59,9 +60,13 @@ export default function Preloader() {
           }}
           className="relative w-32 h-32 flex items-center justify-center bg-black rounded-3xl border border-white/10 shadow-[0_0_50px_rgba(197,165,114,0.3)] overflow-hidden"
         >
-          <img
+          <Image
             src={logo}
             alt="Slideverse Logo"
+            width={80}
+            height={80}
+            priority
+            loading="eager"
             className="w-20 h-20 object-contain brightness-110"
           />
           

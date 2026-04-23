@@ -279,7 +279,7 @@ export default function CheckoutPage({ params }: { params: Promise<{ id: string 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-primary hover:bg-white text-black font-black py-6 px-4 rounded-2xl flex justify-center items-center gap-4 transition-all mt-10 disabled:opacity-50 uppercase tracking-[0.2em] text-lg italic shadow-[0_0_30px_rgba(212,255,0,0.2)]"
+                className="w-full bg-primary hover:bg-white text-black font-black py-6 px-4 rounded-2xl flex justify-center items-center gap-4 transition-all mt-10 disabled:opacity-50 uppercase tracking-[0.2em] text-lg italic shadow-[0_0_30px_rgba(197,165,114,0.3)]"
               >
                 {isSubmitting ? (
                   <div className="flex items-center gap-3">

@@ -48,7 +48,7 @@ export default function AccountPage() {
           <h1 className="text-3xl font-black text-white uppercase italic tracking-tighter">Access Restricted</h1>
           <p className="text-zinc-500 font-medium italic">Please establish a secure connection to view your digital vault.</p>
           <Link href="/signin">
-            <button className="w-full bg-primary text-black py-4 rounded-xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_20px_rgba(212,255,0,0.2)]">
+            <button className="w-full bg-primary text-black py-4 rounded-xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_20px_rgba(197,165,114,0.3)]">
               Sign In Securely
             </button>
           </Link>

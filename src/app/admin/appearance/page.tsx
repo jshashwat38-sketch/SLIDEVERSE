@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { getAppearance, updateAppearance, uploadImage } from "@/actions/adminActions";
 import { Save, RefreshCw, Eye, Image as ImageIcon, Upload, Phone, ShieldCheck } from "lucide-react";
 import LogoLoader from "@/components/common/LogoLoader";
+import { toast } from "react-hot-toast";
 
 import { motion } from "framer-motion";
 
@@ -43,6 +44,9 @@ export default function AppearancePage() {
       if (section === "about") newAppearance.about = { ...(newAppearance.about || {}), image: result.url };
       if (section === "story") newAppearance.story = { ...(newAppearance.story || {}), image: result.url };
       setAppearance(newAppearance);
+      toast.success(`${section.toUpperCase()} asset updated.`);
+    } else {
+      toast.error(result.error || "Upload failed.");
     }
     setIsUploading(null);
   }
@@ -200,7 +204,7 @@ export default function AppearancePage() {
                   placeholder="/logo.png"
                 />
                 <div className="w-14 h-14 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-500 overflow-hidden shrink-0 p-2">
-                  <img src={appearance?.site?.logo || "/logo.png"} className="w-full h-full object-contain" alt="Logo" />
+                  <img src={appearance?.site?.logo || undefined} className="w-full h-full object-contain" alt="Logo" />
                 </div>
               </div>
             </div>
@@ -305,7 +309,7 @@ export default function AppearancePage() {
             </div>
             <div className="space-y-8">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Visual Asset</label>
+                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Visual Asset (Recommended: 1920x1080px)</label>
                 <div className="flex flex-col gap-4">
                   <div className="flex gap-4">
                     <input 
@@ -314,7 +318,7 @@ export default function AppearancePage() {
                       className="flex-1 bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-[10px] font-mono focus:outline-none focus:border-primary transition-all"
                     />
                     <div className="w-14 h-14 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-500 overflow-hidden shrink-0">
-                      <img src={typeof appearance?.hero?.image === 'string' ? appearance.hero.image : ""} className="w-full h-full object-cover" />
+                      <img src={appearance?.hero?.image || undefined} className="w-full h-full object-cover" />
                     </div>
                   </div>
                   <label className="cursor-pointer group flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl py-3 transition-all">
@@ -371,9 +375,9 @@ export default function AppearancePage() {
               </div>
             </div>
             <div className="space-y-4">
-              <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Atelier Visual</label>
+              <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Atelier Visual (Recommended: 1200x800px)</label>
               <div className="relative group rounded-2xl overflow-hidden border border-white/10 h-48">
-                <img src={typeof appearance?.about?.image === 'string' ? appearance.about.image : ""} className="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity" />
+                <img src={appearance?.about?.image || undefined} className="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-8 bg-black/40">
                   <label className="cursor-pointer group/up flex items-center justify-center gap-3 bg-primary text-black px-6 py-3 rounded-xl transition-all shadow-xl hover:scale-105 active:scale-95 mb-4">
                     <Upload className={`w-4 h-4 ${isUploading === 'about' ? 'animate-spin' : ''}`} />
@@ -425,9 +429,9 @@ export default function AppearancePage() {
               </div>
             </div>
             <div className="space-y-4">
-              <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Story Visual Asset</label>
+              <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Story Visual Asset (Recommended: 1200x800px)</label>
               <div className="relative group rounded-2xl overflow-hidden border border-white/10 h-48">
-                <img src={typeof appearance?.story?.image === 'string' ? appearance.story.image : ""} className="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity" />
+                <img src={appearance?.story?.image || undefined} className="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-8 bg-black/40">
                   <label className="cursor-pointer group/up flex items-center justify-center gap-3 bg-primary text-black px-6 py-3 rounded-xl transition-all shadow-xl hover:scale-105 active:scale-95 mb-4">
                     <Upload className={`w-4 h-4 ${isUploading === 'story' ? 'animate-spin' : ''}`} />

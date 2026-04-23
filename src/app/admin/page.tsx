@@ -8,6 +8,7 @@ import { toast } from "react-hot-toast";
 export default function AdminOrders() {
   const [orders, setOrders] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [orderToDelete, setOrderToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     fetchOrders();
@@ -37,10 +38,11 @@ export default function AdminOrders() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to purge this transaction record from the database?")) return;
+    console.log("Delete request initiated for order:", id);
     const res = await deleteOrder(id);
     if (res.success) {
       toast.success("Transaction record purged.");
+      setOrderToDelete(null);
       fetchOrders();
     } else {
       toast.error("Failed to purge record.");
@@ -146,11 +148,28 @@ export default function AdminOrders() {
                           </button>
                         </>
                       )}
-                      <button 
-                        onClick={() => handleDelete(order.id)}
-                        className="p-3 text-zinc-600 hover:text-red-500 bg-white/5 hover:bg-red-500/10 rounded-xl transition-all border border-transparent hover:border-red-500/30" title="Purge Record">
-                        <Trash2 className="w-5 h-5" />
-                      </button>
+                      {orderToDelete === order.id ? (
+                        <div className="flex items-center gap-2 animate-in slide-in-from-right-2 duration-300">
+                          <button 
+                            onClick={() => handleDelete(order.id)}
+                            className="px-3 py-2 bg-red-500 text-white rounded-lg text-[8px] font-black uppercase tracking-widest hover:bg-red-600 transition-all"
+                          >
+                            Confirm
+                          </button>
+                          <button 
+                            onClick={() => setOrderToDelete(null)}
+                            className="p-2 bg-white/5 text-zinc-400 rounded-lg hover:text-white transition-all border border-white/5"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ) : (
+                        <button 
+                          onClick={() => setOrderToDelete(order.id)}
+                          className="p-3 text-zinc-600 hover:text-red-500 bg-white/5 hover:bg-red-500/10 rounded-xl transition-all border border-transparent hover:border-red-500/30" title="Purge Record">
+                          <Trash2 className="w-5 h-5" />
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>

@@ -4,12 +4,14 @@ import { useState, useEffect } from "react";
 import { getCategories, saveCategory, deleteCategory, uploadImage } from "@/actions/adminActions";
 import { Plus, Edit, Trash2, Save, X, ImageIcon, Upload, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "react-hot-toast";
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<any[]>([]);
   const [editingCategory, setEditingCategory] = useState<any>(null);
   const [isAdding, setIsAdding] = useState(false);
   const [formData, setFormData] = useState({ title: "", description: "", price: 499, imageUrl: "" });
+  const [categoryToDelete, setCategoryToDelete] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
@@ -36,6 +38,9 @@ export default function CategoriesPage() {
       } else {
         setFormData({ ...formData, imageUrl: result.url });
       }
+      toast.success("Architecture uploaded.");
+    } else {
+      toast.error(result.error || "Upload failed.");
     }
     setUploading(false);
   }
@@ -48,13 +53,21 @@ export default function CategoriesPage() {
       setIsAdding(false);
       setFormData({ title: "", description: "", price: 499, imageUrl: "" });
       loadCategories();
+      toast.success("Category state committed.");
+    } else {
+      toast.error(result.error || "Failed to save category.");
     }
   }
 
   async function handleDelete(id: string) {
-    if (confirm("Are you sure?")) {
-      await deleteCategory(id);
+    console.log("Delete request initiated for category:", id);
+    const result = await deleteCategory(id);
+    if (result.success) {
+      toast.success("Category vault updated.");
+      setCategoryToDelete(null);
       loadCategories();
+    } else {
+      toast.error("Category termination failed.");
     }
   }
 
@@ -124,7 +137,7 @@ export default function CategoriesPage() {
               </div>
 
               <div className="space-y-4">
-                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Visual Asset (Image)</label>
+                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Visual Asset (Recommended: 800x800px)</label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <input 
@@ -184,9 +197,27 @@ export default function CategoriesPage() {
               <button onClick={() => setEditingCategory(category)} className="p-2 bg-black/50 backdrop-blur-md rounded-lg text-blue-400 hover:bg-blue-400/20 transition-all border border-white/10">
                 <Edit className="w-4 h-4" />
               </button>
-              <button onClick={() => handleDelete(category.id)} className="p-2 bg-black/50 backdrop-blur-md rounded-lg text-red-400 hover:bg-red-400/20 transition-all border border-white/10">
-                <Trash2 className="w-4 h-4" />
-              </button>
+              
+              {categoryToDelete === category.id ? (
+                <div className="flex items-center gap-2 animate-in slide-in-from-right-2 duration-300">
+                  <button 
+                    onClick={() => handleDelete(category.id)}
+                    className="px-3 py-2 bg-red-500 text-white rounded-lg text-[8px] font-black uppercase tracking-widest hover:bg-red-600 transition-all"
+                  >
+                    Confirm
+                  </button>
+                  <button 
+                    onClick={() => setCategoryToDelete(null)}
+                    className="p-2 bg-black/50 backdrop-blur-md rounded-lg text-zinc-400 hover:text-white transition-all border border-white/10"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <button onClick={() => setCategoryToDelete(category.id)} className="p-2 bg-black/50 backdrop-blur-md rounded-lg text-red-400 hover:bg-red-400/20 transition-all border border-white/10">
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              )}
             </div>
 
             {category.imageUrl && (

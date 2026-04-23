@@ -33,6 +33,12 @@ export async function addProduct(formData: FormData) {
     const questions = formData.getAll("questions") as string[];
     const answers = formData.getAll("answers") as string[];
     
+    const variantNames = formData.getAll("variantNames") as string[];
+    const variantPrices = formData.getAll("variantPrices") as string[];
+    const variantDriveLinks = formData.getAll("variantDriveLinks") as string[];
+    const variantImageUrls = formData.getAll("variantImageUrls") as string[];
+    const variantImageFiles = formData.getAll("variantImageFiles") as File[];
+    
     const finalImages: string[] = [];
 
     // 1. Handle URL images
@@ -67,6 +73,35 @@ export async function addProduct(formData: FormData) {
       answer: answers[i]?.trim() || ""
     })).filter(faq => faq.question && faq.answer);
 
+    const variants = [];
+    for (let i = 0; i < variantNames.length; i++) {
+      // Process all variants sent from the frontend
+      
+      let variantImage = variantImageUrls[i] || "";
+      const file = variantImageFiles[i];
+      
+      if (file && file.size > 0 && file.name !== "empty") {
+        const filename = `variants/${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from("product-images")
+          .upload(filename, file);
+
+        if (!uploadError) {
+          const { data: publicUrlData } = supabase.storage
+            .from("product-images")
+            .getPublicUrl(filename);
+          variantImage = publicUrlData.publicUrl;
+        }
+      }
+
+      variants.push({
+        name: variantNames[i].trim(),
+        price: Number(variantPrices[i]) || 0,
+        drive_link: variantDriveLinks[i] || "",
+        image: variantImage
+      });
+    }
+
     const newProduct = {
       id: `prod-${Date.now()}`,
       title: { en: title }, // Match JSONB schema
@@ -77,7 +112,8 @@ export async function addProduct(formData: FormData) {
       images: finalImages,
       features: features.split(',').map((f: string) => f.trim()).filter(Boolean),
       drive_link: driveLink,
-      faqs: faqs
+      faqs: faqs,
+      variants: variants
     };
     
     const { error: insertError } = await supabase
@@ -110,6 +146,12 @@ export async function updateProduct(id: string, formData: FormData) {
     const questions = formData.getAll("questions") as string[];
     const answers = formData.getAll("answers") as string[];
     
+    const variantNames = formData.getAll("variantNames") as string[];
+    const variantPrices = formData.getAll("variantPrices") as string[];
+    const variantDriveLinks = formData.getAll("variantDriveLinks") as string[];
+    const variantImageUrls = formData.getAll("variantImageUrls") as string[];
+    const variantImageFiles = formData.getAll("variantImageFiles") as File[];
+    
     const finalImages: string[] = [];
 
     imageUrls.forEach(url => {
@@ -118,7 +160,7 @@ export async function updateProduct(id: string, formData: FormData) {
 
     for (const file of imageFiles) {
       if (file && file.size > 0) {
-        const filename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+        const filename = `${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from("product-images")
           .upload(filename, file);
@@ -137,6 +179,35 @@ export async function updateProduct(id: string, formData: FormData) {
       answer: answers[i]?.trim() || ""
     })).filter(faq => faq.question && faq.answer);
 
+    const variants = [];
+    for (let i = 0; i < variantNames.length; i++) {
+      // Process all variants sent from the frontend
+      
+      let variantImage = variantImageUrls[i] || "";
+      const file = variantImageFiles[i];
+      
+      if (file && file.size > 0 && file.name !== "empty") {
+        const filename = `variants/${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from("product-images")
+          .upload(filename, file);
+
+        if (!uploadError) {
+          const { data: publicUrlData } = supabase.storage
+            .from("product-images")
+            .getPublicUrl(filename);
+          variantImage = publicUrlData.publicUrl;
+        }
+      }
+
+      variants.push({
+        name: variantNames[i].trim(),
+        price: Number(variantPrices[i]) || 0,
+        drive_link: variantDriveLinks[i] || "",
+        image: variantImage
+      });
+    }
+
     const updateData: any = {
       title: { en: title },
       description: { en: description },
@@ -144,7 +215,8 @@ export async function updateProduct(id: string, formData: FormData) {
       category_id: categoryId,
       features: features.split(',').map((f: string) => f.trim()).filter(Boolean),
       drive_link: driveLink,
-      faqs: faqs
+      faqs: faqs,
+      variants: variants
     };
 
     if (finalImages.length > 0) {

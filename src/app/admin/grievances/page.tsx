@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { getGrievances, deleteGrievance } from "@/actions/adminActions";
-import { MessageSquare, Trash2, Calendar, Mail, User, Clock } from "lucide-react";
+import { MessageSquare, Trash2, Calendar, Mail, User, Clock, X } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 export default function GrievancesPage() {
   const [grievances, setGrievances] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [grievanceToDelete, setGrievanceToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     fetchGrievances();
@@ -16,15 +17,16 @@ export default function GrievancesPage() {
   const fetchGrievances = async () => {
     setLoading(true);
     const data = await getGrievances();
-    setGrievances(data.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
+    setGrievances(data.sort((a: any, b: any) => new Date(b.created_at || b.createdAt).getTime() - new Date(a.created_at || a.createdAt).getTime()));
     setLoading(false);
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this transmission record?")) return;
+    console.log("Purge protocol initiated for grievance:", id);
     const res = await deleteGrievance(id);
     if (res.success) {
       toast.success("Record purged from system.");
+      setGrievanceToDelete(null);
       fetchGrievances();
     }
   };
@@ -94,17 +96,38 @@ export default function GrievancesPage() {
                       <Calendar className="w-3 h-3" />
                       <span className="text-[9px] font-black uppercase tracking-widest">Timestamp</span>
                     </div>
-                    <div className="text-white font-bold text-xs uppercase tracking-widest">{new Date(g.createdAt).toLocaleDateString()}</div>
-                    <div className="text-zinc-500 font-bold text-[10px] mt-1">{new Date(g.createdAt).toLocaleTimeString()}</div>
+                    <div className="text-white font-bold text-xs uppercase tracking-widest">
+                      {g.created_at || g.createdAt ? new Date(g.created_at || g.createdAt).toLocaleDateString() : 'DATE UNKNOWN'}
+                    </div>
+                    <div className="text-zinc-500 font-bold text-[10px] mt-1">
+                      {g.created_at || g.createdAt ? new Date(g.created_at || g.createdAt).toLocaleTimeString() : 'TIME UNKNOWN'}
+                    </div>
                   </div>
 
-                  <button 
-                    onClick={() => handleDelete(g.id)}
-                    className="p-4 bg-red-500/10 text-red-500 rounded-2xl border border-red-500/20 hover:bg-red-500 hover:text-white transition-all shadow-lg hover:shadow-red-500/20"
-                    title="Purge Record"
-                  >
-                    <Trash2 className="w-5 h-5" />
-                  </button>
+                  {grievanceToDelete === g.id ? (
+                    <div className="flex items-center gap-2 animate-in slide-in-from-right-2 duration-300">
+                      <button 
+                        onClick={() => handleDelete(g.id)}
+                        className="px-4 py-4 bg-red-500 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-red-600 transition-all shadow-lg shadow-red-500/20"
+                      >
+                        Confirm Purge
+                      </button>
+                      <button 
+                        onClick={() => setGrievanceToDelete(null)}
+                        className="p-4 bg-white/5 text-zinc-500 rounded-2xl border border-white/10 hover:text-white transition-all"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
+                    </div>
+                  ) : (
+                    <button 
+                      onClick={() => setGrievanceToDelete(g.id)}
+                      className="p-4 bg-red-500/10 text-red-500 rounded-2xl border border-red-500/20 hover:bg-red-500 hover:text-white transition-all shadow-lg hover:shadow-red-500/20"
+                      title="Purge Record"
+                    >
+                      <Trash2 className="w-5 h-5" />
+                    </button>
+                  )}
                 </div>
               </div>
 

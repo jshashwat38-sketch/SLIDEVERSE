@@ -39,6 +39,7 @@ export default function LogoLoader() {
             alt="Loading..."
             width={80}
             height={80}
+            priority
             className="w-20 h-20 object-contain drop-shadow-[0_0_15px_rgba(197,165,114,0.4)]"
           />
         </motion.div>

@@ -55,7 +55,7 @@ export default function AdminContactPage() {
         <button 
           onClick={handleSave}
           disabled={saving}
-          className="bg-primary hover:bg-primary-hover text-black px-8 py-4 rounded-2xl font-black text-sm transition-all flex items-center gap-3 shadow-[0_0_20px_rgba(212,255,0,0.2)] disabled:opacity-50 uppercase tracking-widest italic"
+          className="bg-primary hover:bg-primary-hover text-black px-8 py-4 rounded-2xl font-black text-sm transition-all flex items-center gap-3 shadow-[0_0_20px_rgba(197,165,114,0.3)] disabled:opacity-50 uppercase tracking-widest italic"
         >
           {saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           Execute Update

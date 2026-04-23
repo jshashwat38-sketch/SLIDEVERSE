@@ -57,7 +57,7 @@ export default function HomePage() {
           <div className="absolute bottom-[-5%] right-[-5%] w-[30%] h-[30%] bg-blue-500/5 blur-[120px] rounded-full" />
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center relative z-10">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center relative z-10">
           <motion.div 
             variants={containerVariants}
             initial="hidden"
@@ -78,7 +78,10 @@ export default function HomePage() {
               <motion.h1 
                 variants={itemVariants} 
                 className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-white mb-8 leading-[1.1] tracking-tight italic uppercase"
-                dangerouslySetInnerHTML={{ __html: getLangString(appearance?.hero?.title, language) || t("hero_title") }}
+                dangerouslySetInnerHTML={{ 
+                  __html: (getLangString(appearance?.hero?.title, language) || t("hero_title"))
+                    .replace(/Presentation Design/gi, '<span class="text-primary neon-text">Presentation Design</span>')
+                }}
               />
             )}
             
@@ -93,7 +96,7 @@ export default function HomePage() {
               </motion.p>
             )}
             
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-6">
+            <motion.div variants={itemVariants} className="hidden md:flex flex-col sm:flex-row items-center gap-6">
               <Link href={appearance?.buttons?.primary?.link || "#featured"} className="group relative w-full sm:w-auto">
                 <button className="relative w-full sm:w-auto bg-primary hover:bg-white text-black px-10 py-5 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-3 uppercase tracking-wider italic">
                   {appearance?.buttons?.primary?.label || t("explore_collection")} <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
@@ -102,6 +105,64 @@ export default function HomePage() {
               <Link href={appearance?.buttons?.secondary?.link || "/signin"} className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white px-10 py-5 rounded-xl font-bold text-base transition-all border border-white/5 uppercase tracking-wider italic text-center">
                 {appearance?.buttons?.secondary?.label || t("sign_in_securely")}
               </Link>
+            </motion.div>
+
+            {/* Mobile Decorative Elements */}
+            <div className="md:hidden absolute top-20 right-0 -z-10 pointer-events-none">
+              <div className="w-64 h-64 bg-primary/20 rounded-full blur-[100px] animate-glow-pulse" />
+            </div>
+            <div className="md:hidden absolute bottom-40 left-0 -z-10 pointer-events-none">
+              <div className="w-48 h-48 bg-blue-500/10 rounded-full blur-[100px] animate-float" />
+            </div>
+
+            {/* Mobile Command Hub - Refined Horizontal Scroll */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="mt-16 md:hidden"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <span className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em]">Active Sectors</span>
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-primary animate-ping" />
+                  <span className="text-[8px] font-black text-primary uppercase tracking-widest">Live Status: Online</span>
+                </div>
+              </div>
+              <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide -mx-2 px-2">
+                {[
+                  { name: "Archive", icon: Zap, link: "/#featured", code: "01" },
+                  { name: "About", icon: Shield, link: "/#about", code: "02" },
+                  { name: "Contact", icon: Send, link: "/#contact", code: "03" },
+                  { name: "Vault", icon: Sparkles, link: "/account", code: "04" }
+                ].map((btn, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1, duration: 0.5 }}
+                  >
+                    <Link href={btn.link} className="shrink-0 w-32 aspect-square flex flex-col items-center justify-center bg-white/[0.03] border border-white/10 rounded-[2.5rem] group active:scale-95 transition-all relative overflow-hidden">
+                      <div className="absolute top-4 left-4 text-[8px] font-black text-zinc-800">{btn.code}</div>
+                      <btn.icon className="w-8 h-8 text-primary mb-3" />
+                      <span className="text-[10px] font-black text-white uppercase tracking-widest italic">{btn.name}</span>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+              >
+                <Link href="/#featured" className="mt-4 flex items-center justify-between p-6 bg-primary border border-primary rounded-[2rem] group active:scale-95 transition-all shadow-[0_10px_30px_rgba(197,165,114,0.2)]">
+                  <span className="text-xs font-black text-black uppercase tracking-[0.2em] italic">Access Full Collection</span>
+                  <ArrowRight className="w-5 h-5 text-black" />
+                </Link>
+              </motion.div>
             </motion.div>
           </motion.div>
 
@@ -365,24 +426,23 @@ export default function HomePage() {
             
             <div className="space-y-8">
               <div className="flex items-center gap-6 group">
-                <div className="w-12 h-12 md:w-16 md:h-16 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:border-primary/40 transition-colors">
+                <a href={`mailto:${appearance?.contact?.email || "slideversestudio@gmail.com"}`} className="w-12 h-12 md:w-16 md:h-16 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:border-primary/40 transition-colors">
                   <Mail className="w-5 h-5 md:w-6 md:h-6 text-primary" />
-                </div>
+                </a>
                 <div>
                   <h3 className="text-[8px] font-black text-zinc-600 uppercase tracking-[0.4em] mb-1">Direct Relay</h3>
-                  <p className="text-sm md:text-lg text-white font-bold tracking-tight">{appearance?.contact?.email || "slideversestudio@gmail.com"}</p>
+                  <a href={`mailto:${appearance?.contact?.email || "slideversestudio@gmail.com"}`} className="text-sm md:text-lg text-white font-bold tracking-tight hover:text-primary transition-colors">{appearance?.contact?.email || "slideversestudio@gmail.com"}</a>
                 </div>
               </div>
               
               <div className="flex items-center gap-6 group">
-                <div className="w-12 h-12 md:w-16 md:h-16 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:border-primary/40 transition-colors">
+                <a href={`tel:${(appearance?.contact?.mobile || "+1 (800) SLIDEVERSE").replace(/\s/g, '')}`} className="w-12 h-12 md:w-16 md:h-16 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:border-primary/40 transition-colors">
                   <Phone className="w-5 h-5 md:w-6 md:h-6 text-primary" />
-                </div>
+                </a>
                 <div>
                   <h3 className="text-[8px] font-black text-zinc-600 uppercase tracking-[0.4em] mb-1">Secure Line</h3>
-                  <p className="text-sm md:text-lg text-white font-bold tracking-tight">{appearance?.contact?.mobile || "+1 (800) SLIDEVERSE"}</p>
+                  <a href={`tel:${(appearance?.contact?.mobile || "+1 (800) SLIDEVERSE").replace(/\s/g, '')}`} className="text-sm md:text-lg text-white font-bold tracking-tight hover:text-primary transition-colors">{appearance?.contact?.mobile || "+1 (800) SLIDEVERSE"}</a>
                 </div>
-
               </div>
             </div>
           </div>

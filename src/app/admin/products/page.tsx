@@ -1,13 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Save, Image as ImageIcon, Link as LinkIcon, AlertCircle, Package, FolderOpen, Trash2, Edit2 } from "lucide-react";
+import { Plus, Save, Image as ImageIcon, Link as LinkIcon, AlertCircle, Package, FolderOpen, Trash2, Edit2, X } from "lucide-react";
 import { addProduct, getProducts, updateProduct, deleteProduct } from "@/actions/productActions";
 import { getCategories } from "@/actions/adminActions";
+import { toast } from "react-hot-toast";
 
 export default function AdminProducts() {
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [productToDelete, setProductToDelete] = useState<string | null>(null);
   const [products, setProducts] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,6 +26,7 @@ export default function AdminProducts() {
   const [imageFiles, setImageFiles] = useState<(File | null)[]>([null, null, null, null, null, null]);
   
   const [faqs, setFaqs] = useState<{question: string, answer: string}[]>(Array(7).fill({question: "", answer: ""}));
+  const [variants, setVariants] = useState<{name: string, price: string, driveLink: string, imageUrl: string, imageFile: File | null}[]>([]);
 
   useEffect(() => {
     fetchProducts();
@@ -47,6 +50,7 @@ export default function AdminProducts() {
     setImageUrls(["", "", "", "", "", ""]);
     setImageFiles([null, null, null, null, null, null]);
     setFaqs(Array.from({ length: 7 }, () => ({ question: "", answer: "" })));
+    setVariants([]);
   };
 
   const handleEditClick = (product: any) => {
@@ -59,7 +63,7 @@ export default function AdminProducts() {
       categoryId: product.category_id || ""
     });
     
-    const existingImages = product.images || [product.imageUrl];
+    const existingImages = product.images || [product.image_url];
     const newUrls = ["", "", "", "", "", ""];
     existingImages.forEach((url: string, i: number) => {
       if (i < 6) newUrls[i] = url;
@@ -74,56 +78,89 @@ export default function AdminProducts() {
     setImageUrls(newUrls);
     setImageFiles([null, null, null, null, null, null]);
     setFaqs(newFaqs);
+    setVariants(product.variants?.map((v: any) => ({
+      name: v.name || "",
+      price: v.price?.toString() || "",
+      driveLink: v.drive_link || "",
+      imageUrl: v.image || "",
+      imageFile: null
+    })) || []);
     setEditingId(product.id);
     setIsAdding(true);
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm("Are you sure you want to delete this product?")) {
-      const res = await deleteProduct(id);
-      if (res.success) {
-        await fetchProducts();
-      } else {
-        alert(`Failed to delete product: ${res.error || 'Unknown error'}`);
-      }
+    console.log("Delete request initiated for entity:", id);
+    const res = await deleteProduct(id);
+    if (res.success) {
+      toast.success("Entity purged from matrix.");
+      setProductToDelete(null);
+      await fetchProducts();
+    } else {
+      toast.error(`Purge failed: ${res.error || 'Unknown error'}`);
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Starting product submission protocol...");
     
-    const data = new FormData();
-    data.append("title", formData.title);
-    data.append("description", formData.description);
-    data.append("price", formData.price);
-    data.append("features", formData.features);
-    data.append("driveLink", formData.driveLink);
-    data.append("categoryId", formData.categoryId);
-    
-    imageUrls.forEach(url => {
-      if (url) data.append("imageUrls", url);
-    });
-    
-    imageFiles.forEach(file => {
-      if (file) data.append("imageFiles", file);
-    });
+    try {
+      const data = new FormData();
+      data.append("title", formData.title);
+      data.append("description", formData.description);
+      data.append("price", formData.price);
+      data.append("features", formData.features);
+      data.append("driveLink", formData.driveLink);
+      data.append("categoryId", formData.categoryId);
+      
+      console.log("Form data assembled. Title:", formData.title);
 
-    faqs.forEach(faq => {
-      if (faq.question && faq.answer) {
-        data.append("questions", faq.question);
-        data.append("answers", faq.answer);
+      imageUrls.forEach(url => {
+        if (url) data.append("imageUrls", url);
+      });
+      
+      imageFiles.forEach(file => {
+        if (file) data.append("imageFiles", file);
+      });
+
+      faqs.forEach(faq => {
+        if (faq.question && faq.answer) {
+          data.append("questions", faq.question);
+          data.append("answers", faq.answer);
+        }
+      });
+
+      variants.forEach(v => {
+        if (v.name || v.price || v.driveLink || v.imageUrl || v.imageFile) {
+          data.append("variantNames", v.name);
+          data.append("variantPrices", v.price);
+          data.append("variantDriveLinks", v.driveLink || "");
+          data.append("variantImageUrls", v.imageUrl || "");
+          if (v.imageFile) data.append("variantImageFiles", v.imageFile);
+          else data.append("variantImageFiles", new File([], "empty")); // Placeholder to maintain index alignment
+        }
+      });
+      
+      setIsSubmitting(true);
+      console.log("Invoking server action...");
+      const res = editingId ? await updateProduct(editingId, data) : await addProduct(data);
+      console.log("Server action response received:", res);
+      
+      if (res.success) {
+        console.log("Submission successful. Resetting form.");
+        toast.success(editingId ? "Product updated successfully!" : "Product deployed successfully!");
+        await fetchProducts(); // Refresh list first
+        resetForm(); // Then close form
+      } else {
+        console.error("Server action failed:", res.error);
+        toast.error(`Failed to ${editingId ? 'update' : 'save'} product: ${res.error || 'Unknown error'}`);
       }
-    });
-    
-    setIsSubmitting(true);
-    const res = editingId ? await updateProduct(editingId, data) : await addProduct(data);
-    setIsSubmitting(false);
-    
-    if (res.success) {
-      await fetchProducts(); // Refresh list first
-      resetForm(); // Then close form
-    } else {
-      alert(`Failed to ${editingId ? 'update' : 'save'} product: ${res.error || 'Unknown error'}`);
+      setIsSubmitting(false);
+    } catch (err) {
+      console.error("Client-side submission error:", err);
+      setIsSubmitting(false);
+      alert("A critical error occurred during submission. Check the console.");
     }
   };
 
@@ -158,7 +195,6 @@ export default function AdminProducts() {
                   <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-3 ml-4">Product Name</label>
                   <input
                     type="text"
-                    required
                     value={(() => {
                       const val = formData.title;
                       return typeof val === 'object' && val !== null ? ((val as any).en || Object.values(val)[0] || "") : (val || "");
@@ -175,14 +211,13 @@ export default function AdminProducts() {
                     Classification
                   </label>
                   <select
-                    required
                     value={formData.categoryId}
                     onChange={(e) => setFormData({...formData, categoryId: e.target.value})}
                     className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white appearance-none cursor-pointer uppercase font-black text-xs tracking-[0.2em]"
                   >
                     {categories.map(cat => (
                       <option key={cat.id} value={cat.id} className="bg-zinc-900 text-white">
-                        {typeof cat.title === 'object' ? ((cat.title as any).en || Object.values(cat.title)[0] as string).toUpperCase() : (cat.title as string).toUpperCase()}
+                        {typeof cat.title === 'object' && cat.title !== null ? (((cat.title as any).en || Object.values(cat.title)[0] || "Unclassified") as string).toUpperCase() : (cat.title as string || "UNCLASSIFIED").toUpperCase()}
                       </option>
                     ))}
                   </select>
@@ -191,7 +226,6 @@ export default function AdminProducts() {
                 <div className="md:col-span-2">
                   <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-3 ml-4">Entity Description</label>
                   <textarea
-                    required
                     rows={3}
                     value={(() => {
                       const val = formData.description;
@@ -207,7 +241,6 @@ export default function AdminProducts() {
                   <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-3 ml-4">Market Value (₹)</label>
                   <input
                     type="number"
-                    required
                     min="0"
                     value={formData.price}
                     onChange={(e) => setFormData({...formData, price: e.target.value})}
@@ -220,7 +253,6 @@ export default function AdminProducts() {
                   <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-3 ml-4">Core Features (CSV)</label>
                   <input
                     type="text"
-                    required
                     value={formData.features}
                     onChange={(e) => setFormData({...formData, features: e.target.value})}
                     className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 font-bold text-sm"
@@ -239,7 +271,7 @@ export default function AdminProducts() {
                     {[0, 1, 2, 3, 4, 5].map((index) => (
                       <div key={index} className="flex flex-col gap-3">
                         <div className="flex items-center justify-between px-2">
-                          <span className="text-[9px] font-black text-zinc-700 uppercase tracking-widest">Asset Slot {index + 1}</span>
+                          <span className="text-[9px] font-black text-zinc-700 uppercase tracking-widest">Asset Slot {index + 1} (Recommended: 1200x800px)</span>
                           {imageUrls[index] || imageFiles[index] ? (
                             <span className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">Active</span>
                           ) : (
@@ -330,6 +362,119 @@ export default function AdminProducts() {
                       </div>
                     ))}
                   </div>
+
+
+                  <div className="flex items-center gap-4 mb-8">
+                    <div className="h-[1px] flex-1 bg-white/5" />
+                    <span className="text-[10px] font-black text-zinc-700 uppercase tracking-[0.4em]">Product Variations</span>
+                    <div className="h-[1px] flex-1 bg-white/5" />
+                  </div>
+
+                  <div className="space-y-6 mb-12">
+                    {(variants || []).map((variant, index) => (
+                      <div key={index} className="flex flex-col gap-6 bg-white/[0.02] p-8 rounded-3xl border border-white/5 relative group/variant transition-all hover:bg-white/[0.04]">
+                        <button 
+                          type="button"
+                          onClick={() => setVariants(variants.filter((_, i) => i !== index))}
+                          className="absolute -top-3 -right-3 w-8 h-8 bg-red-500/10 border border-red-500/20 text-red-500 rounded-full flex items-center justify-center opacity-0 group-hover/variant:opacity-100 transition-opacity hover:bg-red-500 hover:text-black z-20"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                          <div>
+                            <label className="block text-[8px] font-black text-zinc-600 uppercase tracking-widest mb-2 ml-2">Variant Identifier</label>
+                            <input
+                              type="text"
+                              value={variant.name}
+                              onChange={(e) => {
+                                const newVariants = [...variants];
+                                newVariants[index] = { ...newVariants[index], name: e.target.value };
+                                setVariants(newVariants);
+                              }}
+                              className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:bg-black transition-all text-white font-bold text-xs"
+                              placeholder="E.G. PREMIUM EDITION"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[8px] font-black text-zinc-600 uppercase tracking-widest mb-2 ml-2">Surcharge Value (₹)</label>
+                            <input
+                              type="number"
+                              value={variant.price || ""}
+                              onChange={(e) => {
+                                const newVariants = [...variants];
+                                newVariants[index] = { ...newVariants[index], price: e.target.value };
+                                setVariants(newVariants);
+                              }}
+                              className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:bg-black transition-all text-white font-mono text-xs"
+                              placeholder="0"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                          <div>
+                            <label className="block text-[8px] font-black text-zinc-600 uppercase tracking-widest mb-2 ml-2">Variant Asset (URL or Upload)</label>
+                            <div className="flex items-center gap-4">
+                              <div className="relative">
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  id={`variant-img-${index}`}
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    if (e.target.files?.[0]) {
+                                      const newVariants = [...variants];
+                                      newVariants[index] = { ...newVariants[index], imageFile: e.target.files[0], imageUrl: "" };
+                                      setVariants(newVariants);
+                                    }
+                                  }}
+                                />
+                                <label 
+                                  htmlFor={`variant-img-${index}`}
+                                  className={`flex items-center justify-center w-12 h-12 rounded-xl border cursor-pointer transition-all ${variant.imageFile ? 'bg-primary text-black border-primary' : 'bg-white/5 text-zinc-500 border-white/10 hover:border-primary/40'}`}
+                                >
+                                  <ImageIcon className="w-5 h-5" />
+                                </label>
+                              </div>
+                              <input
+                                type="url"
+                                value={variant.imageUrl || ""}
+                                onChange={(e) => {
+                                  const newVariants = [...variants];
+                                  newVariants[index] = { ...newVariants[index], imageUrl: e.target.value, imageFile: null };
+                                  setVariants(newVariants);
+                                }}
+                                className="flex-1 px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:bg-black transition-all text-white text-xs"
+                                placeholder="ASSET URL..."
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <label className="block text-[8px] font-black text-zinc-600 uppercase tracking-widest mb-2 ml-2">Variant Delivery Link</label>
+                            <input
+                              type="url"
+                              value={variant.driveLink || ""}
+                              onChange={(e) => {
+                                const newVariants = [...variants];
+                                newVariants[index] = { ...newVariants[index], driveLink: e.target.value };
+                                setVariants(newVariants);
+                              }}
+                              className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:bg-black transition-all text-white font-mono text-xs"
+                              placeholder="CLOUDFLARE/DRIVE LINK..."
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    <button 
+                      type="button"
+                      onClick={() => setVariants([...variants, { name: "", price: "", driveLink: "", imageUrl: "", imageFile: null }])}
+                      className="w-full py-4 border border-dashed border-white/10 rounded-2xl text-zinc-500 hover:text-primary hover:border-primary/30 hover:bg-primary/5 transition-all flex items-center justify-center gap-2 uppercase font-black text-[10px] tracking-widest"
+                    >
+                      <Plus className="w-4 h-4" /> Add Variation Segment
+                    </button>
+                  </div>
                 </div>
 
                 <div className="md:col-span-2">
@@ -344,7 +489,6 @@ export default function AdminProducts() {
                   </label>
                   <input
                     type="url"
-                    required
                     value={formData.driveLink}
                     onChange={(e) => setFormData({...formData, driveLink: e.target.value})}
                     className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 font-mono text-sm"
@@ -363,7 +507,8 @@ export default function AdminProducts() {
                 </button>
                 <button
                   type="submit"
-                  className="bg-primary hover:bg-primary-hover text-black px-12 py-5 rounded-[1.5rem] font-black text-xl transition-all shadow-[0_0_20px_rgba(197,165,114,0.3)] hover:shadow-[0_0_50px_rgba(197,165,114,0.5)] hover:-translate-y-1 uppercase tracking-widest italic"
+                  disabled={isSubmitting}
+                  className={`bg-primary hover:bg-primary-hover text-black px-12 py-5 rounded-[1.5rem] font-black text-xl transition-all shadow-[0_0_20px_rgba(197,165,114,0.3)] hover:shadow-[0_0_50px_rgba(197,165,114,0.5)] hover:-translate-y-1 uppercase tracking-widest italic ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   {isSubmitting ? "Processing..." : "Execute Deployment"}
                 </button>
@@ -391,7 +536,7 @@ export default function AdminProducts() {
                         <div className="flex items-center gap-8">
                           <div className="w-20 h-20 rounded-[1.5rem] overflow-hidden border border-white/10 group-hover:border-primary/50 transition-all shadow-2xl relative">
                             <img 
-                              src={product.imageUrl || "/placeholder-product.png"} 
+                              src={product.image_url || product.imageUrl || "https://placehold.co/400x400?text=No+Asset"} 
                               alt="" 
                               className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" 
                               onError={(e) => {
@@ -407,7 +552,7 @@ export default function AdminProducts() {
                             <p className="text-zinc-600 text-[10px] mt-2 font-black uppercase tracking-widest flex items-center gap-2">
                               <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
                               {(() => {
-                                const category = categories.find(c => c.id === product.categoryId);
+                                const category = categories.find(c => c.id === product.category_id);
                                 if (!category) return "Unclassified";
                                 const title = category.title;
                                 return (typeof title === 'object' && title !== null ? ((title as any).en || Object.values(title)[0] || "Unclassified") : (title || "Unclassified")).toUpperCase();
@@ -423,22 +568,40 @@ export default function AdminProducts() {
                         <span className="text-[10px] text-zinc-700 font-mono uppercase tracking-[0.2em]">{product.id}</span>
                       </td>
                       <td className="p-10 text-right">
-                        <div className="flex items-center justify-end gap-4">
-                          <button 
-                            onClick={() => handleEditClick(product)}
-                            className="p-4 text-zinc-500 hover:text-primary bg-white/5 hover:bg-primary/10 rounded-2xl transition-all border border-transparent hover:border-primary/30 group/btn"
-                            title="Edit Product"
-                          >
-                            <Edit2 className="w-5 h-5 group-hover/btn:scale-110 transition-transform" />
-                          </button>
-                          <button 
-                            onClick={() => handleDelete(product.id)}
-                            className="p-4 text-zinc-500 hover:text-red-500 bg-white/5 hover:bg-red-500/10 rounded-2xl transition-all border border-transparent hover:border-red-500/30 group/btn"
-                            title="Delete Product"
-                          >
-                            <Trash2 className="w-5 h-5 group-hover/btn:scale-110 transition-transform" />
-                          </button>
-                        </div>
+                          <div className="flex items-center justify-end gap-3">
+                            <button 
+                              onClick={() => handleEditClick(product)}
+                              className="p-3 text-zinc-500 hover:text-primary bg-white/5 hover:bg-primary/10 rounded-xl transition-all border border-transparent hover:border-primary/30 group/btn"
+                              title="Edit Product"
+                            >
+                              <Edit2 className="w-5 h-5 group-hover/btn:scale-110 transition-transform" />
+                            </button>
+                            
+                            {productToDelete === product.id ? (
+                              <div className="flex items-center gap-2 animate-in slide-in-from-right-2 duration-300">
+                                <button 
+                                  onClick={() => handleDelete(product.id)}
+                                  className="px-4 py-3 bg-red-500 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-600 transition-all shadow-[0_0_20px_rgba(239,68,68,0.3)]"
+                                >
+                                  Confirm
+                                </button>
+                                <button 
+                                  onClick={() => setProductToDelete(null)}
+                                  className="p-3 bg-white/10 text-zinc-400 rounded-xl hover:text-white transition-all border border-white/5"
+                                >
+                                  <X className="w-4 h-4" />
+                                </button>
+                              </div>
+                            ) : (
+                              <button 
+                                onClick={() => setProductToDelete(product.id)}
+                                className="p-3 text-zinc-500 hover:text-red-500 bg-white/5 hover:bg-red-500/10 rounded-xl transition-all border border-transparent hover:border-red-500/30 group/btn"
+                                title="Delete Product"
+                              >
+                                <Trash2 className="w-5 h-5 group-hover/btn:scale-110 transition-transform" />
+                              </button>
+                            )}
+                          </div>
                       </td>
                     </tr>
                   ))}

@@ -156,7 +156,7 @@ export default function CartPage() {
         
         <Link 
           href="/" 
-          className="bg-primary hover:bg-white text-black px-10 py-4 rounded-2xl font-black transition-all shadow-[0_0_30px_rgba(212,255,0,0.2)] hover:shadow-[0_0_50px_rgba(212,255,0,0.4)] uppercase tracking-widest text-sm italic"
+          className="bg-primary hover:bg-white text-black px-10 py-4 rounded-2xl font-black transition-all shadow-[0_0_30px_rgba(197,165,114,0.3)] hover:shadow-[0_0_50px_rgba(197,165,114,0.5)] uppercase tracking-widest text-sm italic"
         >
           Access Collection
         </Link>

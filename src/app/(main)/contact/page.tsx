@@ -29,7 +29,7 @@ export default function ContactPage() {
             <h2 className="text-2xl font-black text-white italic tracking-tighter uppercase mb-10">Tactical Comms</h2>
             
             <div className="space-y-10">
-              <div className="flex items-center gap-6 group">
+              <a href={`mailto:${appearance?.contact?.email || "slideversestudio@gmail.com"}`} className="flex items-center gap-6 group">
                 <div className="w-16 h-16 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-black transition-all duration-500">
                   <Mail className="w-6 h-6 text-primary group-hover:text-black" />
                 </div>
@@ -37,9 +37,9 @@ export default function ContactPage() {
                   <h3 className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] mb-1">Secure Relay</h3>
                   <p className="text-xl text-white font-bold tracking-tight">{appearance?.contact?.email || "slideversestudio@gmail.com"}</p>
                 </div>
-              </div>
+              </a>
               
-              <div className="flex items-center gap-6 group">
+              <a href={`tel:${(appearance?.contact?.mobile || "+1 (800) SLIDEVERSE").replace(/\s/g, '')}`} className="flex items-center gap-6 group">
                 <div className="w-16 h-16 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-black transition-all duration-500">
                   <Phone className="w-6 h-6 text-primary group-hover:text-black" />
                 </div>
@@ -47,7 +47,7 @@ export default function ContactPage() {
                   <h3 className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] mb-1">Direct Line</h3>
                   <p className="text-xl text-white font-bold tracking-tight">{appearance?.contact?.mobile || "+1 (800) SLIDEVERSE"}</p>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
         </div>

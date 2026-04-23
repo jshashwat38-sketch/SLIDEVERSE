@@ -38,7 +38,10 @@ export async function getCategories() {
       .order('title', { ascending: true });
     
     if (error) throw error;
-    return data || [];
+    return (data || []).map(cat => ({
+      ...cat,
+      imageUrl: cat.image_url
+    }));
   } catch { return []; }
 }
 
@@ -52,7 +55,8 @@ export async function saveCategory(category: any) {
     };
 
     let error;
-    if (category.id && category.id.startsWith('cat-')) {
+    // Check if category exists by ID (ignoring prefix requirement)
+    if (category.id) {
       const { error: err } = await supabase
         .from('categories')
         .update(data)
@@ -94,19 +98,19 @@ export async function deleteCategory(id: string) {
 export async function getAppearance() {
   const defaultAppearance = {
     hero: {
-      title: "Design the Future of Presentations",
-      subtitle: "Discover, share, and monetize premium presentation assets.",
+      title: 'Master the Art of <span class="text-primary neon-text">Presentation Design</span>',
+      subtitle: "Elevate your visual storytelling with our curated collection of architectural-grade presentation assets. Experience structural clarity and cinematic impact.",
       image: "https://images.unsplash.com/photo-1542744173-8e7e5381bb6e?auto=format&fit=crop&q=80",
-      badge: "V1.0 LIVE"
+      badge: "THE PROFESSIONAL STANDARD"
     },
     about: {
-      title: "The Creative Atelier",
-      description: "We are a collective of designers and curators dedicated to elevating the digital asset landscape.",
+      title: 'The Digital <span class="text-primary">Atelier</span>',
+      description: "We are a specialized laboratory of digital architects, dedicated to engineering the most sophisticated presentation frameworks in the modern era.",
       image: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80"
     },
     story: {
-      title: "Our Genesis",
-      subtitle: "Born from the need for a more curated presentation ecosystem.",
+      title: `Beyond the <br /> <span class="text-primary">Standard</span>`,
+      subtitle: "Elevating professional narratives into cinematic experiences of architectural clarity.",
       image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80"
     },
     site: {

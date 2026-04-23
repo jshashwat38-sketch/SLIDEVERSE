@@ -16,9 +16,15 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
   const [categories, setCategories] = useState<any[]>([]);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     getCategories().then(setCategories);
+    // Check for admin authentication
+    const auth = typeof window !== 'undefined' ? localStorage.getItem("adminAuth") : null;
+    if (auth === "true") {
+      setIsAdmin(true);
+    }
   }, []);
 
   const languages = [
@@ -44,6 +50,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
             alt="Slideverse Logo" 
             width={64} 
             height={64} 
+            priority
             className="w-16 h-16 object-contain scale-125" 
           />
           <h1 className="text-xl font-bold tracking-tight text-white uppercase italic">Slideverse</h1>
@@ -189,15 +196,17 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           )}
         </div>
       </nav>
-      <div className="p-4 border-t border-white/5 bg-black/20">
-        <Link 
-          href="/admin" 
-          className="flex items-center gap-3 px-4 py-3 text-sm text-zinc-500 hover:text-white hover:bg-white/10 rounded-xl transition-all font-medium group"
-        >
-          <LayoutDashboard className="w-4 h-4 group-hover:text-primary" />
-          {t("admin_dashboard")}
-        </Link>
-      </div>
+      {isAdmin && (
+        <div className="p-4 border-t border-white/5 bg-black/20">
+          <Link 
+            href="/admin" 
+            className="flex items-center gap-3 px-4 py-3 text-sm text-zinc-500 hover:text-white hover:bg-white/10 rounded-xl transition-all font-medium group"
+          >
+            <LayoutDashboard className="w-4 h-4 group-hover:text-primary" />
+            {t("admin_dashboard")}
+          </Link>
+        </div>
+      )}
     </aside>
   );
 }

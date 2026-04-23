@@ -4,12 +4,14 @@ import { useState, useEffect } from "react";
 import { getReviews, saveReview, deleteReview } from "@/actions/adminActions";
 import { Plus, Edit, Trash2, Save, X, MessageSquare, Quote } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "react-hot-toast";
 
 export default function ReviewsPage() {
   const [reviews, setReviews] = useState<any[]>([]);
   const [editingReview, setEditingReview] = useState<any>(null);
   const [isAdding, setIsAdding] = useState(false);
   const [formData, setFormData] = useState({ name: "", role: "", text: "", code: "SIGMA-XX" });
+  const [reviewToDelete, setReviewToDelete] = useState<string | null>(null);
 
   useEffect(() => { loadReviews(); }, []);
 
@@ -30,8 +32,11 @@ export default function ReviewsPage() {
   }
 
   async function handleDelete(id: string) {
-    if (confirm("Terminate this transmission?")) {
-      await deleteReview(id);
+    console.log("Transmission termination initiated for review:", id);
+    const result = await deleteReview(id);
+    if (result.success) {
+      toast.success("Feed purged.");
+      setReviewToDelete(null);
       loadReviews();
     }
   }
@@ -132,9 +137,27 @@ export default function ReviewsPage() {
               <button onClick={() => setEditingReview(review)} className="p-3 bg-white/5 rounded-xl text-blue-400 hover:bg-blue-400/20 transition-all">
                 <Edit className="w-5 h-5" />
               </button>
-              <button onClick={() => handleDelete(review.id)} className="p-3 bg-white/5 rounded-xl text-red-400 hover:bg-red-400/20 transition-all">
-                <Trash2 className="w-5 h-5" />
-              </button>
+              
+              {reviewToDelete === review.id ? (
+                <div className="flex items-center gap-2 animate-in slide-in-from-right-2 duration-300">
+                  <button 
+                    onClick={() => handleDelete(review.id)}
+                    className="px-4 py-3 bg-red-500 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-600 transition-all"
+                  >
+                    Confirm
+                  </button>
+                  <button 
+                    onClick={() => setReviewToDelete(null)}
+                    className="p-3 bg-white/5 text-zinc-400 rounded-xl hover:text-white transition-all border border-white/5"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              ) : (
+                <button onClick={() => setReviewToDelete(review.id)} className="p-3 bg-white/5 rounded-xl text-red-400 hover:bg-red-400/20 transition-all">
+                  <Trash2 className="w-5 h-5" />
+                </button>
+              )}
             </div>
             
             <div className="flex items-center gap-4 mb-8">
