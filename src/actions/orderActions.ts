@@ -18,6 +18,22 @@ export async function getOrders() {
   }
 }
 
+export async function getUserOrders(email: string) {
+  try {
+    const { data, error } = await supabase
+      .from("orders")
+      .select("*")
+      .eq("email", email)
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error("Error reading user orders:", error);
+    return [];
+  }
+}
+
 export async function updateOrderStatus(orderId: string, newStatus: string) {
   try {
     const { error } = await supabase
@@ -79,5 +95,28 @@ export async function saveOrder(order: any) {
   } catch (error) {
     console.error("Error saving order:", error);
     return { success: false, error: "Failed to save order" };
+  }
+}
+
+export async function saveFailedOrder(orderDetails: any) {
+  try {
+    const failedOrder = {
+      ...orderDetails,
+      id: `ORD-F-${Date.now()}`,
+      status: "failed",
+      date: new Date().toLocaleDateString(),
+      created_at: new Date().toISOString()
+    };
+    
+    const { error } = await supabase
+      .from("orders")
+      .insert([failedOrder]);
+
+    if (error) throw error;
+    revalidatePath("/admin");
+    return { success: true };
+  } catch (error) {
+    console.error("Error saving failed order:", error);
+    return { success: false };
   }
 }

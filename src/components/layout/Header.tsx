@@ -67,6 +67,10 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
           <div className="w-8 h-8 rounded-full bg-white/5 animate-pulse"></div>
         ) : user ? (
           <div className="flex items-center gap-4 relative">
+            <Link href="/account" className="hidden md:flex items-center gap-2 text-zinc-400 hover:text-primary transition-colors group">
+              <ShoppingBag className="w-4 h-4 group-hover:drop-shadow-[0_0_8px_rgba(197,165,114,0.5)]" />
+              <span className="text-xs font-black uppercase tracking-widest italic">My Vault</span>
+            </Link>
             <span className="text-sm font-medium text-zinc-200">Hi, {user.name}</span>
             <button 
               onClick={() => setShowLogoutConfirm(!showLogoutConfirm)}

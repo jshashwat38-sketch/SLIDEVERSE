@@ -23,6 +23,7 @@ import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-hot-toast";
 import { useLanguage } from "@/context/LanguageContext";
 import { getLangString } from "@/utils/lang";
+import LogoLoader from "@/components/common/LogoLoader";
 
 
 declare global {
@@ -55,8 +56,8 @@ export default function ProductDetailsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#09090B] flex items-center justify-center">
-        <div className="w-20 h-20 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <LogoLoader />
       </div>
     );
   }

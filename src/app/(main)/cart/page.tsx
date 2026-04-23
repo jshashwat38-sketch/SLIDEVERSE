@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { createRazorpayOrder, verifyPayment } from "@/actions/paymentActions";
 import { toast } from "react-hot-toast";
 import { useLanguage } from "@/context/LanguageContext";
+import { saveFailedOrder } from "@/actions/orderActions";
 import { getLangString } from "@/utils/lang";
 
 declare global {
@@ -90,17 +91,45 @@ export default function CartPage() {
           color: "#D4FF00",
         },
         modal: {
-          ondismiss: function() {
+          ondismiss: async function() {
             setIsProcessing(false);
+            toast.error("Acquisition sequence paused. Please complete your payment in your vault.");
+            await saveFailedOrder({
+              customer: user.name || "Verified Curator",
+              email: user.email,
+              product: items.map(i => `${i.title} (x${i.quantity})`).join(", "),
+              amount: totalPrice,
+              product_id: items[0].id
+            });
           }
         }
       };
 
       const rzp = new window.Razorpay(options);
+      
+      rzp.on('payment.failed', async function (response: any) {
+        toast.error("Security sequence interrupted. Please complete your payment.");
+        await saveFailedOrder({
+          customer: user.name || "Verified Curator",
+          email: user.email,
+          product: items.map(i => `${i.title} (x${i.quantity})`).join(", "),
+          amount: totalPrice,
+          product_id: items[0].id // Simplified for single product primary link
+        });
+        setIsProcessing(false);
+      });
+
       rzp.open();
     } catch (error) {
       console.error("Payment initiation error:", error);
       toast.error("Could not launch payment gateway.");
+      await saveFailedOrder({
+        customer: user.name || "Verified Curator",
+        email: user.email,
+        product: items.map(i => `${i.title} (x${i.quantity})`).join(", "),
+        amount: totalPrice,
+        product_id: items[0].id
+      });
       setIsProcessing(false);
     }
   };

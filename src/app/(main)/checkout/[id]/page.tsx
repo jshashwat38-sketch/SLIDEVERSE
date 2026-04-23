@@ -11,6 +11,8 @@ import { verifyEmailDomain } from "@/actions/validationActions";
 import { createRazorpayOrder, verifyPayment } from "@/actions/paymentActions";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
+import { saveFailedOrder } from "@/actions/orderActions";
+import LogoLoader from "@/components/common/LogoLoader";
 
 declare global {
   interface Window {
@@ -112,17 +114,45 @@ export default function CheckoutPage({ params }: { params: Promise<{ id: string 
           color: "#C5A572",
         },
         modal: {
-          ondismiss: function() {
+          ondismiss: async function() {
             setIsSubmitting(false);
+            toast.error("Acquisition sequence paused. Please complete your payment in your vault.");
+            await saveFailedOrder({
+              customer: formData.name,
+              email: formData.email,
+              product: product.title,
+              amount: product.price,
+              product_id: product.id
+            });
           }
         }
       };
 
       const rzp = new window.Razorpay(options);
+      
+      rzp.on('payment.failed', async function (response: any) {
+        toast.error("Security sequence interrupted. Please complete your payment.");
+        await saveFailedOrder({
+          customer: formData.name,
+          email: formData.email,
+          product: product.title,
+          amount: product.price,
+          product_id: product.id
+        });
+        setIsSubmitting(false);
+      });
+
       rzp.open();
     } catch (error) {
       console.error("Payment initiation error:", error);
       setError("Could not launch payment gateway.");
+      await saveFailedOrder({
+        customer: formData.name,
+        email: formData.email,
+        product: product.title,
+        amount: product.price,
+        product_id: product.id
+      });
       setIsSubmitting(false);
     }
   };
@@ -134,8 +164,7 @@ export default function CheckoutPage({ params }: { params: Promise<{ id: string 
   if (isLoading) {
     return (
       <div className="max-w-3xl mx-auto py-32 flex flex-col items-center justify-center space-y-4">
-        <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
-        <p className="text-zinc-600 font-black uppercase tracking-[0.3em] text-[10px] italic">Syncing Asset Data...</p>
+        <LogoLoader />
       </div>
     );
   }
