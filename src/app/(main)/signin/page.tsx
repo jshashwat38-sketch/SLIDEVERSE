@@ -15,7 +15,7 @@ export default function SignInPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
-  const { login, isLoading } = useAuth();
+  const { login, googleLogin, isLoading } = useAuth();
   const router = useRouter();
   const { t } = useLanguage();
   
@@ -81,6 +81,29 @@ export default function SignInPage() {
             {error}
           </div>
         )}
+
+        <div className="space-y-6 mb-12">
+          <button
+            type="button"
+            onClick={() => googleLogin()}
+            disabled={isLoading}
+            className="w-full bg-white text-black py-4 rounded-2xl font-black text-sm transition-all shadow-xl flex items-center justify-center gap-4 uppercase tracking-widest hover:bg-zinc-200 active:scale-95 disabled:opacity-50"
+          >
+            <svg className="w-5 h-5" viewBox="0 0 24 24">
+              <path fill="#EA4335" d="M12 5.04c1.94 0 3.51.68 4.71 1.7l3.54-3.54C18.11 1.21 15.28 0 12 0 7.33 0 3.3 2.69 1.3 6.65l4.23 3.28C6.51 7.21 9.01 5.04 12 5.04z" />
+              <path fill="#4285F4" d="M23.49 12.27c0-.8-.07-1.56-.19-2.27H12v4.51h6.47c-.28 1.48-1.13 2.74-2.4 3.58l3.71 2.88c2.16-1.99 3.42-4.93 3.42-8.7z" />
+              <path fill="#FBBC05" d="M5.53 14.54c-.26-.77-.4-1.58-.4-2.54 0-.96.14-1.77.4-2.54L1.3 6.19C.47 7.9 0 9.89 0 12c0 2.11.47 4.1 1.3 5.81l4.23-3.27z" />
+              <path fill="#34A853" d="M12 24c3.24 0 5.95-1.07 7.94-2.91l-3.71-2.88c-1.07.72-2.45 1.15-4.23 1.15-3.26 0-6.02-2.2-7.01-5.16l-4.23 3.28C3.31 21.31 7.33 24 12 24z" />
+            </svg>
+            Continue with Google
+          </button>
+          
+          <div className="flex items-center gap-4 text-zinc-800">
+            <div className="h-[1px] flex-1 bg-white/5" />
+            <span className="text-[10px] font-black uppercase tracking-[0.3em]">OR SECURE MANUAL ACCESS</span>
+            <div className="h-[1px] flex-1 bg-white/5" />
+          </div>
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
           <div>

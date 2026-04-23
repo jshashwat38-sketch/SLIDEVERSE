@@ -84,19 +84,19 @@ export async function sendOTP(email: string, type: 'reset' | 'signup' = 'reset')
         to: email,
         subject: `${otp} is your Slideverse Verification Sequence`,
         html: `
-          <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #002366; padding: 60px 20px; text-align: center;">
-            <div style="max-width: 600px; margin: 0 auto; background-color: #003399; border: 1px solid #FFD700; border-radius: 40px; padding: 50px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+          <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #000B1E; padding: 60px 20px; text-align: center;">
+            <div style="max-width: 600px; margin: 0 auto; background-color: #001533; border: 2px solid #FFD700; border-radius: 40px; padding: 50px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
               <div style="margin-bottom: 40px;">
                 <h1 style="color: #FFD700; font-size: 24px; font-weight: 900; letter-spacing: 5px; text-transform: uppercase; margin: 0;">SLIDEVERSE PRO</h1>
                 <p style="color: #FFFFFF; font-size: 10px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; margin-top: 10px; opacity: 0.8;">Secure Identity Protocol</p>
               </div>
               <h2 style="font-size: 32px; font-weight: 900; font-style: italic; text-transform: uppercase; margin-bottom: 20px; color: #fff;">Verification Required</h2>
               <p style="color: #E6EFFF; font-size: 14px; line-height: 1.6; margin-bottom: 40px;">Initiating authorization sequence for your operative account. Enter the following 6-digit code to establish identity.</p>
-              <div style="background-color: rgba(255,215,0,0.1); border: 2px solid #FFD700; border-radius: 20px; padding: 30px; display: inline-block; min-width: 200px;">
-                <span style="font-size: 48px; font-weight: 900; color: #FFD700; letter-spacing: 10px; font-family: monospace;">${otp}</span>
+              <div style="background-color: #002366; border: 3px solid #FFD700; border-radius: 20px; padding: 30px; display: inline-block; min-width: 220px;">
+                <span style="font-size: 48px; font-weight: 900; color: #FFD700; letter-spacing: 12px; font-family: 'Courier New', Courier, monospace;">${otp}</span>
               </div>
               <p style="color: #FFFFFF; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-top: 40px; opacity: 0.6;">This sequence will expire in 10 minutes.</p>
-              <div style="margin-top: 50px; border-top: 1px solid rgba(255,215,0,0.2); padding-top: 30px;">
+              <div style="margin-top: 50px; border-top: 1px solid #FFD700; padding-top: 30px;">
                 <p style="color: #FFFFFF; font-size: 10px; margin-top: 30px; opacity: 0.4;">If you did not initiate this protocol, ignore this broadcast.</p>
               </div>
             </div>
