@@ -16,15 +16,15 @@ export default function PasswordInput({ name, value, onChange, placeholder = "â€
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="space-y-2">
-      <label className="block text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-2 ml-4">{label}</label>
+    <div className="space-y-1">
+      <label className="block text-xs font-black text-zinc-500 uppercase tracking-[0.2em] mb-3">{label}</label>
       <div className="relative group">
         <input
           type={showPassword ? "text" : "password"}
           name={name}
           value={value}
           onChange={onChange}
-          className="w-full pl-14 pr-14 py-4 bg-white/5 border border-white/10 rounded-2xl focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white text-sm font-bold placeholder:text-zinc-800"
+          className="w-full pl-14 pr-14 py-4 bg-white/5 border border-white/10 rounded-2xl focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary/50 transition-all text-white placeholder:text-zinc-800"
           placeholder={placeholder}
           required={required}
         />

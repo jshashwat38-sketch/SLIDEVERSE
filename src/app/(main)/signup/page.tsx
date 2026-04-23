@@ -180,7 +180,7 @@ export default function SignUpPage() {
 
               <form onSubmit={handleFormSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="md:col-span-2">
-                  <label className="block text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-2 ml-4">Full Identity Name</label>
+                  <label className="block text-xs font-black text-zinc-500 uppercase tracking-[0.2em] mb-3">Full Identity Name</label>
                   <div className="relative">
                     <input
                       type="text"
@@ -196,7 +196,7 @@ export default function SignUpPage() {
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-2 ml-4">Secure Endpoint (Email)</label>
+                  <label className="block text-xs font-black text-zinc-500 uppercase tracking-[0.2em] mb-3">Secure Endpoint (Email)</label>
                   <div className="relative">
                     <input
                       type="email"
@@ -212,7 +212,7 @@ export default function SignUpPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-2 ml-4">Comm Link (Phone)</label>
+                  <label className="block text-xs font-black text-zinc-500 uppercase tracking-[0.2em] mb-3">Comm Link (Phone)</label>
                   <div className="relative">
                     <input
                       type="tel"
