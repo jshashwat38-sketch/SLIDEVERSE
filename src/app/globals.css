@@ -19,6 +19,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Hide Next.js Development Indicator */
+nextjs-portal {
+  display: none !important;
+}
+
 :root {
   --background: 0 0% 2%;
   --foreground: 0 0% 98%;
