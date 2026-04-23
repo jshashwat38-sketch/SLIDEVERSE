@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { LayoutDashboard, Package, Users, LogOut, Settings, Lock, Sparkles, MessageSquare, Menu, X, Phone } from "lucide-react";
 
 import PasswordInput from "@/components/common/PasswordInput";
+import LogoLoader from "@/components/common/LogoLoader";
 
 
 
@@ -55,7 +56,11 @@ export default function AdminLayout({
   ];
 
 
-  if (isChecking) return <div className="min-h-screen bg-background" />;
+  if (isChecking) return (
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <LogoLoader />
+    </div>
+  );
 
   if (!isAuthenticated) {
     return (

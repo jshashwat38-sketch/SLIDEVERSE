@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { getAppearance, updateAppearance, uploadImage } from "@/actions/adminActions";
 import { Save, RefreshCw, Eye, Image as ImageIcon, Upload, Phone, ShieldCheck } from "lucide-react";
+import LogoLoader from "@/components/common/LogoLoader";
 
 import { motion } from "framer-motion";
 
@@ -46,7 +47,11 @@ export default function AppearancePage() {
     setIsUploading(null);
   }
 
-  if (!appearance) return <div className="text-primary animate-pulse font-black uppercase tracking-widest">Accessing Visual Core...</div>;
+  if (!appearance) return (
+    <div className="flex items-center justify-center min-h-[400px]">
+      <LogoLoader />
+    </div>
+  );
 
   return (
     <div className="space-y-12 pb-24">
