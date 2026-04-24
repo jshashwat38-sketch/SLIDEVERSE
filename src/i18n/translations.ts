@@ -60,7 +60,9 @@ export const translations: Record<string, Record<string, string>> = {
     welcome_back: "Welcome Back",
     signin_subtitle: "Sign in to access your premium presentations.",
     password: "Password",
-    create_account: "Create one"
+    create_account: "Create one",
+    continue_with_google: "Continue with Google",
+    register_with_google: "Register with Google"
   },
   hi: {
     home: "होम",
