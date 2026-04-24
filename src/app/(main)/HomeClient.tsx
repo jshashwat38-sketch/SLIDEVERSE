@@ -20,7 +20,8 @@ interface HomeClientProps {
 export default function HomeClient({ initialAppearance, initialProducts, initialReviews }: HomeClientProps) {
   const { t, language } = useLanguage();
   const [appearance] = useState(initialAppearance);
-  const [featuredProducts] = useState(initialProducts);
+  const bestsellerProducts = initialProducts.filter(p => p.is_bestseller);
+  const [featuredProducts] = useState(bestsellerProducts);
   const [reviews] = useState(initialReviews);
 
   // Animation variants
@@ -195,9 +196,19 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
           </div>
           
           <div className="max-w-7xl mx-auto px-6 space-y-24">
-            <HeroProductCard {...featuredProducts[0]} />
+            {featuredProducts.length > 0 && <HeroProductCard {...featuredProducts[0]} />}
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {/* Mobile Product Carousel - Snap Scrolling */}
+            <div className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-6 pb-12 -mx-6 px-6 scrollbar-hide">
+              {featuredProducts.slice(1).map((product, index) => (
+                <div key={product.id} className="min-w-[85vw] snap-center">
+                  <ProductCard {...product} />
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Grid Layout */}
+            <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-10">
               {featuredProducts.slice(1, 4).map((product, index) => (
                 <motion.div 
                   key={product.id}
@@ -312,36 +323,23 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             </motion.div>
           </div>
 
-          {/* Seamless Infinite Rotating Pillars */}
-          <div className="relative md:hidden overflow-hidden py-12 -mx-6">
-            <motion.div 
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ 
-                duration: 20, 
-                repeat: Infinity, 
-                ease: "linear" 
-              }}
-              className="flex gap-6 px-6 w-max"
-            >
-              {[...Array(2)].map((_, groupIndex) => (
-                <div key={groupIndex} className="flex gap-6">
-                  {[
-                    { title: "Architectural Integrity", desc: "Every slide is built on a foundation of structural perfection." },
-                    { title: "Cinematic Motion", desc: "Transitions that bridge the gap between presentation and cinema." },
-                    { title: "Tactical Delivery", desc: "Engineered for high-stakes environments where clarity is paramount." }
-                  ].map((pillar, i) => (
-                    <div 
-                      key={`${groupIndex}-${i}`}
-                      className="w-[280px] p-10 rounded-[2.5rem] bg-white/[0.02] border border-white/5 text-center flex flex-col items-center justify-center min-h-[220px]"
-                    >
-                      <div className="text-primary font-black uppercase tracking-[0.4em] text-[8px] mb-4">Pillar 0{i+1}</div>
-                      <h4 className="text-white font-bold text-xl mb-4 italic uppercase tracking-tighter leading-tight">{pillar.title}</h4>
-                      <p className="text-zinc-500 text-xs leading-relaxed font-medium">{pillar.desc}</p>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </motion.div>
+          {/* Snap-Scroll Rotating Pillars - Mobile Optimized */}
+          <div className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-6 pb-12 -mx-6 px-6 scrollbar-hide">
+            {[
+              { title: "Architectural Integrity", desc: "Every slide is built on a foundation of structural perfection. We prioritize spatial balance and visual hierarchy to ensure your content is not just seen, but understood at a fundamental level through rigorous design principles." },
+              { title: "Cinematic Motion", desc: "Transitions that bridge the gap between presentation and cinema. Our proprietary motion system engineers fluidity into every slide change, creating a seamless narrative flow that captivates professional audiences with high-end optics." },
+              { title: "Tactical Delivery", desc: "Engineered for high-stakes environments where clarity is paramount. Every element is stress-tested for maximum performance across all hardware, ensuring your vision is delivered with absolute precision and zero latency." }
+            ].map((pillar, i) => (
+              <div 
+                key={i}
+                className="min-w-[80vw] snap-center p-10 rounded-[3rem] bg-white/[0.02] border border-white/5 text-center flex flex-col items-center justify-center min-h-[320px] relative overflow-hidden group shadow-2xl"
+              >
+                <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="text-primary font-black uppercase tracking-[0.4em] text-[10px] mb-6 relative z-10">Pillar 0{i+1}</div>
+                <h4 className="text-white font-bold text-2xl mb-6 italic uppercase tracking-tighter leading-tight relative z-10">{pillar.title}</h4>
+                <p className="text-zinc-400 text-sm leading-relaxed font-medium relative z-10">{pillar.desc}</p>
+              </div>
+            ))}
           </div>
 
           {/* Desktop Grid Layout */}
@@ -383,46 +381,32 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             <p className="text-sm text-zinc-500 uppercase tracking-[0.3em] font-bold">Verified Intelligence from the Field</p>
           </motion.div>
 
-          {/* Seamless Infinite Rotating Reviews */}
-          <div className="relative md:hidden overflow-hidden py-12 -mx-6">
-            <motion.div 
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ 
-                duration: 30, 
-                repeat: Infinity, 
-                ease: "linear" 
-              }}
-              className="flex gap-6 px-6 w-max"
-            >
-              {[...Array(2)].map((_, groupIndex) => (
-                <div key={groupIndex} className="flex gap-6">
-                  {(reviews.length > 0 ? reviews : []).map((testimonial: any, i: number) => (
-                    <div 
-                      key={`${groupIndex}-${i}`}
-                      className="w-[320px] bg-white/[0.03] backdrop-blur-sm p-10 rounded-[2.5rem] border border-white/5 relative flex flex-col justify-between min-h-[300px]"
-                    >
-                      <div className="absolute top-8 right-8 text-primary/20">
-                        <Sparkles className="w-6 h-6" />
-                      </div>
-                      <div>
-                        <div className="text-zinc-600 text-[8px] font-bold uppercase tracking-[0.4em] mb-6 leading-none">Feed // {testimonial.code}</div>
-                        <p className="text-zinc-300 text-base leading-relaxed font-medium italic mb-8">
-                          "{getLangString(testimonial.text, language)}"
-                        </p>
-                      </div>
-                      <div className="border-t border-white/5 pt-8">
-                        <div className="text-white font-bold text-xs uppercase tracking-widest leading-none">
-                          {getLangString(testimonial.name, language)}
-                        </div>
-                        <div className="text-primary text-[8px] font-bold uppercase tracking-[0.3em] mt-2 leading-none">
-                          {getLangString(testimonial.role, language)}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+          {/* Snap-Scroll Rotating Reviews - Mobile Optimized */}
+          <div className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-6 pb-12 -mx-6 px-6 scrollbar-hide">
+            {(reviews.length > 0 ? reviews : []).map((testimonial: any, i: number) => (
+              <div 
+                key={i}
+                className="min-w-[85vw] snap-center bg-white/[0.03] backdrop-blur-sm p-12 rounded-[3.5rem] border border-white/5 relative flex flex-col justify-between min-h-[380px] shadow-2xl"
+              >
+                <div className="absolute top-10 right-10 text-primary/20">
+                  <Sparkles className="w-8 h-8" />
                 </div>
-              ))}
-            </motion.div>
+                <div>
+                  <div className="text-zinc-600 text-[10px] font-bold uppercase tracking-[0.4em] mb-8 leading-none">Feed // {testimonial.code}</div>
+                  <p className="text-zinc-300 text-lg leading-relaxed font-medium italic mb-10">
+                    "{getLangString(testimonial.text, language)}"
+                  </p>
+                </div>
+                <div className="border-t border-white/5 pt-10">
+                  <div className="text-white font-bold text-sm uppercase tracking-widest leading-none">
+                    {getLangString(testimonial.name, language)}
+                  </div>
+                  <div className="text-primary text-[10px] font-bold uppercase tracking-[0.3em] mt-3 leading-none">
+                    {getLangString(testimonial.role, language)}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Desktop Grid Layout */}

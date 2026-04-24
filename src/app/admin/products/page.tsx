@@ -19,7 +19,8 @@ export default function AdminProducts() {
     price: "",
     driveLink: "",
     features: "",
-    categoryId: ""
+    categoryId: "",
+    isBestseller: false
   });
 
   const [imageUrls, setImageUrls] = useState<string[]>(["", "", "", "", "", ""]);
@@ -46,7 +47,7 @@ export default function AdminProducts() {
   const resetForm = () => {
     setIsAdding(false);
     setEditingId(null);
-    setFormData({ title: "", description: "", price: "", driveLink: "", features: "", categoryId: categories[0]?.id || "" });
+    setFormData({ title: "", description: "", price: "", driveLink: "", features: "", categoryId: categories[0]?.id || "", isBestseller: false });
     setImageUrls(["", "", "", "", "", ""]);
     setImageFiles([null, null, null, null, null, null]);
     setFaqs(Array.from({ length: 7 }, () => ({ question: "", answer: "" })));
@@ -60,7 +61,8 @@ export default function AdminProducts() {
       price: product.price.toString(),
       driveLink: product.drive_link || "",
       features: Array.isArray(product.features) ? product.features.join(", ") : "",
-      categoryId: product.category_id || ""
+      categoryId: product.category_id || "",
+      isBestseller: product.is_bestseller || false
     });
     
     const existingImages = product.images || [product.image_url];
@@ -113,6 +115,7 @@ export default function AdminProducts() {
       data.append("features", formData.features);
       data.append("driveLink", formData.driveLink);
       data.append("categoryId", formData.categoryId);
+      data.append("isBestseller", String(formData.isBestseller));
       
       console.log("Form data assembled. Title:", formData.title);
 
@@ -258,6 +261,20 @@ export default function AdminProducts() {
                     className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 font-bold text-sm"
                     placeholder="FEATURE A, FEATURE B..."
                   />
+                </div>
+
+                <div className="flex items-center gap-4 mt-6 ml-4">
+                  <input
+                    type="checkbox"
+                    id="isBestseller"
+                    checked={formData.isBestseller}
+                    onChange={(e) => setFormData({...formData, isBestseller: e.target.checked})}
+                    className="w-6 h-6 rounded bg-white/5 border-white/10 text-primary focus:ring-primary/40 cursor-pointer"
+                  />
+                  <label htmlFor="isBestseller" className="text-sm font-black text-white uppercase tracking-widest cursor-pointer flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-primary" />
+                    Mark as Bestseller
+                  </label>
                 </div>
 
                 <div className="md:col-span-2">
@@ -549,15 +566,20 @@ export default function AdminProducts() {
                             <p className="font-black text-white uppercase tracking-tighter italic text-xl group-hover:text-primary transition-colors">
                               {typeof product.title === 'object' && product.title !== null ? ((product.title as any).en || Object.values(product.title)[0] || "") : (product.title || "")}
                             </p>
-                            <p className="text-zinc-600 text-[10px] mt-2 font-black uppercase tracking-widest flex items-center gap-2">
-                              <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
-                              {(() => {
-                                const category = categories.find(c => c.id === product.category_id);
-                                if (!category) return "Unclassified";
-                                const title = category.title;
-                                return (typeof title === 'object' && title !== null ? ((title as any).en || Object.values(title)[0] || "Unclassified") : (title || "Unclassified")).toUpperCase();
-                              })()}
-                            </p>
+                            <div className="flex items-center gap-3 mt-2">
+                              <p className="text-zinc-600 text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
+                                {(() => {
+                                  const category = categories.find(c => c.id === product.category_id);
+                                  if (!category) return "Unclassified";
+                                  const title = category.title;
+                                  return (typeof title === 'object' && title !== null ? ((title as any).en || Object.values(title)[0] || "Unclassified") : (title || "Unclassified")).toUpperCase();
+                                })()}
+                              </p>
+                              {product.is_bestseller && (
+                                <span className="text-[8px] font-black text-primary bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20 tracking-widest uppercase">Bestseller</span>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </td>
