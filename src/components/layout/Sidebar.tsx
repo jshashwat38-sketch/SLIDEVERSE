@@ -111,7 +111,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
                   key={cat.id}
                   href={`/category/${cat.id.replace('cat-', '')}`}
                   onClick={onClose}
-                  className="block px-4 py-2 text-sm text-zinc-500 hover:text-white rounded-lg hover:bg-white/5 transition-colors truncate"
+                  className="block px-4 py-2 text-sm text-zinc-500 hover:text-white rounded-lg hover:bg-white/5 transition-colors break-words"
                   title={typeof cat.title === 'object' && cat.title !== null ? ((cat.title as any)[language] || (cat.title as any).en || "") : (cat.title || "")}
                 >
                   {typeof cat.title === 'object' && cat.title !== null ? ((cat.title as any)[language] || (cat.title as any).en || "") : (cat.title || "")}

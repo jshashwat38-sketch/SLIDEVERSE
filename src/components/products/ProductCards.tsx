@@ -66,7 +66,7 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
           </div>
         </div>
         
-        <p className="text-zinc-400 text-xs mb-6 line-clamp-2 leading-relaxed font-normal">{displayDescription}</p>
+        <p className="text-zinc-400 text-[10px] sm:text-xs mb-6 line-clamp-4 sm:line-clamp-none leading-relaxed font-normal">{displayDescription}</p>
         
         <div className="space-y-3 mb-8 flex-1">
           {safeFeatures.slice(0, 3).map((feature, i) => (
