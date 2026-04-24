@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Zap, Shield, Sparkles, Mail, Phone, Send, LogOut } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { saveGrievance } from "@/actions/adminActions";
 import { toast } from "react-hot-toast";
 import { ProductCard, HeroProductCard } from "@/components/products/ProductCards";
@@ -23,6 +23,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
   const bestsellerProducts = initialProducts.filter(p => p.is_bestseller);
   const [featuredProducts] = useState(bestsellerProducts);
   const [reviews] = useState(initialReviews);
+  const [activeReview, setActiveReview] = useState(0);
 
   // Animation variants
   const containerVariants = {
@@ -37,6 +38,45 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
     hidden: { opacity: 0, y: 15 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
   };
+
+  const [activePillar, setActivePillar] = useState(0);
+  const [activeReview, setActiveReview] = useState(0);
+  const [activeProduct, setActiveProduct] = useState(0);
+
+  const productRef = useRef<HTMLDivElement>(null);
+  const pillarRef = useRef<HTMLDivElement>(null);
+  const reviewRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll logic for mobile snap carousels
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActivePillar((prev) => (prev + 1) % 3);
+      setActiveReview((prev) => (prev + 1) % (reviews.length || 1));
+      setActiveProduct((prev) => (prev + 1) % Math.max(1, featuredProducts.length - 1));
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [reviews.length, featuredProducts.length]);
+
+  useEffect(() => {
+    if (productRef.current) {
+      const el = productRef.current;
+      el.scrollTo({ left: activeProduct * (el.offsetWidth * 0.85 + 24), behavior: 'smooth' });
+    }
+  }, [activeProduct]);
+
+  useEffect(() => {
+    if (pillarRef.current) {
+      const el = pillarRef.current;
+      el.scrollTo({ left: activePillar * (el.offsetWidth * 0.80 + 24), behavior: 'smooth' });
+    }
+  }, [activePillar]);
+
+  useEffect(() => {
+    if (reviewRef.current) {
+      const el = reviewRef.current;
+      el.scrollTo({ left: activeReview * (el.offsetWidth * 0.85 + 24), behavior: 'smooth' });
+    }
+  }, [activeReview]);
 
   return (
     <div className="overflow-hidden bg-background selection:bg-primary selection:text-black font-sans">
@@ -95,12 +135,9 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               </Link>
             </motion.div>
 
-            {/* Mobile Decorative Elements */}
-            <div className="md:hidden absolute top-20 right-0 -z-10 pointer-events-none">
-              <div className="w-64 h-64 bg-primary/20 rounded-full blur-[100px] animate-glow-pulse" />
-            </div>
-            <div className="md:hidden absolute bottom-40 left-0 -z-10 pointer-events-none">
-              <div className="w-48 h-48 bg-blue-500/10 rounded-full blur-[100px] animate-float" />
+            {/* Mobile Decorative Glows - Cleaned Up */}
+            <div className="md:hidden absolute top-20 right-0 -z-10 pointer-events-none opacity-20">
+              <div className="w-64 h-64 bg-primary/10 rounded-full blur-[100px]" />
             </div>
 
             {/* Mobile Command Hub - Refined Horizontal Scroll */}
@@ -109,7 +146,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="mt-16 md:hidden"
+              className="mt-10 md:hidden"
             >
               <div className="flex items-center justify-between mb-6">
                 <span className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em]">Active Sectors</span>
@@ -158,9 +195,9 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="relative lg:block lg:w-[90%] mx-auto mt-16 lg:mt-0"
+            className="hidden lg:block relative lg:w-[90%] mx-auto lg:mt-0"
           >
-            <div className="relative z-10 group overflow-hidden rounded-[2.5rem] md:rounded-[3rem] border border-white/5 bg-black/20 backdrop-blur-sm p-2 aspect-[4/3] lg:aspect-square">
+            <div className="relative z-10 group overflow-hidden rounded-[3rem] border border-white/5 bg-black/20 backdrop-blur-sm p-2 aspect-square">
               <Image 
                 src={appearance?.hero?.image || "/assets/hero_v2.png"} 
                 alt="Architectural Presentation" 
@@ -168,8 +205,8 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 priority
                 className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-1000" 
               />
-              <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 bg-black/60 backdrop-blur-2xl border border-white/10 p-4 md:p-6 rounded-2xl z-20">
-                <div className="text-primary font-bold italic uppercase tracking-tighter text-lg md:text-xl">{appearance?.hero?.badge || "Core.v3"}</div>
+              <div className="absolute bottom-8 right-8 bg-black/60 backdrop-blur-2xl border border-white/10 p-6 rounded-2xl z-20">
+                <div className="text-primary font-bold italic uppercase tracking-tighter text-xl">{appearance?.hero?.badge || "Core.v3"}</div>
               </div>
             </div>
           </motion.div>
@@ -178,7 +215,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
 
       {/* Featured Products Section */}
       {featuredProducts.length > 0 && (
-        <section id="featured" className="py-32 relative border-t border-white/5">
+        <section id="featured" className="py-20 md:py-32 relative border-t border-white/5">
           <div className="max-w-7xl mx-auto px-6 mb-20">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -198,8 +235,11 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
           <div className="max-w-7xl mx-auto px-6 space-y-24">
             {featuredProducts.length > 0 && <HeroProductCard {...featuredProducts[0]} />}
             
-            {/* Mobile Product Carousel - Snap Scrolling */}
-            <div className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-6 pb-12 -mx-6 px-6 scrollbar-hide">
+            {/* Mobile Product Carousel - Snap Scrolling with Auto-Motion */}
+            <div 
+              className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-6 pb-4 -mx-6 px-6 scrollbar-hide scroll-smooth"
+              ref={productRef}
+            >
               {featuredProducts.slice(1).map((product, index) => (
                 <div key={product.id} className="min-w-[85vw] snap-center">
                   <ProductCard {...product} />
@@ -226,7 +266,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
       )}
 
       {/* About Us Section */}
-      <section id="about" className="py-32 relative overflow-hidden bg-black/40">
+      <section id="about" className="py-20 md:py-32 relative overflow-hidden bg-black/40">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
@@ -269,7 +309,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               </div>
               <div className="bg-white/[0.02] p-8 rounded-[2rem] border border-white/5 hover:border-primary/30 transition-all group">
                 <div className="text-primary font-black text-3xl mb-2 tracking-tighter italic group-hover:scale-110 transition-transform origin-left">24/7</div>
-                <div className="text-zinc-500 text-[10px] uppercase tracking-[0.3em] font-black">Tactical Support</div>
+                <div className="text-zinc-500 text-[10px] uppercase tracking-[0.3em] font-black leading-none">Tactical Support</div>
               </div>
             </div>
           </motion.div>
@@ -277,7 +317,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
       </section>
 
       {/* Story Section */}
-      <section id="story" className="py-40 bg-[#070708] relative overflow-hidden border-y border-white/5">
+      <section id="story" className="py-24 md:py-40 bg-[#070708] relative overflow-hidden border-y border-white/5">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(197,165,114,0.05),transparent_50%)]" />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center mb-40">
@@ -323,8 +363,11 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             </motion.div>
           </div>
 
-          {/* Snap-Scroll Rotating Pillars - Mobile Optimized */}
-          <div className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-6 pb-12 -mx-6 px-6 scrollbar-hide">
+          {/* Snap-Scroll Rotating Pillars - Mobile Optimized with Improved Spacing and Auto-Motion */}
+          <div 
+            className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-6 pb-4 -mx-6 px-6 scrollbar-hide scroll-smooth"
+            ref={pillarRef}
+          >
             {[
               { title: "Architectural Integrity", desc: "Every slide is built on a foundation of structural perfection. We prioritize spatial balance and visual hierarchy to ensure your content is not just seen, but understood at a fundamental level through rigorous design principles." },
               { title: "Cinematic Motion", desc: "Transitions that bridge the gap between presentation and cinema. Our proprietary motion system engineers fluidity into every slide change, creating a seamless narrative flow that captivates professional audiences with high-end optics." },
@@ -332,12 +375,12 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             ].map((pillar, i) => (
               <div 
                 key={i}
-                className="min-w-[80vw] snap-center p-10 rounded-[3rem] bg-white/[0.02] border border-white/5 text-center flex flex-col items-center justify-center min-h-[320px] relative overflow-hidden group shadow-2xl"
+                className="min-w-[80vw] snap-center p-10 rounded-[3rem] bg-white/[0.02] border border-white/5 text-center flex flex-col items-center justify-center min-h-[300px] relative overflow-hidden group shadow-2xl"
               >
                 <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="text-primary font-black uppercase tracking-[0.4em] text-[10px] mb-6 relative z-10">Pillar 0{i+1}</div>
-                <h4 className="text-white font-bold text-2xl mb-6 italic uppercase tracking-tighter leading-tight relative z-10">{pillar.title}</h4>
-                <p className="text-zinc-400 text-sm leading-relaxed font-medium relative z-10">{pillar.desc}</p>
+                <div className="text-primary font-black uppercase tracking-[0.4em] text-[10px] mb-4 relative z-10">Pillar 0{i+1}</div>
+                <h4 className="text-white font-bold text-2xl mb-4 italic uppercase tracking-tighter leading-tight relative z-10">{pillar.title}</h4>
+                <p className="text-zinc-400 text-[13px] leading-relaxed font-medium relative z-10">{pillar.desc}</p>
               </div>
             ))}
           </div>
@@ -367,7 +410,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-32 relative overflow-hidden bg-[#09090B]">
+      <section id="testimonials" className="py-24 md:py-32 relative overflow-hidden bg-[#09090B]">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -375,29 +418,32 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             viewport={{ once: true }}
             className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-6 tracking-tight italic uppercase">
+            <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight italic uppercase">
               Client <span className="text-primary">Transmissions</span>
             </h2>
-            <p className="text-sm text-zinc-500 uppercase tracking-[0.3em] font-bold">Verified Intelligence from the Field</p>
+            <p className="text-xs text-zinc-500 uppercase tracking-[0.3em] font-bold">Verified Intelligence from the Field</p>
           </motion.div>
 
-          {/* Snap-Scroll Rotating Reviews - Mobile Optimized */}
-          <div className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-6 pb-12 -mx-6 px-6 scrollbar-hide">
+          {/* Snap-Scroll Rotating Reviews - Mobile Optimized with No Clipping and Auto-Motion */}
+          <div 
+            className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-6 pb-4 -mx-6 px-6 scrollbar-hide scroll-smooth"
+            ref={reviewRef}
+          >
             {(reviews.length > 0 ? reviews : []).map((testimonial: any, i: number) => (
               <div 
                 key={i}
-                className="min-w-[85vw] snap-center bg-white/[0.03] backdrop-blur-sm p-12 rounded-[3.5rem] border border-white/5 relative flex flex-col justify-between min-h-[380px] shadow-2xl"
+                className="min-w-[85vw] snap-center bg-white/[0.03] backdrop-blur-sm p-12 rounded-[3.5rem] border border-white/5 relative flex flex-col justify-between min-h-[350px] shadow-2xl"
               >
                 <div className="absolute top-10 right-10 text-primary/20">
                   <Sparkles className="w-8 h-8" />
                 </div>
                 <div>
                   <div className="text-zinc-600 text-[10px] font-bold uppercase tracking-[0.4em] mb-8 leading-none">Feed // {testimonial.code}</div>
-                  <p className="text-zinc-300 text-lg leading-relaxed font-medium italic mb-10">
+                  <p className="text-zinc-300 text-lg leading-relaxed font-medium italic mb-8">
                     "{getLangString(testimonial.text, language)}"
                   </p>
                 </div>
-                <div className="border-t border-white/5 pt-10">
+                <div className="border-t border-white/5 pt-8">
                   <div className="text-white font-bold text-sm uppercase tracking-widest leading-none">
                     {getLangString(testimonial.name, language)}
                   </div>
@@ -498,23 +544,23 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               }}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
                   <div className="space-y-3">
-                    <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.5em] ml-4">Identity Protocol</label>
+                    <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.5em] ml-1">Identity Protocol</label>
                     <input name="name" type="text" required placeholder="ENTER NAME..." className="w-full bg-black/40 border border-white/5 rounded-2xl px-6 md:px-8 py-4 md:py-5 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
                   </div>
                   <div className="space-y-3">
-                    <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.5em] ml-4">Relay Endpoint</label>
+                    <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.5em] ml-1">Relay Endpoint</label>
                     <input name="email" type="email" required placeholder="ENTER EMAIL..." className="w-full bg-black/40 border border-white/5 rounded-2xl px-6 md:px-8 py-4 md:py-5 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.5em] ml-4">Intelligence Data</label>
+                  <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.5em] ml-1">Intelligence Data</label>
                   <textarea name="message" required rows={5} placeholder="COMPOSE TRANSMISSION..." className="w-full bg-black/40 border border-white/5 rounded-2xl px-6 md:px-8 py-4 md:py-5 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800 resize-none"></textarea>
                 </div>
                 <button type="submit" className="group relative w-full py-5 md:py-6 bg-primary overflow-hidden rounded-2xl transition-all shadow-[0_0_40px_rgba(197,165,114,0.2)] hover:shadow-[0_0_60px_rgba(197,165,114,0.4)] active:scale-[0.98]">
                   <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-                  <span className="relative z-10 flex items-center justify-center gap-4 text-black font-black text-lg md:text-xl uppercase tracking-[0.3em] italic">
+                  <span className="relative z-10 flex items-center justify-center gap-4 text-black font-black text-lg md:text-xl uppercase tracking-[0.3em] italic leading-none">
                     <Send className="w-5 h-5 md:w-6 md:h-6" />
-                    Execute Broadcast
+                    <span className="mb-0.5">Execute Broadcast</span>
                   </span>
                 </button>
               </form>
