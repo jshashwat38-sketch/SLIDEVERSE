@@ -47,36 +47,29 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
   const pillarRef = useRef<HTMLDivElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll logic for mobile snap carousels
   useEffect(() => {
-    const timer = setInterval(() => {
-      setActivePillar((prev) => (prev + 1) % 3);
-      setActiveReview((prev) => (prev + 1) % (reviews.length || 1));
-      setActiveProduct((prev) => (prev + 1) % Math.max(1, featuredProducts.length - 1));
+    const scrollInterval = setInterval(() => {
+      if (productRef.current) {
+        const el = productRef.current;
+        const cardWidth = window.innerWidth * 0.85 + 24;
+        const nextScroll = ((el.scrollLeft + cardWidth) % (el.scrollWidth - el.offsetWidth + 10));
+        el.scrollTo({ left: nextScroll, behavior: 'smooth' });
+      }
+      if (pillarRef.current) {
+        const el = pillarRef.current;
+        const cardWidth = window.innerWidth * 0.80 + 24;
+        const nextScroll = ((el.scrollLeft + cardWidth) % (el.scrollWidth - el.offsetWidth + 10));
+        el.scrollTo({ left: nextScroll, behavior: 'smooth' });
+      }
+      if (reviewRef.current) {
+        const el = reviewRef.current;
+        const cardWidth = window.innerWidth * 0.85 + 24;
+        const nextScroll = ((el.scrollLeft + cardWidth) % (el.scrollWidth - el.offsetWidth + 10));
+        el.scrollTo({ left: nextScroll, behavior: 'smooth' });
+      }
     }, 5000);
-    return () => clearInterval(timer);
-  }, [reviews.length, featuredProducts.length]);
-
-  useEffect(() => {
-    if (productRef.current) {
-      const el = productRef.current;
-      el.scrollTo({ left: activeProduct * (el.offsetWidth * 0.85 + 24), behavior: 'smooth' });
-    }
-  }, [activeProduct]);
-
-  useEffect(() => {
-    if (pillarRef.current) {
-      const el = pillarRef.current;
-      el.scrollTo({ left: activePillar * (el.offsetWidth * 0.80 + 24), behavior: 'smooth' });
-    }
-  }, [activePillar]);
-
-  useEffect(() => {
-    if (reviewRef.current) {
-      const el = reviewRef.current;
-      el.scrollTo({ left: activeReview * (el.offsetWidth * 0.85 + 24), behavior: 'smooth' });
-    }
-  }, [activeReview]);
+    return () => clearInterval(scrollInterval);
+  }, []);
 
   return (
     <div className="overflow-hidden bg-background selection:bg-primary selection:text-black font-sans">
@@ -191,13 +184,14 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             </motion.div>
           </motion.div>
 
-          <motion.div 
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="hidden lg:block relative lg:w-[90%] mx-auto lg:mt-0"
-          >
-            <div className="relative z-10 group overflow-hidden rounded-[3rem] border border-white/5 bg-black/20 backdrop-blur-sm p-2 aspect-square">
+          {/* Decorative Hero Image - Desktop Only */}
+          <div className="hidden lg:block relative lg:w-[90%] mx-auto lg:mt-0">
+            <motion.div 
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="relative z-10 group overflow-hidden rounded-[3rem] border border-white/5 bg-black/20 backdrop-blur-sm p-2 aspect-square"
+            >
               <Image 
                 src={appearance?.hero?.image || "/assets/hero_v2.png"} 
                 alt="Architectural Presentation" 
@@ -208,8 +202,8 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               <div className="absolute bottom-8 right-8 bg-black/60 backdrop-blur-2xl border border-white/10 p-6 rounded-2xl z-20">
                 <div className="text-primary font-bold italic uppercase tracking-tighter text-xl">{appearance?.hero?.badge || "Core.v3"}</div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -543,13 +537,13 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 }
               }}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.5em] ml-1">Identity Protocol</label>
-                    <input name="name" type="text" required placeholder="ENTER NAME..." className="w-full bg-black/40 border border-white/5 rounded-2xl px-6 md:px-8 py-4 md:py-5 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.5em] shrink-0 sm:w-32">Identity Protocol</label>
+                    <input name="name" type="text" required placeholder="ENTER NAME..." className="w-full bg-black/40 border border-white/5 rounded-2xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
                   </div>
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.5em] ml-1">Relay Endpoint</label>
-                    <input name="email" type="email" required placeholder="ENTER EMAIL..." className="w-full bg-black/40 border border-white/5 rounded-2xl px-6 md:px-8 py-4 md:py-5 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.5em] shrink-0 sm:w-32">Relay Endpoint</label>
+                    <input name="email" type="email" required placeholder="ENTER EMAIL..." className="w-full bg-black/40 border border-white/5 rounded-2xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
                   </div>
                 </div>
                 <div className="space-y-3">
@@ -559,8 +553,8 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 <button type="submit" className="group relative w-full py-5 md:py-6 bg-primary overflow-hidden rounded-2xl transition-all shadow-[0_0_40px_rgba(197,165,114,0.2)] hover:shadow-[0_0_60px_rgba(197,165,114,0.4)] active:scale-[0.98]">
                   <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                   <span className="relative z-10 flex items-center justify-center gap-4 text-black font-black text-lg md:text-xl uppercase tracking-[0.3em] italic leading-none">
-                    <Send className="w-5 h-5 md:w-6 md:h-6" />
-                    <span className="mb-0.5">Execute Broadcast</span>
+                    <Send className="w-5 h-5 md:w-6 md:h-6 -rotate-12 group-hover:rotate-0 transition-transform" />
+                    <span className="mt-1">Execute Broadcast</span>
                   </span>
                 </button>
               </form>
