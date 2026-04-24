@@ -395,12 +395,12 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex flex-col items-center text-center mb-20 w-full"
+            className="text-left mb-16"
           >
-            <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight uppercase px-4 w-full text-center">
+            <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight italic uppercase">
               Client <span className="text-primary">Transmissions</span>
             </h2>
-            <p className="text-[10px] md:text-xs text-zinc-500 uppercase tracking-[0.4em] font-black px-6 w-full text-center">Verified Intelligence from the Field</p>
+            <p className="text-[10px] md:text-xs text-zinc-500 uppercase tracking-[0.4em] font-black">Verified Intelligence from the Field</p>
           </motion.div>
 
           {/* Snap-Scroll Rotating Reviews - Mobile Optimized with No Clipping and Auto-Motion */}
