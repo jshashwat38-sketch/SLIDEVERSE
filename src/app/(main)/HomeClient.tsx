@@ -395,12 +395,12 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-20"
+            className="flex flex-col items-center text-center mb-20 w-full"
           >
-            <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight italic uppercase px-4">
+            <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight italic uppercase px-4 w-full text-center">
               Client <span className="text-primary">Transmissions</span>
             </h2>
-            <p className="text-[10px] md:text-xs text-zinc-500 uppercase tracking-[0.3em] font-bold px-6">Verified Intelligence from the Field</p>
+            <p className="text-[10px] md:text-xs text-zinc-500 uppercase tracking-[0.4em] font-black px-6 w-full text-center">Verified Intelligence from the Field</p>
           </motion.div>
 
           {/* Snap-Scroll Rotating Reviews - Mobile Optimized with No Clipping and Auto-Motion */}
@@ -535,9 +535,10 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                   <label className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.5em] px-1">Intelligence Data</label>
                   <textarea name="message" required rows={5} placeholder="COMPOSE TRANSMISSION..." className="w-full bg-black/40 border border-white/5 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800 resize-none"></textarea>
                 </div>
-                <button type="submit" className="group relative w-full py-5 md:py-6 bg-primary overflow-hidden rounded-2xl transition-all shadow-[0_0_30px_rgba(197,165,114,0.4)] hover:shadow-[0_0_60px_rgba(197,165,114,0.6)] active:scale-[0.98] animate-none">
-                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-                  <span className="relative z-10 flex items-center justify-center gap-4 text-black font-black text-lg md:text-xl uppercase tracking-[0.3em] italic leading-none w-full text-center">
+                <button type="submit" className="group relative w-full py-5 md:py-6 bg-gradient-to-r from-primary via-[#e6c18a] to-primary overflow-hidden rounded-2xl transition-all shadow-[0_20px_50px_-15px_rgba(197,165,114,0.3)] hover:shadow-[0_25px_60px_-12px_rgba(197,165,114,0.5)] active:scale-[0.98] border border-white/20">
+                  <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%)] bg-[length:250%_250%] animate-[shimmer_3s_infinite] pointer-events-none" />
+                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <span className="relative z-10 flex items-center justify-center gap-4 text-black font-black text-lg md:text-xl uppercase tracking-[0.4em] italic leading-none w-full text-center drop-shadow-sm">
                     <Send className="w-5 h-5 md:w-6 md:h-6 -rotate-12 group-hover:rotate-0 transition-transform shrink-0" />
                     <span className="mt-0.5">Execute Broadcast</span>
                   </span>
