@@ -73,7 +73,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
         const cardWidth = reviewRef.current.offsetWidth * 0.85 + 24;
         reviewRef.current.scrollTo({ left: reviewIndex.current * cardWidth, behavior: 'smooth' });
       }
-    }, 5000);
+    }, 1500);
     return () => clearInterval(timer);
   }, [reviews.length, featuredProducts.length]);
 
@@ -397,7 +397,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             viewport={{ once: true }}
             className="flex flex-col items-center text-center mb-20 w-full"
           >
-            <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight italic uppercase px-4 w-full text-center">
+            <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight uppercase px-4 w-full text-center">
               Client <span className="text-primary">Transmissions</span>
             </h2>
             <p className="text-[10px] md:text-xs text-zinc-500 uppercase tracking-[0.4em] font-black px-6 w-full text-center">Verified Intelligence from the Field</p>
