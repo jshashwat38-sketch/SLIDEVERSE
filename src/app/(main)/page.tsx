@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, Zap, Shield, Sparkles, Mail, Phone, Send } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getProducts } from "@/actions/productActions";
@@ -33,13 +34,13 @@ export default function HomePage() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.2, delayChildren: 0.1 }
+      transition: { staggerChildren: 0.1, delayChildren: 0 }
     }
   };
 
   const itemVariants: any = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
+    hidden: { opacity: 0, y: 15 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
   };
 
   return (
@@ -72,29 +73,21 @@ export default function HomePage() {
               {t("hero_badge")}
             </motion.div>
             
-            {isLoadingAppearance ? (
-              <div className="h-20 w-3/4 bg-white/5 animate-pulse rounded-2xl mb-8" />
-            ) : (
-              <motion.h1 
-                variants={itemVariants} 
-                className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-white mb-8 leading-[1.1] tracking-tight italic uppercase"
-                dangerouslySetInnerHTML={{ 
-                  __html: (getLangString(appearance?.hero?.title, language) || t("hero_title"))
-                    .replace(/Presentation Design/gi, '<span class="text-primary neon-text">Presentation Design</span>')
-                }}
-              />
-            )}
+            <motion.h1 
+              variants={itemVariants} 
+              className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-white mb-8 leading-[1.1] tracking-tight italic uppercase"
+              dangerouslySetInnerHTML={{ 
+                __html: (getLangString(appearance?.hero?.title, language) || t("hero_title"))
+                  .replace(/Presentation Design/gi, '<span class="text-primary neon-text">Presentation Design</span>')
+              }}
+            />
             
-            {isLoadingAppearance ? (
-              <div className="h-6 w-1/2 bg-white/5 animate-pulse rounded-lg mb-12" />
-            ) : (
-              <motion.p 
-                variants={itemVariants} 
-                className="text-lg md:text-xl text-zinc-400 mb-12 max-w-lg leading-relaxed font-medium tracking-normal"
-              >
-                {getLangString(appearance?.hero?.subtitle, language) || t("hero_subtitle")}
-              </motion.p>
-            )}
+            <motion.p 
+              variants={itemVariants} 
+              className="text-lg md:text-xl text-zinc-400 mb-12 max-w-lg leading-relaxed font-medium tracking-normal"
+            >
+              {getLangString(appearance?.hero?.subtitle, language) || t("hero_subtitle")}
+            </motion.p>
             
             <motion.div variants={itemVariants} className="hidden md:flex flex-col sm:flex-row items-center gap-6">
               <Link href={appearance?.buttons?.primary?.link || "#featured"} className="group relative w-full sm:w-auto">
@@ -169,17 +162,19 @@ export default function HomePage() {
           <motion.div 
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="relative lg:block lg:w-[90%] mx-auto mt-16 lg:mt-0"
           >
-            <div className="relative z-10 group overflow-hidden rounded-[2.5rem] md:rounded-[3rem] border border-white/5 bg-black/20 backdrop-blur-sm p-2">
-              <img 
-                src={appearance?.hero?.image || "/assets/hero_v3.png"} 
-                alt="Elegant Tech Visual" 
-                className="w-full h-auto object-cover rounded-[2.3rem] md:rounded-[2.8rem] opacity-90 group-hover:opacity-100 transition-opacity duration-1000" 
+            <div className="relative z-10 group overflow-hidden rounded-[2.5rem] md:rounded-[3rem] border border-white/5 bg-black/20 backdrop-blur-sm p-2 aspect-[4/3] lg:aspect-square">
+              <Image 
+                src={appearance?.hero?.image || "/assets/hero_v2.png"} 
+                alt="Architectural Presentation" 
+                fill
+                priority
+                className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-1000" 
               />
               <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 bg-black/60 backdrop-blur-2xl border border-white/10 p-4 md:p-6 rounded-2xl z-20">
-                <div className="text-primary font-bold italic uppercase tracking-tighter text-lg md:text-xl">{getLangString(appearance?.hero?.badge, language) || "Core.v3"}</div>
+                <div className="text-primary font-bold italic uppercase tracking-tighter text-lg md:text-xl">{appearance?.hero?.badge || "Core.v3"}</div>
               </div>
             </div>
           </motion.div>
