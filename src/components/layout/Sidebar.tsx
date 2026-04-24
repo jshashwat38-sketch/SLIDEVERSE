@@ -45,12 +45,12 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
 
       <div className="p-6 border-b border-white/5 flex items-center justify-between">
         <div className="flex items-center gap-4 group cursor-pointer">
-          <div className="relative flex items-center justify-center w-12 h-12 rounded-full overflow-hidden">
+          <div className="relative flex items-center justify-center w-16 h-16 rounded-full overflow-hidden shrink-0">
             {/* Spinning gradient border */}
             <div className="absolute inset-[-50%] bg-[conic-gradient(from_0deg,transparent_0deg,transparent_120deg,#C5A572_180deg,transparent_240deg)] animate-[spin_4s_linear_infinite] opacity-80" />
             
             {/* Inner background to mask the center */}
-            <div className="absolute inset-[2px] bg-sidebar rounded-full z-10" />
+            <div className="absolute inset-[2px] bg-[#09090b] rounded-full z-10" />
             
             {/* Outer static border */}
             <div className="absolute inset-0 rounded-full border border-white/5 z-10" />
@@ -65,7 +65,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
               width={64} 
               height={64} 
               priority
-              className="w-8 h-8 object-contain relative z-20 group-hover:scale-110 transition-transform duration-500" 
+              className="w-full h-full object-contain relative z-20 mix-blend-screen scale-[1.35] group-hover:scale-[1.45] transition-transform duration-500" 
             />
           </div>
           <h1 className="text-xl font-bold tracking-tight text-white uppercase italic group-hover:text-primary transition-colors duration-500">Slideverse</h1>

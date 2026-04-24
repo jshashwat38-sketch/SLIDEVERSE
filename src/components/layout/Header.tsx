@@ -28,12 +28,12 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
       <div className="flex items-center gap-4 flex-1">
         {/* Mobile Logo - Always visible when sidebar is closed */}
         <Link href="/" className="lg:hidden flex items-center gap-3 shrink-0 group">
-          <div className="relative flex items-center justify-center w-10 h-10 rounded-full overflow-hidden">
+          <div className="relative flex items-center justify-center w-12 h-12 rounded-full overflow-hidden shrink-0">
             {/* Spinning gradient border */}
             <div className="absolute inset-[-50%] bg-[conic-gradient(from_0deg,transparent_0deg,transparent_120deg,#C5A572_180deg,transparent_240deg)] animate-[spin_4s_linear_infinite] opacity-80" />
             
             {/* Inner background to mask the center */}
-            <div className="absolute inset-[2px] bg-black/60 backdrop-blur-xl rounded-full z-10" />
+            <div className="absolute inset-[2px] bg-[#09090b] rounded-full z-10" />
             
             {/* Outer static border */}
             <div className="absolute inset-0 rounded-full border border-white/5 z-10" />
@@ -45,7 +45,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
             <img 
               src="/logo.png" 
               alt="Slideverse Logo" 
-              className="w-6 h-6 object-contain relative z-20 group-hover:scale-110 transition-transform duration-500" 
+              className="w-full h-full object-contain relative z-20 mix-blend-screen scale-[1.35] group-hover:scale-[1.45] transition-transform duration-500" 
             />
           </div>
           <h1 className="text-base sm:text-lg font-bold tracking-tight text-white uppercase italic truncate max-w-[120px] group-hover:text-primary transition-colors duration-500">Slideverse</h1>
