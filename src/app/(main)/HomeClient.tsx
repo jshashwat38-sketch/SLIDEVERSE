@@ -535,13 +535,24 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                   <label className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.5em] px-1">Intelligence Data</label>
                   <textarea name="message" required rows={5} placeholder="COMPOSE TRANSMISSION..." className="w-full bg-black/40 border border-white/5 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800 resize-none"></textarea>
                 </div>
-                <button type="submit" className="group relative w-full py-5 md:py-6 bg-gradient-to-r from-primary via-[#e6c18a] to-primary overflow-hidden rounded-2xl transition-all shadow-[0_20px_50px_-15px_rgba(197,165,114,0.3)] hover:shadow-[0_25px_60px_-12px_rgba(197,165,114,0.5)] active:scale-[0.98] border border-white/20">
-                  <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%)] bg-[length:250%_250%] animate-[shimmer_3s_infinite] pointer-events-none" />
-                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <span className="relative z-10 flex items-center justify-center gap-4 text-black font-black text-lg md:text-xl uppercase tracking-[0.4em] italic leading-none w-full text-center drop-shadow-sm">
-                    <Send className="w-5 h-5 md:w-6 md:h-6 -rotate-12 group-hover:rotate-0 transition-transform shrink-0" />
-                    <span className="mt-0.5">Execute Broadcast</span>
+                <button 
+                  type="submit" 
+                  className="group relative w-full py-6 md:py-8 bg-gradient-to-br from-[#D9B986] via-[#C5A572] to-[#A68B5B] rounded-[2rem] transition-all duration-500 shadow-[0_10px_40px_-10px_rgba(197,165,114,0.4),0_20px_70px_-20px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.3)] hover:shadow-[0_15px_50px_-5px_rgba(197,165,114,0.6),0_25px_80px_-15px_rgba(0,0,0,0.9)] hover:scale-[1.01] active:scale-[0.99] border border-white/10 overflow-hidden"
+                >
+                  {/* Glassmorphism Inner Glow */}
+                  <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                  
+                  {/* Cinematic Shimmer */}
+                  <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.2),transparent)] bg-[length:200%_100%] animate-[shimmer_2.5s_infinite] pointer-events-none" />
+                  
+                  {/* Button Content */}
+                  <span className="relative z-10 flex items-center justify-center gap-5 text-black font-black text-xl md:text-2xl uppercase tracking-[0.5em] leading-none w-full text-center drop-shadow-md">
+                    <Send className="w-6 h-6 md:w-7 md:h-7 -rotate-12 group-hover:rotate-0 transition-transform duration-500 shrink-0" />
+                    <span className="mt-1">Execute Broadcast</span>
                   </span>
+                  
+                  {/* Bottom Depth Shadow */}
+                  <div className="absolute bottom-0 left-0 w-full h-[2px] bg-black/20" />
                 </button>
               </form>
             </motion.div>
