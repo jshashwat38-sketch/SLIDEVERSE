@@ -155,10 +155,9 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               </div>
               <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide -mx-2 px-2">
                 {[
-                  { name: "Archive", icon: Zap, link: "/#featured", code: "01" },
-                  { name: "About", icon: Shield, link: "/#about", code: "02" },
-                  { name: "Contact", icon: Send, link: "/#contact", code: "03" },
-                  { name: "Vault", icon: Sparkles, link: "/account", code: "04" }
+                  { name: "About", icon: Shield, link: "/#about", code: "01" },
+                  { name: "Contact", icon: Send, link: "/#contact", code: "02" },
+                  { name: "Vault", icon: Sparkles, link: "/account", code: "03" }
                 ].map((btn, i) => (
                   <motion.div
                     key={i}
@@ -181,9 +180,10 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 viewport={{ once: true }}
                 transition={{ delay: 0.4 }}
               >
-                <Link href="/#featured" className="mt-2 flex items-center justify-between p-4 bg-primary border border-primary rounded-xl group active:scale-95 transition-all shadow-[0_10px_30px_rgba(197,165,114,0.2)]">
-                  <span className="text-[9px] font-black text-black uppercase tracking-[0.2em] italic">Access Full Collection</span>
-                  <ArrowRight className="w-4 h-4 text-black" />
+                <Link href="/#featured" className="mt-2 flex items-center justify-between p-4 bg-primary border border-primary rounded-xl group active:scale-95 transition-all shadow-[0_10px_30px_rgba(197,165,114,0.2)] overflow-hidden relative">
+                  <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.3),transparent)] bg-[length:200%_100%] animate-[shimmer_3s_infinite] pointer-events-none" />
+                  <span className="text-[9px] font-black text-black uppercase tracking-[0.2em] italic relative z-10">Access Full Collection</span>
+                  <ArrowRight className="w-4 h-4 text-black relative z-10" />
                 </Link>
               </motion.div>
             </motion.div>
@@ -537,24 +537,14 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 </div>
                 <button 
                   type="submit" 
-                  className="group relative w-full py-6 md:py-8 bg-gradient-to-br from-[#D9B986] via-[#C5A572] to-[#A68B5B] rounded-[2rem] transition-all duration-500 shadow-[0_10px_40px_-10px_rgba(197,165,114,0.4),0_20px_70px_-20px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.3)] hover:shadow-[0_15px_50px_-5px_rgba(197,165,114,0.6),0_25px_80px_-15px_rgba(0,0,0,0.9)] hover:scale-[1.01] active:scale-[0.99] border border-white/10 overflow-hidden"
+                  className="group relative w-full py-5 md:py-7 bg-gradient-to-br from-[#D9B986] via-[#C5A572] to-[#A68B5B] rounded-2xl transition-all duration-500 shadow-[0_10px_30px_-5px_rgba(197,165,114,0.3),0_20px_50px_-10px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_-5px_rgba(197,165,114,0.5)] hover:scale-[1.01] active:scale-[0.98] border border-white/10 overflow-hidden"
                 >
-                  {/* Glassmorphism Inner Glow */}
-                  <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-                  
-                  {/* Cinematic Shimmer */}
-                  <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.2),transparent)] bg-[length:200%_100%] animate-[shimmer_2.5s_infinite] pointer-events-none" />
-                  
-                  {/* Button Content */}
-                  <div className="relative z-10 flex flex-col items-center justify-center w-full h-full text-black">
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 w-full px-4">
-                      <Send className="w-6 h-6 md:w-8 md:h-8 -rotate-12 group-hover:rotate-0 transition-transform duration-500 shrink-0 mb-1 sm:mb-0" />
-                      <div className="flex flex-col items-center sm:items-start leading-[1.1]">
-                        <span className="font-black text-lg sm:text-2xl uppercase tracking-[0.2em] sm:tracking-[0.5em] block">Execute</span>
-                        <span className="font-black text-lg sm:text-2xl uppercase tracking-[0.2em] sm:tracking-[0.5em] block">Broadcast</span>
-                      </div>
-                    </div>
+                  <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.2),transparent)] bg-[length:200%_100%] animate-[shimmer_2s_infinite] pointer-events-none" />
+                  <div className="relative z-10 flex items-center justify-center gap-4 text-black w-full">
+                    <Send className="w-5 h-5 md:w-6 md:h-6 -rotate-12 group-hover:rotate-0 transition-transform duration-500 shrink-0" />
+                    <span className="font-black text-base md:text-xl uppercase tracking-widest block">Execute Broadcast</span>
                   </div>
+                </button>
                   
                   {/* Bottom Depth Shadow */}
                   <div className="absolute bottom-0 left-0 w-full h-[2px] bg-black/20" />
