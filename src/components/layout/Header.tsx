@@ -27,13 +27,28 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
     <header className="bg-black/60 backdrop-blur-xl border-b border-white/5 sticky top-0 z-40 px-4 md:px-8 py-4 flex items-center justify-between transition-all">
       <div className="flex items-center gap-4 flex-1">
         {/* Mobile Logo - Always visible when sidebar is closed */}
-        <Link href="/" className="lg:hidden flex items-center gap-2 shrink-0">
-          <img 
-            src="/logo.png" 
-            alt="Slideverse Logo" 
-            className="w-10 h-10 object-contain" 
-          />
-          <h1 className="text-base sm:text-lg font-bold tracking-tight text-white uppercase italic truncate max-w-[120px]">Slideverse</h1>
+        <Link href="/" className="lg:hidden flex items-center gap-3 shrink-0 group">
+          <div className="relative flex items-center justify-center w-10 h-10 rounded-full overflow-hidden">
+            {/* Spinning gradient border */}
+            <div className="absolute inset-[-50%] bg-[conic-gradient(from_0deg,transparent_0deg,transparent_120deg,#C5A572_180deg,transparent_240deg)] animate-[spin_4s_linear_infinite] opacity-80" />
+            
+            {/* Inner background to mask the center */}
+            <div className="absolute inset-[2px] bg-black/60 backdrop-blur-xl rounded-full z-10" />
+            
+            {/* Outer static border */}
+            <div className="absolute inset-0 rounded-full border border-white/5 z-10" />
+            
+            {/* Outer Glow */}
+            <div className="absolute inset-0 rounded-full shadow-[0_0_15px_rgba(197,165,114,0.3)] opacity-50 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+
+            {/* Logo */}
+            <img 
+              src="/logo.png" 
+              alt="Slideverse Logo" 
+              className="w-6 h-6 object-contain relative z-20 group-hover:scale-110 transition-transform duration-500" 
+            />
+          </div>
+          <h1 className="text-base sm:text-lg font-bold tracking-tight text-white uppercase italic truncate max-w-[120px] group-hover:text-primary transition-colors duration-500">Slideverse</h1>
         </Link>
 
         <button 

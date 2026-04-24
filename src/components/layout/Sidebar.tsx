@@ -44,16 +44,31 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
     <aside className="w-64 bg-sidebar text-sidebar-foreground flex flex-col h-full border-r border-white/5 z-50">
 
       <div className="p-6 border-b border-white/5 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Image 
-            src="/logo.png" 
-            alt="Slideverse Logo" 
-            width={64} 
-            height={64} 
-            priority
-            className="w-16 h-16 object-contain scale-125" 
-          />
-          <h1 className="text-xl font-bold tracking-tight text-white uppercase italic">Slideverse</h1>
+        <div className="flex items-center gap-4 group cursor-pointer">
+          <div className="relative flex items-center justify-center w-12 h-12 rounded-full overflow-hidden">
+            {/* Spinning gradient border */}
+            <div className="absolute inset-[-50%] bg-[conic-gradient(from_0deg,transparent_0deg,transparent_120deg,#C5A572_180deg,transparent_240deg)] animate-[spin_4s_linear_infinite] opacity-80" />
+            
+            {/* Inner background to mask the center */}
+            <div className="absolute inset-[2px] bg-sidebar rounded-full z-10" />
+            
+            {/* Outer static border */}
+            <div className="absolute inset-0 rounded-full border border-white/5 z-10" />
+            
+            {/* Outer Glow */}
+            <div className="absolute inset-0 rounded-full shadow-[0_0_15px_rgba(197,165,114,0.3)] opacity-50 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+
+            {/* Logo */}
+            <Image 
+              src="/logo.png" 
+              alt="Slideverse Logo" 
+              width={64} 
+              height={64} 
+              priority
+              className="w-8 h-8 object-contain relative z-20 group-hover:scale-110 transition-transform duration-500" 
+            />
+          </div>
+          <h1 className="text-xl font-bold tracking-tight text-white uppercase italic group-hover:text-primary transition-colors duration-500">Slideverse</h1>
         </div>
         <button 
           onClick={onClose}
