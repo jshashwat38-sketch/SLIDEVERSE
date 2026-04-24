@@ -537,17 +537,12 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 </div>
                 <button 
                   type="submit" 
-                  className="group relative w-full py-5 md:py-7 bg-gradient-to-br from-[#D9B986] via-[#C5A572] to-[#A68B5B] rounded-2xl transition-all duration-500 shadow-[0_10px_30px_-5px_rgba(197,165,114,0.3),0_20px_50px_-10px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_-5px_rgba(197,165,114,0.5)] hover:scale-[1.01] active:scale-[0.98] border border-white/10 overflow-hidden"
+                  className="group relative w-full py-5 md:py-7 bg-gradient-to-br from-[#D9B986] via-[#C5A572] to-[#A68B5B] rounded-sm transition-all duration-500 shadow-[0_10px_30px_-5px_rgba(197,165,114,0.3),0_20px_50px_-10px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_-5px_rgba(197,165,114,0.5)] hover:scale-[1.01] active:scale-[0.98] border border-white/10 overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.2),transparent)] bg-[length:200%_100%] animate-[shimmer_2s_infinite] pointer-events-none" />
-                  <div className="relative z-10 flex items-center justify-center gap-4 text-black w-full">
-                    <Send className="w-5 h-5 md:w-6 md:h-6 -rotate-12 group-hover:rotate-0 transition-transform duration-500 shrink-0" />
+                  <div className="relative z-10 flex items-center justify-center text-black w-full">
                     <span className="font-black text-base md:text-xl uppercase tracking-widest block">Execute Broadcast</span>
                   </div>
-                </button>
-                  
-                  {/* Bottom Depth Shadow */}
-                  <div className="absolute bottom-0 left-0 w-full h-[2px] bg-black/20" />
                 </button>
               </form>
             </motion.div>
