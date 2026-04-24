@@ -10,7 +10,7 @@ export default function GoogleLoginButton({ label = "Continue with Google" }: { 
       type="button"
       onClick={() => googleLogin()}
       disabled={isLoading}
-      className="group relative w-full bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-primary/40 py-4 md:py-5 rounded-2xl transition-all duration-500 shadow-2xl flex items-center justify-center gap-4 overflow-hidden active:scale-[0.98] disabled:opacity-50"
+      className="group relative w-full bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-primary/40 py-5 md:py-6 rounded-2xl transition-all duration-500 shadow-2xl flex items-center justify-center gap-4 overflow-hidden active:scale-[0.98] disabled:opacity-50"
     >
       {/* Background Glow */}
       <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity blur-xl" />
@@ -30,7 +30,7 @@ export default function GoogleLoginButton({ label = "Continue with Google" }: { 
           </div>
           <div className="absolute inset-0 bg-white/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
         </div>
-        <span className="text-zinc-400 group-hover:text-white font-black text-[9px] sm:text-[10px] md:text-xs uppercase tracking-[0.1em] md:tracking-[0.2em] transition-all italic truncate">
+        <span className="text-zinc-400 group-hover:text-white font-black text-[10px] sm:text-[11px] md:text-xs uppercase tracking-[0.05em] md:tracking-[0.15em] transition-all italic">
           {label.replace(/_/g, ' ')}
         </span>
       </div>
