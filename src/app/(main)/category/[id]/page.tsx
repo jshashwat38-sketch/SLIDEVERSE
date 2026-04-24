@@ -76,10 +76,10 @@ export default function CategoryPage({ params }: CategoryPageProps) {
               <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
               <span className="text-[9px] font-black text-primary uppercase tracking-[0.3em]">Elite Category Segment</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter italic uppercase break-words">
+            <h1 className="text-2xl sm:text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter italic uppercase break-words leading-none">
               {getLangString(category.title, language)} <span className="text-primary">Assets</span>
             </h1>
-            <p className="text-zinc-500 max-w-2xl text-[10px] sm:text-sm font-medium leading-relaxed uppercase tracking-[0.2em] sm:tracking-widest italic">
+            <p className="text-zinc-500 max-w-2xl text-[9px] sm:text-sm font-medium leading-relaxed uppercase tracking-widest italic">
               {getLangString(category.description, language)}
             </p>
           </div>
@@ -108,14 +108,14 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         ) : (
           <div className="bg-white/[0.02] p-10 md:p-16 rounded-[3rem] border border-white/5 relative overflow-hidden">
              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary/5 rounded-full blur-[80px] -z-10" />
-             <div className="flex flex-col md:flex-row items-center justify-center gap-8 text-center md:text-left max-w-4xl mx-auto">
-               <h3 className="text-2xl md:text-3xl font-black text-white uppercase italic tracking-tighter shrink-0 border-b md:border-b-0 md:border-r border-primary/30 pb-4 md:pb-0 md:pr-8">
-                 Vault Entry Pending
-               </h3>
-               <p className="text-zinc-500 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] leading-relaxed italic">
-                 Our curators are currently vetting new {getLangString(category.title, language)} assets. Check back shortly for deployment.
-               </p>
-             </div>
+              <div className="flex flex-row items-center justify-center gap-6 text-left max-w-4xl mx-auto">
+                <h3 className="text-base sm:text-2xl font-black text-white uppercase italic tracking-tighter shrink-0 border-r border-primary/30 pr-6 py-2">
+                  Vault Entry Pending
+                </h3>
+                <p className="text-zinc-500 text-[8px] sm:text-xs font-bold uppercase tracking-widest leading-relaxed italic">
+                  Our curators are currently vetting new {getLangString(category.title, language)} assets. Check back shortly for deployment.
+                </p>
+              </div>
           </div>
         )}
       </section>

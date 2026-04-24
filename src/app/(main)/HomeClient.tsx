@@ -20,13 +20,11 @@ interface HomeClientProps {
 const PILLAR_COUNT = 3;
 
 export default function HomeClient({ initialAppearance, initialProducts, initialReviews }: HomeClientProps) {
-  console.log("SLIDEVERSE_BUILD_V1.1_ACTIVE");
   const { t, language } = useLanguage();
   const [appearance] = useState(initialAppearance);
   const bestsellerProducts = initialProducts.filter(p => p.is_bestseller);
   const [featuredProducts] = useState(bestsellerProducts);
   const [reviews] = useState(initialReviews);
-  const [activeReview, setActiveReview] = useState(0);
 
   // Animation variants
   const containerVariants = {
