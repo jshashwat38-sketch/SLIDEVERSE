@@ -110,7 +110,9 @@ export const translations: Record<string, Record<string, string>> = {
     welcome_back: "वापसी पर स्वागत है",
     signin_subtitle: "प्रीमियम प्रस्तुतियों तक पहुँचने के लिए साइन इन करें।",
     password: "पासवर्ड",
-    create_account: "खाता बनाएँ"
+    create_account: "खाता बनाएँ",
+    continue_with_google: "Continue with Google",
+    register_with_google: "Register with Google"
   },
   zh: {
     home: "首页",
@@ -158,7 +160,9 @@ export const translations: Record<string, Record<string, string>> = {
     welcome_back: "欢迎回来",
     signin_subtitle: "登录以访问您的高级演示文稿。",
     password: "密码",
-    create_account: "创建一个"
+    create_account: "创建一个",
+    continue_with_google: "Continue with Google",
+    register_with_google: "Register with Google"
   },
   es: {
     home: "Inicio",
@@ -206,7 +210,9 @@ export const translations: Record<string, Record<string, string>> = {
     welcome_back: "Bienvenido de Nuevo",
     signin_subtitle: "Inicie sesión para acceder a sus presentaciones.",
     password: "Contraseña",
-    create_account: "Crear una"
+    create_account: "Crear una",
+    continue_with_google: "Continue with Google",
+    register_with_google: "Register with Google"
   },
   fr: {
     home: "Accueil",
@@ -254,7 +260,9 @@ export const translations: Record<string, Record<string, string>> = {
     welcome_back: "Bon Retour",
     signin_subtitle: "Connectez-vous à votre compte.",
     password: "Mot de passe",
-    create_account: "Créer un compte"
+    create_account: "Créer un compte",
+    continue_with_google: "Continue with Google",
+    register_with_google: "Register with Google"
   },
   ar: {
     home: "الرئيسية",
