@@ -180,10 +180,10 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 viewport={{ once: true }}
                 transition={{ delay: 0.4 }}
               >
-                <Link href="/#featured" className="mt-2 flex items-center justify-between p-4 bg-primary border border-primary rounded-xl group active:scale-95 transition-all shadow-[0_10px_30px_rgba(197,165,114,0.2)] overflow-hidden relative">
+                <Link href="/#featured" className="mt-2 flex items-center justify-between p-5 bg-primary border border-primary rounded-2xl group active:scale-95 transition-all shadow-[0_15px_40px_rgba(197,165,114,0.25)] overflow-hidden relative">
                   <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.3),transparent)] bg-[length:200%_100%] animate-[shimmer_3s_infinite] pointer-events-none" />
-                  <span className="text-[9px] font-black text-black uppercase tracking-[0.2em] italic relative z-10">Access Full Collection</span>
-                  <ArrowRight className="w-4 h-4 text-black relative z-10" />
+                  <span className="text-[10px] font-black text-black uppercase tracking-[0.25em] italic relative z-10 group-hover:translate-x-1 transition-transform">Access Full Collection</span>
+                  <ArrowRight className="w-5 h-5 text-black relative z-10 group-hover:translate-x-2 transition-transform" />
                 </Link>
               </motion.div>
             </motion.div>
@@ -397,10 +397,10 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             viewport={{ once: true }}
             className="text-left mb-16"
           >
-            <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight italic uppercase">
+            <h2 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tighter italic uppercase">
               Client <span className="text-primary">Transmissions</span>
             </h2>
-            <p className="text-[10px] md:text-xs text-zinc-500 uppercase tracking-[0.4em] font-black">Verified Intelligence from the Field</p>
+            <p className="text-[10px] md:text-xs text-zinc-600 uppercase tracking-[0.4em] font-black">Verified Intelligence from the Field</p>
           </motion.div>
 
           {/* Snap-Scroll Rotating Reviews - Mobile Optimized with No Clipping and Auto-Motion */}
@@ -411,18 +411,18 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             {(reviews.length > 0 ? reviews : []).map((testimonial: any, i: number) => (
               <div 
                 key={i}
-                className="min-w-[85vw] snap-center bg-white/[0.03] backdrop-blur-sm p-12 rounded-[3.5rem] border border-white/5 relative flex flex-col justify-between min-h-[350px] shadow-2xl"
+                className="min-w-[85vw] snap-center bg-white/[0.03] backdrop-blur-sm p-12 rounded-[3.5rem] border border-white/5 relative flex flex-col justify-between min-h-[350px] shadow-2xl text-left"
               >
                 <div className="absolute top-10 right-10 text-primary/20">
                   <Sparkles className="w-8 h-8" />
                 </div>
-                <div>
-                  <div className="text-zinc-600 text-[10px] font-bold uppercase tracking-[0.4em] mb-8 leading-none">Feed // {testimonial.code}</div>
-                  <p className="text-zinc-300 text-lg leading-relaxed font-medium italic mb-8">
+                <div className="text-left">
+                  <div className="text-zinc-700 text-[10px] font-bold uppercase tracking-[0.4em] mb-8 leading-none">Feed // {testimonial.code}</div>
+                  <p className="text-zinc-300 text-lg leading-relaxed font-bold italic mb-8">
                     "{getLangString(testimonial.text, language)}"
                   </p>
                 </div>
-                <div className="border-t border-white/5 pt-8">
+                <div className="border-t border-white/5 pt-8 text-left">
                   <div className="text-white font-bold text-sm uppercase tracking-widest leading-none">
                     {getLangString(testimonial.name, language)}
                   </div>
@@ -545,11 +545,15 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 </div>
                 <button 
                   type="submit" 
-                  className="group relative w-full py-5 md:py-7 bg-gradient-to-br from-[#D9B986] via-[#C5A572] to-[#A68B5B] rounded-xl transition-all duration-500 shadow-[0_10px_30px_-5px_rgba(197,165,114,0.3),0_20px_50px_-10px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_-5px_rgba(197,165,114,0.5)] hover:scale-[1.01] active:scale-[0.98] border border-white/10 overflow-hidden"
+                  className="group relative w-full py-6 md:py-8 bg-gradient-to-br from-[#E8D5B5] via-[#C5A572] to-[#8A6D3B] rounded-[1.5rem] transition-all duration-700 shadow-[0_20px_40px_-10px_rgba(197,165,114,0.3),0_10px_20px_-5px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.4)] hover:shadow-[0_30px_60px_-10px_rgba(197,165,114,0.5),0_15px_30px_-5px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.6)] hover:scale-[1.02] active:scale-[0.98] border border-white/20 overflow-hidden cursor-pointer"
                 >
-                  <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.2),transparent)] bg-[length:200%_100%] animate-[shimmer_2s_infinite] pointer-events-none" />
-                  <div className="relative z-10 flex items-center justify-center text-black w-full">
-                    <span className="font-black text-base md:text-xl uppercase tracking-widest block">Execute Broadcast</span>
+                  <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.2),transparent)] bg-[length:200%_100%] animate-[shimmer_2.5s_infinite] pointer-events-none" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors" />
+                  <div className="relative z-10 flex flex-col items-center justify-center text-black w-full px-6">
+                    <span className="font-black text-sm sm:text-base md:text-xl uppercase tracking-[0.25em] block leading-tight text-center">
+                      <span className="block md:inline">Execute</span>
+                      <span className="block md:inline md:ml-3">Broadcast</span>
+                    </span>
                   </div>
                 </button>
               </form>
