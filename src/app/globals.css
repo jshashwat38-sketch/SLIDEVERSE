@@ -17,16 +17,18 @@
   --font-sans: 'Inter', sans-serif;
   --font-heading: 'Space Grotesk', sans-serif;
   --font-mono: var(--font-geist-mono);
+}
 
-  --animate-logo-spin: logo-spin 4s linear infinite;
+.animate-logo-spin {
+  animation: logo-spin 4s linear infinite;
+}
 
-  @keyframes logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 
