@@ -108,11 +108,11 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         ) : (
           <div className="bg-white/[0.02] p-10 md:p-16 rounded-[3rem] border border-white/5 relative overflow-hidden">
              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary/5 rounded-full blur-[80px] -z-10" />
-              <div className="flex flex-row items-center justify-center gap-6 text-left max-w-4xl mx-auto">
-                <h3 className="text-base sm:text-2xl font-black text-white uppercase italic tracking-tighter shrink-0 border-r border-primary/30 pr-6 py-2">
+              <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 text-center md:text-left max-w-4xl mx-auto">
+                <h3 className="text-xl sm:text-2xl font-black text-white uppercase italic tracking-tighter md:border-r md:border-primary/30 md:pr-10 py-2 border-b border-primary/30 md:border-b-0 pb-4 md:pb-2">
                   Vault Entry Pending
                 </h3>
-                <p className="text-zinc-500 text-[8px] sm:text-xs font-bold uppercase tracking-widest leading-relaxed italic">
+                <p className="text-zinc-500 text-[10px] sm:text-xs font-bold uppercase tracking-widest leading-relaxed italic max-w-sm">
                   Our curators are currently vetting new {getLangString(category.title, language)} assets. Check back shortly for deployment.
                 </p>
               </div>
