@@ -49,47 +49,34 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
   const pillarRef = useRef<HTMLDivElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
 
-  const [activePillar, setActivePillar] = useState(0);
-  const [activeReview, setActiveReview] = useState(0);
-  const [activeProduct, setActiveProduct] = useState(0);
+  // Robust Auto-scroll logic with Ref-based Index tracking
+  const pillarIndex = useRef(0);
+  const reviewIndex = useRef(0);
+  const productIndex = useRef(0);
 
-  const productRef = useRef<HTMLDivElement>(null);
-  const pillarRef = useRef<HTMLDivElement>(null);
-  const reviewRef = useRef<HTMLDivElement>(null);
-
-  // Robust Auto-scroll logic
   useEffect(() => {
     const timer = setInterval(() => {
-      setActivePillar((prev) => (prev + 1) % PILLAR_COUNT);
-      setActiveReview((prev) => (prev + 1) % (reviews.length || 1));
-      setActiveProduct((prev) => (prev + 1) % Math.max(1, featuredProducts.length - 1));
+      // Products
+      if (productRef.current) {
+        productIndex.current = (productIndex.current + 1) % Math.max(1, featuredProducts.length - 1);
+        const cardWidth = productRef.current.offsetWidth * 0.85 + 24;
+        productRef.current.scrollTo({ left: productIndex.current * cardWidth, behavior: 'smooth' });
+      }
+      // Pillars
+      if (pillarRef.current) {
+        pillarIndex.current = (pillarIndex.current + 1) % PILLAR_COUNT;
+        const cardWidth = pillarRef.current.offsetWidth * 0.80 + 24;
+        pillarRef.current.scrollTo({ left: pillarIndex.current * cardWidth, behavior: 'smooth' });
+      }
+      // Reviews
+      if (reviewRef.current) {
+        reviewIndex.current = (reviewIndex.current + 1) % (reviews.length || 1);
+        const cardWidth = reviewRef.current.offsetWidth * 0.85 + 24;
+        reviewRef.current.scrollTo({ left: reviewIndex.current * cardWidth, behavior: 'smooth' });
+      }
     }, 5000);
     return () => clearInterval(timer);
   }, [reviews.length, featuredProducts.length]);
-
-  useEffect(() => {
-    if (productRef.current) {
-      const el = productRef.current;
-      const cardWidth = el.offsetWidth * 0.85 + 24;
-      el.scrollTo({ left: activeProduct * cardWidth, behavior: 'smooth' });
-    }
-  }, [activeProduct]);
-
-  useEffect(() => {
-    if (pillarRef.current) {
-      const el = pillarRef.current;
-      const cardWidth = el.offsetWidth * 0.80 + 24;
-      el.scrollTo({ left: activePillar * cardWidth, behavior: 'smooth' });
-    }
-  }, [activePillar]);
-
-  useEffect(() => {
-    if (reviewRef.current) {
-      const el = reviewRef.current;
-      const cardWidth = el.offsetWidth * 0.85 + 24;
-      el.scrollTo({ left: activeReview * cardWidth, behavior: 'smooth' });
-    }
-  }, [activeReview]);
 
   return (
     <div className="overflow-hidden bg-background selection:bg-primary selection:text-black font-sans">
@@ -164,8 +151,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               <div className="flex items-center justify-between mb-6">
                 <span className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em]">Active Sectors</span>
                 <div className="flex items-center gap-2">
-                  <div className="w-1 h-1 rounded-full bg-primary animate-ping" />
-                  <span className="text-[8px] font-black text-primary uppercase tracking-widest">Live Status: Online</span>
+                  <span className="text-[8px] font-black text-primary uppercase tracking-widest italic opacity-80">Online Status</span>
                 </div>
               </div>
               <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide -mx-2 px-2">
@@ -219,7 +205,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               className="text-center max-w-2xl mx-auto"
             >
               <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-6 tracking-tight italic uppercase">
-                Elite <span className="text-primary">Acquisitions</span>
+                Featured <span className="text-primary">Gallery</span>
               </h2>
               <p className="text-lg text-zinc-500 font-medium leading-relaxed">
                 Refined architectural frameworks for professional digital storytellers.
@@ -538,17 +524,17 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               }}>
                 <div className="space-y-6">
                   <div className="flex flex-col gap-2">
-                    <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.4em] px-1">Identity Protocol</label>
+                    <label className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.5em] px-1">Identity Protocol</label>
                     <input name="name" type="text" required placeholder="ENTER NAME..." className="w-full bg-black/40 border border-white/5 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.4em] px-1">Relay Endpoint</label>
+                    <label className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.5em] px-1">Relay Endpoint</label>
                     <input name="email" type="email" required placeholder="ENTER EMAIL..." className="w-full bg-black/40 border border-white/5 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
                   </div>
                 </div>
-                <div className="space-y-3">
-                  <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.5em] ml-1">Intelligence Data</label>
-                  <textarea name="message" required rows={5} placeholder="COMPOSE TRANSMISSION..." className="w-full bg-black/40 border border-white/5 rounded-2xl px-6 md:px-8 py-4 md:py-5 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800 resize-none"></textarea>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.5em] px-1">Intelligence Data</label>
+                  <textarea name="message" required rows={5} placeholder="COMPOSE TRANSMISSION..." className="w-full bg-black/40 border border-white/5 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800 resize-none"></textarea>
                 </div>
                 <button type="submit" className="group relative w-full py-5 md:py-6 bg-primary overflow-hidden rounded-2xl transition-all shadow-[0_0_40px_rgba(197,165,114,0.2)] hover:shadow-[0_0_60px_rgba(197,165,114,0.4)] active:scale-[0.98]">
                   <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
