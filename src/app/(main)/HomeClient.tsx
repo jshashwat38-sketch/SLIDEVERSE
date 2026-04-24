@@ -312,7 +312,40 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          {/* Seamless Infinite Rotating Pillars */}
+          <div className="relative md:hidden overflow-hidden py-12 -mx-6">
+            <motion.div 
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ 
+                duration: 20, 
+                repeat: Infinity, 
+                ease: "linear" 
+              }}
+              className="flex gap-6 px-6 w-max"
+            >
+              {[...Array(2)].map((_, groupIndex) => (
+                <div key={groupIndex} className="flex gap-6">
+                  {[
+                    { title: "Architectural Integrity", desc: "Every slide is built on a foundation of structural perfection." },
+                    { title: "Cinematic Motion", desc: "Transitions that bridge the gap between presentation and cinema." },
+                    { title: "Tactical Delivery", desc: "Engineered for high-stakes environments where clarity is paramount." }
+                  ].map((pillar, i) => (
+                    <div 
+                      key={`${groupIndex}-${i}`}
+                      className="w-[280px] p-10 rounded-[2.5rem] bg-white/[0.02] border border-white/5 text-center flex flex-col items-center justify-center min-h-[220px]"
+                    >
+                      <div className="text-primary font-black uppercase tracking-[0.4em] text-[8px] mb-4">Pillar 0{i+1}</div>
+                      <h4 className="text-white font-bold text-xl mb-4 italic uppercase tracking-tighter leading-tight">{pillar.title}</h4>
+                      <p className="text-zinc-500 text-xs leading-relaxed font-medium">{pillar.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Desktop Grid Layout */}
+          <div className="hidden md:grid grid-cols-3 gap-10">
             {[
               { title: "Architectural Integrity", desc: "Every slide is built on a foundation of structural perfection." },
               { title: "Cinematic Motion", desc: "Transitions that bridge the gap between presentation and cinema." },
@@ -350,7 +383,50 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             <p className="text-sm text-zinc-500 uppercase tracking-[0.3em] font-bold">Verified Intelligence from the Field</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Seamless Infinite Rotating Reviews */}
+          <div className="relative md:hidden overflow-hidden py-12 -mx-6">
+            <motion.div 
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ 
+                duration: 30, 
+                repeat: Infinity, 
+                ease: "linear" 
+              }}
+              className="flex gap-6 px-6 w-max"
+            >
+              {[...Array(2)].map((_, groupIndex) => (
+                <div key={groupIndex} className="flex gap-6">
+                  {(reviews.length > 0 ? reviews : []).map((testimonial: any, i: number) => (
+                    <div 
+                      key={`${groupIndex}-${i}`}
+                      className="w-[320px] bg-white/[0.03] backdrop-blur-sm p-10 rounded-[2.5rem] border border-white/5 relative flex flex-col justify-between min-h-[300px]"
+                    >
+                      <div className="absolute top-8 right-8 text-primary/20">
+                        <Sparkles className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <div className="text-zinc-600 text-[8px] font-bold uppercase tracking-[0.4em] mb-6 leading-none">Feed // {testimonial.code}</div>
+                        <p className="text-zinc-300 text-base leading-relaxed font-medium italic mb-8">
+                          "{getLangString(testimonial.text, language)}"
+                        </p>
+                      </div>
+                      <div className="border-t border-white/5 pt-8">
+                        <div className="text-white font-bold text-xs uppercase tracking-widest leading-none">
+                          {getLangString(testimonial.name, language)}
+                        </div>
+                        <div className="text-primary text-[8px] font-bold uppercase tracking-[0.3em] mt-2 leading-none">
+                          {getLangString(testimonial.role, language)}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Desktop Grid Layout */}
+          <div className="hidden md:grid grid-cols-3 gap-8">
             {(reviews.length > 0 ? reviews : []).map((testimonial: any, i: number) => (
               <motion.div 
                 key={i}
@@ -391,24 +467,24 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             </div>
             <h2 className="text-4xl md:text-6xl font-heading font-bold text-white mb-10 tracking-tighter italic uppercase leading-[0.9]">Establish <br /> <span className="text-primary">Contact</span></h2>
             
-            <div className="space-y-8">
+            <div className="space-y-10">
               <div className="flex items-center gap-6 group">
-                <a href={`mailto:${appearance?.contact?.email || "support@slideverse.pro"}`} className="w-12 h-12 md:w-16 md:h-16 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:border-primary/40 transition-colors">
+                <a href={`mailto:${appearance?.contact?.email || "support@slideverse.pro"}`} className="w-14 h-14 md:w-16 md:h-16 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:border-primary/40 transition-all duration-500 group-hover:scale-110">
                   <Mail className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                 </a>
-                <div>
-                  <h3 className="text-[8px] font-black text-zinc-600 uppercase tracking-[0.4em] mb-1">Direct Relay</h3>
-                  <a href={`mailto:${appearance?.contact?.email || "support@slideverse.pro"}`} className="text-sm md:text-lg text-white font-bold tracking-tight hover:text-primary transition-colors">{appearance?.contact?.email || "support@slideverse.pro"}</a>
+                <div className="flex flex-col justify-center">
+                  <h3 className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.5em] mb-1 leading-none">Direct Relay</h3>
+                  <a href={`mailto:${appearance?.contact?.email || "support@slideverse.pro"}`} className="text-lg md:text-xl text-white font-bold tracking-tight hover:text-primary transition-colors leading-tight">{appearance?.contact?.email || "support@slideverse.pro"}</a>
                 </div>
               </div>
               
               <div className="flex items-center gap-6 group">
-                <a href={`tel:${(appearance?.contact?.mobile || "+1 (800) SLIDEVERSE").replace(/\s/g, '')}`} className="w-12 h-12 md:w-16 md:h-16 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:border-primary/40 transition-colors">
+                <a href={`tel:${(appearance?.contact?.mobile || "+91 8602328776").replace(/\s/g, '')}`} className="w-14 h-14 md:w-16 md:h-16 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:border-primary/40 transition-all duration-500 group-hover:scale-110">
                   <Phone className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                 </a>
-                <div>
-                  <h3 className="text-[8px] font-black text-zinc-600 uppercase tracking-[0.4em] mb-1">Secure Line</h3>
-                  <a href={`tel:${(appearance?.contact?.mobile || "+1 (800) SLIDEVERSE").replace(/\s/g, '')}`} className="text-sm md:text-lg text-white font-bold tracking-tight hover:text-primary transition-colors">{appearance?.contact?.mobile || "+1 (800) SLIDEVERSE"}</a>
+                <div className="flex flex-col justify-center">
+                  <h3 className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.5em] mb-1 leading-none">Secure Line</h3>
+                  <a href={`tel:${(appearance?.contact?.mobile || "+91 8602328776").replace(/\s/g, '')}`} className="text-lg md:text-xl text-white font-bold tracking-tight hover:text-primary transition-colors leading-tight">{appearance?.contact?.mobile || "+91 8602328776"}</a>
                 </div>
               </div>
             </div>
