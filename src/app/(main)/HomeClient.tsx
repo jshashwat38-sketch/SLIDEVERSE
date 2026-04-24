@@ -397,10 +397,10 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             viewport={{ once: true }}
             className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight italic uppercase">
+            <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight italic uppercase px-4">
               Client <span className="text-primary">Transmissions</span>
             </h2>
-            <p className="text-xs text-zinc-500 uppercase tracking-[0.3em] font-bold">Verified Intelligence from the Field</p>
+            <p className="text-[10px] md:text-xs text-zinc-500 uppercase tracking-[0.3em] font-bold px-6">Verified Intelligence from the Field</p>
           </motion.div>
 
           {/* Snap-Scroll Rotating Reviews - Mobile Optimized with No Clipping and Auto-Motion */}
@@ -483,7 +483,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 </a>
                 <div className="flex flex-col justify-center">
                   <h3 className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.5em] mb-1 leading-none">Direct Relay</h3>
-                  <a href={`mailto:${appearance?.contact?.email || "support@slideverse.pro"}`} className="text-lg md:text-xl text-white font-bold tracking-tight hover:text-primary transition-colors leading-tight">{appearance?.contact?.email || "support@slideverse.pro"}</a>
+                  <a href={`mailto:${appearance?.contact?.email || "support@slideverse.pro"}`} className="text-base sm:text-lg md:text-xl text-white font-bold tracking-tight hover:text-primary transition-colors leading-tight break-all">{appearance?.contact?.email || "support@slideverse.pro"}</a>
                 </div>
               </div>
               
@@ -535,11 +535,11 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                   <label className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.5em] px-1">Intelligence Data</label>
                   <textarea name="message" required rows={5} placeholder="COMPOSE TRANSMISSION..." className="w-full bg-black/40 border border-white/5 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800 resize-none"></textarea>
                 </div>
-                <button type="submit" className="group relative w-full py-5 md:py-6 bg-primary overflow-hidden rounded-2xl transition-all shadow-[0_0_40px_rgba(197,165,114,0.2)] hover:shadow-[0_0_60px_rgba(197,165,114,0.4)] active:scale-[0.98]">
+                <button type="submit" className="group relative w-full py-5 md:py-6 bg-primary overflow-hidden rounded-2xl transition-all shadow-[0_0_30px_rgba(197,165,114,0.4)] hover:shadow-[0_0_60px_rgba(197,165,114,0.6)] active:scale-[0.98] animate-none">
                   <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-                  <span className="relative z-10 flex items-center justify-center gap-4 text-black font-black text-lg md:text-xl uppercase tracking-[0.3em] italic leading-none">
-                    <Send className="w-5 h-5 md:w-6 md:h-6 -rotate-12 group-hover:rotate-0 transition-transform" />
-                    <span className="mt-1">Execute Broadcast</span>
+                  <span className="relative z-10 flex items-center justify-center gap-4 text-black font-black text-lg md:text-xl uppercase tracking-[0.3em] italic leading-none w-full text-center">
+                    <Send className="w-5 h-5 md:w-6 md:h-6 -rotate-12 group-hover:rotate-0 transition-transform shrink-0" />
+                    <span className="mt-0.5">Execute Broadcast</span>
                   </span>
                 </button>
               </form>
