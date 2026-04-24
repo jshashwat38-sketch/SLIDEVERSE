@@ -45,7 +45,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
 
       <div className="p-6 border-b border-white/5 flex items-center justify-between">
         <div className="flex items-center gap-4 group cursor-pointer">
-          <div className="relative flex items-center justify-center w-16 h-16 rounded-full overflow-hidden shrink-0">
+          <div className="relative flex items-center justify-center w-12 h-12 rounded-full overflow-hidden shrink-0">
             {/* Spinning gradient border */}
             <div className="absolute inset-[-50%] bg-[conic-gradient(from_0deg,transparent_0deg,transparent_120deg,#C5A572_180deg,transparent_240deg)] animate-[spin_4s_linear_infinite] opacity-80" />
             
