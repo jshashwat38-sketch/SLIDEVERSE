@@ -17,6 +17,8 @@ interface HomeClientProps {
   initialReviews: any[];
 }
 
+const PILLAR_COUNT = 3;
+
 export default function HomeClient({ initialAppearance, initialProducts, initialReviews }: HomeClientProps) {
   const { t, language } = useLanguage();
   const [appearance] = useState(initialAppearance);
@@ -47,29 +49,47 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
   const pillarRef = useRef<HTMLDivElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
 
+  const [activePillar, setActivePillar] = useState(0);
+  const [activeReview, setActiveReview] = useState(0);
+  const [activeProduct, setActiveProduct] = useState(0);
+
+  const productRef = useRef<HTMLDivElement>(null);
+  const pillarRef = useRef<HTMLDivElement>(null);
+  const reviewRef = useRef<HTMLDivElement>(null);
+
+  // Robust Auto-scroll logic
   useEffect(() => {
-    const scrollInterval = setInterval(() => {
-      if (productRef.current) {
-        const el = productRef.current;
-        const cardWidth = window.innerWidth * 0.85 + 24;
-        const nextScroll = ((el.scrollLeft + cardWidth) % (el.scrollWidth - el.offsetWidth + 10));
-        el.scrollTo({ left: nextScroll, behavior: 'smooth' });
-      }
-      if (pillarRef.current) {
-        const el = pillarRef.current;
-        const cardWidth = window.innerWidth * 0.80 + 24;
-        const nextScroll = ((el.scrollLeft + cardWidth) % (el.scrollWidth - el.offsetWidth + 10));
-        el.scrollTo({ left: nextScroll, behavior: 'smooth' });
-      }
-      if (reviewRef.current) {
-        const el = reviewRef.current;
-        const cardWidth = window.innerWidth * 0.85 + 24;
-        const nextScroll = ((el.scrollLeft + cardWidth) % (el.scrollWidth - el.offsetWidth + 10));
-        el.scrollTo({ left: nextScroll, behavior: 'smooth' });
-      }
+    const timer = setInterval(() => {
+      setActivePillar((prev) => (prev + 1) % PILLAR_COUNT);
+      setActiveReview((prev) => (prev + 1) % (reviews.length || 1));
+      setActiveProduct((prev) => (prev + 1) % Math.max(1, featuredProducts.length - 1));
     }, 5000);
-    return () => clearInterval(scrollInterval);
-  }, []);
+    return () => clearInterval(timer);
+  }, [reviews.length, featuredProducts.length]);
+
+  useEffect(() => {
+    if (productRef.current) {
+      const el = productRef.current;
+      const cardWidth = el.offsetWidth * 0.85 + 24;
+      el.scrollTo({ left: activeProduct * cardWidth, behavior: 'smooth' });
+    }
+  }, [activeProduct]);
+
+  useEffect(() => {
+    if (pillarRef.current) {
+      const el = pillarRef.current;
+      const cardWidth = el.offsetWidth * 0.80 + 24;
+      el.scrollTo({ left: activePillar * cardWidth, behavior: 'smooth' });
+    }
+  }, [activePillar]);
+
+  useEffect(() => {
+    if (reviewRef.current) {
+      const el = reviewRef.current;
+      const cardWidth = el.offsetWidth * 0.85 + 24;
+      el.scrollTo({ left: activeReview * cardWidth, behavior: 'smooth' });
+    }
+  }, [activeReview]);
 
   return (
     <div className="overflow-hidden bg-background selection:bg-primary selection:text-black font-sans">
@@ -162,10 +182,10 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1, duration: 0.5 }}
                   >
-                    <Link href={btn.link} className="shrink-0 w-32 aspect-square flex flex-col items-center justify-center bg-white/[0.03] border border-white/10 rounded-[2.5rem] group active:scale-95 transition-all relative overflow-hidden">
-                      <div className="absolute top-4 left-4 text-[8px] font-black text-zinc-800">{btn.code}</div>
-                      <btn.icon className="w-8 h-8 text-primary mb-3" />
-                      <span className="text-[10px] font-black text-white uppercase tracking-widest italic">{btn.name}</span>
+                    <Link href={btn.link} className="shrink-0 w-28 aspect-square flex flex-col items-center justify-center bg-white/[0.03] border border-white/10 rounded-[2rem] group active:scale-95 transition-all relative overflow-hidden">
+                      <div className="absolute top-3 left-3 text-[7px] font-black text-zinc-800">{btn.code}</div>
+                      <btn.icon className="w-6 h-6 text-primary mb-2" />
+                      <span className="text-[9px] font-black text-white uppercase tracking-widest italic">{btn.name}</span>
                     </Link>
                   </motion.div>
                 ))}
@@ -176,9 +196,9 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 viewport={{ once: true }}
                 transition={{ delay: 0.4 }}
               >
-                <Link href="/#featured" className="mt-4 flex items-center justify-between p-6 bg-primary border border-primary rounded-[2rem] group active:scale-95 transition-all shadow-[0_10px_30px_rgba(197,165,114,0.2)]">
-                  <span className="text-xs font-black text-black uppercase tracking-[0.2em] italic">Access Full Collection</span>
-                  <ArrowRight className="w-5 h-5 text-black" />
+                <Link href="/#featured" className="mt-2 flex items-center justify-between p-5 bg-primary border border-primary rounded-2xl group active:scale-95 transition-all shadow-[0_10px_30px_rgba(197,165,114,0.2)]">
+                  <span className="text-[10px] font-black text-black uppercase tracking-[0.2em] italic">Access Full Collection</span>
+                  <ArrowRight className="w-4 h-4 text-black" />
                 </Link>
               </motion.div>
             </motion.div>
@@ -231,7 +251,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             
             {/* Mobile Product Carousel - Snap Scrolling with Auto-Motion */}
             <div 
-              className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-6 pb-4 -mx-6 px-6 scrollbar-hide scroll-smooth"
+              className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-4 pb-2 -mx-6 px-6 scrollbar-hide scroll-smooth"
               ref={productRef}
             >
               {featuredProducts.slice(1).map((product, index) => (
@@ -357,9 +377,8 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             </motion.div>
           </div>
 
-          {/* Snap-Scroll Rotating Pillars - Mobile Optimized with Improved Spacing and Auto-Motion */}
           <div 
-            className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-6 pb-4 -mx-6 px-6 scrollbar-hide scroll-smooth"
+            className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-4 pb-2 -mx-6 px-6 scrollbar-hide scroll-smooth"
             ref={pillarRef}
           >
             {[
@@ -536,14 +555,14 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                   (e.target as HTMLFormElement).reset();
                 }
               }}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                    <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.5em] shrink-0 sm:w-32">Identity Protocol</label>
-                    <input name="name" type="text" required placeholder="ENTER NAME..." className="w-full bg-black/40 border border-white/5 rounded-2xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
+                <div className="grid grid-cols-1 gap-6">
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.4em] px-2">Identity Protocol</label>
+                    <input name="name" type="text" required placeholder="ENTER NAME..." className="w-full bg-black/40 border border-white/5 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
                   </div>
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                    <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.5em] shrink-0 sm:w-32">Relay Endpoint</label>
-                    <input name="email" type="email" required placeholder="ENTER EMAIL..." className="w-full bg-black/40 border border-white/5 rounded-2xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.4em] px-2">Relay Endpoint</label>
+                    <input name="email" type="email" required placeholder="ENTER EMAIL..." className="w-full bg-black/40 border border-white/5 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
                   </div>
                 </div>
                 <div className="space-y-3">
