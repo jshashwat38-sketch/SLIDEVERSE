@@ -488,12 +488,20 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               </div>
               
               <div className="flex items-center gap-6 group">
-                <a href={`tel:${(appearance?.contact?.mobile || "+91 8602328776").replace(/\s/g, '')}`} className="w-14 h-14 md:w-16 md:h-16 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:border-primary/40 transition-all duration-500 group-hover:scale-110">
+                <a 
+                  href={`tel:${(appearance?.contact?.mobile || "+91 8602328776").replace(/[^0-9+]/g, '')}`} 
+                  className="w-14 h-14 md:w-16 md:h-16 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:border-primary/40 transition-all duration-500 group-hover:scale-110 active:scale-95 touch-manipulation"
+                >
                   <Phone className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                 </a>
                 <div className="flex flex-col justify-center">
                   <h3 className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.5em] mb-1 leading-none">Secure Line</h3>
-                  <a href={`tel:${(appearance?.contact?.mobile || "+91 8602328776").replace(/\s/g, '')}`} className="text-lg md:text-xl text-white font-bold tracking-tight hover:text-primary transition-colors leading-tight">{appearance?.contact?.mobile || "+91 8602328776"}</a>
+                  <a 
+                    href={`tel:${(appearance?.contact?.mobile || "+91 8602328776").replace(/[^0-9+]/g, '')}`} 
+                    className="text-lg md:text-xl text-white font-bold tracking-tight hover:text-primary transition-colors leading-tight touch-manipulation"
+                  >
+                    {appearance?.contact?.mobile || "+91 8602328776"}
+                  </a>
                 </div>
               </div>
             </div>

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { getAppearance } from "@/actions/adminActions";
 import Link from "next/link";
-import { Mail, Phone, ShieldCheck, Globe, FolderOpen } from "lucide-react";
+import { Mail, Phone, ShieldCheck, Instagram, FolderOpen } from "lucide-react";
 
 
 
@@ -48,9 +48,9 @@ export function GlobalFooter() {
               Elevating digital storytelling through premium presentation architecture. Join the elite network of curators.
             </p>
             <div className="flex gap-4">
-              <Link href="/" className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-500 hover:text-primary hover:border-primary/50 transition-all">
-                <Globe className="w-5 h-5" />
-              </Link>
+              <a href="https://www.instagram.com/slideversestudio?igsh=ODJkOTFhZm8wYzY3" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-500 hover:text-primary hover:border-primary/50 transition-all active:scale-95">
+                <Instagram className="w-5 h-5" />
+              </a>
               <Link href="/#featured" className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-500 hover:text-primary hover:border-primary/50 transition-all">
                 <FolderOpen className="w-5 h-5" />
               </Link>
@@ -103,7 +103,7 @@ export function GlobalFooter() {
                   <p className="text-xs font-bold text-white">{appearance?.contact?.email || "support@slideverse.pro"}</p>
                 </div>
               </a>
-              <a href={`tel:${(appearance?.contact?.mobile || "+91 99999 99999").replace(/\s/g, '')}`} className="flex items-center gap-4 group">
+              <a href={`tel:${(appearance?.contact?.mobile || "+91 99999 99999").replace(/[^0-9+]/g, '')}`} className="flex items-center gap-4 group touch-manipulation">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-all">
                   <Phone className="w-5 h-5" />
                 </div>
