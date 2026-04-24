@@ -26,12 +26,23 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
   return (
     <header className="bg-black/60 backdrop-blur-xl border-b border-white/5 sticky top-0 z-40 px-4 md:px-8 py-4 flex items-center justify-between transition-all">
       <div className="flex items-center gap-4 flex-1">
+        {/* Mobile Logo - Always visible when sidebar is closed */}
+        <Link href="/" className="lg:hidden flex items-center gap-2 shrink-0">
+          <img 
+            src="/logo.png" 
+            alt="Slideverse Logo" 
+            className="w-10 h-10 object-contain" 
+          />
+          <h1 className="text-base sm:text-lg font-bold tracking-tight text-white uppercase italic truncate max-w-[120px]">Slideverse</h1>
+        </Link>
+
         <button 
           onClick={onMenuClick}
           className="lg:hidden p-2 text-zinc-500 hover:text-white bg-white/5 rounded-xl border border-white/10"
         >
           <Menu className="w-5 h-5" />
         </button>
+
         <form onSubmit={handleSearch} className="relative w-full max-w-md group hidden sm:block">
           <input
             type="text"
@@ -67,11 +78,11 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
           <div className="w-8 h-8 rounded-full bg-white/5 animate-pulse"></div>
         ) : user ? (
           <div className="flex items-center gap-4 relative">
-            <Link href="/account" className="hidden md:flex items-center gap-2 text-zinc-400 hover:text-primary transition-colors group">
+            <Link href="/account" className="hidden sm:flex items-center gap-2 text-zinc-400 hover:text-primary transition-colors group">
               <ShoppingBag className="w-4 h-4 group-hover:drop-shadow-[0_0_8px_rgba(197,165,114,0.5)]" />
               <span className="text-xs font-black uppercase tracking-widest italic">My Vault</span>
             </Link>
-            <span className="text-sm font-medium text-zinc-200">Hi, {user.name}</span>
+            <span className="text-xs sm:text-sm font-medium text-zinc-200 hidden min-[450px]:inline">Hi, {user.name}</span>
             <button 
               onClick={() => setShowLogoutConfirm(!showLogoutConfirm)}
               className={`p-2 rounded-xl transition-all ${showLogoutConfirm ? 'bg-red-500 text-white' : 'text-zinc-500 hover:text-red-500 hover:bg-white/5'}`}
