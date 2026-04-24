@@ -30,7 +30,7 @@ export default function GoogleLoginButton({ label = "Continue with Google" }: { 
           </div>
           <div className="absolute inset-0 bg-white/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
         </div>
-        <span className="text-zinc-400 group-hover:text-white font-black text-[10px] sm:text-[11px] md:text-xs uppercase tracking-[0.05em] md:tracking-[0.15em] transition-all italic whitespace-nowrap">
+        <span className="text-zinc-400 group-hover:text-white font-black text-[10px] sm:text-[11px] md:text-xs uppercase tracking-[0.05em] md:tracking-[0.15em] transition-all italic">
           {label.replace(/_/g, ' ')}
         </span>
       </div>
