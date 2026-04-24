@@ -546,10 +546,15 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                   <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.2),transparent)] bg-[length:200%_100%] animate-[shimmer_2.5s_infinite] pointer-events-none" />
                   
                   {/* Button Content */}
-                  <span className="relative z-10 flex items-center justify-center gap-5 text-black font-black text-xl md:text-2xl uppercase tracking-[0.5em] leading-none w-full text-center drop-shadow-md">
-                    <Send className="w-6 h-6 md:w-7 md:h-7 -rotate-12 group-hover:rotate-0 transition-transform duration-500 shrink-0" />
-                    <span className="mt-1">Execute Broadcast</span>
-                  </span>
+                  <div className="relative z-10 flex flex-col items-center justify-center w-full h-full text-black">
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 w-full px-4">
+                      <Send className="w-6 h-6 md:w-8 md:h-8 -rotate-12 group-hover:rotate-0 transition-transform duration-500 shrink-0 mb-1 sm:mb-0" />
+                      <div className="flex flex-col items-center sm:items-start leading-[1.1]">
+                        <span className="font-black text-lg sm:text-2xl uppercase tracking-[0.2em] sm:tracking-[0.5em] block">Execute</span>
+                        <span className="font-black text-lg sm:text-2xl uppercase tracking-[0.2em] sm:tracking-[0.5em] block">Broadcast</span>
+                      </div>
+                    </div>
+                  </div>
                   
                   {/* Bottom Depth Shadow */}
                   <div className="absolute bottom-0 left-0 w-full h-[2px] bg-black/20" />
