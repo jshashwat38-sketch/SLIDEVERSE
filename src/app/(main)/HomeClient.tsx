@@ -97,7 +97,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
       <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.02] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]" />
 
       {/* Hero Section - Refined */}
-      <section className="relative pt-24 pb-32 min-h-[85vh] flex items-center">
+      <section className="relative pt-12 pb-16 flex items-center">
         <div className="absolute inset-0 -z-10 overflow-hidden">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#141414_1px,transparent_1px),linear-gradient(to_bottom,#141414_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
           
@@ -196,34 +196,15 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 viewport={{ once: true }}
                 transition={{ delay: 0.4 }}
               >
-                <Link href="/#featured" className="mt-2 flex items-center justify-between p-5 bg-primary border border-primary rounded-2xl group active:scale-95 transition-all shadow-[0_10px_30px_rgba(197,165,114,0.2)]">
-                  <span className="text-[10px] font-black text-black uppercase tracking-[0.2em] italic">Access Full Collection</span>
+                <Link href="/#featured" className="mt-2 flex items-center justify-between p-4 bg-primary border border-primary rounded-xl group active:scale-95 transition-all shadow-[0_10px_30px_rgba(197,165,114,0.2)]">
+                  <span className="text-[9px] font-black text-black uppercase tracking-[0.2em] italic">Access Full Collection</span>
                   <ArrowRight className="w-4 h-4 text-black" />
                 </Link>
               </motion.div>
             </motion.div>
           </motion.div>
 
-          {/* Decorative Hero Image - Desktop Only */}
-          <div className="hidden lg:block relative lg:w-[90%] mx-auto lg:mt-0">
-            <motion.div 
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-10 group overflow-hidden rounded-[3rem] border border-white/5 bg-black/20 backdrop-blur-sm p-2 aspect-square"
-            >
-              <Image 
-                src={appearance?.hero?.image || "/assets/hero_v2.png"} 
-                alt="Architectural Presentation" 
-                fill
-                priority
-                className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-1000" 
-              />
-              <div className="absolute bottom-8 right-8 bg-black/60 backdrop-blur-2xl border border-white/10 p-6 rounded-2xl z-20">
-                <div className="text-primary font-bold italic uppercase tracking-tighter text-xl">{appearance?.hero?.badge || "Core.v3"}</div>
-              </div>
-            </motion.div>
-          </div>
+          {/* Decorative Hero Image Removed for Mobile and Desktop to Debug Artifact */}
         </div>
       </section>
 
@@ -555,13 +536,13 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                   (e.target as HTMLFormElement).reset();
                 }
               }}>
-                <div className="grid grid-cols-1 gap-6">
+                <div className="space-y-6">
                   <div className="flex flex-col gap-2">
-                    <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.4em] px-2">Identity Protocol</label>
+                    <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.4em] px-1">Identity Protocol</label>
                     <input name="name" type="text" required placeholder="ENTER NAME..." className="w-full bg-black/40 border border-white/5 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.4em] px-2">Relay Endpoint</label>
+                    <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.4em] px-1">Relay Endpoint</label>
                     <input name="email" type="email" required placeholder="ENTER EMAIL..." className="w-full bg-black/40 border border-white/5 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
                   </div>
                 </div>
