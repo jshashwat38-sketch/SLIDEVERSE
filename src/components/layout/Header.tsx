@@ -30,7 +30,10 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
         <Link href="/" className="lg:hidden flex items-center gap-3 shrink-0 group">
           <div className="relative flex items-center justify-center w-12 h-12 rounded-full overflow-hidden shrink-0">
             {/* Spinning gradient border */}
-            <div className="absolute inset-0 w-full h-full bg-[conic-gradient(from_0deg,transparent_0deg,transparent_120deg,#C5A572_180deg,transparent_240deg)] animate-logo-spin opacity-80" />
+            <div 
+              className="absolute inset-0 w-full h-full bg-[conic-gradient(from_0deg,transparent_0deg,transparent_120deg,#C5A572_180deg,transparent_240deg)] opacity-80" 
+              style={{ animation: 'ring-rotate 4s linear infinite' }}
+            />
             
             {/* Inner background to mask the center */}
             <div className="absolute inset-[2px] bg-[#09090b] rounded-full z-10" />
