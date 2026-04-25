@@ -25,13 +25,20 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
 
   return (
     <header className="bg-black/60 backdrop-blur-xl border-b border-white/5 sticky top-0 z-40 px-4 md:px-8 py-4 flex items-center justify-between transition-all">
-      <div className="flex items-center gap-4 flex-1">
+      <div className="flex items-center gap-3 flex-1">
+        <button 
+          onClick={onMenuClick}
+          className="lg:hidden p-2 text-zinc-500 hover:text-white bg-white/5 rounded-xl border border-white/10 shrink-0"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+
         {/* Mobile Logo - Always visible when sidebar is closed */}
         <div 
           onClick={() => window.location.href = '/'} 
-          className="lg:hidden flex items-center gap-3 shrink-0 group cursor-pointer"
+          className="lg:hidden flex items-center gap-2 shrink-0 group cursor-pointer"
         >
-          <div className="relative flex items-center justify-center w-12 h-12 rounded-full overflow-hidden shrink-0">
+          <div className="relative flex items-center justify-center w-10 h-10 rounded-full overflow-hidden shrink-0">
             {/* Spinning gradient border */}
             <div 
               className="absolute inset-0 w-full h-full bg-[conic-gradient(from_0deg,transparent_0deg,transparent_120deg,#C5A572_180deg,transparent_240deg)] opacity-80" 
@@ -54,15 +61,8 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
               className="w-full h-full object-contain relative z-20 mix-blend-screen scale-[1.35] group-hover:scale-[1.45] transition-transform duration-500" 
             />
           </div>
-          <h1 className="text-base sm:text-lg font-bold tracking-tight text-white uppercase italic truncate max-w-[120px] group-hover:text-primary transition-colors duration-500">Slideverse</h1>
+          <h1 className="text-sm sm:text-base font-bold tracking-tight text-white uppercase italic truncate max-w-[100px] group-hover:text-primary transition-colors duration-500">Slideverse</h1>
         </div>
-
-        <button 
-          onClick={onMenuClick}
-          className="lg:hidden p-2 text-zinc-500 hover:text-white bg-white/5 rounded-xl border border-white/10"
-        >
-          <Menu className="w-5 h-5" />
-        </button>
 
         <form onSubmit={handleSearch} className="relative w-full max-w-md group hidden sm:block">
           <input
@@ -77,6 +77,14 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
       </div>
 
       <nav className="flex items-center gap-4 md:gap-6">
+        {/* Mobile Search Button */}
+        <Link 
+          href="/search" 
+          className="sm:hidden text-zinc-400 hover:text-primary transition-colors p-2 bg-white/5 rounded-xl border border-white/10"
+        >
+          <Search className="w-5 h-5" />
+        </Link>
+
         <div className="hidden lg:flex items-center gap-6">
           <Link href="/#about" className="text-sm font-medium text-zinc-400 hover:text-primary transition-colors">{t("about_us")}</Link>
           <Link href="/#story" className="text-sm font-medium text-zinc-400 hover:text-primary transition-colors">{t("our_story")}</Link>
