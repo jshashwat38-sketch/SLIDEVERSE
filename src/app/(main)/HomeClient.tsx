@@ -287,7 +287,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               <img 
                 src={appearance?.about?.image || "/assets/hero_v2.png"} 
                 alt="Elite Workspace" 
-                className="rounded-[3rem] border border-white/10 shadow-[0_0_50px_rgba(197,165,114,0.1)] opacity-90 hover:opacity-100 transition-all duration-700" 
+                className="rounded-[3rem] border border-white/10 shadow-[0_0_50px_rgba(197,165,114,0.1)] opacity-90 hover:opacity-100 transition-all duration-700 animate-float" 
               />
             </div>
           </motion.div>
@@ -339,7 +339,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               <img 
                 src={appearance?.story?.image || "/assets/story_v2.png"} 
                 alt="Creative Vision" 
-                className="relative z-10 rounded-[3.5rem] border border-white/10 shadow-2xl hover:scale-[1.02] transition-all duration-700" 
+                className="relative z-10 rounded-[3.5rem] border border-white/10 shadow-2xl hover:scale-[1.02] transition-all duration-700 animate-float" 
               />
             </motion.div>
 

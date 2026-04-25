@@ -47,7 +47,7 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
         <img 
           src={displayImage || "https://placehold.co/600x400?text=No+Image"} 
           alt={title} 
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100" 
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100 animate-float" 
           onError={(e) => {
             (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=No+Image";
           }}
@@ -161,7 +161,7 @@ export function HeroProductCard({ id, title, description, price, features, image
         <img 
           src={imageUrl || "https://placehold.co/600x400?text=No+Image"} 
           alt={title} 
-          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2000ms] opacity-80 group-hover:opacity-100" 
+          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2000ms] opacity-80 group-hover:opacity-100 animate-float" 
           onError={(e) => {
             (e.target as HTMLImageElement).src = "https://placehold.co/800x400?text=No+Image";
           }}
