@@ -53,6 +53,19 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
   const reviewIndex = useRef(0);
   const productIndex = useRef(0);
 
+  const handleScroll = (e: React.MouseEvent, target: string) => {
+    e.preventDefault();
+    if (target.startsWith('/#')) {
+      const id = target.replace('/#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      window.location.href = target;
+    }
+  };
+
   useEffect(() => {
     const timer = setInterval(() => {
       // Products
@@ -166,11 +179,15 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1, duration: 0.5 }}
                   >
-                    <Link href={btn.link} className="shrink-0 w-28 aspect-square flex flex-col items-center justify-center bg-white/[0.03] border border-white/10 rounded-[2rem] group active:scale-95 transition-all relative overflow-hidden">
+                    <a 
+                      href={btn.link} 
+                      onClick={(e) => handleScroll(e, btn.link)}
+                      className="shrink-0 w-28 aspect-square flex flex-col items-center justify-center bg-white/[0.03] border border-white/10 rounded-[2rem] group active:scale-95 transition-all relative overflow-hidden cursor-pointer"
+                    >
                       <div className="absolute top-3 left-3 text-[7px] font-black text-zinc-800">{btn.code}</div>
                       <btn.icon className="w-6 h-6 text-primary mb-2" />
                       <span className="text-[9px] font-black text-white uppercase tracking-widest italic">{btn.name}</span>
-                    </Link>
+                    </a>
                   </motion.div>
                 ))}
               </div>

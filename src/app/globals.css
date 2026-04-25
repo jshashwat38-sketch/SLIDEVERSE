@@ -55,6 +55,10 @@ nextjs-portal {
   --gold-glow: rgba(197, 165, 114, 0.3);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

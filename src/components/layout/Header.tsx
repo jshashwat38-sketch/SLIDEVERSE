@@ -5,7 +5,7 @@ import { Search, ShoppingCart, User as UserIcon, LogOut, Menu, ShoppingBag } fro
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
@@ -14,7 +14,20 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
   const { t } = useLanguage();
+
+  const handleScroll = (e: React.MouseEvent, id: string) => {
+    e.preventDefault();
+    if (pathname !== "/") {
+      window.location.href = `/#${id}`;
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -115,9 +128,9 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
       <nav className="hidden sm:flex items-center gap-4 md:gap-6 justify-end">
 
         <div className="hidden lg:flex items-center gap-6">
-          <Link href="/#about" className="text-sm font-medium text-zinc-400 hover:text-primary transition-colors">{t("about_us")}</Link>
-          <Link href="/#story" className="text-sm font-medium text-zinc-400 hover:text-primary transition-colors">{t("our_story")}</Link>
-          <Link href="/#contact" className="text-sm font-medium text-zinc-400 hover:text-primary transition-colors">{t("contact_us")}</Link>
+          <a href="#about" onClick={(e) => handleScroll(e, "about")} className="text-sm font-medium text-zinc-400 hover:text-primary transition-colors cursor-pointer">{t("about_us")}</a>
+          <a href="#story" onClick={(e) => handleScroll(e, "story")} className="text-sm font-medium text-zinc-400 hover:text-primary transition-colors cursor-pointer">{t("our_story")}</a>
+          <a href="#contact" onClick={(e) => handleScroll(e, "contact")} className="text-sm font-medium text-zinc-400 hover:text-primary transition-colors cursor-pointer">{t("contact_us")}</a>
         </div>
         
         <div className="hidden lg:block h-6 w-px bg-white/10 mx-2"></div>

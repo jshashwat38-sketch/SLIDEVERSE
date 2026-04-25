@@ -27,6 +27,19 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
     }
   }, []);
 
+  const handleScroll = (e: React.MouseEvent, id: string) => {
+    e.preventDefault();
+    if (onClose) onClose();
+    if (pathname !== "/") {
+      window.location.href = `/#${id}`;
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   const languages = [
     { code: "en", name: "English" },
     { code: "zh", name: "中文 (Mandarin)" },
@@ -143,44 +156,32 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
         </div>
 
         <div className="pt-4 mt-4 border-t border-white/5">
-          <Link
-            href="/#about"
-            onClick={onClose}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-              pathname === "/about" 
-                ? "bg-primary/10 text-primary font-bold shadow-[0_0_15px_rgba(197, 165, 114, 0.2)] border border-primary/20" 
-                : "text-zinc-500 hover:text-white hover:bg-white/5"
-            }`}
+          <a
+            href="#about"
+            onClick={(e) => handleScroll(e, "about")}
+            className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer text-zinc-500 hover:text-white hover:bg-white/5"
           >
             <FolderOpen className="w-5 h-5" />
             {t("about_us")}
-          </Link>
+          </a>
 
-          <Link
-            href="/#story"
-            onClick={onClose}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-              pathname === "/story" 
-                ? "bg-primary/10 text-primary font-bold shadow-[0_0_15px_rgba(197, 165, 114, 0.2)] border border-primary/20" 
-                : "text-zinc-500 hover:text-white hover:bg-white/5"
-            }`}
+          <a
+            href="#story"
+            onClick={(e) => handleScroll(e, "story")}
+            className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer text-zinc-500 hover:text-white hover:bg-white/5"
           >
             <FolderOpen className="w-5 h-5" />
             {t("our_story")}
-          </Link>
+          </a>
 
-          <Link
-            href="/#contact"
-            onClick={onClose}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-              pathname === "/contact" 
-                ? "bg-primary/10 text-primary font-bold shadow-[0_0_15px_rgba(197, 165, 114, 0.2)] border border-primary/20" 
-                : "text-zinc-500 hover:text-white hover:bg-white/5"
-            }`}
+          <a
+            href="#contact"
+            onClick={(e) => handleScroll(e, "contact")}
+            className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer text-zinc-500 hover:text-white hover:bg-white/5"
           >
             <FolderOpen className="w-5 h-5" />
             {t("contact_us")}
-          </Link>
+          </a>
         </div>
 
         <div className="pt-4 mt-4 border-t border-white/5 pb-4">
