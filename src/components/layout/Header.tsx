@@ -13,6 +13,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
   const { user, logout, isLoading } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [isMobileLogoClicked, setIsMobileLogoClicked] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const { t } = useLanguage();
@@ -53,7 +54,12 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
 
           {/* Mobile Logo - Always visible when sidebar is closed */}
           <div 
-            onClick={() => window.location.href = '/'} 
+            onClick={() => {
+              setIsMobileLogoClicked(true);
+              setTimeout(() => {
+                window.location.reload();
+              }, 400);
+            }} 
             className="lg:hidden flex items-center gap-2 shrink-0 group cursor-pointer"
           >
             <div className="relative flex items-center justify-center w-10 h-10 rounded-full overflow-hidden shrink-0">
@@ -79,7 +85,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
                 className="w-full h-full object-contain relative z-20 mix-blend-screen scale-[1.35] group-hover:scale-[1.45] transition-transform duration-500" 
               />
             </div>
-            <h1 className="text-sm sm:text-base font-bold tracking-tight text-primary uppercase italic truncate max-w-[100px] group-hover:text-primary-hover transition-colors duration-500">Slideverse</h1>
+            <h1 className={`text-sm sm:text-base font-bold tracking-tight uppercase italic truncate max-w-[100px] transition-colors duration-300 ${isMobileLogoClicked ? 'text-primary' : 'text-white'}`}>Slideverse</h1>
           </div>
         </div>
 
