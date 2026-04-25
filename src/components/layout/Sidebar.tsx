@@ -35,7 +35,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
     } else {
       const element = document.getElementById(id);
       if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     }
   };

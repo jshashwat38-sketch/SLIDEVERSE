@@ -59,12 +59,25 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
       const id = target.replace('/#', '');
       const element = document.getElementById(id);
       if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     } else {
       window.location.href = target;
     }
   };
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const id = hash.replace('#', '');
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }, 600);
+    }
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
