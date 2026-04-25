@@ -129,10 +129,18 @@ export default function SignInPage() {
           <button
             type="submit"
             disabled={isLoading || isVerifying}
-            className="w-full bg-primary hover:bg-primary-hover text-black py-5 rounded-2xl font-black text-xl transition-all shadow-[0_0_20px_rgba(197,165,114,0.3)] hover:shadow-[0_0_40px_rgba(197,165,114,0.5)] hover:-translate-y-1 flex items-center justify-center gap-3 uppercase tracking-widest disabled:opacity-50 disabled:hover:translate-y-0"
+            className="group relative w-full bg-primary hover:bg-primary-hover text-black py-5 rounded-2xl font-black text-xl transition-all duration-300 shadow-[0_0_20px_rgba(197,165,114,0.3)] hover:shadow-[0_0_40px_rgba(197,165,114,0.6)] hover:-translate-y-1 flex items-center justify-center gap-3 uppercase tracking-widest overflow-hidden disabled:opacity-50 disabled:hover:translate-y-0"
           >
-            {isLoading || isVerifying ? "..." : t("sign_in_securely")}
-            {!isLoading && !isVerifying && <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />}
+            {/* Background Shimmer */}
+            <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.2),transparent)] bg-[length:200%_100%] animate-[shimmer_3s_infinite] pointer-events-none" />
+            
+            {/* Ambient Glow */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-[rgba(255,255,255,0.1)] transition-opacity duration-300 pointer-events-none" />
+
+            <span className="relative z-10 flex items-center gap-3">
+              {isLoading || isVerifying ? "..." : t("sign_in_securely")}
+              {!isLoading && !isVerifying && <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />}
+            </span>
           </button>
         </form>
 

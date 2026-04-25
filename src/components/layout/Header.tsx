@@ -94,7 +94,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
             </Link>
           ) : (
             <Link href="/signin" className="relative text-zinc-400 hover:text-primary transition-colors group">
-              <LogOut className="w-5 h-5 group-hover:drop-shadow-[0_0_8px_rgba(197,165,114,0.5)]" />
+              <UserIcon className="w-5 h-5 group-hover:drop-shadow-[0_0_8px_rgba(197,165,114,0.5)]" />
             </Link>
           )}
         </div>
