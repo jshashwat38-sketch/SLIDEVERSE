@@ -27,7 +27,10 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
     <header className="bg-black/60 backdrop-blur-xl border-b border-white/5 sticky top-0 z-40 px-4 md:px-8 py-4 flex items-center justify-between transition-all">
       <div className="flex items-center gap-4 flex-1">
         {/* Mobile Logo - Always visible when sidebar is closed */}
-        <Link href="/" className="lg:hidden flex items-center gap-3 shrink-0 group">
+        <div 
+          onClick={() => window.location.href = '/'} 
+          className="lg:hidden flex items-center gap-3 shrink-0 group cursor-pointer"
+        >
           <div className="relative flex items-center justify-center w-12 h-12 rounded-full overflow-hidden shrink-0">
             {/* Spinning gradient border */}
             <div 
@@ -52,7 +55,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
             />
           </div>
           <h1 className="text-base sm:text-lg font-bold tracking-tight text-white uppercase italic truncate max-w-[120px] group-hover:text-primary transition-colors duration-500">Slideverse</h1>
-        </Link>
+        </div>
 
         <button 
           onClick={onMenuClick}

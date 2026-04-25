@@ -44,7 +44,10 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
     <aside className="w-64 bg-sidebar text-sidebar-foreground flex flex-col h-full border-r border-white/5 z-50">
 
       <div className="p-6 border-b border-white/5 flex items-center justify-between">
-        <div className="flex items-center gap-4 group cursor-pointer">
+        <div 
+          onClick={() => window.location.href = '/'}
+          className="flex items-center gap-4 group cursor-pointer"
+        >
           <div className="relative flex items-center justify-center w-12 h-12 rounded-full overflow-hidden shrink-0">
             {/* Spinning gradient border */}
             <div 
