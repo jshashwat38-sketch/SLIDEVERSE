@@ -223,7 +223,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
 
       {/* Featured Products Section */}
       {featuredProducts.length > 0 && (
-        <section id="featured" className="py-20 md:py-32 relative border-t border-white/5">
+        <section id="featured" className="py-20 md:py-32 relative border-t border-white/5 scroll-mt-28">
           <div className="max-w-7xl mx-auto px-6 mb-20">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -274,7 +274,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
       )}
 
       {/* About Us Section */}
-      <section id="about" className="py-20 md:py-32 relative overflow-hidden bg-black/40">
+      <section id="about" className="py-20 md:py-32 relative overflow-hidden bg-black/40 scroll-mt-28">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
@@ -325,7 +325,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
       </section>
 
       {/* Story Section */}
-      <section id="story" className="py-24 md:py-40 bg-[#070708] relative overflow-hidden border-y border-white/5">
+      <section id="story" className="py-24 md:py-40 bg-[#070708] relative overflow-hidden border-y border-white/5 scroll-mt-28">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(197,165,114,0.05),transparent_50%)]" />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center mb-40">
@@ -495,7 +495,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-24 md:py-32 relative border-t border-white/5">
+      <section id="contact" className="py-24 md:py-32 relative border-t border-white/5 scroll-mt-28">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-16 md:gap-20">
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-8">
