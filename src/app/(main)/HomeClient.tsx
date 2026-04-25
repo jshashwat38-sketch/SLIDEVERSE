@@ -189,7 +189,35 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             </motion.div>
           </motion.div>
 
-          {/* Decorative Hero Image Removed for Mobile and Desktop to Debug Artifact */}
+          {/* Premium Desktop Decorative Image */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ 
+              opacity: 1, 
+              scale: 1, 
+              y: [0, -15, 0],
+            }}
+            transition={{ 
+              opacity: { duration: 0.8 },
+              scale: { duration: 0.8 },
+              y: {
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }
+            }}
+            className="hidden lg:block relative group z-10"
+          >
+            <div className="absolute inset-0 bg-primary/10 rounded-[2.5rem] blur-2xl group-hover:bg-primary/20 transition-all duration-700 -z-10" />
+            <Image 
+              src="/uploads/hero_architectural_regal.png"
+              alt="Slideverse Premium Presentation"
+              width={600}
+              height={600}
+              className="rounded-[2.5rem] border border-white/10 shadow-2xl object-cover hover:border-primary/40 transition-colors duration-500 shadow-[0_20px_50px_rgba(197,165,114,0.15)]"
+              priority
+            />
+          </motion.div>
         </div>
       </section>
 
