@@ -24,7 +24,11 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
     } else {
       const element = document.getElementById(id);
       if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "center" });
+        if (id === "story") {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
       }
     }
   };

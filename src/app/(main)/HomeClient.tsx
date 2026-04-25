@@ -59,7 +59,11 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
       const id = target.replace('/#', '');
       const element = document.getElementById(id);
       if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "center" });
+        if (id === "story") {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
       }
     } else {
       window.location.href = target;
@@ -73,7 +77,11 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
       setTimeout(() => {
         const element = document.getElementById(id);
         if (element) {
-          element.scrollIntoView({ behavior: "smooth", block: "center" });
+          if (id === "story") {
+            element.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else {
+            element.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
         }
       }, 600);
     }
@@ -355,7 +363,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
       </section>
 
       {/* Story Section */}
-      <section id="story" className="scroll-mt-24 py-24 md:py-40 bg-[#070708] relative overflow-hidden border-y border-white/5">
+      <section className="py-24 md:py-40 bg-[#070708] relative overflow-hidden border-y border-white/5">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(197,165,114,0.05),transparent_50%)]" />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center mb-40">
@@ -377,7 +385,8 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="lg:order-1"
+              className="lg:order-1 scroll-mt-24"
+              id="story"
             >
               <div className="flex items-center gap-3 mb-8">
                 <Sparkles className="w-5 h-5 text-primary animate-pulse" />
