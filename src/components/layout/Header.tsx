@@ -44,12 +44,12 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
   };
 
   return (
-    <header className="bg-black/60 backdrop-blur-xl border-b border-white/5 sticky top-0 z-40 px-4 md:px-8 py-3 sm:py-4 transition-all flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <header className={`border-b sticky top-0 z-40 px-4 md:px-8 py-3 sm:py-4 transition-all flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between ${theme === 'dark' ? 'bg-[#000000] border-white/5' : 'bg-white border-zinc-200'}`}>
       <div className="flex items-center justify-between w-full sm:w-auto sm:flex-1 sm:gap-3">
         <div className="flex items-center gap-3 flex-1">
           <button 
             onClick={onMenuClick}
-            className="p-2 text-zinc-500 hover:text-primary bg-white/5 rounded-xl border border-white/10 shrink-0 transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center"
+            className={`p-2 rounded-xl border shrink-0 transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center ${theme === 'dark' ? 'text-zinc-300 bg-white/5 border-white/10 hover:text-primary' : 'text-[#4A2BBD] bg-zinc-50 border-zinc-200 hover:bg-zinc-100'}`}
             title="Access Options"
           >
             <Menu className="w-5 h-5 lg:hidden" />
