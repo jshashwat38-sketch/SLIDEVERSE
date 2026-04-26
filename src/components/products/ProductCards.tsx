@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { getReviews } from "@/actions/adminActions";
 import { Star } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export interface ProductProps {
   id: string;

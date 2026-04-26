@@ -398,6 +398,9 @@ export default function ProductDetailsPage() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
         {/* Customer Reviews & Ratings Section */}
         <div className="mt-40">
           <div className="flex flex-col items-center text-center mb-20">

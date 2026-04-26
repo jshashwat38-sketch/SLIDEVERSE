@@ -158,7 +158,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
     const timer = setInterval(() => {
       // Products
       if (productRef.current) {
-        productIndex.current = (productIndex.current + 1) % Math.max(1, featuredProducts.length - 1);
+        productIndex.current = (productIndex.current + 1) % Math.max(1, initialProducts.length - 1);
         const cardWidth = productRef.current.offsetWidth * 0.85 + 24;
         productRef.current.scrollTo({ left: productIndex.current * cardWidth, behavior: 'smooth' });
       }
@@ -176,7 +176,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
       }
     }, 1500);
     return () => clearInterval(timer);
-  }, [reviews.length, featuredProducts.length]);
+  }, [reviews.length, initialProducts.length]);
 
   return (
     <div className="overflow-hidden bg-background selection:bg-primary selection:text-black font-sans">
