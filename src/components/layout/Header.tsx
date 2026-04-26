@@ -91,17 +91,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
           </div>
         </div>
 
-        {/* Desktop Search (sm:block hidden) */}
-        <form onSubmit={handleSearch} className="relative w-full max-w-md group hidden sm:block mx-4">
-          <input
-            type="text"
-            placeholder={t("search_placeholder")}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-2xl focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary/50 text-sm transition-all text-white placeholder:text-zinc-500"
-          />
-          <Search className="w-4 h-4 text-zinc-500 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-primary transition-colors" />
-        </form>
+
 
         {/* Mobile Nav Icons (sm:hidden) */}
         <div className="flex items-center gap-4 sm:hidden">
@@ -125,17 +115,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
         </div>
       </div>
 
-      {/* Mobile Search Tab */}
-      <form onSubmit={handleSearch} className="relative w-full sm:hidden group">
-        <input
-          type="text"
-          placeholder={t("search_placeholder")}
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/10 rounded-xl focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary/50 text-sm transition-all text-white placeholder:text-zinc-500"
-        />
-        <Search className="w-4 h-4 text-zinc-500 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-primary transition-colors" />
-      </form>
+
 
       <nav className="hidden sm:flex items-center gap-4 md:gap-6 justify-end">
 
