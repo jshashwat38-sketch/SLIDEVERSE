@@ -1,9 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Zap, Shield, Sparkles, Mail, Phone, Send, LogOut } from "lucide-react";
+import { ArrowRight, Zap, Shield, Sparkles, Mail, Phone, Send, LogOut, Filter, Check, Star } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { saveGrievance } from "@/actions/adminActions";
 import { toast } from "react-hot-toast";
@@ -23,9 +23,75 @@ const PILLAR_COUNT = 3;
 export default function HomeClient({ initialAppearance, initialProducts, initialReviews }: HomeClientProps) {
   const { t, language } = useLanguage();
   const [appearance] = useState(initialAppearance);
-  const bestsellerProducts = initialProducts.filter(p => p.is_bestseller);
-  const [featuredProducts] = useState(bestsellerProducts);
   const [reviews] = useState(initialReviews);
+
+  const [filteredProducts, setFilteredProducts] = useState(initialProducts);
+  const [filterType, setFilterType] = useState<"all" | "free" | "paid">("all");
+  const [priceSort, setPriceSort] = useState<"none" | "low-to-high" | "high-to-low">("none");
+  const [ratingSort, setRatingSort] = useState<"none" | "highest" | "lowest">("none");
+  const [langFilter, setLangFilter] = useState<"all" | "hindi" | "english">("all");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  useEffect(() => {
+    let result = [...initialProducts];
+
+    // 1. Pricing Filter
+    if (filterType === "free") {
+      result = result.filter(p => Number(p.price) === 0);
+    } else if (filterType === "paid") {
+      result = result.filter(p => Number(p.price) > 0);
+    }
+
+    // 2. Language Filter
+    if (langFilter === "hindi") {
+      result = result.filter(p => {
+        const titleStr = typeof p.title === "object" ? JSON.stringify(p.title) : String(p.title);
+        const descStr = typeof p.description === "object" ? JSON.stringify(p.description) : String(p.description);
+        return titleStr.toLowerCase().includes("hindi") || descStr.toLowerCase().includes("hindi");
+      });
+    } else if (langFilter === "english") {
+      result = result.filter(p => {
+        const titleStr = typeof p.title === "object" ? JSON.stringify(p.title) : String(p.title);
+        const descStr = typeof p.description === "object" ? JSON.stringify(p.description) : String(p.description);
+        return !titleStr.toLowerCase().includes("hindi") && !descStr.toLowerCase().includes("hindi");
+      });
+    }
+
+    // Pre-process ratings
+    const ratingsMap: Record<string, { sum: number; count: number }> = {};
+    (reviews || []).forEach((rev: any) => {
+      const pId = typeof rev.role === "object" ? rev.role?.en || rev.role?.product_id : String(rev.role);
+      if (pId && rev.code === "VERIFIED_BUYER") {
+        if (!ratingsMap[pId]) ratingsMap[pId] = { sum: 0, count: 0 };
+        ratingsMap[pId].sum += Number(rev.rating || 5);
+        ratingsMap[pId].count += 1;
+      }
+    });
+
+    // 3. Price Sorting
+    if (priceSort === "low-to-high") {
+      result.sort((a, b) => Number(a.price) - Number(b.price));
+    } else if (priceSort === "high-to-low") {
+      result.sort((a, b) => Number(b.price) - Number(a.price));
+    }
+
+    // 4. Rating Sorting
+    if (ratingSort === "highest") {
+      result.sort((a, b) => {
+        const rateA = ratingsMap[a.id] ? (ratingsMap[a.id].sum / ratingsMap[a.id].count) : 0;
+        const rateB = ratingsMap[b.id] ? (ratingsMap[b.id].sum / ratingsMap[b.id].count) : 0;
+        return rateB - rateA;
+      });
+    } else if (ratingSort === "lowest") {
+      result.sort((a, b) => {
+        const rateA = ratingsMap[a.id] ? (ratingsMap[a.id].sum / ratingsMap[a.id].count) : 0;
+        const rateB = ratingsMap[b.id] ? (ratingsMap[b.id].sum / ratingsMap[b.id].count) : 0;
+        return rateA - rateB;
+      });
+    }
+
+    setFilteredProducts(result);
+  }, [filterType, priceSort, ratingSort, langFilter, initialProducts, reviews]);
 
   // Animation variants
   const containerVariants = {
@@ -260,57 +326,165 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
         </div>
       </section>
 
-      {/* Featured Products Section */}
-      {featuredProducts.length > 0 && (
-        <section id="featured" className="scroll-mt-24 py-20 md:py-32 relative border-t border-white/5">
-          <div className="max-w-7xl mx-auto px-6 mb-20">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center max-w-2xl mx-auto"
-            >
-              <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-6 tracking-tight italic uppercase">
-                Featured <span className="text-primary">Gallery</span>
-              </h2>
-              <p className="text-lg text-zinc-500 font-medium leading-relaxed">
-                Refined architectural frameworks for professional digital storytellers.
-              </p>
-            </motion.div>
-          </div>
-          
-          <div className="max-w-7xl mx-auto px-6 space-y-24">
-            {featuredProducts.length > 0 && <HeroProductCard {...featuredProducts[0]} />}
-            
-            {/* Mobile Product Carousel - Snap Scrolling with Auto-Motion */}
-            <div 
-              className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-4 pb-2 -mx-6 px-6 scrollbar-hide scroll-smooth"
-              ref={productRef}
-            >
-              {featuredProducts.slice(1).map((product, index) => (
-                <div key={product.id} className="min-w-[85vw] snap-center">
-                  <ProductCard {...product} />
-                </div>
-              ))}
-            </div>
+      {/* Sort & Filter Section */}
+      <section id="featured" className="scroll-mt-24 py-20 md:py-32 relative border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-xl"
+          >
+            <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight italic uppercase">
+              PPT <span className="text-primary">Marketplace</span>
+            </h2>
+            <p className="text-sm text-zinc-500 font-medium tracking-wide">
+              Refined digital architectural slide frameworks for premium operations.
+            </p>
+          </motion.div>
 
-            {/* Desktop Grid Layout */}
-            <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-10">
-              {featuredProducts.slice(1, 4).map((product, index) => (
-                <motion.div 
-                  key={product.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1, duration: 0.8 }}
-                >
-                  <ProductCard {...product} />
-                </motion.div>
-              ))}
+          <button 
+            onClick={() => setIsFilterOpen(!isFilterOpen)}
+            className="bg-white/5 border border-white/10 text-white px-6 py-3.5 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:border-primary/40 transition-all cursor-pointer shadow-[0_0_20px_rgba(197,165,114,0.05)] hover:shadow-[0_0_30px_rgba(197,165,114,0.15)] self-end md:self-center shrink-0"
+          >
+            <Filter className={`w-4 h-4 text-primary ${isFilterOpen ? 'rotate-180' : ''} transition-transform duration-300`} />
+            <span>Sort & Filter</span>
+          </button>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 mb-12">
+          <AnimatePresence>
+            {isFilterOpen && (
+              <motion.div 
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="bg-[#0c0c0e] border border-white/5 rounded-[2.5rem] p-6 md:p-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 relative overflow-hidden mb-12 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-t border-t-primary/20"
+              >
+                <div className="space-y-4">
+                  <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Pricing Structure</label>
+                  <div className="flex flex-col gap-2">
+                    {[
+                      { value: "all", label: "All Formats" },
+                      { value: "free", label: "Free PPTs Only" },
+                      { value: "paid", label: "Paid PPTs Only" }
+                    ].map((t) => (
+                      <button 
+                        key={t.value}
+                        onClick={() => setFilterType(t.value as any)}
+                        className={`px-5 py-3 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-between ${filterType === t.value ? 'bg-primary text-black border-transparent shadow-[0_0_20px_rgba(197,165,114,0.3)]' : 'bg-white/[0.02] text-zinc-400 hover:text-white border border-white/5 hover:border-white/10'}`}
+                      >
+                        <span>{t.label}</span>
+                        {filterType === t.value && <Check className="w-4 h-4 text-black" />}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Valuation Sorting</label>
+                  <div className="flex flex-col gap-2">
+                    {[
+                      { value: "none", label: "No Sorting" },
+                      { value: "low-to-high", label: "Price: Low to High" },
+                      { value: "high-to-low", label: "Price: High to Low" }
+                    ].map((s) => (
+                      <button 
+                        key={s.value}
+                        onClick={() => setPriceSort(s.value as any)}
+                        className={`px-5 py-3 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-between ${priceSort === s.value ? 'bg-primary text-black border-transparent shadow-[0_0_20px_rgba(197,165,114,0.3)]' : 'bg-white/[0.02] text-zinc-400 hover:text-white border border-white/5 hover:border-white/10'}`}
+                      >
+                        <span>{s.label}</span>
+                        {priceSort === s.value && <Check className="w-4 h-4 text-black" />}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Performance Metric</label>
+                  <div className="flex flex-col gap-2">
+                    {[
+                      { value: "none", label: "Default" },
+                      { value: "highest", label: "Highest Rated" },
+                      { value: "lowest", label: "Lowest Rated" }
+                    ].map((r) => (
+                      <button 
+                        key={r.value}
+                        onClick={() => setRatingSort(r.value as any)}
+                        className={`px-5 py-3 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-between ${ratingSort === r.value ? 'bg-primary text-black border-transparent shadow-[0_0_20px_rgba(197,165,114,0.3)]' : 'bg-white/[0.02] text-zinc-400 hover:text-white border border-white/5 hover:border-white/10'}`}
+                      >
+                        <span>{r.label}</span>
+                        {ratingSort === r.value && <Check className="w-4 h-4 text-black" />}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Linguistic Options</label>
+                  <div className="flex flex-col gap-2">
+                    {[
+                      { value: "all", label: "All Languages" },
+                      { value: "hindi", label: "Hindi PPTs" },
+                      { value: "english", label: "English PPTs" }
+                    ].map((l) => (
+                      <button 
+                        key={l.value}
+                        onClick={() => setLangFilter(l.value as any)}
+                        className={`px-5 py-3 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-between ${langFilter === l.value ? 'bg-primary text-black border-transparent shadow-[0_0_20px_rgba(197,165,114,0.3)]' : 'bg-white/[0.02] text-zinc-400 hover:text-white border border-white/5 hover:border-white/10'}`}
+                      >
+                        <span>{l.label}</span>
+                        {langFilter === l.value && <Check className="w-4 h-4 text-black" />}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-6 space-y-24">
+          {filteredProducts.length === 0 ? (
+            <div className="text-center py-20 bg-white/[0.01] border border-white/5 rounded-[2.5rem]">
+              <p className="text-zinc-500 uppercase tracking-widest font-black text-xs">No matching items located in index.</p>
             </div>
-          </div>
-        </section>
-      )}
+          ) : (
+            <>
+              {filteredProducts[0] && <HeroProductCard {...filteredProducts[0]} />}
+              
+              {/* Mobile Product Carousel - Snap Scrolling with Auto-Motion */}
+              <div 
+                className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-4 pb-2 -mx-6 px-6 scrollbar-hide scroll-smooth"
+                ref={productRef}
+              >
+                {filteredProducts.slice(1).map((product) => (
+                  <div key={product.id} className="min-w-[85vw] snap-center">
+                    <ProductCard {...product} />
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop Grid Layout */}
+              <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-10">
+                {filteredProducts.slice(1).map((product, index) => (
+                  <motion.div 
+                    key={product.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.05, duration: 0.6 }}
+                  >
+                    <ProductCard {...product} />
+                  </motion.div>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </section>
 
       {/* About Us Section */}
       <section id="about" className="scroll-mt-24 py-20 md:py-32 relative overflow-hidden bg-black/40">

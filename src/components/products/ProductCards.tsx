@@ -5,7 +5,9 @@ import Link from "next/link";
 import { CheckCircle2, ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
-import { useLanguage } from "@/context/LanguageContext";
+import { useState, useEffect } from "react";
+import { getReviews } from "@/actions/adminActions";
+import { Star } from "lucide-react";
 
 export interface ProductProps {
   id: string;
@@ -25,6 +27,25 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
   const displayImage = imageUrl || (images && images.length > 0 ? images[0] : "");
   const safeFeatures = Array.isArray(features) ? features : [];
   
+  const [avgRating, setAvgRating] = useState<number | null>(null);
+  const [reviewsCount, setReviewsCount] = useState(0);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const allReviews = await getReviews();
+      const relevant = allReviews.filter((rev: any) => {
+        const pId = typeof rev.role === "object" ? rev.role?.en || rev.role?.product_id : String(rev.role);
+        return pId === id && rev.code === "VERIFIED_BUYER";
+      });
+      if (relevant.length > 0) {
+        const sum = relevant.reduce((acc: number, cur: any) => acc + Number(cur.rating || 5), 0);
+        setAvgRating(sum / relevant.length);
+        setReviewsCount(relevant.length);
+      }
+    };
+    fetchReviews();
+  }, [id]);
+
   const displayTitle = typeof title === 'object' && title !== null ? ((title as any)[language] || (title as any).en || "") : (title || "");
   const displayDescription = typeof description === 'object' && description !== null ? ((description as any)[language] || (description as any).en || "") : (description || "");
 
@@ -60,9 +81,15 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
           <Link href={`/product/${id}`}>
             <h3 className="text-xl font-black text-white italic uppercase tracking-tighter group-hover:text-primary transition-colors cursor-pointer">{displayTitle}</h3>
           </Link>
-          <div className="flex items-center gap-2 mt-2">
+          <div className="flex items-center gap-2 mt-2 w-full">
             <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
             <p className="text-[10px] text-zinc-600 font-black uppercase tracking-[0.2em]">Product Entity</p>
+            {avgRating !== null && (
+              <div className="flex items-center gap-1 text-[10px] text-primary ml-auto font-bold">
+                <Star className="w-3.5 h-3.5 fill-primary text-primary" />
+                <span>{avgRating.toFixed(1)} ({reviewsCount})</span>
+              </div>
+            )}
           </div>
         </div>
         
@@ -103,6 +130,25 @@ export function HeroProductCard({ id, title, description, price, features, image
 
   const safeFeatures = Array.isArray(features) ? features : [];
   
+  const [avgRating, setAvgRating] = useState<number | null>(null);
+  const [reviewsCount, setReviewsCount] = useState(0);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const allReviews = await getReviews();
+      const relevant = allReviews.filter((rev: any) => {
+        const pId = typeof rev.role === "object" ? rev.role?.en || rev.role?.product_id : String(rev.role);
+        return pId === id && rev.code === "VERIFIED_BUYER";
+      });
+      if (relevant.length > 0) {
+        const sum = relevant.reduce((acc: number, cur: any) => acc + Number(cur.rating || 5), 0);
+        setAvgRating(sum / relevant.length);
+        setReviewsCount(relevant.length);
+      }
+    };
+    fetchReviews();
+  }, [id]);
+
   const displayTitle = typeof title === 'object' && title !== null ? ((title as any)[language] || (title as any).en || "") : (title || "");
   const displayDescription = typeof description === 'object' && description !== null ? ((description as any)[language] || (description as any).en || "") : (description || "");
 
@@ -122,9 +168,15 @@ export function HeroProductCard({ id, title, description, price, features, image
       className="group bg-[#09090B] border border-white/5 rounded-[3.5rem] overflow-hidden flex flex-col lg:flex-row min-h-[500px] hover:border-primary/20 transition-all duration-700 hover:shadow-[0_0_80px_rgba(197,165,114,0.05)] relative"
     >
       <div className="flex-1 p-8 md:p-10 lg:p-16 flex flex-col justify-center relative z-10 order-2 lg:order-1">
-        <div className="flex items-center gap-3 mb-8">
+        <div className="flex items-center gap-3 mb-8 w-full">
           <div className="w-10 h-[1px] bg-primary/40" />
           <span className="text-[10px] font-black text-primary uppercase tracking-[0.5em] italic">Elite Category Segment</span>
+          {avgRating !== null && (
+            <div className="flex items-center gap-1.5 text-xs text-primary font-bold ml-auto bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
+              <Star className="w-4 h-4 fill-primary text-primary" />
+              <span>{avgRating.toFixed(1)} ({reviewsCount} reviews)</span>
+            </div>
+          )}
         </div>
         
         <Link href={`/product/${id}`}>

@@ -248,6 +248,32 @@ export async function deleteReview(id: string) {
   }
 }
 
+export async function addReview(reviewData: { userName: string; productId: string; comment: string; rating: number }) {
+  try {
+    const data = {
+      id: `rev-${Date.now()}`,
+      name: { en: reviewData.userName },
+      role: { en: reviewData.productId },
+      text: { en: reviewData.comment },
+      code: "VERIFIED_BUYER",
+      rating: Number(reviewData.rating),
+      date: new Date().toLocaleDateString(),
+      status: "approved"
+    };
+
+    const { error } = await supabase
+      .from('reviews')
+      .insert(data);
+
+    if (error) throw error;
+    revalidatePath("/");
+    return { success: true };
+  } catch (error) {
+    console.error("Add review error:", error);
+    return { success: false, error: "Failed to submit review" };
+  }
+}
+
 // --- GRIEVANCES ---
 export async function getGrievances() {
   try {
