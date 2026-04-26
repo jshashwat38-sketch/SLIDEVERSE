@@ -88,7 +88,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
               />
             </div>
             <h1 
-              className={`text-sm sm:text-base font-black uppercase transition-colors duration-300 ${isMobileLogoClicked ? 'text-primary' : 'text-white'}`}
+              className={`text-sm sm:text-base font-black uppercase transition-all duration-300 group-hover:text-primary group-hover:scale-105 ${isMobileLogoClicked ? 'text-primary' : 'text-white'}`}
               style={{
                 fontStyle: 'italic',
                 transform: 'skewX(-8deg)',
