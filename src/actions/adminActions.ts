@@ -131,6 +131,13 @@ export async function getAppearance() {
       refund: "Refund Policy details...",
       privacy: "Privacy Policy details...",
       terms: "Terms of Service details..."
+    },
+    customPpt: {
+      price: 200,
+      salePrice: 200,
+      mrpPrice: 499,
+      enabled: true,
+      timelineText: "Your custom PPT will be completed within 7 days."
     }
   };
 
@@ -158,7 +165,8 @@ export async function getAppearance() {
       site: { ...defaultAppearance.site, ...(data.data?.site || {}) },
       contact: { ...defaultAppearance.contact, ...(data.data?.contact || {}) },
       buttons: { ...defaultAppearance.buttons, ...(data.data?.buttons || {}) },
-      policies: { ...defaultAppearance.policies, ...(data.data?.policies || {}) }
+      policies: { ...defaultAppearance.policies, ...(data.data?.policies || {}) },
+      customPpt: { ...defaultAppearance.customPpt, ...(data.data?.customPpt || {}) }
     };
 
   } catch (error) {

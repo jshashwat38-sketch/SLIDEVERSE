@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { getAppearance, updateAppearance, uploadImage } from "@/actions/adminActions";
-import { Save, RefreshCw, Eye, Image as ImageIcon, Upload, Phone, ShieldCheck } from "lucide-react";
+import { Save, RefreshCw, Eye, Image as ImageIcon, Upload, Phone, ShieldCheck, Gift } from "lucide-react";
 import LogoLoader from "@/components/common/LogoLoader";
 import { toast } from "react-hot-toast";
 
@@ -82,6 +82,77 @@ export default function AppearancePage() {
       </div>
 
       <form onSubmit={handleSave} className="space-y-12">
+        {/* Custom PPT Configuration Section */}
+        <div className="bg-card/40 backdrop-blur-3xl p-10 rounded-[3rem] border border-white/5 relative overflow-hidden border-t-2 border-t-primary/20">
+          <div className="flex items-center gap-4 mb-10 pb-6 border-b border-white/5">
+            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
+              <Gift className="w-5 h-5" />
+            </div>
+            <h2 className="text-2xl font-black text-white uppercase italic tracking-tighter">Custom PPT Orders Control</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Current Service Price (₹)</label>
+                <input 
+                  type="number"
+                  value={appearance?.customPpt?.price || 200}
+                  onChange={(e) => setAppearance({...appearance, customPpt: {...(appearance.customPpt || {}), price: Number(e.target.value)}})}
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold focus:outline-none focus:border-primary transition-all"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Sale Price (Optional, ₹)</label>
+                <input 
+                  type="number"
+                  value={appearance?.customPpt?.salePrice || ""}
+                  onChange={(e) => setAppearance({...appearance, customPpt: {...(appearance.customPpt || {}), salePrice: Number(e.target.value) || undefined}})}
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold focus:outline-none focus:border-primary transition-all"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">MRP Price (Optional, ₹)</label>
+                <input 
+                  type="number"
+                  value={appearance?.customPpt?.mrpPrice || ""}
+                  onChange={(e) => setAppearance({...appearance, customPpt: {...(appearance.customPpt || {}), mrpPrice: Number(e.target.value) || undefined}})}
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold focus:outline-none focus:border-primary transition-all"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Completion Timeline Text</label>
+                <input 
+                  type="text"
+                  value={appearance?.customPpt?.timelineText || "Your custom PPT will be completed within 7 days."}
+                  onChange={(e) => setAppearance({...appearance, customPpt: {...(appearance.customPpt || {}), timelineText: e.target.value}})}
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold focus:outline-none focus:border-primary transition-all"
+                />
+              </div>
+
+              <div className="space-y-2 pt-4">
+                <label className="flex items-center gap-4 cursor-pointer p-4 bg-white/[0.02] border border-white/5 rounded-xl hover:bg-white/[0.04] transition-all">
+                  <input 
+                    type="checkbox"
+                    checked={appearance?.customPpt?.enabled !== false}
+                    onChange={(e) => setAppearance({...appearance, customPpt: {...(appearance.customPpt || {}), enabled: e.target.checked}})}
+                    className="w-5 h-5 rounded border-white/10 bg-black/40 text-primary focus:ring-primary focus:ring-opacity-25"
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-xs font-black text-white uppercase tracking-wider">Enable Custom Service</span>
+                    <span className="text-[9px] font-medium text-zinc-600 uppercase tracking-widest mt-0.5">Toggle visibility across all UI ports</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Communication Channels */}
         <div className="bg-card/40 backdrop-blur-3xl p-10 rounded-[3rem] border border-white/5 relative overflow-hidden">
           <div className="flex items-center gap-4 mb-10 pb-6 border-b border-white/5">
