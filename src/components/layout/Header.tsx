@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Search, ShoppingCart, User as UserIcon, LogOut, Menu, ShoppingBag, MoreVertical } from "lucide-react";
+import { Search, ShoppingCart, User as UserIcon, LogOut, Menu, ShoppingBag, MoreVertical, Sun, Moon } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+import { useTheme } from "@/context/ThemeContext";
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
@@ -17,6 +18,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
   const router = useRouter();
   const pathname = usePathname();
   const { t } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
 
   const handleScroll = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
@@ -100,6 +102,19 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
               Slideverse
             </h1>
           </div>
+
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-primary/30 transition-all flex items-center justify-center text-primary active:scale-95 cursor-pointer shadow-[0_0_15px_rgba(197,165,114,0.1)] relative z-50 ml-1"
+            title={theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
+          >
+            {theme === "light" ? (
+              <Sun className="w-4 h-4 md:w-5 md:h-5 text-[#5D3FD3]" />
+            ) : (
+              <Moon className="w-4 h-4 md:w-5 md:h-5 text-[#C5A572]" />
+            )}
+          </button>
         </div>
 
 
