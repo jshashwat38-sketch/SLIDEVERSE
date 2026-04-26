@@ -10,6 +10,7 @@ import { toast } from "react-hot-toast";
 import { ProductCard, HeroProductCard } from "@/components/products/ProductCards";
 import { useLanguage } from "@/context/LanguageContext";
 import { getLangString } from "@/utils/lang";
+import CustomPptBox from "@/components/common/CustomPptBox";
 
 interface HomeClientProps {
   initialAppearance: any;
@@ -532,6 +533,10 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
           </div>
         </div>
       </section>
+
+      <div className="max-w-7xl mx-auto px-6">
+        <CustomPptBox />
+      </div>
 
       {/* Contact Section */}
       <section id="contact" className="scroll-mt-24 py-24 md:py-32 relative border-t border-white/5">

@@ -9,6 +9,7 @@ import { useLanguage } from "@/context/LanguageContext";
 
 import Image from "next/image";
 import { X } from "lucide-react";
+import CustomPptBox from "@/components/common/CustomPptBox";
 
 export function Sidebar({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname();
@@ -221,6 +222,8 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
             </div>
           )}
         </div>
+        
+        <CustomPptBox isCompact />
       </nav>
     </aside>
   );
