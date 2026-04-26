@@ -225,7 +225,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             </motion.p>
             
             <motion.div variants={itemVariants} className="hidden md:flex flex-col sm:flex-row items-center gap-6">
-              <Link href={appearance?.buttons?.primary?.link || "#featured"} className="group relative w-full sm:w-auto">
+              <Link href="/shop" className="group relative w-full sm:w-auto">
                 <button className="relative w-full sm:w-auto bg-primary hover:bg-white text-black px-10 py-5 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-3 uppercase tracking-wider italic">
                   {appearance?.buttons?.primary?.label || t("explore_collection")} <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
                 </button>
@@ -285,7 +285,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 viewport={{ once: true }}
                 transition={{ delay: 0.4 }}
               >
-                <Link href="/#featured" className="mt-2 flex items-center justify-between p-5 bg-primary border border-primary rounded-2xl group active:scale-95 transition-all shadow-[0_15px_40px_rgba(197,165,114,0.25)] overflow-hidden relative">
+                <Link href="/shop" className="mt-2 flex items-center justify-between p-5 bg-primary border border-primary rounded-2xl group active:scale-95 transition-all shadow-[0_15px_40px_rgba(197,165,114,0.25)] overflow-hidden relative">
                   <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.3),transparent)] bg-[length:200%_100%] animate-[shimmer_3s_infinite] pointer-events-none" />
                   <span className="text-[10px] font-black text-black uppercase tracking-[0.25em] italic relative z-10 group-hover:translate-x-1 transition-transform">Access Full Collection</span>
                   <ArrowRight className="w-5 h-5 text-black relative z-10 group-hover:translate-x-2 transition-transform" />
@@ -328,7 +328,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
 
       {/* Sort & Filter Section */}
       <section id="featured" className="scroll-mt-24 py-20 md:py-32 relative border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col items-center justify-center text-center gap-6">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -338,112 +338,17 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight italic uppercase">
               PPT <span className="text-primary">Marketplace</span>
             </h2>
-            <p className="text-sm text-zinc-500 font-medium tracking-wide">
+            <p className="text-sm text-zinc-500 font-medium tracking-wide mb-8">
               Refined digital architectural slide frameworks for premium operations.
             </p>
+
+            <Link href="/shop">
+              <button className="bg-primary hover:bg-primary-hover text-black px-12 py-5 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:border-primary/40 transition-all cursor-pointer shadow-[0_15px_30px_rgba(197,165,114,0.3)] mx-auto group">
+                <span>View Full Collection</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
+              </button>
+            </Link>
           </motion.div>
-
-          <button 
-            onClick={() => setIsFilterOpen(!isFilterOpen)}
-            className="bg-white/5 border border-white/10 text-white px-6 py-3.5 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:border-primary/40 transition-all cursor-pointer shadow-[0_0_20px_rgba(197,165,114,0.05)] hover:shadow-[0_0_30px_rgba(197,165,114,0.15)] self-end md:self-center shrink-0"
-          >
-            <Filter className={`w-4 h-4 text-primary ${isFilterOpen ? 'rotate-180' : ''} transition-transform duration-300`} />
-            <span>Sort & Filter</span>
-          </button>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 mb-12">
-          <AnimatePresence>
-            {isFilterOpen && (
-              <motion.div 
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="bg-[#0c0c0e] border border-white/5 rounded-[2.5rem] p-6 md:p-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 relative overflow-hidden mb-12 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-t border-t-primary/20"
-              >
-                <div className="space-y-4">
-                  <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Pricing Structure</label>
-                  <div className="flex flex-col gap-2">
-                    {[
-                      { value: "all", label: "All Formats" },
-                      { value: "free", label: "Free PPTs Only" },
-                      { value: "paid", label: "Paid PPTs Only" }
-                    ].map((t) => (
-                      <button 
-                        key={t.value}
-                        onClick={() => setFilterType(t.value as any)}
-                        className={`px-5 py-3 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-between ${filterType === t.value ? 'bg-primary text-black border-transparent shadow-[0_0_20px_rgba(197,165,114,0.3)]' : 'bg-white/[0.02] text-zinc-400 hover:text-white border border-white/5 hover:border-white/10'}`}
-                      >
-                        <span>{t.label}</span>
-                        {filterType === t.value && <Check className="w-4 h-4 text-black" />}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Valuation Sorting</label>
-                  <div className="flex flex-col gap-2">
-                    {[
-                      { value: "none", label: "No Sorting" },
-                      { value: "low-to-high", label: "Price: Low to High" },
-                      { value: "high-to-low", label: "Price: High to Low" }
-                    ].map((s) => (
-                      <button 
-                        key={s.value}
-                        onClick={() => setPriceSort(s.value as any)}
-                        className={`px-5 py-3 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-between ${priceSort === s.value ? 'bg-primary text-black border-transparent shadow-[0_0_20px_rgba(197,165,114,0.3)]' : 'bg-white/[0.02] text-zinc-400 hover:text-white border border-white/5 hover:border-white/10'}`}
-                      >
-                        <span>{s.label}</span>
-                        {priceSort === s.value && <Check className="w-4 h-4 text-black" />}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Performance Metric</label>
-                  <div className="flex flex-col gap-2">
-                    {[
-                      { value: "none", label: "Default" },
-                      { value: "highest", label: "Highest Rated" },
-                      { value: "lowest", label: "Lowest Rated" }
-                    ].map((r) => (
-                      <button 
-                        key={r.value}
-                        onClick={() => setRatingSort(r.value as any)}
-                        className={`px-5 py-3 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-between ${ratingSort === r.value ? 'bg-primary text-black border-transparent shadow-[0_0_20px_rgba(197,165,114,0.3)]' : 'bg-white/[0.02] text-zinc-400 hover:text-white border border-white/5 hover:border-white/10'}`}
-                      >
-                        <span>{r.label}</span>
-                        {ratingSort === r.value && <Check className="w-4 h-4 text-black" />}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Linguistic Options</label>
-                  <div className="flex flex-col gap-2">
-                    {[
-                      { value: "all", label: "All Languages" },
-                      { value: "hindi", label: "Hindi PPTs" },
-                      { value: "english", label: "English PPTs" }
-                    ].map((l) => (
-                      <button 
-                        key={l.value}
-                        onClick={() => setLangFilter(l.value as any)}
-                        className={`px-5 py-3 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-between ${langFilter === l.value ? 'bg-primary text-black border-transparent shadow-[0_0_20px_rgba(197,165,114,0.3)]' : 'bg-white/[0.02] text-zinc-400 hover:text-white border border-white/5 hover:border-white/10'}`}
-                      >
-                        <span>{l.label}</span>
-                        {langFilter === l.value && <Check className="w-4 h-4 text-black" />}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
         
         <div className="max-w-7xl mx-auto px-6 space-y-24">

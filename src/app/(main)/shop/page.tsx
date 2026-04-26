@@ -1,0 +1,391 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { getProducts } from "@/actions/productActions";
+import { getReviews } from "@/actions/adminActions";
+import { ProductCard } from "@/components/products/ProductCards";
+import { useLanguage } from "@/context/LanguageContext";
+import { getLangString } from "@/utils/lang";
+import { Filter, Search, Check, Star, Zap, ShoppingBag, Grid, SlidersHorizontal, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
+export default function ShopPage() {
+  const { language } = useLanguage();
+  const [products, setProducts] = useState<any[]>([]);
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Filter States
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterType, setFilterType] = useState<"all" | "free" | "paid">("all");
+  const [priceSort, setPriceSort] = useState<"none" | "low-to-high" | "high-to-low">("none");
+  const [ratingSort, setRatingSort] = useState<"none" | "highest">("none");
+  const [langFilter, setLangFilter] = useState<"all" | "hindi" | "english">("all");
+  const [categoryFilter, setCategoryFilter] = useState<string>("all");
+  const [isFilterOpen, setIsFilterOpen] = useState(false); // Bottom sheet mobile
+
+  useEffect(() => {
+    async function loadData() {
+      setLoading(true);
+      const [prodData, revData] = await Promise.all([
+        getProducts(),
+        getReviews()
+      ]);
+      setProducts(prodData || []);
+      setReviews(revData || []);
+      setFilteredProducts(prodData || []);
+      setLoading(false);
+    }
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    let result = [...products];
+
+    // 1. Search Query
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      result = result.filter(p => {
+        const titleStr = typeof p.title === "object" ? JSON.stringify(p.title) : String(p.title);
+        const descStr = typeof p.description === "object" ? JSON.stringify(p.description) : String(p.description);
+        const catStr = String(p.category_id || "").toLowerCase();
+        const keywordStr = Array.isArray(p.features) ? p.features.join(" ") : "";
+        return titleStr.toLowerCase().includes(q) || descStr.toLowerCase().includes(q) || catStr.includes(q) || keywordStr.toLowerCase().includes(q);
+      });
+    }
+
+    // 2. Pricing Filter
+    if (filterType === "free") {
+      result = result.filter(p => Number(p.price) === 0);
+    } else if (filterType === "paid") {
+      result = result.filter(p => Number(p.price) > 0);
+    }
+
+    // 3. Language Filter
+    if (langFilter === "hindi") {
+      result = result.filter(p => {
+        const titleStr = typeof p.title === "object" ? JSON.stringify(p.title) : String(p.title);
+        const descStr = typeof p.description === "object" ? JSON.stringify(p.description) : String(p.description);
+        return titleStr.toLowerCase().includes("hindi") || descStr.toLowerCase().includes("hindi");
+      });
+    } else if (langFilter === "english") {
+      result = result.filter(p => {
+        const titleStr = typeof p.title === "object" ? JSON.stringify(p.title) : String(p.title);
+        const descStr = typeof p.description === "object" ? JSON.stringify(p.description) : String(p.description);
+        return !titleStr.toLowerCase().includes("hindi") && !descStr.toLowerCase().includes("hindi");
+      });
+    }
+
+    // 4. Category Filter
+    if (categoryFilter !== "all") {
+      result = result.filter(p => String(p.category_id || "").toLowerCase() === categoryFilter.toLowerCase());
+    }
+
+    // Pre-calculate ratings
+    const ratingsMap: Record<string, { sum: number; count: number }> = {};
+    reviews.forEach((rev: any) => {
+      const pId = typeof rev.role === "object" ? rev.role?.en || rev.role?.product_id : String(rev.role);
+      if (pId && rev.code === "VERIFIED_BUYER") {
+        if (!ratingsMap[pId]) ratingsMap[pId] = { sum: 0, count: 0 };
+        ratingsMap[pId].sum += Number(rev.rating || 5);
+        ratingsMap[pId].count += 1;
+      }
+    });
+
+    // 5. Price Sorting
+    if (priceSort === "low-to-high") {
+      result.sort((a, b) => Number(a.price) - Number(b.price));
+    } else if (priceSort === "high-to-low") {
+      result.sort((a, b) => Number(b.price) - Number(a.price));
+    }
+
+    // 6. Rating Sorting
+    if (ratingSort === "highest") {
+      result.sort((a, b) => {
+        const rateA = ratingsMap[a.id] ? (ratingsMap[a.id].sum / ratingsMap[a.id].count) : 0;
+        const rateB = ratingsMap[b.id] ? (ratingsMap[b.id].sum / ratingsMap[b.id].count) : 0;
+        return rateB - rateA;
+      });
+    }
+
+    setFilteredProducts(result);
+  }, [searchQuery, filterType, langFilter, categoryFilter, priceSort, ratingSort, products, reviews]);
+
+  const uniqueCategories = Array.from(new Set(products.map(p => String(p.category_id || "General").trim()))).filter(Boolean);
+
+  return (
+    <div className="animate-in fade-in duration-500 min-h-screen bg-background text-white pb-20 pt-10">
+      {/* Search Header */}
+      <div className="max-w-7xl mx-auto px-6 mb-12">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <span className="text-[10px] font-black text-primary uppercase tracking-[0.4em] italic flex items-center gap-2 mb-2">
+              <Zap className="w-3 h-3 text-primary" /> Full Index
+            </span>
+            <h1 className="text-4xl md:text-5xl font-black italic uppercase tracking-tighter">Shop <span className="text-primary neon-text">All PPTs</span></h1>
+          </div>
+          
+          {/* Top Search Bar */}
+          <div className="relative w-full max-w-md">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600" />
+            <input 
+              type="text" 
+              placeholder="Search title, category, keywords..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-6 py-4 bg-white/5 border border-white/10 focus:border-primary/40 focus:outline-none focus:ring-4 focus:ring-primary/5 rounded-[1.5rem] text-sm text-white placeholder:text-zinc-600 uppercase font-bold tracking-wider"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-4 gap-12 relative">
+        {/* Desktop Sidebar Filters */}
+        <div className="hidden lg:block lg:col-span-1 bg-[#09090B] border border-white/5 rounded-[2.5rem] p-8 space-y-8 sticky top-28 h-fit shadow-xl border-t border-t-primary/10">
+          <div className="flex items-center gap-3 pb-4 border-b border-white/5">
+            <SlidersHorizontal className="w-4 h-4 text-primary" />
+            <span className="text-[11px] font-black text-white uppercase tracking-widest italic">Browsing parameters</span>
+          </div>
+
+          {/* Pricing */}
+          <div className="space-y-4">
+            <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Pricing Structure</label>
+            <div className="flex flex-col gap-2">
+              {["all", "free", "paid"].map((t) => (
+                <button 
+                  key={t}
+                  onClick={() => setFilterType(t as any)}
+                  className={`px-4 py-3 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-between ${filterType === t ? 'bg-primary text-black border-transparent' : 'bg-white/[0.02] text-zinc-400 hover:text-white border border-white/5'}`}
+                >
+                  <span>{t === "all" ? "All Formats" : t === "free" ? "Free PPTs" : "Paid PPTs"}</span>
+                  {filterType === t && <Check className="w-4 h-4 text-black" />}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Categories */}
+          <div className="space-y-4">
+            <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Product Segments</label>
+            <div className="flex flex-col gap-2 max-h-48 overflow-y-auto custom-scrollbar pr-2">
+              <button 
+                onClick={() => setCategoryFilter("all")}
+                className={`px-4 py-3 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-between ${categoryFilter === "all" ? 'bg-primary text-black border-transparent' : 'bg-white/[0.02] text-zinc-400 hover:text-white border border-white/5'}`}
+              >
+                <span>All Categories</span>
+                {categoryFilter === "all" && <Check className="w-4 h-4 text-black" />}
+              </button>
+              {uniqueCategories.map((cat) => (
+                <button 
+                  key={cat}
+                  onClick={() => setCategoryFilter(cat)}
+                  className={`px-4 py-3 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-between ${categoryFilter === cat ? 'bg-primary text-black border-transparent' : 'bg-white/[0.02] text-zinc-400 hover:text-white border border-white/5'}`}
+                >
+                  <span>{cat}</span>
+                  {categoryFilter === cat && <Check className="w-4 h-4 text-black" />}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Language */}
+          <div className="space-y-4">
+            <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Linguistic Options</label>
+            <div className="flex flex-col gap-2">
+              {["all", "hindi", "english"].map((l) => (
+                <button 
+                  key={l}
+                  onClick={() => setLangFilter(l as any)}
+                  className={`px-4 py-3 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-between ${langFilter === l ? 'bg-primary text-black border-transparent' : 'bg-white/[0.02] text-zinc-400 hover:text-white border border-white/5'}`}
+                >
+                  <span>{l === "all" ? "All Languages" : l === "hindi" ? "Hindi Only" : "English Only"}</span>
+                  {langFilter === l && <Check className="w-4 h-4 text-black" />}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Sorting */}
+          <div className="space-y-4">
+            <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Valuation Sorting</label>
+            <div className="flex flex-col gap-2">
+              {[
+                { value: "none", label: "No Sorting" },
+                { value: "low-to-high", label: "Price: Low to High" },
+                { value: "high-to-low", label: "Price: High to Low" }
+              ].map((s) => (
+                <button 
+                  key={s.value}
+                  onClick={() => setPriceSort(s.value as any)}
+                  className={`px-4 py-3 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-between ${priceSort === s.value ? 'bg-primary text-black border-transparent' : 'bg-white/[0.02] text-zinc-400 hover:text-white border border-white/5'}`}
+                >
+                  <span>{s.label}</span>
+                  {priceSort === s.value && <Check className="w-4 h-4 text-black" />}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Rating */}
+          <div className="space-y-4">
+            <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Consumer Feedback</label>
+            <button 
+              onClick={() => setRatingSort(ratingSort === "highest" ? "none" : "highest")}
+              className={`px-4 py-3 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-between w-full ${ratingSort === "highest" ? 'bg-primary text-black border-transparent' : 'bg-white/[0.02] text-zinc-400 hover:text-white border border-white/5'}`}
+            >
+              <span>Highest Rated</span>
+              {ratingSort === "highest" && <Check className="w-4 h-4 text-black" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Filter Trigger */}
+        <div className="lg:hidden col-span-1 flex justify-end">
+          <button 
+            onClick={() => setIsFilterOpen(true)}
+            className="flex items-center gap-2 px-6 py-3.5 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black text-white uppercase tracking-wider shadow-lg hover:border-primary/20 cursor-pointer"
+          >
+            <SlidersHorizontal className="w-4 h-4 text-primary" />
+            <span>Filter / Sort</span>
+          </button>
+        </div>
+
+        {/* Product Grid */}
+        <div className="col-span-1 lg:col-span-3">
+          {loading ? (
+            <div className="text-center py-40 text-zinc-600 font-black uppercase tracking-widest text-xs">Retrieving full archive index...</div>
+          ) : filteredProducts.length === 0 ? (
+            <div className="text-center py-32 bg-white/[0.01] border border-white/5 rounded-[2.5rem]">
+              <ShoppingBag className="w-12 h-12 text-zinc-800 mx-auto mb-4" />
+              <p className="text-zinc-500 uppercase tracking-widest font-black text-xs">No presentation packages map this criteria.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredProducts.map((product) => (
+                <div key={product.id} className="animate-in fade-in duration-500">
+                  <ProductCard {...product} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Mobile Filter Drawer */}
+      <AnimatePresence>
+        {isFilterOpen && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black z-40 lg:hidden"
+              onClick={() => setIsFilterOpen(false)}
+            />
+            <motion.div 
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25 }}
+              className="fixed bottom-0 left-0 right-0 bg-[#09090B] border-t border-white/10 rounded-t-[3rem] p-8 z-50 lg:hidden max-h-[85vh] overflow-y-auto"
+            >
+              <div className="w-12 h-1 bg-zinc-800 rounded-full mx-auto mb-8" onClick={() => setIsFilterOpen(false)} />
+              <div className="flex items-center justify-between mb-8">
+                <span className="text-xl font-black text-white italic uppercase tracking-wider">Parameters</span>
+                <button 
+                  onClick={() => setIsFilterOpen(false)}
+                  className="text-primary text-[10px] font-black uppercase tracking-widest"
+                >
+                  Done
+                </button>
+              </div>
+
+              <div className="space-y-8 pb-10">
+                <div className="space-y-4">
+                  <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Pricing Structure</label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {["all", "free", "paid"].map((t) => (
+                      <button 
+                        key={t}
+                        onClick={() => setFilterType(t as any)}
+                        className={`px-3 py-4 rounded-xl text-center text-[9px] font-black uppercase tracking-wider transition-all ${filterType === t ? 'bg-primary text-black' : 'bg-white/[0.02] text-zinc-400 border border-white/5'}`}
+                      >
+                        {t === "all" ? "All" : t === "free" ? "Free" : "Paid"}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Linguistic Options</label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {["all", "hindi", "english"].map((l) => (
+                      <button 
+                        key={l}
+                        onClick={() => setLangFilter(l as any)}
+                        className={`px-3 py-4 rounded-xl text-center text-[9px] font-black uppercase tracking-wider transition-all ${langFilter === l ? 'bg-primary text-black' : 'bg-white/[0.02] text-zinc-400 border border-white/5'}`}
+                      >
+                        {l === "all" ? "All" : l === "hindi" ? "Hindi" : "English"}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Product Categories</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button 
+                      onClick={() => setCategoryFilter("all")}
+                      className={`px-4 py-3 rounded-xl text-center text-[9px] font-black uppercase tracking-wider transition-all ${categoryFilter === "all" ? 'bg-primary text-black' : 'bg-white/[0.02] text-zinc-400 border border-white/5'}`}
+                    >
+                      All Categories
+                    </button>
+                    {uniqueCategories.map((cat) => (
+                      <button 
+                        key={cat}
+                        onClick={() => setCategoryFilter(cat)}
+                        className={`px-4 py-3 rounded-xl text-center text-[9px] font-black uppercase tracking-wider transition-all ${categoryFilter === cat ? 'bg-primary text-black' : 'bg-white/[0.02] text-zinc-400 border border-white/5'}`}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Price Sorting</label>
+                  <div className="flex flex-col gap-2">
+                    {[
+                      { value: "none", label: "No Sorting" },
+                      { value: "low-to-high", label: "Price: Low to High" },
+                      { value: "high-to-low", label: "Price: High to Low" }
+                    ].map((s) => (
+                      <button 
+                        key={s.value}
+                        onClick={() => setPriceSort(s.value as any)}
+                        className={`px-4 py-3 rounded-xl text-center text-[9px] font-black uppercase tracking-wider transition-all ${priceSort === s.value ? 'bg-primary text-black' : 'bg-white/[0.02] text-zinc-400 border border-white/5'}`}
+                      >
+                        {s.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Consumer Feedback</label>
+                  <button 
+                    onClick={() => setRatingSort(ratingSort === "highest" ? "none" : "highest")}
+                    className={`px-4 py-4 rounded-xl text-center text-[9px] font-black uppercase tracking-wider transition-all w-full ${ratingSort === "highest" ? 'bg-primary text-black' : 'bg-white/[0.02] text-zinc-400 border border-white/5'}`}
+                  >
+                    Highest Rated
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}

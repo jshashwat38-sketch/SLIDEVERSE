@@ -130,6 +130,19 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           {t("home")}
         </Link>
         
+        <Link
+          href="/shop"
+          onClick={onClose}
+          className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
+            pathname === "/shop" 
+              ? "bg-primary/10 text-primary font-bold shadow-[0_0_15px_rgba(197,165,114,0.2)] border border-primary/20" 
+              : "text-zinc-500 hover:text-white hover:bg-white/5"
+          }`}
+        >
+          <ShoppingBag className="w-5 h-5 text-primary" />
+          Full Collection
+        </Link>
+
         <div>
           <button
             onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
