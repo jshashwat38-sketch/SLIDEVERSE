@@ -62,7 +62,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
                 window.location.reload();
               }, 400);
             }} 
-            className="lg:hidden flex items-center gap-2 shrink-0 group cursor-pointer"
+            className="flex items-center gap-2 shrink-0 group cursor-pointer"
           >
             <div className="relative flex items-center justify-center w-10 h-10 rounded-full overflow-hidden shrink-0">
               {/* Spinning gradient border */}

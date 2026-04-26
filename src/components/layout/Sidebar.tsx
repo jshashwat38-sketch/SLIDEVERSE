@@ -61,7 +61,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
   return (
     <aside className="w-64 bg-sidebar text-sidebar-foreground flex flex-col h-full border-r border-white/5 z-50">
 
-      <div className="p-6 border-b border-white/5 flex items-center justify-between">
+      <div className="lg:hidden p-6 border-b border-white/5 flex items-center justify-between">
         <div 
           onClick={() => window.location.href = '/'}
           className="flex items-center gap-4 group cursor-pointer"
