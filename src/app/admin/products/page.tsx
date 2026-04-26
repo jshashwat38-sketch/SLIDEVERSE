@@ -20,7 +20,8 @@ export default function AdminProducts() {
     driveLink: "",
     features: "",
     categoryId: "",
-    isBestseller: false
+    isBestseller: false,
+    mrp: ""
   });
 
   const [imageUrls, setImageUrls] = useState<string[]>(["", "", "", "", "", ""]);
@@ -47,7 +48,7 @@ export default function AdminProducts() {
   const resetForm = () => {
     setIsAdding(false);
     setEditingId(null);
-    setFormData({ title: "", description: "", price: "", driveLink: "", features: "", categoryId: categories[0]?.id || "", isBestseller: false });
+    setFormData({ title: "", description: "", price: "", driveLink: "", features: "", categoryId: categories[0]?.id || "", isBestseller: false, mrp: "" });
     setImageUrls(["", "", "", "", "", ""]);
     setImageFiles([null, null, null, null, null, null]);
     setFaqs(Array.from({ length: 7 }, () => ({ question: "", answer: "" })));
@@ -62,7 +63,8 @@ export default function AdminProducts() {
       driveLink: product.drive_link || "",
       features: Array.isArray(product.features) ? product.features.join(", ") : "",
       categoryId: product.category_id || "",
-      isBestseller: product.is_bestseller || false
+      isBestseller: product.is_bestseller || false,
+      mrp: typeof product.title === 'object' ? (product.title.mrp || "").toString() : ""
     });
     
     const existingImages = product.images || [product.image_url];
@@ -116,6 +118,7 @@ export default function AdminProducts() {
       data.append("driveLink", formData.driveLink);
       data.append("categoryId", formData.categoryId);
       data.append("isBestseller", String(formData.isBestseller));
+      data.append("mrp", formData.mrp);
       
       console.log("Form data assembled. Title:", formData.title);
 
@@ -241,7 +244,19 @@ export default function AdminProducts() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-3 ml-4">Market Value (₹)</label>
+                  <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-3 ml-4">MRP Price (₹)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={formData.mrp}
+                    onChange={(e) => setFormData({...formData, mrp: e.target.value})}
+                    className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 font-mono text-lg font-black italic"
+                    placeholder="000.00"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-3 ml-4">Selling Price (₹)</label>
                   <input
                     type="number"
                     min="0"
@@ -250,6 +265,11 @@ export default function AdminProducts() {
                     className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 font-mono text-lg font-black italic"
                     placeholder="000.00"
                   />
+                  {Number(formData.mrp) > Number(formData.price) && (
+                    <span className="text-xs text-primary font-bold ml-4 mt-2 inline-block">
+                      🏷️ {Math.round(((Number(formData.mrp) - Number(formData.price)) / Number(formData.mrp)) * 100)}% DISCOUNT DETECTED
+                    </span>
+                  )}
                 </div>
 
                 <div>

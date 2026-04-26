@@ -104,7 +104,7 @@ export async function addProduct(formData: FormData) {
 
     const newProduct = {
       id: `prod-${Date.now()}`,
-      title: { en: title }, // Match JSONB schema
+      title: { en: title, mrp: Number(formData.get("mrp") || 0) }, // Match JSONB schema with optional MRP
       description: { en: description }, // Match JSONB schema if applicable
       price: Number(price),
       category_id: categoryId,
@@ -209,7 +209,7 @@ export async function updateProduct(id: string, formData: FormData) {
     }
 
     const updateData: any = {
-      title: { en: title },
+      title: { en: title, mrp: Number(formData.get("mrp") || 0) },
       description: { en: description },
       price: Number(price),
       category_id: categoryId,

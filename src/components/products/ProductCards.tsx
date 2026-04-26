@@ -48,6 +48,7 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
 
   const displayTitle = typeof title === 'object' && title !== null ? ((title as any)[language] || (title as any).en || "") : (title || "");
   const displayDescription = typeof description === 'object' && description !== null ? ((description as any)[language] || (description as any).en || "") : (description || "");
+  const mrp = typeof title === 'object' && title !== null ? Number((title as any).mrp || 0) : 0;
 
   const handleAddToCart = () => {
     addToCart({ id, title: displayTitle, price, imageUrl: displayImage });
@@ -104,6 +105,16 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
           ))}
         </div>
         
+        {mrp > price && (
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-xs text-zinc-600 line-through font-bold font-mono">₹{mrp}</span>
+            <span className="text-xs text-primary font-black font-mono">₹{price}</span>
+            <span className="text-[8px] font-black bg-primary/20 text-primary border border-primary/20 px-2 py-0.5 rounded-full uppercase tracking-wider">
+              {Math.round(((mrp - price) / mrp) * 100)}% OFF
+            </span>
+          </div>
+        )}
+        
         <div className="flex items-center gap-3">
           <button 
             onClick={handleAddToCart}
@@ -151,6 +162,7 @@ export function HeroProductCard({ id, title, description, price, features, image
 
   const displayTitle = typeof title === 'object' && title !== null ? ((title as any)[language] || (title as any).en || "") : (title || "");
   const displayDescription = typeof description === 'object' && description !== null ? ((description as any)[language] || (description as any).en || "") : (description || "");
+  const mrp = typeof title === 'object' && title !== null ? Number((title as any).mrp || 0) : 0;
 
   const handleAddToCart = () => {
     addToCart({ id, title: displayTitle, price, imageUrl: imageUrl });
@@ -192,6 +204,16 @@ export function HeroProductCard({ id, title, description, price, features, image
             </div>
           ))}
         </div>
+
+        {mrp > price && (
+          <div className="flex items-center gap-3 mb-8">
+            <span className="text-lg text-zinc-600 line-through font-black italic font-mono">₹{mrp}</span>
+            <span className="text-2xl text-primary font-black italic font-mono">₹{price}</span>
+            <span className="text-[10px] font-black bg-primary/20 text-primary border border-primary/20 px-3 py-1 rounded-full uppercase tracking-widest">
+              {Math.round(((mrp - price) / mrp) * 100)}% DISCOUNT
+            </span>
+          </div>
+        )}
 
         <div className="flex flex-col sm:flex-row flex-wrap items-center gap-4 md:gap-6">
           <button 

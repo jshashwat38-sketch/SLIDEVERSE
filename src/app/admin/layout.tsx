@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Package, Users, LogOut, Settings, Lock, Sparkles, MessageSquare, Menu, X, Phone } from "lucide-react";
+import { LayoutDashboard, Package, Users, LogOut, Settings, Lock, Sparkles, MessageSquare, Menu, X, Phone, Gift, BarChart3 } from "lucide-react";
 
 import PasswordInput from "@/components/common/PasswordInput";
 import LogoLoader from "@/components/common/LogoLoader";
@@ -53,6 +53,8 @@ export default function AdminLayout({
     { href: "/admin/reviews", label: "Reviews", icon: MessageSquare },
 
     { href: "/admin/grievances", label: "Grievances", icon: MessageSquare },
+    { href: "/admin/coupons", label: "Coupons", icon: Gift },
+    { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
   ];
 
 

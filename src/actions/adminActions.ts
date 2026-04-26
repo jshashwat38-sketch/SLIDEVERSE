@@ -274,6 +274,79 @@ export async function addReview(reviewData: { userName: string; productId: strin
   }
 }
 
+// --- COUPONS ---
+export async function getCoupons() {
+  try {
+    const { data, error } = await supabase
+      .from('appearance')
+      .select('data')
+      .eq('id', 'global')
+      .single();
+    
+    if (error) return [];
+    return data?.data?.coupons || [];
+  } catch {
+    return [];
+  }
+}
+
+export async function saveCoupon(coupon: any) {
+  try {
+    const { data: appData, error: fetchError } = await supabase
+      .from('appearance')
+      .select('data')
+      .eq('id', 'global')
+      .single();
+
+    const currentData = fetchError ? {} : (appData?.data || {});
+    const existingCoupons = currentData.coupons || [];
+
+    let newCoupons = [];
+    if (coupon.id) {
+      newCoupons = existingCoupons.map((c: any) => c.id === coupon.id ? coupon : c);
+    } else {
+      newCoupons = [...existingCoupons, { ...coupon, id: `cpn-${Date.now()}` }];
+    }
+
+    const { error } = await supabase
+      .from('appearance')
+      .upsert({ id: 'global', data: { ...currentData, coupons: newCoupons } });
+
+    if (error) throw error;
+    revalidatePath("/admin");
+    return { success: true };
+  } catch (error) {
+    console.error("Save coupon error:", error);
+    return { success: false, error: "Failed to secure offer parameters." };
+  }
+}
+
+export async function deleteCoupon(id: string) {
+  try {
+    const { data: appData, error: fetchError } = await supabase
+      .from('appearance')
+      .select('data')
+      .eq('id', 'global')
+      .single();
+
+    if (fetchError) throw fetchError;
+    const currentData = appData.data || {};
+    const existingCoupons = currentData.coupons || [];
+    const newCoupons = existingCoupons.filter((c: any) => c.id !== id);
+
+    const { error } = await supabase
+      .from('appearance')
+      .upsert({ id: 'global', data: { ...currentData, coupons: newCoupons } });
+
+    if (error) throw error;
+    revalidatePath("/admin");
+    return { success: true };
+  } catch (error) {
+    console.error("Delete coupon error:", error);
+    return { success: false };
+  }
+}
+
 // --- GRIEVANCES ---
 export async function getGrievances() {
   try {

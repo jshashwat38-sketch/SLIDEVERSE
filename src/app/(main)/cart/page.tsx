@@ -14,6 +14,7 @@ import { toast } from "react-hot-toast";
 import { useLanguage } from "@/context/LanguageContext";
 import { saveFailedOrder } from "@/actions/orderActions";
 import { getLangString } from "@/utils/lang";
+import { getCoupons } from "@/actions/adminActions";
 
 declare global {
   interface Window {
@@ -27,6 +28,44 @@ export default function CartPage() {
   const router = useRouter();
   const { language } = useLanguage();
   const [isProcessing, setIsProcessing] = useState(false);
+
+  const [couponCode, setCouponCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [appliedCoupon, setAppliedCoupon] = useState<any>(null);
+  const [verifyingCoupon, setVerifyingCoupon] = useState(false);
+
+  const finalTotal = Math.max(0, totalPrice - discount);
+
+  const handleApplyCoupon = async () => {
+    if (!couponCode.trim()) return;
+    setVerifyingCoupon(true);
+    const coupons = await getCoupons();
+    const c = coupons.find((cp: any) => cp.code === couponCode.toUpperCase().trim() && cp.isActive);
+    setVerifyingCoupon(false);
+
+    if (!c) {
+      toast.error("Invalid or inactive coupon code.");
+      return;
+    }
+
+    if (c.minCartValue && totalPrice < c.minCartValue) {
+      toast.error(`Minimum cart value of ₹${c.minCartValue} required.`);
+      return;
+    }
+
+    if (c.expiryDate && new Date(c.expiryDate) < new Date(new Date().setHours(0,0,0,0))) {
+      toast.error("Coupon has expired.");
+      return;
+    }
+
+    setAppliedCoupon(c);
+    if (c.type === "percentage") {
+      setDiscount(Math.round(totalPrice * (c.value / 100)));
+    } else {
+      setDiscount(c.value);
+    }
+    toast.success("Coupon secured successfully!");
+  };
 
   const handleCheckout = async () => {
     if (!user) {
@@ -52,7 +91,7 @@ export default function CartPage() {
 
     setIsProcessing(true);
     try {
-      const res = await createRazorpayOrder(totalPrice);
+      const res = await createRazorpayOrder(finalTotal);
       if (!res.success || !res.order) {
         toast.error("Failed to initialize secure payment.");
         setIsProcessing(false);
@@ -71,8 +110,8 @@ export default function CartPage() {
           const verificationRes = await verifyPayment(response, {
             customer: user.name || "Verified Curator",
             email: user.email,
-            product: items.map(i => `${i.title} (x${i.quantity})`).join(", "),
-            amount: totalPrice,
+            product: items.map(i => `${i.title} (x${i.quantity})`).join(", ") + (appliedCoupon ? ` [Coupon: ${appliedCoupon.code}]` : ''),
+            amount: finalTotal,
           });
           
           if (verificationRes.success) {
@@ -296,10 +335,40 @@ export default function CartPage() {
               </div>
             </div>
             
+            {/* Coupon Code Panel */}
+            <div className="border-t border-white/5 pt-6 mt-6 mb-8">
+              <label className="block text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-3 ml-2">Promo Code / Voucher</label>
+              <div className="flex gap-2">
+                <input 
+                  type="text"
+                  placeholder="SAVE50"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                  disabled={appliedCoupon}
+                  className="flex-1 px-4 py-3 bg-white/5 border border-white/10 focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/5 rounded-xl text-white font-black uppercase text-xs tracking-wider"
+                />
+                <button 
+                  onClick={handleApplyCoupon}
+                  disabled={verifyingCoupon || appliedCoupon}
+                  className="bg-white/10 hover:bg-white/20 text-white px-5 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all disabled:opacity-50"
+                >
+                  {appliedCoupon ? "applied" : verifyingCoupon ? "..." : "apply"}
+                </button>
+              </div>
+              {appliedCoupon && (
+                <span className="text-[10px] text-primary font-bold ml-2 mt-2 block animate-fade-in">
+                  🎉 {appliedCoupon.code} applied successfully!
+                </span>
+              )}
+            </div>
+
             <div className="pt-10 border-t border-white/10 mb-12 flex justify-between items-end">
               <div className="space-y-2">
                 <span className="block text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] italic">Final Total Valuation</span>
-                <span className="block text-6xl font-black text-white italic tracking-tighter leading-none">₹{totalPrice}</span>
+                {discount > 0 && (
+                  <span className="text-sm text-zinc-500 line-through font-mono block">₹{totalPrice}</span>
+                )}
+                <span className="block text-6xl font-black text-white italic tracking-tighter leading-none font-mono">₹{finalTotal}</span>
               </div>
             </div>
 
