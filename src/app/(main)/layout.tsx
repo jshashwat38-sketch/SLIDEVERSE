@@ -20,16 +20,16 @@ export default function MainLayout({
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] lg:hidden"
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60]"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar - Responsive */}
       <div className={`
-        fixed inset-y-0 left-0 z-[70] lg:relative lg:z-0 h-full
+        fixed inset-y-0 left-0 z-[70] h-full
         transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
-        lg:translate-x-0 transition-transform duration-300 ease-in-out
+        transition-transform duration-300 ease-in-out
       `}>
         <Sidebar onClose={() => setIsSidebarOpen(false)} />
       </div>

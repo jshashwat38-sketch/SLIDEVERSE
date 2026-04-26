@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Search, ShoppingCart, User as UserIcon, LogOut, Menu, ShoppingBag } from "lucide-react";
+import { Search, ShoppingCart, User as UserIcon, LogOut, Menu, ShoppingBag, MoreVertical } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import { useState } from "react";
@@ -47,9 +47,11 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
         <div className="flex items-center gap-3 flex-1">
           <button 
             onClick={onMenuClick}
-            className="lg:hidden p-2 text-zinc-500 hover:text-white bg-white/5 rounded-xl border border-white/10 shrink-0"
+            className="p-2 text-zinc-500 hover:text-primary bg-white/5 rounded-xl border border-white/10 shrink-0 transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center"
+            title="Access Options"
           >
-            <Menu className="w-5 h-5" />
+            <Menu className="w-5 h-5 lg:hidden" />
+            <MoreVertical className="w-5 h-5 hidden lg:block" />
           </button>
 
           {/* Mobile Logo - Always visible when sidebar is closed */}
