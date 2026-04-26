@@ -87,7 +87,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
                 className="w-full h-full object-contain relative z-20 mix-blend-screen scale-[1.35] group-hover:scale-[1.45] transition-transform duration-500" 
               />
             </div>
-            <h1 className={`text-sm sm:text-base font-bold tracking-tight uppercase italic truncate max-w-[100px] transition-colors duration-300 ${isMobileLogoClicked ? 'text-primary' : 'text-white'}`}>Slideverse</h1>
+            <h1 className={`text-sm sm:text-base font-bold tracking-tight uppercase italic truncate transition-colors duration-300 ${isMobileLogoClicked ? 'text-primary' : 'text-white'}`}>Slideverse</h1>
           </div>
         </div>
 
