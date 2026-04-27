@@ -22,25 +22,27 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* =========================================
-   LIGHT MODE (DEFAULT) OVERRIDES
+   LUXURY LIGHT MODE OVERRIDES
+   (Ivory + Charcoal + Champagne Gold + Soft Taupe)
    ========================================= */
 html.light,
 html:not(.dark) {
-  --background-color: #FFFFFF !important;
-  --text-color: #4A2BBD !important;
+  --background-color: #F8F6F1 !important;
+  --text-color: #1F1F1F !important;
 }
 
 html.light body,
 html:not(.dark) body {
-  background-color: #FFFFFF !important;
-  color: #4A2BBD !important;
+  background-color: #F8F6F1 !important;
+  color: #1F1F1F !important;
 }
 
-/* Match generic background templates to off-white contexts */
+/* Page Background Overrides -> Ivory & Warm White */
 html.light .bg-\[\#050505\],
 html.light .bg-\[\#09090B\],
 html.light .bg-\[\#0A0A0C\],
 html.light .bg-\[\#000000\],
+html.light .bg-[#070708],
 html.light .bg-black,
 html.light .bg-black\/40,
 html.light .bg-black\/60,
@@ -49,14 +51,36 @@ html:not(.dark) .bg-\[\#050505\],
 html:not(.dark) .bg-\[\#09090B\],
 html:not(.dark) .bg-\[\#0A0A0C\],
 html:not(.dark) .bg-\[\#000000\],
+html:not(.dark) .bg-[#070708],
 html:not(.dark) .bg-black,
 html:not(.dark) .bg-black\/40,
 html:not(.dark) .bg-black\/60,
 html:not(.dark) .bg-zinc-950 {
-  background-color: #FAFAFA !important;
+  background-color: #F8F6F1 !important;
 }
 
-/* Hardcoded Text Elements -> Lavender */
+/* Secondary Backgrounds -> Soft Warm White */
+html.light section:nth-of-type(even),
+html:not(.dark) section:nth-of-type(even) {
+  background-color: #FCFBF8 !important;
+}
+
+/* Panel/Card Elements -> Pure White */
+html.light .bg-white,
+html.light .bg-white\/\[0\.02\],
+html.light .bg-white\/\[0\.03\],
+html.light .bg-white\/\[0\.05\],
+html.light .bg-\[\#09090B\],
+html:not(.dark) .bg-white,
+html:not(.dark) .bg-white\/\[0\.02\],
+html:not(.dark) .bg-white\/\[0\.03\],
+html:not(.dark) .bg-white\/\[0\.05\],
+html:not(.dark) .bg-\[\#09090B\] {
+  background-color: #FFFFFF !important;
+  box-shadow: 0 4px 20px rgba(31, 31, 31, 0.03) !important;
+}
+
+/* Hardcoded Headings -> Charcoal */
 html.light .text-white,
 html.light .text-zinc-100,
 html.light h1,
@@ -69,10 +93,10 @@ html:not(.dark) h1,
 html:not(.dark) h2,
 html:not(.dark) h3,
 html:not(.dark) h4 {
-  color: #4A2BBD !important; /* Rich Lavender */
+  color: #1F1F1F !important;
 }
 
-/* Secondary Texts -> Lavender Gray */
+/* Secondary Texts -> Soft Taupe */
 html.light .text-zinc-400,
 html.light .text-zinc-500,
 html.light .text-zinc-600,
@@ -83,31 +107,35 @@ html:not(.dark) .text-zinc-500,
 html:not(.dark) .text-zinc-600,
 html:not(.dark) p,
 html:not(.dark) span {
-  color: #726F8D !important; /* Soft Lavender Gray */
+  color: #6B645D !important;
 }
 
-/* Ignore CTAs, Buttons, and Accents to maintain readability */
+/* Champagne Gold Highlights */
 html.light .text-primary,
-html.light .bg-primary,
 html.light .neon-text,
 html:not(.dark) .text-primary,
-html:not(.dark) .bg-primary,
 html:not(.dark) .neon-text {
-  color: #C5A572 !important; /* Retain accent aesthetics */
+  color: #C8A96B !important;
+  text-shadow: none !important;
 }
 
 html.light .bg-primary,
 html:not(.dark) .bg-primary {
-  background-color: #C5A572 !important;
-  color: #000000 !important;
+  background-color: #C8A96B !important;
+  color: #FFFFFF !important;
 }
 
-/* Subtle Borders */
+html.light .bg-primary:hover,
+html:not(.dark) .bg-primary:hover {
+  background-color: #B89556 !important;
+}
+
+/* Light Borders -> Warm Light Beige */
 html.light .border-white\/5,
 html.light .border-white\/10,
 html:not(.dark) .border-white\/5,
 html:not(.dark) .border-white\/10 {
-  border-color: #E6E6FA !important;
+  border-color: #E7E0D6 !important;
 }
 
 @keyframes float-animation {
