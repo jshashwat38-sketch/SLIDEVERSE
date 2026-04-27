@@ -49,7 +49,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
         <div className="flex items-center gap-3 flex-1">
           <button 
             onClick={onMenuClick}
-            className={`p-2 rounded-xl border shrink-0 transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center ${theme === 'dark' ? 'text-zinc-300 bg-white/5 border-white/10 hover:text-primary' : 'text-[#6F8A73] bg-zinc-50 border-zinc-200 hover:bg-zinc-100'}`}
+            className={`p-2 rounded-xl border shrink-0 transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center ${theme === 'dark' ? 'text-zinc-300 bg-white/5 border-white/10 hover:text-primary' : 'text-[#000000] bg-zinc-50 border-zinc-200 hover:bg-zinc-100'}`}
             title="Access Options"
           >
             <Menu className="w-5 h-5 lg:hidden" />
@@ -113,7 +113,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
             title={theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
           >
             {theme === "light" ? (
-              <Sun className="w-4 h-4 md:w-5 md:h-5 text-[#6F8A73]" />
+              <Sun className="w-4 h-4 md:w-5 md:h-5 text-[#000000]" />
             ) : (
               <Moon className="w-4 h-4 md:w-5 md:h-5 text-[#C5A572]" />
             )}
@@ -131,7 +131,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
             title={theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
           >
             {theme === "light" ? (
-              <Sun className="w-5 h-5 text-[#6F8A73]" />
+              <Sun className="w-5 h-5 text-[#000000]" />
             ) : (
               <Moon className="w-5 h-5 text-[#C5A572]" />
             )}
