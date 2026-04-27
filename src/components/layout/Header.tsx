@@ -106,7 +106,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-primary/30 transition-all flex items-center justify-center text-primary active:scale-95 cursor-pointer shadow-[0_0_15px_rgba(197,165,114,0.1)] relative z-50 ml-1"
+            className="p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-primary/30 transition-all hidden sm:flex items-center justify-center text-primary active:scale-95 cursor-pointer shadow-[0_0_15px_rgba(197,165,114,0.1)] relative z-50 ml-1"
             title={theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
           >
             {theme === "light" ? (
@@ -121,6 +121,19 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
 
         {/* Mobile Nav Icons (sm:hidden) */}
         <div className="flex items-center gap-4 sm:hidden">
+          {/* Mobile Theme Toggle Button placed to the left of the cart */}
+          <button
+            onClick={toggleTheme}
+            className="p-1.5 text-zinc-400 hover:text-primary transition-colors cursor-pointer flex items-center justify-center"
+            title={theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
+          >
+            {theme === "light" ? (
+              <Sun className="w-5 h-5 text-[#5D3FD3]" />
+            ) : (
+              <Moon className="w-5 h-5 text-[#C5A572]" />
+            )}
+          </button>
+
           <Link href="/cart" className="relative text-zinc-400 hover:text-primary transition-colors flex items-center group">
             <ShoppingCart className="w-5 h-5 group-hover:drop-shadow-[0_0_8px_rgba(197,165,114,0.5)]" />
             {totalItems > 0 && (
