@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Package, Users, LogOut, Settings, Lock, Sparkles, MessageSquare, Menu, X, Phone, Gift, BarChart3, Sun, Moon } from "lucide-react";
-import { useTheme } from "@/context/ThemeContext";
+import { LayoutDashboard, Package, Users, LogOut, Settings, Lock, Sparkles, MessageSquare, Menu, X, Phone, Gift, BarChart3 } from "lucide-react";
 
 import PasswordInput from "@/components/common/PasswordInput";
 import LogoLoader from "@/components/common/LogoLoader";
@@ -22,7 +21,6 @@ export default function AdminLayout({
   const [error, setError] = useState("");
   const [isChecking, setIsChecking] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
 
 
   useEffect(() => {
@@ -125,21 +123,12 @@ export default function AdminLayout({
           <Settings className="w-5 h-5 text-primary" />
           Admin <span className="text-primary">Ops</span>
         </h1>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={toggleTheme}
-            className={`p-2 rounded-xl border shrink-0 transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center ${theme === 'dark' ? 'text-primary bg-white/5 border-white/10' : 'text-black bg-zinc-100 border-zinc-200'}`}
-            title={theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
-          >
-            {theme === "light" ? <Sun className="w-5 h-5 text-[#000000]" /> : <Moon className="w-5 h-5 text-[#C5A572]" />}
-          </button>
-          <button 
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="p-2 bg-white/5 rounded-lg text-white"
-          >
-            {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
+        <button 
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="p-2 bg-white/5 rounded-lg text-white"
+        >
+          {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </div>
 
       {/* Sidebar Overlay */}
@@ -178,14 +167,7 @@ export default function AdminLayout({
             );
           })}
         </nav>
-        <div className="p-6 border-t border-white/5 bg-black/20 flex flex-col gap-4">
-          <button
-            onClick={toggleTheme}
-            className={`w-full flex items-center gap-4 px-6 py-4 rounded-xl transition-all cursor-pointer ${theme === 'dark' ? 'bg-white/5 text-zinc-300 hover:text-white' : 'bg-zinc-100 text-zinc-800 hover:bg-zinc-200'}`}
-          >
-            {theme === "light" ? <Sun className="w-4 h-4 text-[#000000]" /> : <Moon className="w-4 h-4 text-[#C5A572]" />}
-            <span className="uppercase tracking-widest text-xs font-black">{theme === "light" ? "Light Mode" : "Dark Mode"}</span>
-          </button>
+        <div className="p-6 border-t border-white/5 bg-black/20">
           <button 
             onClick={() => {
               localStorage.removeItem("adminAuth");
