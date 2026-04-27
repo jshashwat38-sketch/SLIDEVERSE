@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { getAppearance } from "@/actions/adminActions";
 import Link from "next/link";
 import { Mail, Phone, ShieldCheck, FolderOpen } from "lucide-react";
-import { motion } from "framer-motion";
 
 
 
@@ -52,45 +51,15 @@ export function GlobalFooter() {
           {/* Brand Section */}
           <div className="space-y-6">
             <div className="flex items-center gap-4">
-              <div className="relative w-14 h-14 md:w-16 md:h-16 aspect-square shrink-0">
-                {/* Lightning Ring Animation */}
-                <motion.div
-                  animate={{
-                    rotate: [0, 360],
-                    scale: [1, 1.05, 0.95, 1],
-                    borderColor: ["#6F8A73", "#E7E0D6", "#C5A572", "#6F8A73"],
-                  }}
-                  transition={{
-                    rotate: { duration: 1.5, repeat: Infinity, ease: "linear" },
-                    scale: { duration: 1, repeat: Infinity, ease: "easeInOut" },
-                    borderColor: { duration: 2, repeat: Infinity, ease: "linear" },
-                  }}
-                  className="absolute -inset-1.5 border-2 border-dashed rounded-full blur-[1px] z-0"
+              <div className="w-14 h-14 md:w-16 md:h-16 aspect-square rounded-full overflow-hidden flex items-center justify-center bg-white border border-[#E7E0D6] shadow-[0_4px_20px_rgba(31,31,31,0.05)] dark:bg-white/5 dark:border-white/10 shrink-0">
+                <Image 
+                  src={appearance?.site?.logo || "/logo.png"} 
+                  alt="Logo" 
+                  width={40} 
+                  height={40} 
+                  priority
+                  className="w-10 h-10 md:w-11 md:h-11 object-contain dark:mix-blend-screen scale-[1.1]" 
                 />
-                
-                <motion.div
-                  animate={{
-                    opacity: [0.3, 0.7, 0.3],
-                    scale: [0.9, 1.1, 0.9],
-                  }}
-                  transition={{
-                    duration: 0.8,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="absolute -inset-3 bg-primary/20 rounded-full blur-xl z-0"
-                />
-
-                <div className="relative z-10 w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-black border border-white/10 shadow-[0_4px_20px_rgba(31,31,31,0.1)]">
-                  <Image 
-                    src="/logo.png" 
-                    alt="Logo" 
-                    width={40} 
-                    height={40} 
-                    priority
-                    className="w-10 h-10 md:w-11 md:h-11 object-contain scale-[1.1] brightness-110" 
-                  />
-                </div>
               </div>
               <h2 className="text-2xl font-black text-white italic uppercase tracking-tighter">
                 {appearance?.site?.name || "Slideverse"}
