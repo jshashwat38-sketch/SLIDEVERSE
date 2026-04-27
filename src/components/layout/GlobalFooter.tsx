@@ -28,10 +28,8 @@ const InstagramIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-import { useTheme } from "@/context/ThemeContext";
-
 export function GlobalFooter() {
-  const { theme } = useTheme();
+
   const [appearance, setAppearance] = useState<any>(null);
 
   useEffect(() => {
@@ -53,27 +51,14 @@ export function GlobalFooter() {
           {/* Brand Section */}
           <div className="space-y-6">
             <div className="flex items-center gap-4">
-              <div className="relative flex items-center justify-center w-14 h-14 rounded-full overflow-hidden shrink-0 shadow-[0_0_20px_rgba(197,165,114,0.25)]">
-                {/* Spinning gradient border */}
-                <div 
-                  className="absolute inset-0 w-full h-full bg-[conic-gradient(from_0deg,transparent_0deg,transparent_120deg,#C5A572_180deg,transparent_240deg)] opacity-80" 
-                  style={{ animation: 'ring-rotate 4s linear infinite' }}
-                />
-                
-                {/* Inner background to mask the center */}
-                <div className="absolute inset-[2px] bg-[#000000] rounded-full z-10" />
-                
-                {/* Outer static border */}
-                <div className="absolute inset-0 rounded-full border border-white/5 z-10" />
-                
-                {/* Outer Glow */}
-                <div className="absolute inset-0 rounded-full shadow-[0_0_15px_rgba(197,165,114,0.3)] z-10" />
-
-                {/* Logo */}
-                <img 
+              <div className="w-14 h-14 rounded-full overflow-hidden flex items-center justify-center bg-white border border-[#E6E6FA] shadow-[0_4px_20px_rgba(93,63,211,0.08)] dark:bg-white/5 dark:border-white/10 shrink-0">
+                <Image 
                   src={appearance?.site?.logo || "/logo.png"} 
-                  alt="Slideverse Logo" 
-                  className="w-full h-full object-contain relative z-20 mix-blend-screen scale-[1.35]" 
+                  alt="Logo" 
+                  width={40} 
+                  height={40} 
+                  priority
+                  className="w-10 h-10 object-contain dark:mix-blend-screen scale-[1.25]" 
                 />
               </div>
               <h2 className="text-2xl font-black text-white italic uppercase tracking-tighter">
