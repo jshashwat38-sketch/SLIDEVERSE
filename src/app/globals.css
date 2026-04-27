@@ -4,15 +4,15 @@
 @theme inline {
   --color-background: var(--background, #050505);
   --color-foreground: var(--foreground, #FAFAFA);
-  --color-primary: #C5A572;
-  --color-primary-hover: #D9B986;
+  --color-primary: var(--primary-color, #C5A572);
+  --color-primary-hover: var(--primary-hover-color, #D9B986);
   --color-sidebar: var(--sidebar, #080808);
   --color-sidebar-foreground: var(--sidebar-foreground, #A1A1AA);
   --color-card: var(--card, #0A0A0C);
-  --color-card-foreground: var(--foreground, #FAFAFA);
-  --color-gray-900: var(--foreground, #FAFAFA);
-  --color-gray-600: #A1A1AA;
-  --color-gray-100: #1A1A1C;
+  --color-card-foreground: var(--card-foreground, #FAFAFA);
+  --color-gray-900: var(--gray-900, #FAFAFA);
+  --color-gray-600: var(--gray-600, #A1A1AA);
+  --color-gray-100: var(--gray-100, #1A1A1C);
   
   --font-sans: 'Inter', sans-serif;
   --font-heading: 'Space Grotesk', sans-serif;
@@ -23,46 +23,54 @@
 
 /* =========================================
    LUXURY LIGHT MODE OVERRIDES
-   (Ivory + Charcoal + Champagne Gold + Soft Taupe)
+   (Pearl White + Matte Black + Sage Green)
    ========================================= */
 html.light,
 html:not(.dark) {
-  --background-color: #F8F6F1 !important;
-  --text-color: #1F1F1F !important;
+  --background-color: #FAFAF8 !important;
+  --text-color: #111111 !important;
+  
+  --background: #FAFAF8;
+  --foreground: #111111;
+  --primary-color: #6F8A73;
+  --primary-hover-color: #5E7662;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #111111;
+  --card: #FFFFFF;
+  --card-foreground: #111111;
+  --gray-900: #111111;
+  --gray-600: #7A7A7A;
+  --gray-100: #E8E8E4;
+  
+  --logo-spinning-color: #6F8A73;
 }
 
 html.light body,
 html:not(.dark) body {
-  background-color: #F8F6F1 !important;
-  color: #1F1F1F !important;
+  background-color: #FAFAF8 !important;
+  color: #111111 !important;
 }
 
-/* Page Background Overrides -> Ivory & Warm White */
+/* Page Background Overrides -> Pearl White */
 html.light .bg-\[\#050505\],
+html.light .bg-\[\#000000\],
+html.light .bg-black,
+html.light .bg-zinc-950,
 html.light .bg-\[\#09090B\],
 html.light .bg-\[\#0A0A0C\],
-html.light .bg-\[\#000000\],
-html.light .bg-[#070708],
-html.light .bg-black,
-html.light .bg-black\/40,
-html.light .bg-black\/60,
-html.light .bg-zinc-950,
 html:not(.dark) .bg-\[\#050505\],
-html:not(.dark) .bg-\[\#09090B\],
-html:not(.dark) .bg-\[\#0A0A0C\],
 html:not(.dark) .bg-\[\#000000\],
-html:not(.dark) .bg-[#070708],
 html:not(.dark) .bg-black,
-html:not(.dark) .bg-black\/40,
-html:not(.dark) .bg-black\/60,
 html:not(.dark) .bg-zinc-950 {
-  background-color: #F8F6F1 !important;
+  background-color: #FAFAF8 !important;
 }
 
 /* Secondary Backgrounds -> Soft Warm White */
 html.light section:nth-of-type(even),
+html.light .bg-\[\#F5F5F2\],
+html.light .bg-zinc-900,
 html:not(.dark) section:nth-of-type(even) {
-  background-color: #FCFBF8 !important;
+  background-color: #F5F5F2 !important;
 }
 
 /* Panel/Card Elements -> Pure White */
@@ -70,72 +78,80 @@ html.light .bg-white,
 html.light .bg-white\/\[0\.02\],
 html.light .bg-white\/\[0\.03\],
 html.light .bg-white\/\[0\.05\],
-html.light .bg-\[\#09090B\],
+html.light .bg-\[\#070708\],
+html.light .bg-sidebar,
 html:not(.dark) .bg-white,
 html:not(.dark) .bg-white\/\[0\.02\],
 html:not(.dark) .bg-white\/\[0\.03\],
 html:not(.dark) .bg-white\/\[0\.05\],
-html:not(.dark) .bg-\[\#09090B\] {
+html:not(.dark) .bg-\[\#09090B\],
+html:not(.dark) .bg-sidebar {
   background-color: #FFFFFF !important;
-  box-shadow: 0 4px 20px rgba(31, 31, 31, 0.03) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Hardcoded Headings -> Charcoal */
+/* Hardcoded Headings -> Matte Black */
 html.light .text-white,
 html.light .text-zinc-100,
+html.light .text-zinc-200,
 html.light h1,
 html.light h2,
 html.light h3,
 html.light h4,
 html:not(.dark) .text-white,
 html:not(.dark) .text-zinc-100,
+html:not(.dark) .text-zinc-200,
 html:not(.dark) h1,
 html:not(.dark) h2,
 html:not(.dark) h3,
 html:not(.dark) h4 {
-  color: #1F1F1F !important;
+  color: #111111 !important;
 }
 
-/* Secondary Texts -> Soft Taupe */
+/* Secondary Texts -> Soft Gray */
+html.light .text-zinc-300,
 html.light .text-zinc-400,
 html.light .text-zinc-500,
 html.light .text-zinc-600,
 html.light p,
 html.light span,
+html:not(.dark) .text-zinc-300,
 html:not(.dark) .text-zinc-400,
 html:not(.dark) .text-zinc-500,
 html:not(.dark) .text-zinc-600,
 html:not(.dark) p,
 html:not(.dark) span {
-  color: #6B645D !important;
+  color: #7A7A7A !important;
 }
 
-/* Champagne Gold Highlights */
+/* Sage Green Highlights & CTA Buttons */
 html.light .text-primary,
 html.light .neon-text,
 html:not(.dark) .text-primary,
 html:not(.dark) .neon-text {
-  color: #C8A96B !important;
+  color: #6F8A73 !important;
   text-shadow: none !important;
 }
 
 html.light .bg-primary,
 html:not(.dark) .bg-primary {
-  background-color: #C8A96B !important;
+  background-color: #6F8A73 !important;
   color: #FFFFFF !important;
 }
 
 html.light .bg-primary:hover,
 html:not(.dark) .bg-primary:hover {
-  background-color: #B89556 !important;
+  background-color: #5E7662 !important;
 }
 
-/* Light Borders -> Warm Light Beige */
+/* Light Borders -> Soft Gray */
 html.light .border-white\/5,
 html.light .border-white\/10,
+html.light .border-zinc-800,
 html:not(.dark) .border-white\/5,
-html:not(.dark) .border-white\/10 {
-  border-color: #E7E0D6 !important;
+html:not(.dark) .border-white\/10,
+html:not(.dark) .border-zinc-800 {
+  border-color: #E8E8E4 !important;
 }
 
 @keyframes float-animation {

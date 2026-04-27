@@ -190,7 +190,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
           
           {/* Subtle Mesh Glows */}
           <div className="absolute top-[-5%] left-[-5%] w-[40%] h-[40%] bg-primary/10 blur-[100px] rounded-full" />
-          <div className="absolute bottom-[-5%] right-[-5%] w-[30%] h-[30%] bg-blue-500/5 blur-[120px] rounded-full" />
+          <div className="absolute bottom-[-5%] right-[-5%] w-[30%] h-[30%] bg-primary/5 blur-[120px] rounded-full" />
         </div>
 
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center relative z-10">
@@ -392,7 +392,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
       </section>
 
       {/* About Us Section */}
-      <section id="about" className="scroll-mt-24 py-20 md:py-32 relative overflow-hidden bg-black/40">
+      <section id="about" className="scroll-mt-24 py-20 md:py-32 relative overflow-hidden bg-card/40">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
@@ -443,7 +443,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
       </section>
 
       {/* Story Section */}
-      <section className="py-24 md:py-40 bg-[#070708] relative overflow-hidden border-y border-white/5">
+      <section className="py-24 md:py-40 bg-card/60 relative overflow-hidden border-y border-white/5">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(197,165,114,0.05),transparent_50%)]" />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center mb-40">
@@ -536,7 +536,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-24 md:py-32 relative overflow-hidden bg-[#09090B]">
+      <section id="testimonials" className="py-24 md:py-32 relative overflow-hidden bg-card">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -683,24 +683,22 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 <div className="space-y-6">
                   <div className="flex flex-col gap-2">
                     <label className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.5em] px-1">Identity Protocol</label>
-                    <input name="name" type="text" required placeholder="ENTER NAME..." className="w-full bg-black/40 border border-white/5 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
+                    <input name="name" type="text" required placeholder="ENTER NAME..." className="w-full bg-background/60 border border-white/10 rounded-xl px-6 py-4 text-foreground text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-background transition-all placeholder:text-zinc-400" />
                   </div>
                   <div className="flex flex-col gap-2">
                     <label className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.5em] px-1">Relay Endpoint</label>
-                    <input name="email" type="email" required placeholder="ENTER EMAIL..." className="w-full bg-black/40 border border-white/5 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800" />
+                    <input name="email" type="email" required placeholder="ENTER EMAIL..." className="w-full bg-background/60 border border-white/10 rounded-xl px-6 py-4 text-foreground text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-background transition-all placeholder:text-zinc-400" />
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.5em] px-1">Intelligence Data</label>
-                  <textarea name="message" required rows={5} placeholder="COMPOSE TRANSMISSION..." className="w-full bg-black/40 border border-white/5 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-black/60 transition-all placeholder:text-zinc-800 resize-none"></textarea>
+                  <textarea name="message" required rows={5} placeholder="COMPOSE TRANSMISSION..." className="w-full bg-background/60 border border-white/10 rounded-xl px-6 py-4 text-foreground text-sm font-bold uppercase focus:outline-none focus:border-primary/40 focus:bg-background transition-all placeholder:text-zinc-400 resize-none"></textarea>
                 </div>
                 <button 
                   type="submit" 
-                  className="group relative w-full py-6 md:py-8 bg-gradient-to-br from-[#E8D5B5] via-[#C5A572] to-[#8A6D3B] rounded-[1.5rem] transition-all duration-700 shadow-[0_20px_40px_-10px_rgba(197,165,114,0.3),0_10px_20px_-5px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.4)] hover:shadow-[0_30px_60px_-10px_rgba(197,165,114,0.5),0_15px_30px_-5px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.6)] hover:scale-[1.02] active:scale-[0.98] border border-white/20 overflow-hidden cursor-pointer"
+                  className="group relative w-full py-6 md:py-8 bg-primary hover:bg-primary-hover text-white rounded-[1.5rem] transition-all duration-700 shadow-lg hover:scale-[1.02] active:scale-[0.98] border border-white/20 overflow-hidden cursor-pointer"
                 >
-                  <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.2),transparent)] bg-[length:200%_100%] animate-[shimmer_2.5s_infinite] pointer-events-none" />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors" />
-                  <div className="relative z-10 flex flex-col items-center justify-center text-black w-full px-6">
+                  <div className="relative z-10 flex flex-col items-center justify-center text-white w-full px-6">
                     <span className="font-black text-sm sm:text-base md:text-xl uppercase tracking-[0.25em] block leading-tight text-center">
                       <span className="block md:inline">Execute</span>
                       <span className="block md:inline md:ml-3">Broadcast</span>

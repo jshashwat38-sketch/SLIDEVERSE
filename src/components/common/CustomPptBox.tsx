@@ -180,7 +180,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
 
   if (isCompact) {
     return (
-      <div className="bg-[#09090b] border border-white/5 rounded-2xl p-5 relative overflow-hidden flex flex-col gap-3 group hover:border-primary/20 transition-all mt-4 mx-2">
+      <div className="bg-card border border-white/10 rounded-2xl p-5 relative overflow-hidden flex flex-col gap-3 group hover:border-primary/20 transition-all mt-4 mx-2">
         <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
         <div className="absolute -top-10 -right-10 w-20 h-20 bg-primary/5 rounded-full blur-xl group-hover:bg-primary/10 transition-colors pointer-events-none" />
         <div className="flex items-center gap-2">
@@ -199,7 +199,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
               router.push("/shop");
             }
           }}
-          className="w-full bg-primary hover:bg-white text-black py-2.5 rounded-xl font-black text-[9px] uppercase tracking-wider italic transition-all flex items-center justify-center gap-2 shadow-md hover:scale-[1.02] active:scale-95 cursor-pointer"
+          className="w-full bg-primary hover:bg-primary-hover text-white py-2.5 rounded-xl font-black text-[9px] uppercase tracking-wider italic transition-all flex items-center justify-center gap-2 shadow-md hover:scale-[1.02] active:scale-95 cursor-pointer"
         >
           <Palette className="w-3 h-3" />
           Configure Specs (₹{currentPrice})
@@ -209,7 +209,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
   }
 
   return (
-    <div id="custom-ppt-form-section" className="bg-[#09090b] border border-white/5 rounded-[2.5rem] p-8 md:p-12 lg:p-16 relative overflow-hidden group hover:border-primary/10 transition-all max-w-5xl mx-auto shadow-2xl my-16 border-t-2 border-t-primary/30">
+    <div id="custom-ppt-form-section" className="bg-card border border-white/10 rounded-[2.5rem] p-8 md:p-12 lg:p-16 relative overflow-hidden group hover:border-primary/10 transition-all max-w-5xl mx-auto shadow-2xl my-16 border-t-2 border-t-primary/30">
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       <div className="absolute top-0 right-0 w-80 h-80 bg-primary/5 rounded-full blur-[100px] -mr-40 -mt-40 group-hover:bg-primary/10 transition-colors pointer-events-none" />
       
@@ -225,7 +225,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
             Get a custom professionally designed presentation tailored to your exact operational requirements. 
           </p>
 
-          <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-4 mb-8">
+          <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-6 space-y-4 mb-8">
             <div className="flex items-center gap-4">
               <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-black text-xs">₹</div>
               <div>
@@ -245,7 +245,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
         </div>
 
         {/* Right Input Form */}
-        <form onSubmit={handleRequest} className="w-full lg:w-[60%] bg-black/40 border border-white/5 rounded-[2rem] p-6 md:p-10 space-y-6">
+        <form onSubmit={handleRequest} className="w-full lg:w-[60%] bg-background/40 border border-white/10 rounded-[2rem] p-6 md:p-10 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] px-1">Full Name *</label>
@@ -256,7 +256,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
                 value={formData.fullName}
                 onChange={handleChange}
                 placeholder="ENTER FULL NAME..." 
-                className="w-full bg-black/60 border border-white/5 rounded-xl px-5 py-3.5 text-white text-xs font-bold uppercase focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all placeholder:text-zinc-800" 
+                className="w-full bg-background border border-white/10 rounded-xl px-5 py-3.5 text-white text-xs font-bold uppercase focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all placeholder:text-zinc-400" 
               />
             </div>
 
@@ -269,7 +269,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="ENTER EMAIL ADDRESS..." 
-                className="w-full bg-black/60 border border-white/5 rounded-xl px-5 py-3.5 text-white text-xs font-bold focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all placeholder:text-zinc-800" 
+                className="w-full bg-background border border-white/10 rounded-xl px-5 py-3.5 text-white text-xs font-bold focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all placeholder:text-zinc-400" 
               />
             </div>
           </div>
@@ -283,7 +283,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="MOBILE NUMBER..." 
-                className="w-full bg-black/60 border border-white/5 rounded-xl px-5 py-3.5 text-white text-xs font-bold focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all placeholder:text-zinc-800" 
+                className="w-full bg-background border border-white/10 rounded-xl px-5 py-3.5 text-white text-xs font-bold focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all placeholder:text-zinc-400" 
               />
             </div>
 
@@ -296,7 +296,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
                 value={formData.topic}
                 onChange={handleChange}
                 placeholder="PRESENTATION TOPIC..." 
-                className="w-full bg-black/60 border border-white/5 rounded-xl px-5 py-3.5 text-white text-xs font-bold uppercase focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all placeholder:text-zinc-800" 
+                className="w-full bg-background border border-white/10 rounded-xl px-5 py-3.5 text-white text-xs font-bold uppercase focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all placeholder:text-zinc-400" 
               />
             </div>
           </div>
@@ -309,7 +309,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
                 required 
                 value={formData.slides}
                 onChange={handleChange}
-                className="w-full bg-black/60 border border-white/5 rounded-xl px-5 py-3.5 text-zinc-400 text-xs font-bold uppercase focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all cursor-pointer"
+                className="w-full bg-background border border-white/10 rounded-xl px-5 py-3.5 text-zinc-400 text-xs font-bold uppercase focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all cursor-pointer"
               >
                 <option value="10-15">10 - 15 Slides</option>
                 <option value="15-25">15 - 25 Slides</option>
@@ -325,7 +325,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
                 required 
                 value={formData.purpose}
                 onChange={handleChange}
-                className="w-full bg-black/60 border border-white/5 rounded-xl px-5 py-3.5 text-zinc-400 text-xs font-bold uppercase focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all cursor-pointer"
+                className="w-full bg-background border border-white/10 rounded-xl px-5 py-3.5 text-zinc-400 text-xs font-bold uppercase focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all cursor-pointer"
               >
                 <option value="business">Business Proposal</option>
                 <option value="college">College / Academic</option>
@@ -344,7 +344,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
                 required 
                 value={formData.language}
                 onChange={handleChange}
-                className="w-full bg-black/60 border border-white/5 rounded-xl px-5 py-3.5 text-zinc-400 text-xs font-bold uppercase focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all cursor-pointer"
+                className="w-full bg-background border border-white/10 rounded-xl px-5 py-3.5 text-zinc-400 text-xs font-bold uppercase focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all cursor-pointer"
               >
                 <option value="english">English (Global)</option>
                 <option value="hindi">Hindi (हिन्दी)</option>
@@ -359,7 +359,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
                 required 
                 value={formData.deadline}
                 onChange={handleChange}
-                className="w-full bg-black/60 border border-white/5 rounded-xl px-5 py-3.5 text-zinc-400 text-xs font-bold focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all cursor-pointer" 
+                className="w-full bg-background border border-white/10 rounded-xl px-5 py-3.5 text-zinc-400 text-xs font-bold focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all cursor-pointer" 
               />
             </div>
           </div>
@@ -371,7 +371,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
               required 
               value={formData.style}
               onChange={handleChange}
-              className="w-full bg-black/60 border border-white/5 rounded-xl px-5 py-3.5 text-zinc-400 text-xs font-bold uppercase focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all cursor-pointer"
+              className="w-full bg-background border border-white/10 rounded-xl px-5 py-3.5 text-zinc-400 text-xs font-bold uppercase focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all cursor-pointer"
             >
               <option value="modern">Modern & Clean</option>
               <option value="corporate">Corporate & Professional</option>
@@ -389,14 +389,14 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
               value={formData.notes}
               onChange={handleChange}
               placeholder="SPECIFY ANY FONTS, ATTACHMENTS, OR PREFERENCES..." 
-              className="w-full bg-black/60 border border-white/5 rounded-xl px-5 py-3.5 text-white text-xs font-bold uppercase focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all placeholder:text-zinc-800 resize-none"
+              className="w-full bg-background border border-white/10 rounded-xl px-5 py-3.5 text-white text-xs font-bold uppercase focus:outline-none focus:border-primary/40 focus:ring-4 focus:ring-primary/5 transition-all placeholder:text-zinc-500 resize-none"
             />
           </div>
 
           {/* Reference Document Upload */}
           <div className="flex flex-col gap-2">
             <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] px-1">Optional Reference Guides / Logo Docs</label>
-            <div className="relative border border-white/5 bg-black/60 rounded-xl px-5 py-4 flex items-center justify-between group-hover:border-primary/10 transition-colors">
+            <div className="relative border border-white/10 bg-background rounded-xl px-5 py-4 flex items-center justify-between group-hover:border-primary/10 transition-colors">
               <div className="flex items-center gap-3">
                 <Upload className="w-4 h-4 text-primary" />
                 <span className="text-xs font-bold text-zinc-400 truncate max-w-[200px]">
@@ -416,7 +416,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-br from-[#E8D5B5] via-[#C5A572] to-[#8A6D3B] hover:shadow-[0_20px_40px_rgba(197,165,114,0.3)] text-black font-black text-xs py-4 px-8 rounded-xl uppercase tracking-[0.2em] italic flex items-center justify-center gap-3 transition-all cursor-pointer shadow-lg hover:-translate-y-0.5"
+            className="w-full bg-primary hover:bg-primary-hover hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] text-white font-black text-xs py-4 px-8 rounded-xl uppercase tracking-[0.2em] italic flex items-center justify-center gap-3 transition-all cursor-pointer shadow-lg hover:-translate-y-0.5"
           >
             <CreditCard className="w-4 h-4" />
             {loading ? "Vouching..." : `Pay ₹${currentPrice} & Confirm Request`}

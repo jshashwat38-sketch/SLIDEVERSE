@@ -69,8 +69,11 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           <div className="relative flex items-center justify-center w-12 h-12 rounded-full overflow-hidden shrink-0">
             {/* Spinning gradient border */}
             <div 
-              className="absolute inset-0 w-full h-full bg-[conic-gradient(from_0deg,transparent_0deg,transparent_120deg,#C5A572_180deg,transparent_240deg)] opacity-80" 
-              style={{ animation: 'ring-rotate 4s linear infinite' }}
+              className="absolute inset-0 w-full h-full opacity-80" 
+              style={{ 
+                animation: 'ring-rotate 4s linear infinite',
+                backgroundImage: 'conic-gradient(from 0deg, transparent 0deg, transparent 120deg, var(--logo-spinning-color, #C5A572) 180deg, transparent 240deg)'
+              }}
             />
             
             {/* Inner background to mask the center */}
@@ -109,8 +112,8 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           onClick={onClose}
           className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
             pathname === "/account" 
-              ? "bg-primary/10 text-primary font-bold shadow-[0_0_15px_rgba(197, 165, 114, 0.2)] border border-primary/20" 
-              : "text-zinc-500 hover:text-white hover:bg-white/5"
+              ? "bg-primary/10 text-primary font-bold shadow-sm border border-primary/20" 
+              : "text-zinc-500 hover:text-primary hover:bg-primary/5"
           }`}
         >
           <FolderOpen className="w-5 h-5" />
@@ -122,8 +125,8 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           onClick={onClose}
           className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
             pathname === "/" 
-              ? "bg-primary/10 text-primary font-bold shadow-[0_0_15px_rgba(197, 165, 114, 0.2)] border border-primary/20" 
-              : "text-zinc-500 hover:text-white hover:bg-white/5"
+              ? "bg-primary/10 text-primary font-bold shadow-sm border border-primary/20" 
+              : "text-zinc-500 hover:text-primary hover:bg-primary/5"
           }`}
         >
           <ShoppingBag className="w-5 h-5" />
@@ -135,8 +138,8 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           onClick={onClose}
           className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
             pathname === "/shop" 
-              ? "bg-primary/10 text-primary font-bold shadow-[0_0_15px_rgba(197,165,114,0.2)] border border-primary/20" 
-              : "text-zinc-500 hover:text-white hover:bg-white/5"
+              ? "bg-primary/10 text-primary font-bold shadow-sm border border-primary/20" 
+              : "text-zinc-500 hover:text-primary hover:bg-primary/5"
           }`}
         >
           <ShoppingBag className="w-5 h-5 text-primary" />
@@ -146,7 +149,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
         <div>
           <button
             onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
-            className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-zinc-500 hover:text-white hover:bg-white/5 transition-all"
+            className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-zinc-500 hover:text-primary hover:bg-primary/5 transition-all"
           >
             <div className="flex items-center gap-3">
               <FolderOpen className="w-5 h-5" />
@@ -163,7 +166,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
                   key={cat.id}
                   href={`/category/${cat.id.replace('cat-', '')}`}
                   onClick={onClose}
-                  className="block px-4 py-2 text-sm text-zinc-500 hover:text-white rounded-lg hover:bg-white/5 transition-colors break-words"
+                  className="block px-4 py-2 text-sm text-zinc-500 hover:text-primary rounded-lg hover:bg-primary/5 transition-colors break-words"
                   title={typeof cat.title === 'object' && cat.title !== null ? ((cat.title as any)[language] || (cat.title as any).en || "") : t(String(cat.title).toLowerCase().trim().replace(/\s+/g, '_')) || cat.title}
                 >
                   {typeof cat.title === 'object' && cat.title !== null ? ((cat.title as any)[language] || (cat.title as any).en || "") : t(String(cat.title).toLowerCase().trim().replace(/\s+/g, '_')) || cat.title}
@@ -177,7 +180,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           <a
             href="#about"
             onClick={(e) => handleScroll(e, "about")}
-            className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer text-zinc-500 hover:text-white hover:bg-white/5"
+            className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer text-zinc-500 hover:text-primary hover:bg-primary/5"
           >
             <FolderOpen className="w-5 h-5" />
             {t("about_us")}
@@ -186,7 +189,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           <a
             href="#story"
             onClick={(e) => handleScroll(e, "story")}
-            className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer text-zinc-500 hover:text-white hover:bg-white/5"
+            className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer text-zinc-500 hover:text-primary hover:bg-primary/5"
           >
             <FolderOpen className="w-5 h-5" />
             {t("our_story")}
@@ -195,7 +198,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           <a
             href="#contact"
             onClick={(e) => handleScroll(e, "contact")}
-            className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer text-zinc-500 hover:text-white hover:bg-white/5"
+            className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer text-zinc-500 hover:text-primary hover:bg-primary/5"
           >
             <FolderOpen className="w-5 h-5" />
             {t("contact_us")}
