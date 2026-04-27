@@ -205,14 +205,14 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-xl text-primary font-bold px-5 py-2.5 rounded-xl mb-8 text-[9px] uppercase tracking-[0.4em] border border-white/5"
             >
               <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-              {appearance?.hero?.badge || t("hero_badge")}
+              {t("hero_badge")}
             </motion.div>
             
             <motion.h1 
               variants={itemVariants} 
               className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-white mb-8 leading-[1.1] tracking-tight italic uppercase"
               dangerouslySetInnerHTML={{ 
-                __html: (getLangString(appearance?.hero?.title, language) || t("hero_title"))
+                __html: t("hero_title")
                   .replace(/Presentation Design/gi, '<span class="text-primary neon-text">Presentation Design</span>')
               }}
             />
@@ -221,17 +221,17 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               variants={itemVariants} 
               className="text-lg md:text-xl text-zinc-400 mb-12 max-w-lg leading-relaxed font-medium tracking-normal"
             >
-              {getLangString(appearance?.hero?.subtitle, language) || t("hero_subtitle")}
+              {t("hero_subtitle")}
             </motion.p>
             
             <motion.div variants={itemVariants} className="hidden md:flex flex-col sm:flex-row items-center gap-6">
               <Link href="/shop" className="group relative w-full sm:w-auto">
                 <button className="relative w-full sm:w-auto bg-primary hover:bg-white text-black px-10 py-5 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-3 uppercase tracking-wider italic">
-                  {appearance?.buttons?.primary?.label || t("explore_collection")} <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                  {t("explore_collection")} <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
                 </button>
               </Link>
               <Link href={appearance?.buttons?.secondary?.link || "/signin"} className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white px-10 py-5 rounded-xl font-bold text-base transition-all border border-white/5 uppercase tracking-wider italic text-center">
-                {appearance?.buttons?.secondary?.label || t("sign_in_securely")}
+                {t("sign_in_securely")}
               </Link>
             </motion.div>
 
@@ -249,16 +249,16 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               className="mt-10 md:hidden"
             >
               <div className="flex items-center justify-between mb-6">
-                <span className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em]">Active Sectors</span>
+                <span className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em]">{t("active_sectors")}</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-[8px] font-black text-primary uppercase tracking-widest italic opacity-80">Online Status</span>
+                  <span className="text-[8px] font-black text-primary uppercase tracking-widest italic opacity-80">{t("online_status")}</span>
                 </div>
               </div>
               <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide -mx-2 px-2">
                 {[
-                  { name: "About", icon: Shield, link: "/#about", code: "01" },
-                  { name: "Contact", icon: Send, link: "/#contact", code: "02" },
-                  { name: "Vault", icon: Sparkles, link: "/account", code: "03" }
+                  { name: t("about"), icon: Shield, link: "/#about", code: "01" },
+                  { name: t("contact"), icon: Send, link: "/#contact", code: "02" },
+                  { name: t("vault"), icon: Sparkles, link: "/account", code: "03" }
                 ].map((btn, i) => (
                   <motion.div
                     key={i}
@@ -287,7 +287,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               >
                 <Link href="/shop" className="mt-2 flex items-center justify-between p-5 bg-primary border border-primary rounded-2xl group active:scale-95 transition-all shadow-[0_15px_40px_rgba(197,165,114,0.25)] overflow-hidden relative">
                   <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.3),transparent)] bg-[length:200%_100%] animate-[shimmer_3s_infinite] pointer-events-none" />
-                  <span className="text-[10px] font-black text-black uppercase tracking-[0.25em] italic relative z-10 group-hover:translate-x-1 transition-transform">Access Full Collection</span>
+                  <span className="text-[10px] font-black text-black uppercase tracking-[0.25em] italic relative z-10 group-hover:translate-x-1 transition-transform">{t("access_full_collection")}</span>
                   <ArrowRight className="w-5 h-5 text-black relative z-10 group-hover:translate-x-2 transition-transform" />
                 </Link>
               </motion.div>
@@ -335,16 +335,14 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             viewport={{ once: true }}
             className="max-w-xl"
           >
-            <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight italic uppercase">
-              PPT <span className="text-primary">Marketplace</span>
-            </h2>
+            <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight italic uppercase" dangerouslySetInnerHTML={{ __html: t("ppt_marketplace").replace(/Marketplace/gi, '<span class="text-primary">Marketplace</span>').replace(/मार्केटप्लेस/gi, '<span class="text-primary">मार्केटप्लेस</span>') }} />
             <p className="text-sm text-zinc-500 font-medium tracking-wide mb-8">
-              Refined digital architectural slide frameworks for premium operations.
+              {t("marketplace_subtitle")}
             </p>
 
             <Link href="/shop">
               <button className="bg-primary hover:bg-primary-hover text-black px-12 py-5 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-3 hover:border-primary/40 transition-all cursor-pointer shadow-[0_15px_30px_rgba(197,165,114,0.3)] mx-auto group">
-                <span>View Full Collection</span>
+                <span>{t("view_full_collection")}</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
               </button>
             </Link>
@@ -354,7 +352,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
         <div className="max-w-7xl mx-auto px-6 space-y-24">
           {filteredProducts.length === 0 ? (
             <div className="text-center py-20 bg-white/[0.01] border border-white/5 rounded-[2.5rem]">
-              <p className="text-zinc-500 uppercase tracking-widest font-black text-xs">No matching items located in index.</p>
+              <p className="text-zinc-500 uppercase tracking-widest font-black text-xs">{t("empty_states")}</p>
             </div>
           ) : (
             <>

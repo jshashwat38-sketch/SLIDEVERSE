@@ -188,16 +188,24 @@ export default function ShopPage() {
                 <span>{t("all_categories")}</span>
                 {categoryFilter === "all" && <Check className="w-4 h-4 text-black" />}
               </button>
-              {uniqueCategories.map((cat) => (
-                <button 
-                  key={cat}
-                  onClick={() => setCategoryFilter(cat)}
-                  className={`px-4 py-3 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-between ${categoryFilter === cat ? 'bg-primary text-black border-transparent' : 'bg-white/[0.02] text-zinc-400 hover:text-white border border-white/5'}`}
-                >
-                  <span>{cat}</span>
-                  {categoryFilter === cat && <Check className="w-4 h-4 text-black" />}
-                </button>
-              ))}
+              {uniqueCategories.map((cat) => {
+                let rawStr = String(cat || "").replace(/^\[HI\]\s*/i, "").replace(/^\[EN\]\s*/i, "").trim();
+                let key = rawStr.toLowerCase().replace(/\s+/g, '_');
+                let catLabel = t(key);
+                if (catLabel === key || !catLabel) {
+                  catLabel = rawStr;
+                }
+                return (
+                  <button 
+                    key={cat}
+                    onClick={() => setCategoryFilter(cat)}
+                    className={`px-4 py-3 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-between ${categoryFilter === cat ? 'bg-primary text-black border-transparent' : 'bg-white/[0.02] text-zinc-400 hover:text-white border border-white/5'}`}
+                  >
+                    <span>{catLabel}</span>
+                    {categoryFilter === cat && <Check className="w-4 h-4 text-black" />}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -353,15 +361,23 @@ export default function ShopPage() {
                     >
                       {t("all_categories")}
                     </button>
-                    {uniqueCategories.map((cat) => (
-                      <button 
-                        key={cat}
-                        onClick={() => setCategoryFilter(cat)}
-                        className={`px-4 py-3 rounded-xl text-center text-[9px] font-black uppercase tracking-wider transition-all ${categoryFilter === cat ? 'bg-primary text-black' : 'bg-white/[0.02] text-zinc-400 border border-white/5'}`}
-                      >
-                        {cat}
-                      </button>
-                    ))}
+                    {uniqueCategories.map((cat) => {
+                      let rawStr = String(cat || "").replace(/^\[HI\]\s*/i, "").replace(/^\[EN\]\s*/i, "").trim();
+                      let key = rawStr.toLowerCase().replace(/\s+/g, '_');
+                      let catLabel = t(key);
+                      if (catLabel === key || !catLabel) {
+                        catLabel = rawStr;
+                      }
+                      return (
+                        <button 
+                          key={cat}
+                          onClick={() => setCategoryFilter(cat)}
+                          className={`px-4 py-3 rounded-xl text-center text-[9px] font-black uppercase tracking-wider transition-all ${categoryFilter === cat ? 'bg-primary text-black' : 'bg-white/[0.02] text-zinc-400 border border-white/5'}`}
+                        >
+                          {catLabel}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -385,12 +401,12 @@ export default function ShopPage() {
                 </div>
 
                 <div className="space-y-4">
-                  <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Consumer Feedback</label>
+                  <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">{t("consumer_feedback")}</label>
                   <button 
                     onClick={() => setRatingSort(ratingSort === "highest" ? "none" : "highest")}
                     className={`px-4 py-4 rounded-xl text-center text-[9px] font-black uppercase tracking-wider transition-all w-full ${ratingSort === "highest" ? 'bg-primary text-black' : 'bg-white/[0.02] text-zinc-400 border border-white/5'}`}
                   >
-                    Highest Rated
+                    {t("highest_rated")}
                   </button>
                 </div>
               </div>

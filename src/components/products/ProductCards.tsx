@@ -20,7 +20,8 @@ export interface ProductProps {
   images?: string[];
 }
 
-export function ProductCard({ id, title, description, price, features, imageUrl, images }: ProductProps) {
+export function ProductCard(props: any) {
+  const { id, price, imageUrl, images, features } = props;
   const { addToCart } = useCart();
   const router = useRouter();
   const { language, t } = useLanguage();
@@ -47,9 +48,34 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
     fetchReviews();
   }, [id]);
 
-  const displayTitle = typeof title === 'object' && title !== null ? ((title as any)[language] || (title as any).en || "") : (title || "");
-  const displayDescription = typeof description === 'object' && description !== null ? ((description as any)[language] || (description as any).en || "") : (description || "");
-  const mrp = typeof title === 'object' && title !== null ? Number((title as any).mrp || 0) : 0;
+  let displayTitle = "";
+  if (language === 'hi') {
+    displayTitle = props.title_hi || (typeof props.title === 'object' && props.title !== null ? props.title.hi : props.title);
+  } else {
+    displayTitle = props.title_en || (typeof props.title === 'object' && props.title !== null ? props.title.en : props.title);
+  }
+  if (!displayTitle) {
+    displayTitle = props.title_en || props.title_hi || (typeof props.title === 'object' && props.title !== null ? props.title.en || props.title.hi : props.title) || "";
+  }
+
+  let displayDescription = "";
+  if (language === 'hi') {
+    displayDescription = props.desc_hi || (typeof props.description === 'object' && props.description !== null ? props.description.hi : props.description);
+  } else {
+    displayDescription = props.desc_en || (typeof props.description === 'object' && props.description !== null ? props.description.en : props.description);
+  }
+  if (!displayDescription) {
+    displayDescription = props.desc_en || props.desc_hi || (typeof props.description === 'object' && props.description !== null ? props.description.en || props.description.hi : props.description) || "";
+  }
+
+  const mrp = typeof props.title === 'object' && props.title !== null ? Number((props.title as any).mrp || 0) : Number(props.mrp || 0);
+
+  let displayCategory = "Product Entity";
+  if (language === 'hi') {
+    displayCategory = props.category_hi || props.category_en || "उत्पाद इकाई";
+  } else {
+    displayCategory = props.category_en || "Product Entity";
+  }
 
   const handleAddToCart = () => {
     addToCart({ id, title: displayTitle, price, imageUrl: displayImage });
@@ -69,7 +95,7 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
       <Link href={`/product/${id}`} className="block h-48 bg-black relative shrink-0 overflow-hidden cursor-pointer">
         <img 
           src={displayImage || "https://placehold.co/600x400?text=No+Image"} 
-          alt={title} 
+          alt={displayTitle} 
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100" 
           onError={(e) => {
             (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=No+Image";
@@ -85,7 +111,7 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
           </Link>
           <div className="flex items-center gap-2 mt-2 w-full">
             <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
-            <p className="text-[10px] text-zinc-600 font-black uppercase tracking-[0.2em]">Product Entity</p>
+            <p className="text-[10px] text-zinc-600 font-black uppercase tracking-[0.2em]">{displayCategory}</p>
             {avgRating !== null && (
               <div className="flex items-center gap-1 text-[10px] text-primary ml-auto font-bold">
                 <Star className="w-3.5 h-3.5 fill-primary text-primary" />
@@ -135,7 +161,8 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
   );
 }
 
-export function HeroProductCard({ id, title, description, price, features, imageUrl }: ProductProps) {
+export function HeroProductCard(props: any) {
+  const { id, price, imageUrl, features } = props;
   const { addToCart } = useCart();
   const router = useRouter();
   const { language, t } = useLanguage();
@@ -161,9 +188,34 @@ export function HeroProductCard({ id, title, description, price, features, image
     fetchReviews();
   }, [id]);
 
-  const displayTitle = typeof title === 'object' && title !== null ? ((title as any)[language] || (title as any).en || "") : (title || "");
-  const displayDescription = typeof description === 'object' && description !== null ? ((description as any)[language] || (description as any).en || "") : (description || "");
-  const mrp = typeof title === 'object' && title !== null ? Number((title as any).mrp || 0) : 0;
+  let displayTitle = "";
+  if (language === 'hi') {
+    displayTitle = props.title_hi || (typeof props.title === 'object' && props.title !== null ? props.title.hi : props.title);
+  } else {
+    displayTitle = props.title_en || (typeof props.title === 'object' && props.title !== null ? props.title.en : props.title);
+  }
+  if (!displayTitle) {
+    displayTitle = props.title_en || props.title_hi || (typeof props.title === 'object' && props.title !== null ? props.title.en || props.title.hi : props.title) || "";
+  }
+
+  let displayDescription = "";
+  if (language === 'hi') {
+    displayDescription = props.desc_hi || (typeof props.description === 'object' && props.description !== null ? props.description.hi : props.description);
+  } else {
+    displayDescription = props.desc_en || (typeof props.description === 'object' && props.description !== null ? props.description.en : props.description);
+  }
+  if (!displayDescription) {
+    displayDescription = props.desc_en || props.desc_hi || (typeof props.description === 'object' && props.description !== null ? props.description.en || props.description.hi : props.description) || "";
+  }
+
+  const mrp = typeof props.title === 'object' && props.title !== null ? Number((props.title as any).mrp || 0) : Number(props.mrp || 0);
+
+  let displayCategory = "Elite Category Segment";
+  if (language === 'hi') {
+    displayCategory = props.category_hi || props.category_en || "एलीट श्रेणी खंड";
+  } else {
+    displayCategory = props.category_en || "Elite Category Segment";
+  }
 
   const handleAddToCart = () => {
     addToCart({ id, title: displayTitle, price, imageUrl: imageUrl });
@@ -183,7 +235,7 @@ export function HeroProductCard({ id, title, description, price, features, image
       <div className="flex-1 p-8 md:p-10 lg:p-16 flex flex-col justify-center relative z-10 order-2 lg:order-1">
         <div className="flex items-center gap-3 mb-8 w-full">
           <div className="w-10 h-[1px] bg-primary/40" />
-          <span className="text-[10px] font-black text-primary uppercase tracking-[0.5em] italic">Elite Category Segment</span>
+          <span className="text-[10px] font-black text-primary uppercase tracking-[0.5em] italic">{displayCategory}</span>
           {avgRating !== null && (
             <div className="flex items-center gap-1.5 text-xs text-primary font-bold ml-auto bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
               <Star className="w-4 h-4 fill-primary text-primary" />
@@ -235,7 +287,7 @@ export function HeroProductCard({ id, title, description, price, features, image
       <Link href={`/product/${id}`} className="w-full lg:w-1/2 relative min-h-[300px] md:min-h-[400px] lg:min-h-full overflow-hidden cursor-pointer order-1 lg:order-2">
         <img 
           src={imageUrl || "https://placehold.co/600x400?text=No+Image"} 
-          alt={title} 
+          alt={displayTitle} 
           className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2000ms] opacity-80 group-hover:opacity-100" 
           onError={(e) => {
             (e.target as HTMLImageElement).src = "https://placehold.co/800x400?text=No+Image";

@@ -117,7 +117,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           }`}
         >
           <FolderOpen className="w-5 h-5" />
-          My Vault
+          {t("my_vault")}
         </Link>
 
         <Link
@@ -160,18 +160,30 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           
           {isCategoriesOpen && (
             <div className="mt-2 ml-4 pl-4 border-l border-zinc-800 space-y-1 max-h-64 overflow-y-auto custom-scrollbar">
-              {categories.map((cat) => (
-
-                <Link
-                  key={cat.id}
-                  href={`/category/${cat.id.replace('cat-', '')}`}
-                  onClick={onClose}
-                  className="block px-4 py-2 text-sm text-zinc-500 hover:text-primary rounded-lg hover:bg-primary/5 transition-colors break-words"
-                  title={typeof cat.title === 'object' && cat.title !== null ? ((cat.title as any)[language] || (cat.title as any).en || "") : t(String(cat.title).toLowerCase().trim().replace(/\s+/g, '_')) || cat.title}
-                >
-                  {typeof cat.title === 'object' && cat.title !== null ? ((cat.title as any)[language] || (cat.title as any).en || "") : t(String(cat.title).toLowerCase().trim().replace(/\s+/g, '_')) || cat.title}
-                </Link>
-              ))}
+              {categories.map((cat) => {
+                let catLabel = "";
+                if (typeof cat.title === 'object' && cat.title !== null) {
+                  catLabel = (cat.title as any)[language] || (cat.title as any).en || "";
+                } else {
+                  let rawStr = String(cat.title || "").replace(/^\[HI\]\s*/i, "").replace(/^\[EN\]\s*/i, "").trim();
+                  let key = rawStr.toLowerCase().replace(/\s+/g, '_');
+                  catLabel = t(key);
+                  if (catLabel === key || !catLabel) {
+                    catLabel = rawStr;
+                  }
+                }
+                return (
+                  <Link
+                    key={cat.id}
+                    href={`/category/${cat.id.replace('cat-', '')}`}
+                    onClick={onClose}
+                    className="block px-4 py-2 text-sm text-zinc-500 hover:text-primary rounded-lg hover:bg-primary/5 transition-colors break-words"
+                    title={catLabel}
+                  >
+                    {catLabel}
+                  </Link>
+                );
+              })}
             </div>
           )}
         </div>
