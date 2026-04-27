@@ -53,14 +53,21 @@ export function GlobalFooter() {
           {/* Brand Section */}
           <div className="space-y-6">
             <div className="flex items-center gap-4">
-              <div className={`w-14 h-14 rounded-full flex items-center justify-center overflow-hidden border shadow-[0_0_15px_rgba(197,165,114,0.1)] transition-all ${theme === 'dark' ? 'bg-[#000000] border-white/5 shadow-none' : 'bg-white border-zinc-200'}`}>
-                <Image 
+              <div className="relative flex items-center justify-center w-14 h-14 rounded-full overflow-hidden shrink-0 bg-[#000000] border border-white/10 shadow-[0_0_15px_rgba(197,165,114,0.3)]">
+                {/* Spinning gradient border */}
+                <div 
+                  className="absolute inset-0 w-full h-full bg-[conic-gradient(from_0deg,transparent_0deg,transparent_120deg,#C5A572_180deg,transparent_240deg)] opacity-80" 
+                  style={{ animation: 'ring-rotate 4s linear infinite' }}
+                />
+                
+                {/* Inner background to mask the center */}
+                <div className="absolute inset-[2px] bg-[#000000] rounded-full z-10" />
+                
+                {/* Logo */}
+                <img 
                   src={appearance?.site?.logo || "/logo.png"} 
                   alt="Logo" 
-                  width={36} 
-                  height={36} 
-                  priority
-                  className="w-10 h-10 object-contain" 
+                  className="w-full h-full object-contain relative z-20 mix-blend-screen scale-[1.35]" 
                 />
               </div>
               <h2 className="text-2xl font-black text-white italic uppercase tracking-tighter">
