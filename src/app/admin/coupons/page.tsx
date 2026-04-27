@@ -104,7 +104,7 @@ export default function AdminCoupons() {
     <div className="animate-in fade-in duration-500 p-4">
       <div className="flex justify-between items-center mb-10">
         <div>
-          <h1 className="text-4xl font-black text-white italic uppercase tracking-tighter">Offers & <span className="text-primary neon-text">Coupons</span></h1>
+          <h1 className="text-4xl font-black text-zinc-900 dark:text-white italic uppercase tracking-tighter">Offers & <span className="text-primary neon-text">Coupons</span></h1>
           <p className="text-zinc-500 mt-2 font-medium uppercase tracking-widest text-[10px]">Deploy client discount mechanisms securely.</p>
         </div>
         <button 
@@ -119,7 +119,7 @@ export default function AdminCoupons() {
       </div>
 
       {isAdding && (
-        <div className="bg-[#09090B] rounded-[3rem] shadow-2xl border border-white/5 overflow-hidden mb-12 relative group p-10">
+        <div className="bg-white dark:bg-[#09090B] rounded-[3rem] shadow-2xl border border-zinc-200 dark:border-white/5 overflow-hidden mb-12 relative group p-10">
           <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
@@ -128,7 +128,7 @@ export default function AdminCoupons() {
                   type="text"
                   value={formData.code}
                   onChange={(e) => setFormData({...formData, code: e.target.value})}
-                  className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 font-bold uppercase text-sm"
+                  className="w-full px-8 py-5 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-[1.5rem] focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400 font-bold uppercase text-sm"
                   placeholder="E.G. SAVE50"
                 />
               </div>
@@ -138,10 +138,10 @@ export default function AdminCoupons() {
                 <select
                   value={formData.type}
                   onChange={(e: any) => setFormData({...formData, type: e.target.value})}
-                  className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white appearance-none cursor-pointer uppercase font-black text-xs tracking-[0.2em]"
+                  className="w-full px-8 py-5 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-[1.5rem] focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white appearance-none cursor-pointer uppercase font-black text-xs tracking-[0.2em]"
                 >
-                  <option value="percentage" className="bg-zinc-900 text-white">PERCENTAGE DISCOUNT (%)</option>
-                  <option value="flat" className="bg-zinc-900 text-white">FLAT DISCOUNT (₹)</option>
+                  <option value="percentage" className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">PERCENTAGE DISCOUNT (%)</option>
+                  <option value="flat" className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">FLAT DISCOUNT (₹)</option>
                 </select>
               </div>
 
@@ -151,7 +151,7 @@ export default function AdminCoupons() {
                   type="number"
                   value={formData.value}
                   onChange={(e) => setFormData({...formData, value: e.target.value})}
-                  className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white font-mono text-lg font-black"
+                  className="w-full px-8 py-5 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-[1.5rem] focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white font-mono text-lg font-black"
                   placeholder="E.G. 10"
                 />
               </div>
@@ -162,7 +162,7 @@ export default function AdminCoupons() {
                   type="date"
                   value={formData.expiryDate}
                   onChange={(e) => setFormData({...formData, expiryDate: e.target.value})}
-                  className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white font-bold"
+                  className="w-full px-8 py-5 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-[1.5rem] focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white font-bold"
                 />
               </div>
 
@@ -172,7 +172,7 @@ export default function AdminCoupons() {
                   type="number"
                   value={formData.minCartValue}
                   onChange={(e) => setFormData({...formData, minCartValue: e.target.value})}
-                  className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white font-mono"
+                  className="w-full px-8 py-5 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-[1.5rem] focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white font-mono"
                   placeholder="0"
                 />
               </div>
@@ -183,20 +183,20 @@ export default function AdminCoupons() {
                   type="number"
                   value={formData.maxUses}
                   onChange={(e) => setFormData({...formData, maxUses: e.target.value})}
-                  className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white font-mono"
+                  className="w-full px-8 py-5 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-[1.5rem] focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white font-mono"
                   placeholder="9999"
                 />
               </div>
 
-              <div className="md:col-span-2 flex items-center gap-4 px-4 py-3 bg-white/[0.02] border border-white/5 rounded-2xl">
+              <div className="md:col-span-2 flex items-center gap-4 px-4 py-3 bg-white/[0.02] border border-zinc-200 dark:border-white/5 rounded-2xl">
                 <input 
                   type="checkbox"
                   checked={formData.isActive}
                   onChange={(e) => setFormData({...formData, isActive: e.target.checked})}
-                  className="w-5 h-5 rounded accent-primary border-white/10 bg-transparent cursor-pointer"
+                  className="w-5 h-5 rounded accent-primary border-zinc-200 dark:border-white/10 bg-transparent cursor-pointer"
                   id="couponActive"
                 />
-                <label htmlFor="couponActive" className="text-xs font-black text-white uppercase tracking-widest cursor-pointer select-none">Mark Coupon Active</label>
+                <label htmlFor="couponActive" className="text-xs font-black text-zinc-900 dark:text-white uppercase tracking-widest cursor-pointer select-none">Mark Coupon Active</label>
               </div>
             </div>
 
@@ -224,12 +224,12 @@ export default function AdminCoupons() {
           {coupons.map((coupon) => (
             <div 
               key={coupon.id} 
-              className={`bg-[#09090B] border rounded-[2.5rem] p-8 flex flex-col justify-between hover:border-primary/20 transition-all duration-500 ${coupon.isActive ? 'border-white/5' : 'border-red-950/40 opacity-60'}`}
+              className={`bg-white dark:bg-[#09090B] border rounded-[2.5rem] p-8 flex flex-col justify-between hover:border-primary/20 transition-all duration-500 ${coupon.isActive ? 'border-zinc-200 dark:border-white/5' : 'border-red-200 dark:border-red-950/40 opacity-60'}`}
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
-                  <span className="text-xl font-black italic text-white uppercase tracking-wider">{coupon.code}</span>
-                  <span className={`text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${coupon.isActive ? 'bg-primary/20 text-primary border border-primary/20' : 'bg-zinc-800 text-zinc-500'}`}>
+                  <span className="text-xl font-black italic text-zinc-900 dark:text-white uppercase tracking-wider">{coupon.code}</span>
+                  <span className={`text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${coupon.isActive ? 'bg-primary/20 text-primary border border-primary/20' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500'}`}>
                     {coupon.isActive ? "ACTIVE" : "DISABLED"}
                   </span>
                 </div>
@@ -238,28 +238,28 @@ export default function AdminCoupons() {
                   <p className="text-3xl font-black italic text-primary">
                     {coupon.type === "percentage" ? `${coupon.value}% OFF` : `₹${coupon.value} OFF`}
                   </p>
-                  <p className="text-[10px] text-zinc-400 font-bold tracking-wide uppercase">
+                  <p className="text-[10px] text-zinc-600 dark:text-zinc-400 font-bold tracking-wide uppercase">
                     Minimum Cart: ₹{coupon.minCartValue || 0}
                   </p>
-                  <p className="text-[10px] text-zinc-400 font-bold tracking-wide uppercase">
+                  <p className="text-[10px] text-zinc-600 dark:text-zinc-400 font-bold tracking-wide uppercase">
                     Uses Allowed: {coupon.maxUses || '9999'}
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between border-t border-white/5 pt-6 mt-4">
-                <span className="text-[9px] font-black text-zinc-600 tracking-widest uppercase flex items-center gap-1"><Calendar className="w-3.5 h-3.5" /> {coupon.expiryDate || 'NO EXPIRY'}</span>
+              <div className="flex items-center justify-between border-t border-zinc-200 dark:border-white/5 pt-6 mt-4">
+                <span className="text-[9px] font-black text-zinc-500 dark:text-zinc-600 tracking-widest uppercase flex items-center gap-1"><Calendar className="w-3.5 h-3.5" /> {coupon.expiryDate || 'NO EXPIRY'}</span>
                 
                 <div className="flex items-center gap-2">
                   <button 
                     onClick={() => handleEdit(coupon)}
-                    className="p-3 bg-white/5 rounded-xl hover:bg-white/10 text-zinc-400 hover:text-white transition-all border border-white/10"
+                    className="p-3 bg-zinc-100 dark:bg-white/5 rounded-xl hover:bg-zinc-200 dark:hover:bg-white/10 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all border border-zinc-200 dark:border-white/10"
                   >
                     <Edit2 className="w-4 h-4" />
                   </button>
                   <button 
                     onClick={() => handleDelete(coupon.id)}
-                    className="p-3 bg-red-950/10 rounded-xl hover:bg-red-950/40 text-zinc-500 hover:text-red-400 transition-all border border-red-950/20"
+                    className="p-3 bg-red-500/10 dark:bg-red-950/10 rounded-xl hover:bg-red-500/20 dark:hover:bg-red-950/40 text-red-500 dark:text-zinc-500 hover:text-red-600 dark:hover:text-red-400 transition-all border border-red-500/20 dark:border-red-950/20"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
