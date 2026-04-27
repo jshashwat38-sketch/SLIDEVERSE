@@ -107,7 +107,7 @@ export default function CategoriesPage() {
                     })()}
                     onChange={(e) => editingCategory ? setEditingCategory({...editingCategory, title: e.target.value}) : setFormData({...formData, title: e.target.value})}
                     placeholder="E.G. REAL ESTATE..." 
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary transition-all placeholder:text-zinc-800" 
+                    className="w-full bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl px-6 py-4 text-zinc-900 dark:text-white text-sm font-bold uppercase focus:outline-none focus:bg-white dark:focus:bg-black focus:border-primary transition-all placeholder:text-zinc-400" 
                   />
                 </div>
                 <div className="space-y-2">
@@ -117,7 +117,7 @@ export default function CategoriesPage() {
                     required
                     value={editingCategory ? editingCategory.price : formData.price}
                     onChange={(e) => editingCategory ? setEditingCategory({...editingCategory, price: Number(e.target.value)}) : setFormData({...formData, price: Number(e.target.value)})}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary transition-all" 
+                    className="w-full bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl px-6 py-4 text-zinc-900 dark:text-white text-sm font-bold uppercase focus:outline-none focus:bg-white dark:focus:bg-black focus:border-primary transition-all" 
                   />
                 </div>
               </div>
@@ -132,7 +132,7 @@ export default function CategoriesPage() {
                   })()}
                   onChange={(e) => editingCategory ? setEditingCategory({...editingCategory, description: e.target.value}) : setFormData({...formData, description: e.target.value})}
                   placeholder="TAXONOMY DETAILS..." 
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold uppercase focus:outline-none focus:border-primary transition-all placeholder:text-zinc-800 resize-none"
+                  className="w-full bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl px-6 py-4 text-zinc-900 dark:text-white text-sm font-bold uppercase focus:outline-none focus:bg-white dark:focus:bg-black focus:border-primary transition-all placeholder:text-zinc-400 resize-none"
                 />
               </div>
 
@@ -144,7 +144,7 @@ export default function CategoriesPage() {
                       value={editingCategory ? editingCategory.imageUrl : formData.imageUrl}
                       onChange={(e) => editingCategory ? setEditingCategory({...editingCategory, imageUrl: e.target.value}) : setFormData({...formData, imageUrl: e.target.value})}
                       placeholder="HTTPS://IMAGE-URL.COM..." 
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold focus:outline-none focus:border-primary transition-all placeholder:text-zinc-800" 
+                      className="w-full bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl px-6 py-4 text-zinc-900 dark:text-white text-sm font-bold focus:outline-none focus:bg-white dark:focus:bg-black focus:border-primary transition-all placeholder:text-zinc-400" 
                     />
                     <div className="relative">
                       <input 
@@ -193,7 +193,7 @@ export default function CategoriesPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {categories.map((category) => (
           <div key={category.id} className="bg-card/20 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 hover:border-primary/20 transition-all group relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-6 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+            <div className="absolute top-0 right-0 p-6 flex gap-3 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity z-20">
               <button onClick={() => setEditingCategory(category)} className="p-2 bg-black/50 backdrop-blur-md rounded-lg text-blue-400 hover:bg-blue-400/20 transition-all border border-white/10">
                 <Edit className="w-4 h-4" />
               </button>
