@@ -45,8 +45,8 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
 
   return (
     <header className={`border-b sticky top-0 z-40 px-4 md:px-8 py-3 sm:py-4 transition-all flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between ${theme === 'dark' ? 'bg-[#000000] border-white/5' : 'bg-white border-zinc-200'}`}>
-      <div className="flex items-center justify-between w-full sm:w-auto sm:flex-1 sm:gap-3">
-        <div className="flex items-center gap-3 flex-1">
+      <div className="flex items-center justify-between w-full sm:w-auto sm:flex-1 sm:gap-3 min-w-0">
+        <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
           <button 
             onClick={onMenuClick}
             className={`p-2 rounded-xl border shrink-0 transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center ${theme === 'dark' ? 'text-zinc-300 bg-white/5 border-white/10 hover:text-primary' : 'text-[#000000] bg-zinc-50 border-zinc-200 hover:bg-zinc-100'}`}
@@ -64,7 +64,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
                 window.location.reload();
               }, 400);
             }} 
-            className="flex items-center gap-2 shrink-0 group cursor-pointer"
+            className="flex items-center gap-2 shrink group cursor-pointer min-w-0"
           >
             <div className="relative flex items-center justify-center w-10 h-10 rounded-full overflow-hidden shrink-0">
               {/* Spinning gradient border */}
@@ -93,12 +93,13 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
               />
             </div>
             <h1 
-              className={`text-sm sm:text-base font-black uppercase transition-all duration-300 group-hover:text-primary group-hover:scale-105 ${isMobileLogoClicked ? 'text-primary' : 'text-white'}`}
+              className={`text-xs sm:text-base font-black uppercase transition-all duration-300 group-hover:text-primary group-hover:scale-105 truncate ${isMobileLogoClicked ? 'text-primary' : 'text-white'}`}
               style={{
                 fontStyle: 'italic',
                 transform: 'skewX(-8deg)',
                 paddingRight: '6px',
-                overflow: 'visible',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
                 maxWidth: '100%'
               }}
             >
@@ -109,7 +110,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-primary/30 transition-all hidden sm:flex items-center justify-center text-primary active:scale-95 cursor-pointer shadow-[0_0_15px_rgba(197,165,114,0.1)] relative z-50 ml-1"
+            className="p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-primary/30 transition-all hidden sm:flex items-center justify-center text-primary active:scale-95 cursor-pointer shadow-[0_0_15px_rgba(197,165,114,0.1)] relative z-50 ml-1 shrink-0"
             title={theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
           >
             {theme === "light" ? (
@@ -123,11 +124,11 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
 
 
         {/* Mobile Nav Icons (sm:hidden) */}
-        <div className="flex items-center gap-4 sm:hidden">
+        <div className="flex items-center gap-3 sm:hidden shrink-0">
           {/* Mobile Theme Toggle Button placed to the left of the cart */}
           <button
             onClick={toggleTheme}
-            className="p-1.5 text-zinc-400 hover:text-primary transition-colors cursor-pointer flex items-center justify-center"
+            className="p-1.5 text-zinc-400 hover:text-primary transition-colors cursor-pointer flex items-center justify-center shrink-0"
             title={theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
           >
             {theme === "light" ? (
