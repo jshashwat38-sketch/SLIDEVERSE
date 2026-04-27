@@ -61,7 +61,7 @@ export default function Preloader() {
           className="relative w-32 h-32 flex items-center justify-center bg-black rounded-3xl border border-white/10 shadow-[0_0_50px_rgba(197,165,114,0.3)] overflow-hidden"
         >
           <Image
-            src={logo}
+            src="/logo.png"
             alt="Slideverse Logo"
             width={80}
             height={80}
