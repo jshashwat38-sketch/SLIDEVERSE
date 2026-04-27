@@ -206,7 +206,7 @@ export default function AdminProducts() {
                       return typeof val === 'object' && val !== null ? ((val as any).en || Object.values(val)[0] || "") : (val || "");
                     })()}
                     onChange={(e) => setFormData({...formData, title: e.target.value})}
-                    className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 font-bold uppercase text-sm"
+                    className="w-full px-8 py-5 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-[1.5rem] focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400 font-bold uppercase text-sm"
                     placeholder="E.G. TITAN SLIDE DECK"
                   />
                 </div>
@@ -219,10 +219,10 @@ export default function AdminProducts() {
                   <select
                     value={formData.categoryId}
                     onChange={(e) => setFormData({...formData, categoryId: e.target.value})}
-                    className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white appearance-none cursor-pointer uppercase font-black text-xs tracking-[0.2em]"
+                    className="w-full px-8 py-5 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-[1.5rem] focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white appearance-none cursor-pointer uppercase font-black text-xs tracking-[0.2em]"
                   >
                     {categories.map(cat => (
-                      <option key={cat.id} value={cat.id} className="bg-zinc-900 text-white">
+                      <option key={cat.id} value={cat.id} className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
                         {typeof cat.title === 'object' && cat.title !== null ? (((cat.title as any).en || Object.values(cat.title)[0] || "Unclassified") as string).toUpperCase() : (cat.title as string || "UNCLASSIFIED").toUpperCase()}
                       </option>
                     ))}
@@ -238,7 +238,7 @@ export default function AdminProducts() {
                       return typeof val === 'object' && val !== null ? ((val as any).en || Object.values(val)[0] || "") : (val || "");
                     })()}
                     onChange={(e) => setFormData({...formData, description: e.target.value})}
-                    className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 resize-none font-medium text-sm leading-relaxed"
+                    className="w-full px-8 py-5 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-[1.5rem] focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400 resize-none font-medium text-sm leading-relaxed"
                     placeholder="PROVIDE SYSTEM SPECIFICATIONS..."
                   />
                 </div>
@@ -250,7 +250,7 @@ export default function AdminProducts() {
                     min="0"
                     value={formData.mrp}
                     onChange={(e) => setFormData({...formData, mrp: e.target.value})}
-                    className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 font-mono text-lg font-black italic"
+                    className="w-full px-8 py-5 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-[1.5rem] focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400 font-mono text-lg font-black italic"
                     placeholder="000.00"
                   />
                 </div>
@@ -262,7 +262,7 @@ export default function AdminProducts() {
                     min="0"
                     value={formData.price}
                     onChange={(e) => setFormData({...formData, price: e.target.value})}
-                    className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 font-mono text-lg font-black italic"
+                    className="w-full px-8 py-5 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-[1.5rem] focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400 font-mono text-lg font-black italic"
                     placeholder="000.00"
                   />
                   {Number(formData.mrp) > Number(formData.price) && (
@@ -278,7 +278,7 @@ export default function AdminProducts() {
                     type="text"
                     value={formData.features}
                     onChange={(e) => setFormData({...formData, features: e.target.value})}
-                    className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 font-bold text-sm"
+                    className="w-full px-8 py-5 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-[1.5rem] focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400 font-bold text-sm"
                     placeholder="FEATURE A, FEATURE B..."
                   />
                 </div>
