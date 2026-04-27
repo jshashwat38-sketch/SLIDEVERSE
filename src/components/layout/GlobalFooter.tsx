@@ -28,8 +28,10 @@ const InstagramIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export function GlobalFooter() {
+import { useTheme } from "@/context/ThemeContext";
 
+export function GlobalFooter() {
+  const { theme } = useTheme();
   const [appearance, setAppearance] = useState<any>(null);
 
   useEffect(() => {
@@ -51,14 +53,16 @@ export function GlobalFooter() {
           {/* Brand Section */}
           <div className="space-y-6">
             <div className="flex items-center gap-4">
-              <Image 
-                src={appearance?.site?.logo || "/logo.png"} 
-                alt="Logo" 
-                width={48} 
-                height={48} 
-                priority
-                className="w-12 h-12 object-contain" 
-              />
+              <div className={`w-14 h-14 rounded-full flex items-center justify-center overflow-hidden border shadow-[0_0_15px_rgba(197,165,114,0.1)] transition-all ${theme === 'dark' ? 'bg-[#000000] border-white/5 shadow-none' : 'bg-white border-zinc-200'}`}>
+                <Image 
+                  src={appearance?.site?.logo || "/logo.png"} 
+                  alt="Logo" 
+                  width={36} 
+                  height={36} 
+                  priority
+                  className="w-10 h-10 object-contain" 
+                />
+              </div>
               <h2 className="text-2xl font-black text-white italic uppercase tracking-tighter">
                 {appearance?.site?.name || "Slideverse"}
               </h2>
