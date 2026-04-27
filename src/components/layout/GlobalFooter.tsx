@@ -53,7 +53,7 @@ export function GlobalFooter() {
           {/* Brand Section */}
           <div className="space-y-6">
             <div className="flex items-center gap-4">
-              <div className="relative flex items-center justify-center w-14 h-14 rounded-full overflow-hidden shrink-0 bg-[#000000] border border-white/10 shadow-[0_0_15px_rgba(197,165,114,0.3)]">
+              <div className="relative flex items-center justify-center w-14 h-14 rounded-full overflow-hidden shrink-0 shadow-[0_0_20px_rgba(197,165,114,0.25)]">
                 {/* Spinning gradient border */}
                 <div 
                   className="absolute inset-0 w-full h-full bg-[conic-gradient(from_0deg,transparent_0deg,transparent_120deg,#C5A572_180deg,transparent_240deg)] opacity-80" 
@@ -63,10 +63,16 @@ export function GlobalFooter() {
                 {/* Inner background to mask the center */}
                 <div className="absolute inset-[2px] bg-[#000000] rounded-full z-10" />
                 
+                {/* Outer static border */}
+                <div className="absolute inset-0 rounded-full border border-white/5 z-10" />
+                
+                {/* Outer Glow */}
+                <div className="absolute inset-0 rounded-full shadow-[0_0_15px_rgba(197,165,114,0.3)] z-10" />
+
                 {/* Logo */}
                 <img 
                   src={appearance?.site?.logo || "/logo.png"} 
-                  alt="Logo" 
+                  alt="Slideverse Logo" 
                   className="w-full h-full object-contain relative z-20 mix-blend-screen scale-[1.35]" 
                 />
               </div>
