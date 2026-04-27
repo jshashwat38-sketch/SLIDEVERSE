@@ -24,7 +24,7 @@ export default function PasswordInput({ name, value, onChange, placeholder = "â€
           name={name}
           value={value}
           onChange={onChange}
-          className="w-full pl-14 pr-14 py-4 bg-white/5 border border-white/10 rounded-2xl focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary/50 transition-all text-white placeholder:text-zinc-800"
+          className="w-full pl-14 pr-14 py-4 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary/50 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400"
           placeholder={placeholder}
           required={required}
         />
@@ -33,7 +33,7 @@ export default function PasswordInput({ name, value, onChange, placeholder = "â€
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-white transition-colors p-1"
+          className="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-zinc-900 dark:hover:text-white transition-colors p-1"
           tabIndex={-1}
         >
           {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}

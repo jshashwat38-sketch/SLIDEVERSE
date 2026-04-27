@@ -68,18 +68,18 @@ export default function AdminLayout({
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative overflow-hidden">
+      <div className={`min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden ${theme === 'dark' ? 'bg-[#000000]' : 'bg-[#FCFBF8]'}`}>
         {/* Background Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] -z-10" />
         
-        <div className="bg-card p-12 rounded-[3rem] shadow-2xl w-full max-w-md border border-white/5 relative overflow-hidden group">
+        <div className={`p-12 rounded-[3rem] shadow-2xl w-full max-w-md border relative overflow-hidden group ${theme === 'dark' ? 'bg-[#0A0A0C] border-white/5' : 'bg-white border-zinc-200'}`}>
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
           
           <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mb-8 mx-auto border border-primary/20 shadow-[0_0_15px_rgba(197,165,114,0.1)]">
             <Lock className="w-10 h-10 text-primary" />
           </div>
           
-          <h1 className="text-3xl font-black text-center text-white mb-2 uppercase tracking-tighter italic">Secure Access</h1>
+          <h1 className={`text-3xl font-black text-center mb-2 uppercase tracking-tighter italic ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>Secure Access</h1>
           <p className="text-center text-zinc-500 mb-10 font-medium tracking-tight">System authentication required.</p>
           
           <form onSubmit={handleLogin} className="space-y-6">
@@ -91,25 +91,23 @@ export default function AdminLayout({
               placeholder="••••••••"
             />
 
-
-            
             {error && (
               <p className="text-red-500 text-sm text-center font-bold uppercase tracking-wider animate-bounce">{error}</p>
             )}
             
             <button
               type="submit"
-              className="w-full bg-primary hover:bg-primary-hover text-black py-5 rounded-2xl font-black text-xl transition-all shadow-[0_0_20px_rgba(197,165,114,0.3)] hover:shadow-[0_0_40px_rgba(197,165,114,0.5)] hover:-translate-y-1 uppercase tracking-widest"
+              className="w-full bg-primary hover:bg-primary-hover text-black py-5 rounded-2xl font-black text-xl transition-all shadow-[0_0_20px_rgba(197,165,114,0.3)] hover:shadow-[0_0_40px_rgba(197,165,114,0.5)] hover:-translate-y-1 uppercase tracking-widest cursor-pointer"
             >
               Authorize
             </button>
             
-            <Link href="/" className="block text-center text-sm font-black text-zinc-500 hover:text-white transition-colors uppercase tracking-widest mt-6">
+            <Link href="/" className={`block text-center text-sm font-black transition-colors uppercase tracking-widest mt-6 ${theme === 'dark' ? 'text-zinc-500 hover:text-white' : 'text-zinc-400 hover:text-zinc-900'}`}>
               Cancel & Exit
             </Link>
           </form>
           
-          <div className="mt-10 pt-6 border-t border-white/5 text-center text-[10px] text-zinc-600 uppercase tracking-[0.3em] font-bold">
+          <div className={`mt-10 pt-6 border-t text-center text-[10px] uppercase tracking-[0.3em] font-bold ${theme === 'dark' ? 'border-white/5 text-zinc-600' : 'border-zinc-100 text-zinc-400'}`}>
             Slideverse Terminal v2.0
           </div>
         </div>
