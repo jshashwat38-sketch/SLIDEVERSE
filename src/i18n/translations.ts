@@ -1,6 +1,6 @@
 export const translations: Record<string, Record<string, string>> = {
   en: {
-    // Sidebar
+    // Sidebar & Navigation
     home: "Home",
     categories: "Categories",
     about_us: "About Us",
@@ -8,11 +8,15 @@ export const translations: Record<string, Record<string, string>> = {
     contact_us: "Contact Us",
     admin_dashboard: "Admin Dashboard",
     change_language: "Change Language",
+    my_vault: "My Vault",
+    full_collection: "Full Collection",
+    custom_ppt: "Custom PPT Order",
 
     // Header
     search_placeholder: "Search presentations...",
     sign_in: "Sign In",
     cart: "Cart",
+    view_full_collection: "View Full Collection",
 
     // Home Page - Hero
     hero_badge: "The Professional Standard",
@@ -62,9 +66,44 @@ export const translations: Record<string, Record<string, string>> = {
     password: "Password",
     create_account: "Create one",
     continue_with_google: "Continue with Google",
-    register_with_google: "Register with Google"
+    register_with_google: "Register with Google",
+
+    // Shop & Product Page
+    browsing_parameters: "Browsing Parameters",
+    pricing_structure: "Pricing Structure",
+    all_formats: "All Formats",
+    free_ppts: "Free PPTs",
+    paid_ppts: "Paid PPTs",
+    product_segments: "Product Segments",
+    all_categories: "All Categories",
+    linguistic_options: "Linguistic Options",
+    all_languages: "All Languages",
+    hindi_only: "Hindi Only",
+    english_only: "English Only",
+    valuation_sorting: "Valuation Sorting",
+    no_sorting: "No Sorting",
+    low_to_high: "Price: Low to High",
+    high_to_low: "Price: High to Low",
+    consumer_feedback: "Consumer Feedback",
+    highest_rated: "Highest Rated",
+    buy_now: "Buy Now",
+    add_to_vault: "Add to Vault",
+    empty_states: "No presentation packages map this criteria.",
+    done_filtering: "Done",
+
+    // Categories fallbacks
+    business: "Business",
+    marketing: "Marketing",
+    college: "College",
+    pitch: "Pitch",
+    seminar: "Seminar",
+    general: "General",
+
+    // Footer text
+    built_for_elite: "All rights reserved. Built for the elite."
   },
   hi: {
+    // Sidebar & Navigation
     home: "होम",
     categories: "श्रेणियाँ",
     about_us: "हमारे बारे में",
@@ -72,23 +111,37 @@ export const translations: Record<string, Record<string, string>> = {
     contact_us: "संपर्क करें",
     admin_dashboard: "एडमिन डैशबोर्ड",
     change_language: "भाषा बदलें",
+    my_vault: "माई वॉल्ट",
+    full_collection: "पूर्ण संग्रह",
+    custom_ppt: "कस्टम PPT ऑर्डर",
+
+    // Header
     search_placeholder: "प्रस्तुतियाँ खोजें...",
     sign_in: "साइन इन करें",
     cart: "कार्ट",
+    view_full_collection: "पूर्ण संग्रह देखें",
+
+    // Home Page - Hero
     hero_badge: "पेशेवर मानक",
     hero_title: "प्रस्तुतियां जो अधिकार का आदेश देती हैं",
     hero_subtitle: "कॉर्पोरेट टेम्प्लेट, पिच डेक और डिजिटल एसेट्स के लिए दुनिया के सबसे विशेष बाज़ार की खोज करें।",
     explore_collection: "संग्रह एक्सप्लोर करें",
     sign_in_securely: "सुरक्षित साइन इन करें",
+
+    // Home Page - Features
     feature_1_title: "त्वरित पहुंच",
     feature_1_desc: "खरीद के तुरंत बाद अपनी प्रीमियम संपत्तियां डाउनलोड करें।",
     feature_2_title: "कार्यकारी गुणवत्ता",
     feature_2_desc: "बोर्डरूम की तैयारी सुनिश्चित करने के लिए पेशेवरों द्वारा परीक्षण किया गया।",
     feature_3_title: "पूरी तरह से संपादन योग्य",
     feature_3_desc: "100% अनुकूलन योग्य ताकि आप अपनी आवश्यकताओं के अनुकूल बना सकें।",
+
+    // Home Page - Sections
     featured_additions: "विशेष परिवर्धन",
     latest_premium: "वॉल्ट में नवीनतम प्रीमियम टेम्प्लेट जोड़े गए हैं।",
     view_all: "सभी देखें",
+    
+    // Story
     story_title: "हमारी कहानी",
     story_subtitle: "हम मानते हैं कि हर महान विचार एक अविश्वसनीय प्रस्तुति का हकदार है।",
     born_need: "एक सरल आवश्यकता से पैदा हुआ।",
@@ -97,6 +150,8 @@ export const translations: Record<string, Record<string, string>> = {
     the_problem_desc: "पेशेवर स्लाइड लेआउट में घंटों बिताते हैं।",
     the_solution: "समाधान",
     the_solution_desc: "स्लाइडवर्स एक क्यूरेटेड मार्केटप्लेस प्रदान करने के लिए बनाया गया था।",
+
+    // Contact
     get_in_touch: "संपर्क में रहें",
     here_to_help: "हम सही प्रस्तुति बनाने में मदद करने के लिए यहाँ हैं।",
     contact_info: "संपर्क जानकारी",
@@ -107,10 +162,48 @@ export const translations: Record<string, Record<string, string>> = {
     email_address: "ईमेल पता",
     message_label: "संदेश",
     send_button: "संदेश भेजें",
+    
+    // Sign In Page
     welcome_back: "वापसी पर स्वागत है",
     signin_subtitle: "प्रीमियम प्रस्तुतियों तक पहुँचने के लिए साइन इन करें।",
     password: "पासवर्ड",
-    create_account: "खाता बनाएँ"
+    create_account: "खाता बनाएँ",
+    continue_with_google: "गूगल के साथ जारी रखें",
+    register_with_google: "गूगल के साथ रजिस्टर करें",
+
+    // Shop & Product Page
+    browsing_parameters: "ब्राउज़िंग पैरामीटर",
+    pricing_structure: "मूल्य निर्धारण संरचना",
+    all_formats: "सभी प्रारूप",
+    free_ppts: "निःशुल्क पीपीटी",
+    paid_ppts: "सशुल्क पीपीटी",
+    product_segments: "उत्पाद श्रेणियाँ",
+    all_categories: "सभी श्रेणियाँ",
+    linguistic_options: "भाषाई विकल्प",
+    all_languages: "सभी भाषाएँ",
+    hindi_only: "केवल हिंदी",
+    english_only: "केवल अंग्रेजी",
+    valuation_sorting: "मूल्य सॉर्टिंग",
+    no_sorting: "कोई सॉर्टिंग नहीं",
+    low_to_high: "कीमत: कम से उच्च",
+    high_to_low: "कीमत: उच्च से कम",
+    consumer_feedback: "उपभोक्ता प्रतिक्रिया",
+    highest_rated: "उच्चतम रेटेड",
+    buy_now: "अभी खरीदें",
+    add_to_vault: "वॉल्ट में जोड़ें",
+    empty_states: "कोई भी पैकेज इस मानदंड से मेल नहीं खाता।",
+    done_filtering: "पूर्ण",
+
+    // Categories fallbacks
+    business: "बिज़नेस",
+    marketing: "मार्केटिंग",
+    college: "कॉलेज",
+    pitch: "पिच",
+    seminar: "सेमिनार",
+    general: "सामान्य",
+
+    // Footer text
+    built_for_elite: "सर्वाधिकार सुरक्षित। एलिट के लिए निर्मित।"
   },
   zh: {
     home: "首页",

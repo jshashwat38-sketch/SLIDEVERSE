@@ -140,7 +140,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           }`}
         >
           <ShoppingBag className="w-5 h-5 text-primary" />
-          Full Collection
+          {t("full_collection")}
         </Link>
 
         <div>
@@ -164,9 +164,9 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
                   href={`/category/${cat.id.replace('cat-', '')}`}
                   onClick={onClose}
                   className="block px-4 py-2 text-sm text-zinc-500 hover:text-white rounded-lg hover:bg-white/5 transition-colors break-words"
-                  title={typeof cat.title === 'object' && cat.title !== null ? ((cat.title as any)[language] || (cat.title as any).en || "") : (cat.title || "")}
+                  title={typeof cat.title === 'object' && cat.title !== null ? ((cat.title as any)[language] || (cat.title as any).en || "") : t(String(cat.title).toLowerCase().trim().replace(/\s+/g, '_')) || cat.title}
                 >
-                  {typeof cat.title === 'object' && cat.title !== null ? ((cat.title as any)[language] || (cat.title as any).en || "") : (cat.title || "")}
+                  {typeof cat.title === 'object' && cat.title !== null ? ((cat.title as any)[language] || (cat.title as any).en || "") : t(String(cat.title).toLowerCase().trim().replace(/\s+/g, '_')) || cat.title}
                 </Link>
               ))}
             </div>

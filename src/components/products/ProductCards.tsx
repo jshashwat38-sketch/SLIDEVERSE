@@ -23,7 +23,7 @@ export interface ProductProps {
 export function ProductCard({ id, title, description, price, features, imageUrl, images }: ProductProps) {
   const { addToCart } = useCart();
   const router = useRouter();
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   
   const displayImage = imageUrl || (images && images.length > 0 ? images[0] : "");
   const safeFeatures = Array.isArray(features) ? features : [];
@@ -121,13 +121,13 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
             onClick={handleAddToCart}
             className="flex-1 bg-white/5 hover:bg-white/10 text-white px-4 py-3 rounded-xl font-bold text-[9px] uppercase tracking-[0.2em] transition-all border border-white/5"
           >
-            Archive
+            {t("add_to_vault")}
           </button>
           <button 
             onClick={handleShopNow}
             className="flex-1 bg-primary hover:bg-primary-hover text-black px-4 py-3 rounded-xl font-bold text-[9px] uppercase tracking-[0.2em] transition-all shadow-lg"
           >
-            Acquire
+            {t("buy_now")}
           </button>
         </div>
       </div>
@@ -138,7 +138,7 @@ export function ProductCard({ id, title, description, price, features, imageUrl,
 export function HeroProductCard({ id, title, description, price, features, imageUrl }: ProductProps) {
   const { addToCart } = useCart();
   const router = useRouter();
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
 
   const safeFeatures = Array.isArray(features) ? features : [];
   
@@ -221,13 +221,13 @@ export function HeroProductCard({ id, title, description, price, features, image
             onClick={handleShopNow}
             className="w-full sm:w-auto bg-primary hover:bg-primary-hover text-black px-8 md:px-10 py-4 md:py-5 rounded-2xl font-black text-base md:text-lg transition-all shadow-[0_0_30px_rgba(197,165,114,0.2)] hover:shadow-[0_0_50px_rgba(197,165,114,0.4)] hover:-translate-y-1 uppercase tracking-widest italic text-center"
           >
-            Acquire Now — ₹{price}
+            {t("buy_now")} — ₹{price}
           </button>
           <button 
             onClick={handleAddToCart}
             className="w-full sm:w-auto px-8 py-4 md:py-5 rounded-2xl font-black text-[10px] text-white border border-white/10 hover:bg-white/5 transition-all uppercase tracking-[0.2em] text-center"
           >
-            Stage to Vault
+            {t("add_to_vault")}
           </button>
         </div>
       </div>
