@@ -160,17 +160,17 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
 
 
 
-      <nav className="hidden sm:flex items-center gap-4 md:gap-6 justify-end">
+      <nav className="hidden sm:flex items-center gap-3 md:gap-6 justify-end flex-shrink-0">
 
-        <div className="hidden lg:flex items-center gap-6">
-          <a href="#about" onClick={(e) => handleScroll(e, "about")} className="text-sm font-medium text-foreground hover:text-primary transition-colors cursor-pointer">{t("about_us")}</a>
-          <a href="#story" onClick={(e) => handleScroll(e, "story")} className="text-sm font-medium text-foreground hover:text-primary transition-colors cursor-pointer">{t("our_story")}</a>
-          <a href="#contact" onClick={(e) => handleScroll(e, "contact")} className="text-sm font-medium text-foreground hover:text-primary transition-colors cursor-pointer">{t("contact_us")}</a>
+        <div className="hidden lg:flex items-center gap-4">
+          <a href="#about" onClick={(e) => handleScroll(e, "about")} className={`text-sm font-medium hover:text-primary transition-colors cursor-pointer ${theme === 'dark' ? 'text-zinc-300' : 'text-zinc-800'}`}>{t("about_us")}</a>
+          <a href="#story" onClick={(e) => handleScroll(e, "story")} className={`text-sm font-medium hover:text-primary transition-colors cursor-pointer ${theme === 'dark' ? 'text-zinc-300' : 'text-zinc-800'}`}>{t("our_story")}</a>
+          <a href="#contact" onClick={(e) => handleScroll(e, "contact")} className={`text-sm font-medium hover:text-primary transition-colors cursor-pointer ${theme === 'dark' ? 'text-zinc-300' : 'text-zinc-800'}`}>{t("contact_us")}</a>
         </div>
         
         <div className="hidden lg:block h-6 w-px bg-white/10 mx-2"></div>
         
-        <Link href="/cart" className="relative text-foreground hover:text-primary transition-colors flex items-center gap-2 group">
+        <Link href="/cart" className={`relative hover:text-primary transition-colors flex items-center gap-2 group ${theme === 'dark' ? 'text-zinc-300' : 'text-zinc-800'}`}>
           <ShoppingCart className="w-5 h-5 group-hover:drop-shadow-[0_0_8px_rgba(197,165,114,0.5)]" />
           <span className="text-sm font-medium hidden md:block">{t("cart")}</span>
           {totalItems > 0 && (
@@ -184,7 +184,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
           <div className="w-8 h-8 rounded-full bg-white/5 animate-pulse"></div>
         ) : user ? (
           <div className="flex items-center gap-4 relative">
-            <Link href="/account" className="hidden sm:flex items-center gap-2 text-foreground hover:text-primary transition-colors group">
+            <Link href="/account" className={`hidden sm:flex items-center gap-2 hover:text-primary transition-colors group ${theme === 'dark' ? 'text-zinc-300' : 'text-zinc-800'}`}>
               <ShoppingBag className="w-4 h-4 group-hover:drop-shadow-[0_0_8px_rgba(197,165,114,0.5)]" />
               <span className="text-xs font-black uppercase tracking-widest italic">My Vault</span>
             </Link>
