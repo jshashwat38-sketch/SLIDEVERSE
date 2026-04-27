@@ -53,7 +53,7 @@ export default function LogoLoader() {
         <span className="text-[10px] font-black text-primary uppercase tracking-[0.5em] animate-pulse italic">
           Initializing Vault
         </span>
-        <div className="w-32 h-1 bg-white/5 rounded-full overflow-hidden">
+        <div className="w-32 h-1 bg-primary/10 rounded-full overflow-hidden">
           <motion.div
             animate={{
               x: [-128, 128],
