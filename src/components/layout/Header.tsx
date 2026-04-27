@@ -138,7 +138,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
             )}
           </button>
 
-          <Link href="/cart" className="relative text-foreground hover:text-primary transition-colors flex items-center group">
+          <Link href="/cart" className={`relative hover:text-primary transition-colors flex items-center group ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-600'}`}>
             <ShoppingCart className="w-5 h-5 group-hover:drop-shadow-[0_0_8px_rgba(197,165,114,0.5)]" />
             {totalItems > 0 && (
               <span className="absolute -top-2 -right-3 bg-primary text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full shadow-[0_0_10px_rgba(197,165,114,0.5)]">
@@ -147,11 +147,11 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
             )}
           </Link>
           {user ? (
-            <Link href="/account" className="relative text-foreground hover:text-primary transition-colors group">
+            <Link href="/account" className={`relative hover:text-primary transition-colors group ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-600'}`}>
               <ShoppingBag className="w-5 h-5 group-hover:drop-shadow-[0_0_8px_rgba(197,165,114,0.5)]" />
             </Link>
           ) : (
-            <Link href="/signin" className="relative text-foreground hover:text-primary transition-colors group">
+            <Link href="/signin" className={`relative hover:text-primary transition-colors group ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-600'}`}>
               <UserIcon className="w-5 h-5 group-hover:drop-shadow-[0_0_8px_rgba(197,165,114,0.5)]" />
             </Link>
           )}
