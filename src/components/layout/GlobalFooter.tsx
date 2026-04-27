@@ -51,14 +51,14 @@ export function GlobalFooter() {
           {/* Brand Section */}
           <div className="space-y-6">
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-full overflow-hidden flex items-center justify-center bg-white border border-[#E6E6FA] shadow-[0_4px_20px_rgba(93,63,211,0.08)] dark:bg-white/5 dark:border-white/10 shrink-0">
+              <div className="w-14 h-14 md:w-16 md:h-16 aspect-square rounded-full overflow-hidden flex items-center justify-center bg-white border border-[#E7E0D6] shadow-[0_4px_20px_rgba(31,31,31,0.05)] dark:bg-white/5 dark:border-white/10 shrink-0">
                 <Image 
                   src={appearance?.site?.logo || "/logo.png"} 
                   alt="Logo" 
                   width={40} 
                   height={40} 
                   priority
-                  className="w-10 h-10 object-contain dark:mix-blend-screen scale-[1.25]" 
+                  className="w-10 h-10 md:w-11 md:h-11 object-contain dark:mix-blend-screen scale-[1.1]" 
                 />
               </div>
               <h2 className="text-2xl font-black text-white italic uppercase tracking-tighter">
