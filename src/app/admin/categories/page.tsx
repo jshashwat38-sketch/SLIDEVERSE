@@ -177,11 +177,11 @@ export default function CategoriesPage() {
                   </div>
                 </div>
               </div>
-              <div className="flex gap-4">
-                <button type="submit" className="bg-primary text-black px-10 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-lg">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button type="submit" className="bg-primary text-black px-4 md:px-10 py-3 md:py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg w-full sm:w-auto cursor-pointer">
                   <Save className="w-4 h-4" /> Commit Changes
                 </button>
-                <button type="button" onClick={() => { setEditingCategory(null); setIsAdding(false); }} className="bg-white/5 text-zinc-400 hover:text-white px-10 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-2 border border-white/5">
+                <button type="button" onClick={() => { setEditingCategory(null); setIsAdding(false); }} className="bg-zinc-100 dark:bg-white/5 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white px-4 md:px-10 py-3 md:py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 border border-zinc-200 dark:border-white/5 w-full sm:w-auto cursor-pointer">
                   <X className="w-4 h-4" /> Abort
                 </button>
               </div>
