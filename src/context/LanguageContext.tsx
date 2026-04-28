@@ -25,7 +25,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
         const val = transCookie.split('=')[1];
         const parts = val.split('/');
         if (parts.length >= 3) {
-          setLanguageState(parts[2]);
+          const cookieLang = parts[2];
+          const reverseMap: Record<string, string> = {
+            'zh-CN': 'zh',
+          };
+          setLanguageState(reverseMap[cookieLang] || cookieLang);
         }
       }
     }
@@ -36,7 +40,13 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("app_language", lang);
 
     if (typeof window !== 'undefined') {
-      const transValue = `/en/${lang}`;
+      const langMap: Record<string, string> = {
+        'zh': 'zh-CN',
+        'bn': 'bn',
+        'ar': 'ar',
+      };
+      const googleLang = langMap[lang] || lang;
+      const transValue = `/en/${googleLang}`;
       
       // Clear old cookies to avoid conflicts
       document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
