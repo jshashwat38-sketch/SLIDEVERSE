@@ -39,6 +39,26 @@ export default function RootLayout({
         <Providers>
           {children}
         </Providers>
+        <div id="google_translate_element" style={{ display: 'none' }} />
+        <Script
+          id="google-translate-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                  pageLanguage: 'en',
+                  includedLanguages: 'en,hi',
+                  autoDisplay: false
+                }, 'google_translate_element');
+              }
+            `
+          }}
+        />
+        <Script 
+          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" 
+          strategy="afterInteractive" 
+        />
         <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       </body>
     </html>

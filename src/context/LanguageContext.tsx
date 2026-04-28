@@ -16,15 +16,37 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const savedLang = localStorage.getItem("app_language");
-    if (savedLang && translations[savedLang]) {
+    if (savedLang) {
       setLanguageState(savedLang);
+    } else if (typeof window !== 'undefined') {
+      const cookies = document.cookie.split(';');
+      const transCookie = cookies.find(c => c.trim().startsWith('googtrans='));
+      if (transCookie) {
+        const val = transCookie.split('=')[1];
+        if (val.includes('/hi')) {
+          setLanguageState('hi');
+        }
+      }
     }
   }, []);
 
   const setLanguage = (lang: string) => {
-    if (translations[lang]) {
-      setLanguageState(lang);
-      localStorage.setItem("app_language", lang);
+    setLanguageState(lang);
+    localStorage.setItem("app_language", lang);
+
+    if (typeof window !== 'undefined') {
+      const transValue = `/en/${lang}`;
+      
+      // Clear old cookies to avoid conflicts
+      document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + window.location.hostname;
+      
+      // Assign translated states
+      document.cookie = `googtrans=${transValue}; path=/;`;
+      document.cookie = `googtrans=${transValue}; path=/; domain=` + window.location.hostname;
+      
+      // Refresh to deploy Google Translate instantly
+      window.location.reload();
     }
   };
 
