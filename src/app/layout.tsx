@@ -48,7 +48,6 @@ export default function RootLayout({
               function googleTranslateElementInit() {
                 new google.translate.TranslateElement({
                   pageLanguage: 'en',
-                  includedLanguages: 'en,hi',
                   autoDisplay: false
                 }, 'google_translate_element');
               }

@@ -23,8 +23,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       const transCookie = cookies.find(c => c.trim().startsWith('googtrans='));
       if (transCookie) {
         const val = transCookie.split('=')[1];
-        if (val.includes('/hi')) {
-          setLanguageState('hi');
+        const parts = val.split('/');
+        if (parts.length >= 3) {
+          setLanguageState(parts[2]);
         }
       }
     }
