@@ -424,6 +424,32 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                   ))}
                 </div>
               </div>
+
+              {/* Bestsellers Grid */}
+              <div className="mt-24 border-t border-zinc-200 dark:border-white/5 pt-20">
+                <div className="flex flex-col items-center justify-center text-center mb-16 gap-2">
+                  <h3 className="text-3xl md:text-5xl font-heading font-bold text-zinc-900 dark:text-white uppercase tracking-tighter italic">
+                    Our <span className="text-primary">Bestsellers</span>
+                  </h3>
+                  <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em] mt-2">
+                    Most Loved Templates by Our Customers
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-6 lg:gap-8">
+                  {(filteredProducts.length >= 25 ? filteredProducts.slice(0, 25) : initialProducts.slice(0, 25)).map((product, index) => (
+                    <motion.div 
+                      key={`best-${product.id}`}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: (index % 5) * 0.05, duration: 0.6 }}
+                    >
+                      <ProductCard {...product} />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             </>
           )}
         </div>
