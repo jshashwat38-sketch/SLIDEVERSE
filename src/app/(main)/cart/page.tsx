@@ -375,7 +375,7 @@ export default function CartPage() {
             <button 
               onClick={handleCheckout}
               disabled={isProcessing}
-              className="w-full bg-primary hover:bg-white text-black py-6 rounded-2xl font-black text-lg transition-all shadow-[0_0_30px_rgba(197,165,114,0.2)] hover:shadow-[0_0_50px_rgba(197,165,114,0.4)] hover:-translate-y-1 flex items-center justify-center gap-3 uppercase tracking-widest italic group disabled:opacity-50"
+              className="w-full bg-primary hover:bg-white text-black py-6 px-8 rounded-2xl font-black text-base md:text-lg transition-all shadow-[0_0_30px_rgba(197,165,114,0.2)] hover:shadow-[0_0_50px_rgba(197,165,114,0.4)] hover:-translate-y-1 flex items-center justify-center gap-3 uppercase tracking-widest italic group disabled:opacity-50 whitespace-nowrap"
             >
               {isProcessing ? (
                 <div className="flex items-center gap-3">
@@ -384,8 +384,10 @@ export default function CartPage() {
                 </div>
               ) : (
                 <>
-                  Proceed to Acquisition
-                  <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                  <span className="flex items-center gap-2">
+                    🔒 Proceed to Checkout
+                  </span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
                 </>
               )}
             </button>
