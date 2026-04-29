@@ -21,6 +21,7 @@ export default function AdminProducts() {
     features: "",
     categoryId: "",
     isBestseller: false,
+    isTop9: false,
     mrp: ""
   });
 
@@ -48,7 +49,7 @@ export default function AdminProducts() {
   const resetForm = () => {
     setIsAdding(false);
     setEditingId(null);
-    setFormData({ title: "", description: "", price: "", driveLink: "", features: "", categoryId: categories[0]?.id || "", isBestseller: false, mrp: "" });
+    setFormData({ title: "", description: "", price: "", driveLink: "", features: "", categoryId: categories[0]?.id || "", isBestseller: false, isTop9: false, mrp: "" });
     setImageUrls(["", "", "", "", "", ""]);
     setImageFiles([null, null, null, null, null, null]);
     setFaqs(Array.from({ length: 7 }, () => ({ question: "", answer: "" })));
@@ -57,14 +58,15 @@ export default function AdminProducts() {
 
   const handleEditClick = (product: any) => {
     setFormData({
-      title: typeof product.title === 'object' ? (product.title.en || Object.values(product.title)[0]) : product.title,
-      description: typeof product.description === 'object' ? (product.description.en || Object.values(product.description)[0]) : product.description,
-      price: product.price.toString(),
+      title: typeof product.title === 'object' && product.title !== null ? (product.title.en || Object.values(product.title)[0] || "") : (product.title || ""),
+      description: typeof product.description === 'object' && product.description !== null ? (product.description.en || Object.values(product.description)[0] || "") : (product.description || ""),
+      price: product.price ? product.price.toString() : "",
       driveLink: product.drive_link || "",
       features: Array.isArray(product.features) ? product.features.join(", ") : "",
       categoryId: product.category_id || "",
-      isBestseller: product.is_bestseller || false,
-      mrp: typeof product.title === 'object' ? (product.title.mrp || "").toString() : ""
+      isBestseller: product.is_bestseller || (typeof product.title === 'object' && product.title?.is_bestseller) || false,
+      isTop9: product.is_top9 || (typeof product.title === 'object' && product.title?.is_top9) || false,
+      mrp: typeof product.title === 'object' && product.title !== null ? (product.title.mrp || "").toString() : ""
     });
     
     const existingImages = product.images || [product.image_url];
@@ -283,18 +285,34 @@ export default function AdminProducts() {
                   />
                 </div>
 
-                <div className="flex items-center gap-4 mt-6 ml-4">
-                  <input
-                    type="checkbox"
-                    id="isBestseller"
-                    checked={formData.isBestseller}
-                    onChange={(e) => setFormData({...formData, isBestseller: e.target.checked})}
-                    className="w-6 h-6 rounded bg-white/5 border-white/10 text-primary focus:ring-primary/40 cursor-pointer"
-                  />
-                  <label htmlFor="isBestseller" className="text-sm font-black text-white uppercase tracking-widest cursor-pointer flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-primary" />
-                    Mark as Bestseller
-                  </label>
+                <div className="flex flex-col sm:flex-row gap-6 mt-6 ml-4">
+                  <div className="flex items-center gap-4">
+                    <input
+                      type="checkbox"
+                      id="isBestseller"
+                      checked={formData.isBestseller}
+                      onChange={(e) => setFormData({...formData, isBestseller: e.target.checked, isTop9: e.target.checked ? false : formData.isTop9})}
+                      className="w-6 h-6 rounded bg-white/5 border-white/10 text-primary focus:ring-primary/40 cursor-pointer"
+                    />
+                    <label htmlFor="isBestseller" className="text-sm font-black text-white uppercase tracking-widest cursor-pointer flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-primary" />
+                      Mark as Bestseller
+                    </label>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <input
+                      type="checkbox"
+                      id="isTop9"
+                      checked={formData.isTop9}
+                      onChange={(e) => setFormData({...formData, isTop9: e.target.checked, isBestseller: e.target.checked ? false : formData.isBestseller})}
+                      className="w-6 h-6 rounded bg-white/5 border-white/10 text-primary focus:ring-primary/40 cursor-pointer"
+                    />
+                    <label htmlFor="isTop9" className="text-sm font-black text-white uppercase tracking-widest cursor-pointer flex items-center gap-2">
+                      <Package className="w-4 h-4 text-primary" />
+                      Add in Top 9
+                    </label>
+                  </div>
                 </div>
 
                 <div className="md:col-span-2">

@@ -104,8 +104,13 @@ export async function addProduct(formData: FormData) {
 
     const newProduct = {
       id: `prod-${Date.now()}`,
-      title: { en: title, mrp: Number(formData.get("mrp") || 0) }, // Match JSONB schema with optional MRP
-      description: { en: description }, // Match JSONB schema if applicable
+      title: { 
+        en: title, 
+        mrp: Number(formData.get("mrp") || 0),
+        is_bestseller: formData.get("isBestseller") === "true",
+        is_top9: formData.get("isTop9") === "true"
+      }, 
+      description: { en: description }, 
       price: Number(price),
       category_id: categoryId,
       image_url: finalImages[0] || "",
@@ -113,7 +118,9 @@ export async function addProduct(formData: FormData) {
       features: features.split(',').map((f: string) => f.trim()).filter(Boolean),
       drive_link: driveLink,
       faqs: faqs,
-      variants: variants
+      variants: variants,
+      is_bestseller: formData.get("isBestseller") === "true",
+      is_top9: formData.get("isTop9") === "true"
     };
     
     const { error: insertError } = await supabase
@@ -209,14 +216,21 @@ export async function updateProduct(id: string, formData: FormData) {
     }
 
     const updateData: any = {
-      title: { en: title, mrp: Number(formData.get("mrp") || 0) },
+      title: { 
+        en: title, 
+        mrp: Number(formData.get("mrp") || 0),
+        is_bestseller: formData.get("isBestseller") === "true",
+        is_top9: formData.get("isTop9") === "true"
+      },
       description: { en: description },
       price: Number(price),
       category_id: categoryId,
       features: features.split(',').map((f: string) => f.trim()).filter(Boolean),
       drive_link: driveLink,
       faqs: faqs,
-      variants: variants
+      variants: variants,
+      is_bestseller: formData.get("isBestseller") === "true",
+      is_top9: formData.get("isTop9") === "true"
     };
 
     if (finalImages.length > 0) {

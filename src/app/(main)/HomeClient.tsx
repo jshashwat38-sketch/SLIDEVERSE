@@ -33,7 +33,10 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const [activeHeroIndex, setActiveHeroIndex] = useState(0);
-  const top9Products = filteredProducts.slice(0, 9);
+  const explicitTop9 = filteredProducts.filter(p => p.is_top9 || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_top9));
+  const top9Products = explicitTop9.length > 0 
+    ? explicitTop9.slice(0, 9) 
+    : filteredProducts.filter(p => !(p.is_bestseller || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_bestseller))).slice(0, 9);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const startAutoRotation = () => {
@@ -437,7 +440,12 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-6 lg:gap-8">
-                  {(filteredProducts.length >= 25 ? filteredProducts.slice(0, 25) : initialProducts.slice(0, 25)).map((product, index) => (
+                  {(() => {
+                    const explicitBestsellers = filteredProducts.filter(p => p.is_bestseller || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_bestseller));
+                    return explicitBestsellers.length > 0 
+                      ? explicitBestsellers.slice(0, 25) 
+                      : filteredProducts.filter(p => !(p.is_top9 || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_top9))).slice(0, 25);
+                  })().map((product, index) => (
                     <motion.div 
                       key={`best-${product.id}`}
                       initial={{ opacity: 0, y: 30 }}
