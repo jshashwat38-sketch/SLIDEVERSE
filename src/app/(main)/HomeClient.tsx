@@ -429,7 +429,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               </div>
 
               {/* Bestsellers Grid */}
-              <div className="mt-24 border-t border-zinc-200 dark:border-white/5 pt-20">
+              <div className="mt-32 border-t border-zinc-200 dark:border-white/5 pt-28 sm:pt-20">
                 <div className="flex flex-col items-center justify-center text-center mb-16 gap-2">
                   <h3 className="text-3xl md:text-5xl font-heading font-bold text-zinc-900 dark:text-white uppercase tracking-tighter italic">
                     Our <span className="text-primary">Bestsellers</span>
@@ -439,7 +439,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-6 lg:gap-8">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-8">
                   {(() => {
                     const explicitBestsellers = filteredProducts.filter(p => p.is_bestseller || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_bestseller));
                     return explicitBestsellers.length > 0 

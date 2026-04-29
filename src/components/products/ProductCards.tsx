@@ -104,10 +104,10 @@ export function ProductCard(props: any) {
         <div className="absolute inset-0 bg-gradient-to-t from-[#09090B] via-transparent to-transparent opacity-40" />
       </Link>
 
-      <div className="p-6 md:p-8 flex flex-col flex-1 relative z-10">
+      <div className="p-4 sm:p-6 md:p-8 flex flex-col flex-1 relative z-10">
         <div className="mb-4">
           <Link href={`/product/${id}`}>
-            <h3 className="text-xl font-black text-white italic uppercase tracking-tighter group-hover:text-primary transition-colors cursor-pointer">{displayTitle}</h3>
+            <h3 className="text-sm sm:text-lg md:text-xl font-black text-white italic uppercase tracking-tighter group-hover:text-primary transition-colors cursor-pointer line-clamp-2">{displayTitle}</h3>
           </Link>
           <div className="flex items-center gap-2 mt-2 w-full">
             <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
@@ -142,16 +142,16 @@ export function ProductCard(props: any) {
           </div>
         )}
         
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
           <button 
             onClick={handleAddToCart}
-            className="flex-1 bg-white/5 hover:bg-white/10 text-white px-4 py-3 rounded-xl font-bold text-[9px] uppercase tracking-[0.2em] transition-all border border-white/5"
+            className="flex-1 bg-white/5 hover:bg-white/10 text-white px-2 py-2.5 sm:py-3 rounded-xl font-black text-[8px] sm:text-[9px] uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all border border-white/5 text-center flex items-center justify-center min-h-[36px]"
           >
             {t("add_to_vault")}
           </button>
           <button 
             onClick={handleShopNow}
-            className="flex-1 bg-primary hover:bg-primary-hover text-black px-4 py-3 rounded-xl font-bold text-[9px] uppercase tracking-[0.2em] transition-all shadow-lg"
+            className="flex-1 bg-primary hover:bg-primary-hover text-black px-2 py-2.5 sm:py-3 rounded-xl font-black text-[8px] sm:text-[9px] uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all shadow-lg text-center flex items-center justify-center min-h-[36px]"
           >
             {t("buy_now")}
           </button>
