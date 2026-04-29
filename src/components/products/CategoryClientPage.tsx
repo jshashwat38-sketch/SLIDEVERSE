@@ -25,13 +25,24 @@ export default function CategoryClientPage({ category, products, id }: CategoryC
         window.history.scrollRestoration = 'manual';
       } catch (e) {}
       
-      const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+
+      const interval = setInterval(() => {
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
-      }, 50);
+      }, 100);
 
-      return () => clearTimeout(timer);
+      const timer = setTimeout(() => {
+        clearInterval(interval);
+      }, 1000);
+
+      return () => {
+        clearInterval(interval);
+        clearTimeout(timer);
+      };
     }
   }, [id]);
 
