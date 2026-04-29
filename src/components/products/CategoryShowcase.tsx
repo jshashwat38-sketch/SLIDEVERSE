@@ -35,11 +35,11 @@ export default function CategoryShowcase({ products, categories, language, t }: 
   };
 
   return (
-    <section className="py-24 border-t border-white/5 relative bg-[#040405]">
+    <section className="py-24 border-t border-zinc-200 dark:border-white/5 relative bg-[#FCFBF8] dark:bg-[#040405]">
       <div className="max-w-7xl mx-auto px-6">
         {/* Headings */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-heading font-black text-white italic uppercase tracking-tighter">
+          <h2 className="text-3xl md:text-5xl font-heading font-black text-zinc-900 dark:text-white italic uppercase tracking-tighter">
             Templates to transform your <span className="text-primary neon-text">business and career</span>
           </h2>
           <p className="text-xs text-zinc-500 font-bold uppercase tracking-[0.3em] mt-3">
@@ -56,7 +56,7 @@ export default function CategoryShowcase({ products, categories, language, t }: 
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategoryId(cat.id)}
-                className={`px-6 py-3 rounded-full font-black text-xs uppercase tracking-widest transition-all cursor-pointer border ${isActive ? 'bg-primary text-black border-primary shadow-[0_0_20px_rgba(197,165,114,0.3)]' : 'bg-white/5 text-zinc-400 border-white/5 hover:border-white/10 hover:text-white'}`}
+                className={`px-6 py-3 rounded-full font-black text-xs uppercase tracking-widest transition-all cursor-pointer border ${isActive ? 'bg-primary text-black border-primary shadow-[0_0_20px_rgba(197,165,114,0.3)]' : 'bg-zinc-100 dark:bg-white/5 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/5 hover:border-zinc-300 dark:hover:border-white/10 hover:text-zinc-900 dark:hover:text-white'}`}
               >
                 {catName}
               </button>
@@ -69,13 +69,13 @@ export default function CategoryShowcase({ products, categories, language, t }: 
           {/* Slider buttons (Desktop) */}
           <button
             onClick={() => scrollSlider('left')}
-            className="absolute left-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-black/80 border border-white/10 text-white flex items-center justify-center opacity-0 group-hover/slider:opacity-100 hover:bg-primary hover:text-black hover:border-primary transition-all shadow-xl cursor-pointer hidden md:flex"
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white dark:bg-black/80 border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white flex items-center justify-center opacity-0 group-hover/slider:opacity-100 hover:bg-primary hover:text-black hover:border-primary transition-all shadow-xl cursor-pointer hidden md:flex"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={() => scrollSlider('right')}
-            className="absolute right-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-black/80 border border-white/10 text-white flex items-center justify-center opacity-0 group-hover/slider:opacity-100 hover:bg-primary hover:text-black hover:border-primary transition-all shadow-xl cursor-pointer hidden md:flex"
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white dark:bg-black/80 border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white flex items-center justify-center opacity-0 group-hover/slider:opacity-100 hover:bg-primary hover:text-black hover:border-primary transition-all shadow-xl cursor-pointer hidden md:flex"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -110,7 +110,7 @@ export default function CategoryShowcase({ products, categories, language, t }: 
                       }
                     }}
                   >
-                    <div className="bg-[#09090B] border border-white/5 rounded-3xl overflow-hidden h-full flex flex-col hover:border-primary/20 transition-all duration-500">
+                    <div className="bg-white dark:bg-[#09090B] border border-zinc-200 dark:border-white/5 rounded-3xl overflow-hidden h-full flex flex-col hover:border-primary/20 transition-all duration-500 shadow-sm">
                       <Link href={`/product/${prod.id}`} className="block h-40 bg-black overflow-hidden relative cursor-pointer">
                         <img
                           src={prod.image_url || "https://placehold.co/400x300"}
@@ -127,7 +127,7 @@ export default function CategoryShowcase({ products, categories, language, t }: 
 
                       <div className="p-4 flex flex-col flex-1">
                         <Link href={`/product/${prod.id}`}>
-                          <h3 className="text-xs sm:text-sm font-black text-white uppercase italic tracking-tight line-clamp-1 hover:text-primary cursor-pointer">{titleStr}</h3>
+                          <h3 className="text-xs sm:text-sm font-black text-zinc-900 dark:text-white uppercase italic tracking-tight line-clamp-1 hover:text-primary cursor-pointer">{titleStr}</h3>
                         </Link>
                         <p className="text-[9px] text-zinc-600 font-black uppercase tracking-widest mt-1">{selectedCatName}</p>
 
@@ -147,10 +147,10 @@ export default function CategoryShowcase({ products, categories, language, t }: 
                           initial={{ opacity: 0, scale: 0.95, y: 10 }}
                           animate={{ opacity: 1, scale: 1, y: 0 }}
                           exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                          className="hidden md:block absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-72 bg-[#121214] border border-white/10 rounded-2xl shadow-2xl p-6 z-50 select-none pointer-events-auto"
+                          className="hidden md:block absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-72 bg-white dark:bg-[#121214] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-2xl p-6 z-50 select-none pointer-events-auto"
                         >
-                          <div className="text-xs font-black text-white uppercase mb-2 line-clamp-1">{titleStr}</div>
-                          <div className="text-[10px] text-zinc-400 leading-relaxed mb-4 line-clamp-3">{descStr || "Professional slide layouts."}</div>
+                          <div className="text-xs font-black text-zinc-900 dark:text-white uppercase mb-2 line-clamp-1">{titleStr}</div>
+                          <div className="text-[10px] text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4 line-clamp-3">{descStr || "Professional slide layouts."}</div>
 
                           <div className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-4 flex items-center gap-2">
                             <ArrowRight className="w-3 h-3 text-primary" /> Multi-layout support
@@ -180,7 +180,7 @@ export default function CategoryShowcase({ products, categories, language, t }: 
         {filtered.length > 0 && (
           <div className="text-center">
             <Link href={`/shop?category=${selectedCategoryId}`}>
-              <button className="bg-white/5 hover:bg-white/10 text-white hover:text-primary border border-white/10 px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-2 mx-auto cursor-pointer transition-all">
+              <button className="bg-zinc-100 dark:bg-white/5 hover:bg-zinc-200 dark:hover:bg-white/10 text-zinc-900 dark:text-white hover:text-primary border border-zinc-200 dark:border-white/10 px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-2 mx-auto cursor-pointer transition-all">
                 <span>Show all {selectedCatName} PPTs</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
@@ -205,14 +205,14 @@ export default function CategoryShowcase({ products, categories, language, t }: 
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed bottom-0 left-0 right-0 bg-[#0B0B0C] border-t border-white/10 rounded-t-[2rem] p-6 z-[101] md:hidden"
+              className="fixed bottom-0 left-0 right-0 bg-white dark:bg-[#0B0B0C] border-t border-zinc-200 dark:border-white/10 rounded-t-[2rem] p-6 z-[101] md:hidden"
             >
-              <div className="w-12 h-1.5 bg-white/10 rounded-full mx-auto mb-6" onClick={() => setActiveMobilePopup(null)} />
+              <div className="w-12 h-1.5 bg-zinc-200 dark:bg-white/10 rounded-full mx-auto mb-6" onClick={() => setActiveMobilePopup(null)} />
               
-              <div className="text-lg font-black text-white uppercase italic mb-2">
+              <div className="text-lg font-black text-zinc-900 dark:text-white uppercase italic mb-2">
                 {typeof activeMobilePopup.title === 'object' ? (activeMobilePopup.title[language] || activeMobilePopup.title.en) : activeMobilePopup.title}
               </div>
-              <div className="text-xs text-zinc-400 mb-6 leading-relaxed">
+              <div className="text-xs text-zinc-500 dark:text-zinc-400 mb-6 leading-relaxed">
                 {typeof activeMobilePopup.description === 'object' ? (activeMobilePopup.description[language] || activeMobilePopup.description.en) : activeMobilePopup.description}
               </div>
 
