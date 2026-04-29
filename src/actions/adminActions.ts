@@ -122,7 +122,7 @@ export async function getAppearance() {
       mobile: "+91 99999 99999"
     },
     buttons: {
-      primary: { label: "Acquire Now", link: "/#catalog" },
+      primary: { label: "Buy Now", link: "/#catalog" },
       secondary: { label: "Learn More", link: "/#story" }
     },
     policies: {

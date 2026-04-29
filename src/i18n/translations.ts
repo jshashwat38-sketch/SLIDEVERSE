@@ -100,7 +100,7 @@ export const translations: Record<string, Record<string, string>> = {
     consumer_feedback: "Consumer Feedback",
     highest_rated: "Highest Rated",
     buy_now: "Buy Now",
-    add_to_vault: "Add to Vault",
+    add_to_vault: "Add to Cart",
     empty_states: "No presentation packages map this criteria.",
     done_filtering: "Done",
 
@@ -216,7 +216,7 @@ export const translations: Record<string, Record<string, string>> = {
     consumer_feedback: "उपभोक्ता प्रतिक्रिया",
     highest_rated: "उच्चतम रेटेड",
     buy_now: "अभी खरीदें",
-    add_to_vault: "वॉल्ट में जोड़ें",
+    add_to_vault: "कार्ट में जोड़ें",
     empty_states: "कोई भी पैकेज इस मानदंड से मेल नहीं खाता।",
     done_filtering: "पूर्ण",
 

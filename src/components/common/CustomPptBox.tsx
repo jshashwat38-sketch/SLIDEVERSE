@@ -420,7 +420,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
             className="w-full bg-primary hover:bg-primary-hover hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] text-white font-black text-xs py-4 px-8 rounded-xl uppercase tracking-[0.2em] italic flex items-center justify-center gap-3 transition-all cursor-pointer shadow-lg hover:-translate-y-0.5"
           >
             <CreditCard className="w-4 h-4" />
-            {loading ? "Vouching..." : `Pay ₹${currentPrice} & Confirm Request`}
+            {loading ? "Vouching..." : `Order Custom PPT – ₹${currentPrice}`}
           </button>
         </form>
       </div>
