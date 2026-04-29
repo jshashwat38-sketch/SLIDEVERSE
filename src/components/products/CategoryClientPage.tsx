@@ -283,9 +283,16 @@ export default function CategoryClientPage({ category, products, id }: CategoryC
 
           {/* Grid Render */}
           {displayedProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6">
               {displayedProducts.map((product: any) => (
-                <ProductCard key={product.id} {...product} />
+                <div key={product.id} className="h-full">
+                  <div className="block sm:hidden h-full">
+                    <ProductCard {...product} variant="compact-home-mobile" />
+                  </div>
+                  <div className="hidden sm:block h-full">
+                    <ProductCard {...product} />
+                  </div>
+                </div>
               ))}
             </div>
           ) : (

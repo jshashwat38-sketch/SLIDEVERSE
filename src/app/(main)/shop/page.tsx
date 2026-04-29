@@ -281,10 +281,15 @@ export default function ShopPage() {
               <p className="text-zinc-500 uppercase tracking-widest font-black text-xs">{t("empty_states")}</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-8">
               {filteredProducts.map((product) => (
-                <div key={product.id} className="animate-in fade-in duration-500">
-                  <ProductCard {...product} />
+                <div key={product.id} className="animate-in fade-in duration-500 h-full">
+                  <div className="block sm:hidden h-full">
+                    <ProductCard {...product} variant="compact-home-mobile" />
+                  </div>
+                  <div className="hidden sm:block h-full">
+                    <ProductCard {...product} />
+                  </div>
                 </div>
               ))}
             </div>
