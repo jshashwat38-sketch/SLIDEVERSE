@@ -13,6 +13,14 @@ export default function CategoryShowcase({ products, categories, language, t }: 
   const [visibleCount, setVisibleCount] = useState(4);
   const [hoveredProduct, setHoveredProduct] = useState<any | null>(null);
   const [activeMobilePopup, setActiveMobilePopup] = useState<any | null>(null);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+
+  useEffect(() => {
+    const initTimer = setTimeout(() => {
+      setIsInitialLoading(false);
+    }, 1200);
+    return () => clearTimeout(initTimer);
+  }, []);
 
   useEffect(() => {
     if (selectedCategoryId) {
@@ -75,49 +83,79 @@ export default function CategoryShowcase({ products, categories, language, t }: 
           </p>
         </div>
 
-        {/* Clickable Tabs - Horizontal Category Slider */}
-        <div className="relative max-w-2xl mx-auto mb-12 group/cat-slider">
-          {/* Slider buttons (Desktop) */}
-          <button
-            onClick={() => scrollCategorySlider('left')}
-            className="absolute -left-12 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-white dark:bg-black/80 border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white flex items-center justify-center opacity-0 group-hover/cat-slider:opacity-100 hover:bg-primary hover:text-black hover:border-primary transition-all shadow-md cursor-pointer hidden md:flex"
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => scrollCategorySlider('right')}
-            className="absolute -right-12 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-white dark:bg-black/80 border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white flex items-center justify-center opacity-0 group-hover/cat-slider:opacity-100 hover:bg-primary hover:text-black hover:border-primary transition-all shadow-md cursor-pointer hidden md:flex"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
+        {isInitialLoading ? (
+          <div className="animate-in fade-in duration-500">
+            {/* 1. Skeleton Tabs */}
+            <div className="flex gap-4 justify-center max-w-2xl mx-auto mb-12 overflow-x-auto scrollbar-none px-2 py-1">
+              {[1, 2, 3, 4].map((n) => (
+                <div key={`tab-skel-${n}`} className="w-[calc(25%-12px)] min-w-[110px] h-11 bg-zinc-100 dark:bg-[#0B0B0D] border border-zinc-200 dark:border-white/5 rounded-xl animate-pulse" />
+              ))}
+            </div>
 
-          <div
-            ref={categorySliderRef}
-            className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-none select-none px-2 py-1"
-          >
-            {categories.map((cat) => {
-              const catName = typeof cat.title === 'object' ? (cat.title[language] || cat.title.en) : cat.title;
-              const isActive = cat.id === selectedCategoryId;
-              return (
-                <div
-                  key={cat.id}
-                  className="snap-start shrink-0 w-[calc(25%-12px)] min-w-[110px]"
-                >
-                  <button
-                    onClick={() => setSelectedCategoryId(cat.id)}
-                    className={`w-full h-11 px-2 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all cursor-pointer border text-center truncate ${
-                      isActive 
-                        ? 'bg-primary text-black border-primary shadow-[0_0_15px_rgba(197,165,114,0.3)]' 
-                        : 'bg-zinc-100 dark:bg-[#0B0B0D] text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/5 hover:border-zinc-300 dark:hover:border-white/10 hover:text-zinc-900 dark:hover:text-white'
-                    }`}
-                  >
-                    {catName}
-                  </button>
+            {/* 2. Skeleton Cards */}
+            <div className="flex gap-6 overflow-x-auto scrollbar-none pb-8 mb-4">
+              {[1, 2, 3, 4].map((n) => (
+                <div key={`card-skel-${n}`} className="shrink-0 w-[45%] md:w-[30%] lg:w-[23%] bg-white dark:bg-[#09090B] border border-zinc-200 dark:border-white/5 rounded-3xl overflow-hidden flex flex-col animate-pulse shadow-sm min-h-[350px]">
+                  <div className="h-44 bg-zinc-200/50 dark:bg-white/5" />
+                  <div className="p-5 flex flex-col flex-1 space-y-3">
+                    <div className="h-4 bg-zinc-200/60 dark:bg-white/10 rounded w-3/4" />
+                    <div className="h-3 bg-zinc-200/60 dark:bg-white/10 rounded w-1/2" />
+                    <div className="h-3 bg-zinc-200/60 dark:bg-white/10 rounded w-1/4 mt-auto" />
+                  </div>
                 </div>
-              );
-            })}
+              ))}
+            </div>
+
+            {/* 3. Skeleton Button */}
+            <div className="text-center mt-6">
+              <div className="w-48 h-12 bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl mx-auto animate-pulse" />
+            </div>
           </div>
-        </div>
+        ) : (
+          <>
+            {/* Clickable Tabs - Horizontal Category Slider */}
+            <div className="relative max-w-2xl mx-auto mb-12 group/cat-slider">
+              {/* Slider buttons (Desktop) */}
+              <button
+                onClick={() => scrollCategorySlider('left')}
+                className="absolute -left-12 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-white dark:bg-black/80 border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white flex items-center justify-center opacity-0 group-hover/cat-slider:opacity-100 hover:bg-primary hover:text-black hover:border-primary transition-all shadow-md cursor-pointer hidden md:flex"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => scrollCategorySlider('right')}
+                className="absolute -right-12 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-white dark:bg-black/80 border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white flex items-center justify-center opacity-0 group-hover/cat-slider:opacity-100 hover:bg-primary hover:text-black hover:border-primary transition-all shadow-md cursor-pointer hidden md:flex"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+
+              <div
+                ref={categorySliderRef}
+                className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-none select-none px-2 py-1"
+              >
+                {categories.map((cat) => {
+                  const catName = typeof cat.title === 'object' ? (cat.title[language] || cat.title.en) : cat.title;
+                  const isActive = cat.id === selectedCategoryId;
+                  return (
+                    <div
+                      key={cat.id}
+                      className="snap-start shrink-0 w-[calc(25%-12px)] min-w-[110px]"
+                    >
+                      <button
+                        onClick={() => setSelectedCategoryId(cat.id)}
+                        className={`w-full h-11 px-2 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all cursor-pointer border text-center truncate ${
+                          isActive 
+                            ? 'bg-primary text-black border-primary shadow-[0_0_15px_rgba(197,165,114,0.3)]' 
+                            : 'bg-zinc-100 dark:bg-[#0B0B0D] text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/5 hover:border-zinc-300 dark:hover:border-white/10 hover:text-zinc-900 dark:hover:text-white'
+                        }`}
+                      >
+                        {catName}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
 
         {/* Horizontal Slider container */}
         <div className="relative group/slider mb-10">
@@ -259,6 +297,8 @@ export default function CategoryShowcase({ products, categories, language, t }: 
               </button>
             </Link>
           </div>
+        )}
+          </>
         )}
       </div>
 
