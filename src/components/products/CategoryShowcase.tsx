@@ -286,15 +286,21 @@ export default function CategoryShowcase({ products, categories, language, t }: 
                   router.push(`/category/${selectedCategoryId?.replace('cat-', '')}`);
                   
                   if (typeof window !== 'undefined') {
-                    window.scrollTo(0, 0);
-                    document.documentElement.scrollTop = 0;
-                    document.body.scrollTop = 0;
-
-                    const interval = setInterval(() => {
+                    const resetScroll = () => {
                       window.scrollTo(0, 0);
                       document.documentElement.scrollTop = 0;
                       document.body.scrollTop = 0;
-                    }, 50);
+                      
+                      const mainEl = document.querySelector('main');
+                      if (mainEl) {
+                        mainEl.scrollTo(0, 0);
+                        mainEl.scrollTop = 0;
+                      }
+                    };
+
+                    resetScroll();
+
+                    const interval = setInterval(resetScroll, 50);
 
                     setTimeout(() => clearInterval(interval), 1500);
                   }
