@@ -310,7 +310,7 @@ export default function AdminProducts() {
                     />
                     <label htmlFor="isTop9" className="text-sm font-black text-white uppercase tracking-widest cursor-pointer flex items-center gap-2">
                       <Package className="w-4 h-4 text-primary" />
-                      Add in Top 9
+                      Add in Featured
                     </label>
                   </div>
                 </div>

@@ -33,27 +33,27 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const [activeHeroIndex, setActiveHeroIndex] = useState(0);
-  const explicitTop9 = filteredProducts.filter(p => p.is_top9 || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_top9));
-  const top9Products = explicitTop9.length > 0 
-    ? explicitTop9.slice(0, 9) 
-    : filteredProducts.filter(p => !(p.is_bestseller || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_bestseller))).slice(0, 9);
+  const explicitFeatured = filteredProducts.filter(p => p.is_top9 || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_top9));
+  const featuredProducts = explicitFeatured.length > 0 
+    ? explicitFeatured.slice(0, 12) 
+    : filteredProducts.filter(p => !(p.is_bestseller || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_bestseller))).slice(0, 12);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const startAutoRotation = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
-      setActiveHeroIndex((prev) => (prev + 1) % Math.max(1, top9Products.length));
+      setActiveHeroIndex((prev) => (prev + 1) % Math.max(1, featuredProducts.length));
     }, 5000);
   };
 
   useEffect(() => {
-    if (top9Products.length > 0) {
+    if (featuredProducts.length > 0) {
       startAutoRotation();
     }
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [top9Products.length]);
+  }, [featuredProducts.length]);
 
   const handleGridItemClick = (index: number) => {
     setActiveHeroIndex(index);
@@ -384,17 +384,17 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             </div>
           ) : (
             <>
-              {top9Products[activeHeroIndex] && (
+              {featuredProducts[activeHeroIndex] && (
                 <div className="relative">
                   <AnimatePresence mode="wait">
                     <motion.div
-                      key={top9Products[activeHeroIndex].id}
+                      key={featuredProducts[activeHeroIndex].id}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.5 }}
                     >
-                      <HeroProductCard {...top9Products[activeHeroIndex]} />
+                      <HeroProductCard {...featuredProducts[activeHeroIndex]} />
                     </motion.div>
                   </AnimatePresence>
                 </div>
@@ -403,13 +403,13 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
               <div className="mt-16">
                 <div className="flex items-center justify-between mb-8">
                   <h3 className="text-xl font-black uppercase tracking-[0.2em] text-white italic">
-                    <span className="text-primary">{t("featured_additions")}</span> (TOP 9)
+                    <span className="text-primary">{t("featured_additions")}</span>
                   </h3>
                 </div>
 
                 {/* Desktop Grid (Hidden on Mobile) */}
-                <div className="hidden sm:grid sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-10">
-                  {top9Products.map((product, index) => (
+                <div className="hidden sm:grid sm:grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6">
+                  {featuredProducts.map((product, index) => (
                     <motion.div 
                       key={product.id}
                       initial={{ opacity: 0, y: 30 }}
@@ -429,8 +429,8 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 </div>
 
                 {/* Mobile Grid (Compact 3 Columns) */}
-                <div className="grid sm:hidden grid-cols-3 gap-2">
-                  {top9Products.map((product, index) => (
+                <div className="grid sm:hidden grid-cols-3 gap-1.5">
+                  {featuredProducts.map((product, index) => (
                     <div 
                       key={`mob-${product.id}`}
                       className={`rounded-xl overflow-hidden ${
