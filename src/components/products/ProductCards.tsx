@@ -21,7 +21,7 @@ export interface ProductProps {
 }
 
 export function ProductCard(props: any) {
-  const { id, price, imageUrl, images, features } = props;
+  const { id, price, imageUrl, images, features, variant } = props;
   const { addToCart } = useCart();
   const router = useRouter();
   const { language, t } = useLanguage();
@@ -85,6 +85,53 @@ export function ProductCard(props: any) {
     addToCart({ id, title: displayTitle, price, imageUrl: displayImage });
     router.push("/cart");
   };
+
+  if (variant === "compact-home-mobile") {
+    return (
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="group bg-[#09090B] border border-white/5 rounded-2xl overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all duration-500 hover:shadow-[0_0_20px_rgba(197,165,114,0.1)] relative"
+      >
+        <Link href={`/product/${id}`} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-t-2xl">
+          <img 
+            src={displayImage || "https://placehold.co/400x300?text=No+Image"} 
+            alt={displayTitle} 
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100" 
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "https://placehold.co/400x300?text=No+Image";
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#09090B] via-transparent to-transparent opacity-30" />
+        </Link>
+
+        <div className="p-3 sm:p-4 flex flex-col flex-1 relative z-10">
+          <div className="mb-2">
+            <Link href={`/product/${id}`}>
+              <h3 className="text-xs font-black text-white italic uppercase tracking-tighter group-hover:text-primary transition-colors cursor-pointer line-clamp-2 leading-tight">{displayTitle}</h3>
+            </Link>
+            <p className="text-[7px] text-zinc-600 font-black uppercase tracking-wider mt-1">{displayCategory}</p>
+          </div>
+          
+          <div className="mt-auto pt-2 flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-black text-white font-mono">₹{price}</span>
+              {mrp > price && (
+                <span className="text-[8px] text-zinc-600 line-through font-bold font-mono">₹{mrp}</span>
+              )}
+            </div>
+
+            <button 
+              onClick={handleShopNow}
+              className="w-full bg-primary hover:bg-primary-hover text-black py-2 rounded-lg font-black text-[8px] uppercase tracking-wider transition-all shadow text-center flex items-center justify-center min-h-[28px]"
+            >
+              {t("buy_now")}
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div 

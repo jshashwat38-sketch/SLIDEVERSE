@@ -407,7 +407,8 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                   </h3>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-6 lg:gap-10">
+                {/* Desktop Grid (Hidden on Mobile) */}
+                <div className="hidden sm:grid sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-10">
                   {top9Products.map((product, index) => (
                     <motion.div 
                       key={product.id}
@@ -426,6 +427,23 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                     </motion.div>
                   ))}
                 </div>
+
+                {/* Mobile Grid (Compact 3 Columns) */}
+                <div className="grid sm:hidden grid-cols-3 gap-2">
+                  {top9Products.map((product, index) => (
+                    <div 
+                      key={`mob-${product.id}`}
+                      className={`rounded-xl overflow-hidden ${
+                        index === activeHeroIndex 
+                          ? "ring-1 ring-primary border border-primary/20 scale-[1.02]" 
+                          : "border border-transparent"
+                      }`}
+                      onClick={() => handleGridItemClick(index)}
+                    >
+                      <ProductCard {...product} variant="compact-home-mobile" />
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Bestsellers Grid */}
@@ -439,7 +457,8 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-8">
+                {/* Desktop Bestsellers (Hidden on Mobile) */}
+                <div className="hidden sm:grid sm:grid-cols-3 lg:grid-cols-5 gap-6 lg:gap-8">
                   {(() => {
                     const explicitBestsellers = filteredProducts.filter(p => p.is_bestseller || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_bestseller));
                     return explicitBestsellers.length > 0 
@@ -455,6 +474,20 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                     >
                       <ProductCard {...product} />
                     </motion.div>
+                  ))}
+                </div>
+
+                {/* Mobile Bestsellers (Compact 2 Columns) */}
+                <div className="grid sm:hidden grid-cols-2 gap-3">
+                  {(() => {
+                    const explicitBestsellers = filteredProducts.filter(p => p.is_bestseller || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_bestseller));
+                    return explicitBestsellers.length > 0 
+                      ? explicitBestsellers.slice(0, 25) 
+                      : filteredProducts.filter(p => !(p.is_top9 || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_top9))).slice(0, 25);
+                  })().map((product, index) => (
+                    <div key={`best-mob-${product.id}`} className="rounded-xl overflow-hidden">
+                      <ProductCard {...product} variant="compact-home-mobile" />
+                    </div>
                   ))}
                 </div>
               </div>
