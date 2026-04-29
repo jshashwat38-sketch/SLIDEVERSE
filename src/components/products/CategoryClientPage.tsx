@@ -24,9 +24,14 @@ export default function CategoryClientPage({ category, products, id }: CategoryC
       try {
         window.history.scrollRestoration = 'manual';
       } catch (e) {}
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
+      
+      const timer = setTimeout(() => {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }, 50);
+
+      return () => clearTimeout(timer);
     }
   }, [id]);
 
