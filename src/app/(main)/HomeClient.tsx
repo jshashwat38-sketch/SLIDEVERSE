@@ -5,12 +5,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Zap, Shield, Sparkles, Mail, Phone, Send, LogOut, Filter, Check, Star } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import { saveGrievance } from "@/actions/adminActions";
+import { saveGrievance, getCategories } from "@/actions/adminActions";
 import { toast } from "react-hot-toast";
 import { ProductCard, HeroProductCard } from "@/components/products/ProductCards";
 import { useLanguage } from "@/context/LanguageContext";
 import { getLangString } from "@/utils/lang";
 import CustomPptBox from "@/components/common/CustomPptBox";
+import CategoryShowcase from "@/components/products/CategoryShowcase";
 
 interface HomeClientProps {
   initialAppearance: any;
@@ -31,6 +32,17 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
   const [ratingSort, setRatingSort] = useState<"none" | "highest" | "lowest">("none");
   const [langFilter, setLangFilter] = useState<"all" | "hindi" | "english">("all");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
+
+  useEffect(() => {
+    getCategories().then((data) => {
+      setCategories(data);
+      if (data.length > 0) {
+        setSelectedCategoryId(data[0].id);
+      }
+    });
+  }, []);
 
   const [activeHeroIndex, setActiveHeroIndex] = useState(0);
   const explicitFeatured = filteredProducts.filter(p => p.is_top9 || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_top9));
@@ -495,6 +507,13 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
           )}
         </div>
       </section>
+
+      <CategoryShowcase 
+        products={initialProducts} 
+        categories={categories} 
+        language={language} 
+        t={t} 
+      />
 
       {/* About Us Section */}
       <section id="about" className="scroll-mt-24 py-20 md:py-32 relative overflow-hidden bg-card/40">
