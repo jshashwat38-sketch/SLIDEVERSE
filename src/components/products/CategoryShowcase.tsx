@@ -18,21 +18,17 @@ export default function CategoryShowcase({ products, categories, language, t }: 
   useEffect(() => {
     const initTimer = setTimeout(() => {
       setIsInitialLoading(false);
-    }, 2000);
+    }, 400);
     return () => clearTimeout(initTimer);
   }, []);
 
   useEffect(() => {
     if (selectedCategoryId) {
       setIsLoading(true);
-      setVisibleCount(4);
       const timer = setTimeout(() => {
         setIsLoading(false);
-        const fullLoadTimer = setTimeout(() => {
-          setVisibleCount(20);
-        }, 500);
-        return () => clearTimeout(fullLoadTimer);
-      }, 400);
+        setVisibleCount(20);
+      }, 200);
       return () => clearTimeout(timer);
     }
   }, [selectedCategoryId]);
