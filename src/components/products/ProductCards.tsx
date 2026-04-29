@@ -133,6 +133,39 @@ export function ProductCard(props: any) {
     );
   }
 
+  if (variant === "micro-grid-mobile") {
+    return (
+      <div className="bg-[#09090B] border border-white/5 rounded-xl overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all relative">
+        <Link href={`/product/${id}`} className="block aspect-[4/3] bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-t-xl">
+          <img 
+            src={displayImage || "https://placehold.co/200x150?text=No+Image"} 
+            alt={displayTitle} 
+            loading="lazy"
+            className="w-full h-full object-cover" 
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "https://placehold.co/200x150?text=No+Image";
+            }}
+          />
+        </Link>
+
+        <div className="p-1.5 flex flex-col justify-between flex-1">
+          <div>
+            <Link href={`/product/${id}`}>
+              <h3 className="text-[7.5px] font-black text-white italic uppercase tracking-tighter line-clamp-1 leading-none">{displayTitle}</h3>
+            </Link>
+            <span className="text-[6px] font-bold text-zinc-500 font-mono mt-1 block">₹{price}</span>
+          </div>
+
+          <button 
+            onClick={handleShopNow}
+            className="w-full bg-primary hover:bg-primary-hover text-black py-1 rounded font-black text-[6px] uppercase tracking-wider transition-all mt-1 flex items-center justify-center min-h-[16px]"
+          >
+            {t("buy_now")}
+          </button>
+        </div>
+      </div>
+    );
+  }
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
