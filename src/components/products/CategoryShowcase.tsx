@@ -12,8 +12,18 @@ export default function CategoryShowcase({ products, categories, language, t }: 
   const [hoveredProduct, setHoveredProduct] = useState<any | null>(null);
   const [activeMobilePopup, setActiveMobilePopup] = useState<any | null>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
+  const categorySliderRef = useRef<HTMLDivElement>(null);
   const { addToCart } = useCart();
   const router = useRouter();
+
+  const scrollCategorySlider = (direction: 'left' | 'right') => {
+    if (!categorySliderRef.current) return;
+    const scrollAmount = 300;
+    categorySliderRef.current.scrollBy({
+      left: direction === 'left' ? -scrollAmount : scrollAmount,
+      behavior: 'smooth'
+    });
+  };
 
   useEffect(() => {
     if (categories.length > 0 && !selectedCategoryId) {
@@ -47,21 +57,48 @@ export default function CategoryShowcase({ products, categories, language, t }: 
           </p>
         </div>
 
-        {/* Clickable Tabs */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {categories.map((cat) => {
-            const catName = typeof cat.title === 'object' ? (cat.title[language] || cat.title.en) : cat.title;
-            const isActive = cat.id === selectedCategoryId;
-            return (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategoryId(cat.id)}
-                className={`px-6 py-3 rounded-full font-black text-xs uppercase tracking-widest transition-all cursor-pointer border ${isActive ? 'bg-primary text-black border-primary shadow-[0_0_20px_rgba(197,165,114,0.3)]' : 'bg-zinc-100 dark:bg-white/5 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/5 hover:border-zinc-300 dark:hover:border-white/10 hover:text-zinc-900 dark:hover:text-white'}`}
-              >
-                {catName}
-              </button>
-            );
-          })}
+        {/* Clickable Tabs - Horizontal Category Slider */}
+        <div className="relative max-w-2xl mx-auto mb-12 group/cat-slider">
+          {/* Slider buttons (Desktop) */}
+          <button
+            onClick={() => scrollCategorySlider('left')}
+            className="absolute -left-12 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-white dark:bg-black/80 border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white flex items-center justify-center opacity-0 group-hover/cat-slider:opacity-100 hover:bg-primary hover:text-black hover:border-primary transition-all shadow-md cursor-pointer hidden md:flex"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => scrollCategorySlider('right')}
+            className="absolute -right-12 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-white dark:bg-black/80 border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white flex items-center justify-center opacity-0 group-hover/cat-slider:opacity-100 hover:bg-primary hover:text-black hover:border-primary transition-all shadow-md cursor-pointer hidden md:flex"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+
+          <div
+            ref={categorySliderRef}
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-none select-none px-2 py-1"
+          >
+            {categories.map((cat) => {
+              const catName = typeof cat.title === 'object' ? (cat.title[language] || cat.title.en) : cat.title;
+              const isActive = cat.id === selectedCategoryId;
+              return (
+                <div
+                  key={cat.id}
+                  className="snap-start shrink-0 w-[calc(25%-12px)] min-w-[110px]"
+                >
+                  <button
+                    onClick={() => setSelectedCategoryId(cat.id)}
+                    className={`w-full h-11 px-2 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all cursor-pointer border text-center truncate ${
+                      isActive 
+                        ? 'bg-primary text-black border-primary shadow-[0_0_15px_rgba(197,165,114,0.3)]' 
+                        : 'bg-zinc-100 dark:bg-[#0B0B0D] text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-white/5 hover:border-zinc-300 dark:hover:border-white/10 hover:text-zinc-900 dark:hover:text-white'
+                    }`}
+                  >
+                    {catName}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Horizontal Slider container */}
