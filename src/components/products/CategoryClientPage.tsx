@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, Suspense } from "react";
+import { useState, useMemo, Suspense, useEffect } from "react";
 import { ProductCard } from "@/components/products/ProductCards";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
@@ -19,10 +19,14 @@ export default function CategoryClientPage({ category, products, id }: CategoryC
   const pathname = usePathname();
   const { language } = useLanguage();
 
-  useState(true);
-  useMemo(() => {
+  useEffect(() => {
     if (typeof window !== 'undefined') {
-      window.scrollTo({ top: 0, behavior: 'instant' });
+      try {
+        window.history.scrollRestoration = 'manual';
+      } catch (e) {}
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     }
   }, [id]);
 
