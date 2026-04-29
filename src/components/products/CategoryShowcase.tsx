@@ -18,7 +18,7 @@ export default function CategoryShowcase({ products, categories, language, t }: 
   useEffect(() => {
     const initTimer = setTimeout(() => {
       setIsInitialLoading(false);
-    }, 1200);
+    }, 2000);
     return () => clearTimeout(initTimer);
   }, []);
 
