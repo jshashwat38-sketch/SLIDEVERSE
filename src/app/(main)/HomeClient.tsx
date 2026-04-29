@@ -32,6 +32,31 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
   const [langFilter, setLangFilter] = useState<"all" | "hindi" | "english">("all");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+  const [activeHeroIndex, setActiveHeroIndex] = useState(0);
+  const top9Products = filteredProducts.slice(0, 9);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const startAutoRotation = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setActiveHeroIndex((prev) => (prev + 1) % Math.max(1, top9Products.length));
+    }, 5000);
+  };
+
+  useEffect(() => {
+    if (top9Products.length > 0) {
+      startAutoRotation();
+    }
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [top9Products.length]);
+
+  const handleGridItemClick = (index: number) => {
+    setActiveHeroIndex(index);
+    startAutoRotation();
+  };
+
   useEffect(() => {
     let result = [...initialProducts];
 
@@ -356,33 +381,48 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             </div>
           ) : (
             <>
-              {filteredProducts[0] && <HeroProductCard {...filteredProducts[0]} />}
+              {top9Products[activeHeroIndex] && (
+                <div className="relative">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={top9Products[activeHeroIndex].id}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <HeroProductCard {...top9Products[activeHeroIndex]} />
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              )}
               
-              {/* Mobile Product Carousel - Snap Scrolling with Auto-Motion */}
-              <div 
-                className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-4 pb-2 -mx-6 px-6 scrollbar-hide scroll-smooth"
-                ref={productRef}
-              >
-                {filteredProducts.slice(1).map((product) => (
-                  <div key={product.id} className="min-w-[85vw] snap-center">
-                    <ProductCard {...product} />
-                  </div>
-                ))}
-              </div>
+              <div className="mt-16">
+                <div className="flex items-center justify-between mb-8">
+                  <h3 className="text-xl font-black uppercase tracking-[0.2em] text-white italic">
+                    <span className="text-primary">{t("featured_additions")}</span> (TOP 9)
+                  </h3>
+                </div>
 
-              {/* Desktop Grid Layout */}
-              <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-10">
-                {filteredProducts.slice(1).map((product, index) => (
-                  <motion.div 
-                    key={product.id}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.05, duration: 0.6 }}
-                  >
-                    <ProductCard {...product} />
-                  </motion.div>
-                ))}
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-6 lg:gap-10">
+                  {top9Products.map((product, index) => (
+                    <motion.div 
+                      key={product.id}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.05, duration: 0.6 }}
+                      className={`transition-all duration-500 rounded-[2.5rem] cursor-pointer ${
+                        index === activeHeroIndex 
+                          ? "ring-2 ring-primary border border-primary/20 bg-primary/5 shadow-[0_0_30px_rgba(197,165,114,0.15)] scale-[1.02]" 
+                          : "border border-transparent hover:border-white/5"
+                      }`}
+                      onClick={() => handleGridItemClick(index)}
+                    >
+                      <ProductCard {...product} />
+                    </motion.div>
+                  ))}
+                </div>
               </div>
             </>
           )}
