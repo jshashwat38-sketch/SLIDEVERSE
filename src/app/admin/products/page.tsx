@@ -369,7 +369,7 @@ export default function AdminProducts() {
                               newFiles[index] = null;
                               setImageFiles(newFiles);
                             }}
-                            className="flex-1 px-6 py-4 bg-white/5 border border-white/10 rounded-2xl focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 text-xs font-bold"
+                            className="flex-1 px-6 py-4 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400 text-xs font-bold"
                             placeholder="PASTE REMOTE URL..."
                           />
                         </div>
@@ -396,7 +396,7 @@ export default function AdminProducts() {
                               newFaqs[index] = { ...newFaqs[index], question: e.target.value };
                               setFaqs(newFaqs);
                             }}
-                            className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:bg-black focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 font-bold text-xs"
+                            className="w-full px-6 py-4 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400 font-bold text-xs"
                             placeholder="QUERY IDENTIFIER..."
                           />
                         </div>
@@ -410,7 +410,7 @@ export default function AdminProducts() {
                               newFaqs[index] = { ...newFaqs[index], answer: e.target.value };
                               setFaqs(newFaqs);
                             }}
-                            className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:bg-black focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 font-medium text-xs"
+                            className="w-full px-6 py-4 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400 font-medium text-xs"
                             placeholder="SYSTEM RESPONSE..."
                           />
                         </div>
@@ -447,7 +447,7 @@ export default function AdminProducts() {
                                 newVariants[index] = { ...newVariants[index], name: e.target.value };
                                 setVariants(newVariants);
                               }}
-                              className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:bg-black transition-all text-white font-bold text-xs"
+                              className="w-full px-6 py-4 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400 font-bold text-xs"
                               placeholder="E.G. PREMIUM EDITION"
                             />
                           </div>
@@ -461,7 +461,7 @@ export default function AdminProducts() {
                                 newVariants[index] = { ...newVariants[index], price: e.target.value };
                                 setVariants(newVariants);
                               }}
-                              className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:bg-black transition-all text-white font-mono text-xs"
+                              className="w-full px-6 py-4 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400 font-mono text-xs"
                               placeholder="0"
                             />
                           </div>
@@ -500,7 +500,7 @@ export default function AdminProducts() {
                                   newVariants[index] = { ...newVariants[index], imageUrl: e.target.value, imageFile: null };
                                   setVariants(newVariants);
                                 }}
-                                className="flex-1 px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:bg-black transition-all text-white text-xs"
+                                className="flex-1 px-6 py-4 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400 text-xs"
                                 placeholder="ASSET URL..."
                               />
                             </div>
@@ -515,7 +515,7 @@ export default function AdminProducts() {
                                 newVariants[index] = { ...newVariants[index], driveLink: e.target.value };
                                 setVariants(newVariants);
                               }}
-                              className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:bg-black transition-all text-white font-mono text-xs"
+                              className="w-full px-6 py-4 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400 font-mono text-xs"
                               placeholder="CLOUDFLARE/DRIVE LINK..."
                             />
                           </div>
@@ -546,7 +546,7 @@ export default function AdminProducts() {
                     type="url"
                     value={formData.driveLink}
                     onChange={(e) => setFormData({...formData, driveLink: e.target.value})}
-                    className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white placeholder:text-zinc-800 font-mono text-sm"
+                    className="w-full px-8 py-5 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-[1.5rem] focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400 font-mono text-sm"
                     placeholder="HTTPS://DRIVE.GOOGLE.COM/..."
                   />
                 </div>
