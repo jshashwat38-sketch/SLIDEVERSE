@@ -120,13 +120,14 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
           const verificationRes = await verifyPayment(response, {
             customer: formData.fullName,
             email: formData.email,
-            product: `Custom PPT [Topic: ${formData.topic}]`,
-            amount: currentPrice,
-            metadata: {
+            product: `CUSTOM_PPT_SPECS|${JSON.stringify({
               ...formData,
               fileName,
-              fileAttached: !!fileBase64
-            }
+              fileAttached: !!fileBase64,
+              orderStatus: "New Request",
+              dateSubmitted: new Date().toISOString()
+            })}`,
+            amount: currentPrice,
           });
 
           if (verificationRes.success) {

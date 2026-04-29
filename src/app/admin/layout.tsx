@@ -57,6 +57,7 @@ export default function AdminLayout({
     { href: "/admin/grievances", label: "Grievances", icon: MessageSquare },
     { href: "/admin/coupons", label: "Coupons", icon: Gift },
     { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
+    { href: "/admin/custom-orders", label: "Custom Orders", icon: Sparkles },
   ];
 
 
