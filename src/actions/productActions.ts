@@ -136,6 +136,89 @@ export async function addProduct(formData: FormData) {
   }
 }
 
+export async function addBundle(bundleData: any) {
+  try {
+    const id = `bundle-${Date.now()}`;
+    const newBundle = {
+      id,
+      title: { 
+        en: bundleData.title, 
+        mrp: Number(bundleData.mrp || 0),
+        is_bestseller: bundleData.isBestseller,
+        is_top9: bundleData.isTop9,
+        is_bundle: true,
+        bundle_items: bundleData.bundleItems || []
+      },
+      description: { en: bundleData.description || "" },
+      price: Number(bundleData.price || 0),
+      category_id: bundleData.categoryId || null,
+      image_url: bundleData.imageUrl || "",
+      images: [bundleData.imageUrl].filter(Boolean),
+      features: typeof bundleData.features === 'string' ? bundleData.features.split(',').map((f: string) => f.trim()).filter(Boolean) : [],
+      drive_link: bundleData.driveLink || "",
+      faqs: [],
+      variants: []
+    };
+
+    const { error } = await supabase
+      .from("products")
+      .insert([newBundle]);
+
+    if (error) throw error;
+    
+    revalidatePath("/");
+    revalidatePath("/admin/products");
+    revalidatePath("/admin/bundles");
+    return { success: true, product: newBundle };
+  } catch (error) {
+    console.error("Error adding bundle:", error);
+    return { success: false, error: error instanceof Error ? error.message : "Failed to create bundle" };
+  }
+}
+
+export async function updateBundle(id: string, bundleData: any) {
+  try {
+    const updatedBundle: any = {
+      title: { 
+        en: bundleData.title, 
+        mrp: Number(bundleData.mrp || 0),
+        is_bestseller: bundleData.isBestseller,
+        is_top9: bundleData.isTop9,
+        is_bundle: true,
+        bundle_items: bundleData.bundleItems || []
+      },
+      description: { en: bundleData.description || "" },
+      price: Number(bundleData.price || 0),
+      category_id: bundleData.categoryId || null,
+      drive_link: bundleData.driveLink || ""
+    };
+
+    if (bundleData.imageUrl) {
+      updatedBundle.image_url = bundleData.imageUrl;
+      updatedBundle.images = [bundleData.imageUrl];
+    }
+
+    if (typeof bundleData.features === 'string') {
+      updatedBundle.features = bundleData.features.split(',').map((f: string) => f.trim()).filter(Boolean);
+    }
+
+    const { error } = await supabase
+      .from("products")
+      .update(updatedBundle)
+      .eq("id", id);
+
+    if (error) throw error;
+
+    revalidatePath("/");
+    revalidatePath("/admin/products");
+    revalidatePath("/admin/bundles");
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating bundle:", error);
+    return { success: false, error: error instanceof Error ? error.message : "Failed to update bundle" };
+  }
+}
+
 export async function updateProduct(id: string, formData: FormData) {
   try {
     const title = formData.get("title") as string;

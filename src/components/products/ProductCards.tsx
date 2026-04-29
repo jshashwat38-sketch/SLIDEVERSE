@@ -1,13 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { CheckCircle2, ShoppingCart } from "lucide-react";
+import { CheckCircle2, ShoppingCart, Star, ChevronRight } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { getReviews } from "@/actions/adminActions";
-import { Star } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 export interface ProductProps {
@@ -31,6 +30,7 @@ export function ProductCard(props: any) {
   
   const [avgRating, setAvgRating] = useState<number | null>(null);
   const [reviewsCount, setReviewsCount] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -166,6 +166,120 @@ export function ProductCard(props: any) {
       </div>
     );
   }
+
+  const isBundle = typeof props.title === 'object' && props.title?.is_bundle;
+  const bundleItems = typeof props.title === 'object' && Array.isArray(props.title?.bundle_items) ? props.title.bundle_items : [];
+
+  if (isBundle) {
+    return (
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="group bg-[#09090B] border border-white/5 rounded-[2.5rem] overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,165,114,0.05)] relative"
+      >
+        <Link href={`/product/${id}`} className="block h-48 bg-black relative shrink-0 overflow-hidden cursor-pointer">
+          <img 
+            src={displayImage || "https://placehold.co/600x400?text=No+Image"} 
+            alt={displayTitle} 
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100" 
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=No+Image";
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#09090B] via-transparent to-transparent opacity-40" />
+          <div className="absolute top-4 right-4 bg-primary text-black font-black text-[9px] px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
+            Bundle
+          </div>
+        </Link>
+
+        <div className="p-4 sm:p-6 flex flex-col flex-1 relative z-10">
+          <div className="mb-4">
+            <Link href={`/product/${id}`}>
+              <h3 className="text-sm sm:text-lg font-black text-white italic uppercase tracking-tighter group-hover:text-primary transition-colors cursor-pointer line-clamp-1">{displayTitle}</h3>
+            </Link>
+          </div>
+
+          {/* Included Preview */}
+          <div className="mb-4">
+            <span className="text-[9px] text-zinc-500 font-black uppercase tracking-widest block mb-2">Includes:</span>
+            <div className="flex flex-wrap gap-2">
+              {bundleItems.slice(0, 3).map((item: any, i: number) => (
+                <div key={i} className="flex items-center gap-1.5 bg-white/[0.03] border border-white/5 rounded-lg px-2 py-1">
+                  {item.image && (
+                    <img src={item.image} className="w-4 h-4 object-cover rounded" alt="mini-icon" />
+                  )}
+                  <span className="text-[8px] font-bold text-white line-clamp-1 uppercase tracking-wider">{item.name}</span>
+                </div>
+              ))}
+              {bundleItems.length > 3 && (
+                <div className="text-[8px] font-black text-primary px-2 py-1 rounded-lg border border-primary/20 bg-primary/10">
+                  +{bundleItems.length - 3} MORE
+                </div>
+              )}
+            </div>
+          </div>
+
+          <p className="text-zinc-400 text-[10px] mb-4 line-clamp-2 leading-relaxed font-normal">{displayDescription}</p>
+
+          {/* Pricing */}
+          <div className="mt-auto">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-xs text-zinc-600 line-through font-bold font-mono">₹{mrp || (price * 2)}</span>
+              <span className="text-xs text-primary font-black font-mono">₹{price}</span>
+              <span className="text-[8px] font-black bg-primary/20 text-primary border border-primary/20 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                SAVE 50%
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button 
+                onClick={handleShopNow}
+                className="flex-1 bg-primary hover:bg-primary-hover text-black py-2.5 rounded-xl font-black text-[9px] uppercase tracking-wider transition-all shadow-lg text-center flex items-center justify-center min-h-[36px]"
+              >
+                {t("buy_now")}
+              </button>
+              
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsExpanded(!isExpanded);
+                }}
+                className={`p-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-center min-h-[36px] ${isExpanded ? 'bg-white/10 border-primary text-primary' : 'bg-white/5 border-white/5 text-white hover:border-white/20'}`}
+              >
+                <ChevronRight className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? 'rotate-90' : ''}`} />
+              </button>
+            </div>
+          </div>
+
+          {/* Expand Details Accordion */}
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden mt-4 pt-4 border-t border-white/5 space-y-3"
+              >
+                <div className="text-[9px] text-zinc-500 font-black uppercase tracking-widest mb-1">Bundle Breakdown ({bundleItems.length} Files):</div>
+                {bundleItems.map((item: any, i: number) => (
+                  <div key={i} className="bg-white/[0.02] p-2 rounded-xl border border-white/5 flex gap-3">
+                    {item.image && (
+                      <img src={item.image} className="w-10 h-10 object-cover rounded-lg border border-white/10 shrink-0" alt={item.name} />
+                    )}
+                    <div>
+                      <div className="text-[10px] font-black text-white line-clamp-1 uppercase">{item.name}</div>
+                      <div className="text-[8px] text-zinc-400 line-clamp-2 leading-tight mt-0.5">{item.description}</div>
+                    </div>
+                  </div>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.div>
+    );
+  }
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}

@@ -47,6 +47,7 @@ export default function AdminLayout({
   const links = [
     { href: "/admin", label: "Orders", icon: LayoutDashboard },
     { href: "/admin/products", label: "Products CMS", icon: Package },
+    { href: "/admin/bundles", label: "Bundles CMS", icon: Gift },
     { href: "/admin/users", label: "Users", icon: Users },
     { href: "/admin/categories", label: "Categories", icon: Settings },
     { href: "/admin/appearance", label: "Appearance", icon: Sparkles },
