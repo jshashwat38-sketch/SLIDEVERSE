@@ -24,16 +24,15 @@ export default function CategoryPage({ params }: CategoryPageProps) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const categoryId = `cat-${id}`;
       const [categories, allProducts] = await Promise.all([
         getCategories(),
         getProducts()
       ]);
       
-      const foundCategory = categories.find((c: any) => c.id === categoryId);
+      const foundCategory = categories.find((c: any) => c.id === id || c.id === `cat-${id}`);
       if (foundCategory) {
         setCategory(foundCategory);
-        setCategoryProducts(allProducts.filter((p: any) => p.categoryId === categoryId));
+        setCategoryProducts(allProducts.filter((p: any) => p.category_id === foundCategory.id || p.category_id === id));
       }
       setLoading(false);
     };
