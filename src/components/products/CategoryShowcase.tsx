@@ -84,31 +84,21 @@ export default function CategoryShowcase({ products, categories, language, t }: 
         </div>
 
         {isInitialLoading ? (
-          <div className="animate-in fade-in duration-500">
-            {/* 1. Skeleton Tabs */}
-            <div className="flex gap-4 justify-center max-w-2xl mx-auto mb-12 overflow-x-auto scrollbar-none px-2 py-1">
-              {[1, 2, 3, 4].map((n) => (
-                <div key={`tab-skel-${n}`} className="w-[calc(25%-12px)] min-w-[110px] h-11 bg-zinc-100 dark:bg-[#0B0B0D] border border-zinc-200 dark:border-white/5 rounded-xl animate-pulse" />
-              ))}
+          <div className="flex flex-col items-center justify-center py-24 animate-in fade-in duration-500">
+            {/* Elegant Spinning Gold Ring */}
+            <div className="relative flex items-center justify-center w-24 h-24 mb-8">
+              <div className="absolute inset-0 border-4 border-primary/20 border-t-primary rounded-full animate-spin [animation-duration:1200ms]" />
+              <div className="w-12 h-12 bg-primary/10 rounded-full animate-pulse flex items-center justify-center">
+                <div className="w-4 h-4 bg-primary rounded-full shadow-[0_0_20px_rgba(197,165,114,0.8)]" />
+              </div>
             </div>
-
-            {/* 2. Skeleton Cards */}
-            <div className="flex gap-6 overflow-x-auto scrollbar-none pb-8 mb-4">
-              {[1, 2, 3, 4].map((n) => (
-                <div key={`card-skel-${n}`} className="shrink-0 w-[45%] md:w-[30%] lg:w-[23%] bg-white dark:bg-[#09090B] border border-zinc-200 dark:border-white/5 rounded-3xl overflow-hidden flex flex-col animate-pulse shadow-sm min-h-[350px]">
-                  <div className="h-44 bg-zinc-200/50 dark:bg-white/5" />
-                  <div className="p-5 flex flex-col flex-1 space-y-3">
-                    <div className="h-4 bg-zinc-200/60 dark:bg-white/10 rounded w-3/4" />
-                    <div className="h-3 bg-zinc-200/60 dark:bg-white/10 rounded w-1/2" />
-                    <div className="h-3 bg-zinc-200/60 dark:bg-white/10 rounded w-1/4 mt-auto" />
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* 3. Skeleton Button */}
-            <div className="text-center mt-6">
-              <div className="w-48 h-12 bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl mx-auto animate-pulse" />
+            
+            {/* Premium Typography */}
+            <div className="text-center">
+              <span className="text-xs font-black text-primary uppercase tracking-[0.5em] animate-pulse">Loading Templates...</span>
+              <p className="text-[10px] text-zinc-500 dark:text-zinc-500 uppercase tracking-widest mt-3 font-black italic">
+                Staging your premium presentation assets
+              </p>
             </div>
           </div>
         ) : (
