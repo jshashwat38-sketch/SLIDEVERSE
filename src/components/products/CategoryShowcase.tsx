@@ -280,12 +280,20 @@ export default function CategoryShowcase({ products, categories, language, t }: 
         {/* Dynamic Show All Button */}
         {filtered.length > 0 && (
           <div className="text-center">
-            <Link href={`/category/${selectedCategoryId?.replace('cat-', '')}`}>
-              <button className="bg-zinc-100 dark:bg-white/5 hover:bg-zinc-200 dark:hover:bg-white/10 text-zinc-900 dark:text-white hover:text-primary border border-zinc-200 dark:border-white/10 px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-2 mx-auto cursor-pointer transition-all">
-                <span>Show all {selectedCatName} PPTs</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </Link>
+            <button 
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.scrollTo(0, 0);
+                  document.documentElement.scrollTop = 0;
+                  document.body.scrollTop = 0;
+                }
+                router.push(`/category/${selectedCategoryId?.replace('cat-', '')}`);
+              }}
+              className="bg-zinc-100 dark:bg-white/5 hover:bg-zinc-200 dark:hover:bg-white/10 text-zinc-900 dark:text-white hover:text-primary border border-zinc-200 dark:border-white/10 px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center gap-2 mx-auto cursor-pointer transition-all"
+            >
+              <span>Show all {selectedCatName} PPTs</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
         )}
           </>
