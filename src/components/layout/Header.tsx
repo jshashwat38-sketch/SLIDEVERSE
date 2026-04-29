@@ -57,16 +57,17 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
           </button>
 
           {/* Mobile Logo - Always visible when sidebar is closed */}
-          <div 
-            onClick={() => {
-              setIsMobileLogoClicked(true);
-              setTimeout(() => {
-                window.location.reload();
-              }, 400);
-            }} 
-            className="flex items-center gap-2 shrink group cursor-pointer min-w-0"
-          >
-            <div className="relative flex items-center justify-center w-10 h-10 rounded-full overflow-hidden shrink-0">
+          <div className="flex items-center gap-2 shrink min-w-0">
+            <div 
+              onClick={() => {
+                if (pathname === "/") {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                } else {
+                  router.push("/");
+                }
+              }}
+              className="relative flex items-center justify-center w-10 h-10 rounded-full overflow-hidden shrink-0 cursor-pointer group"
+            >
               {/* Spinning gradient border */}
               <div 
                 className="absolute inset-0 w-full h-full opacity-80" 
@@ -92,8 +93,10 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
                 className="w-full h-full object-contain relative z-20 mix-blend-screen scale-[1.35] group-hover:scale-[1.45] transition-transform duration-500" 
               />
             </div>
+
             <h1 
-              className={`text-xs sm:text-base font-black uppercase transition-all duration-300 group-hover:text-primary group-hover:scale-105 truncate ${isMobileLogoClicked ? 'text-primary' : 'text-white'}`}
+              onClick={() => window.location.reload()}
+              className={`text-xs sm:text-base font-black uppercase transition-all duration-300 hover:text-primary hover:scale-105 truncate cursor-pointer ${isMobileLogoClicked ? 'text-primary' : (theme === 'dark' ? 'text-white' : 'text-[#000000]')}`}
               style={{
                 fontStyle: 'italic',
                 transform: 'skewX(-8deg)',
