@@ -9,8 +9,25 @@ import { useRouter } from "next/navigation";
 
 export default function CategoryShowcase({ products, categories, language, t }: { products: any[]; categories: any[]; language: string; t: any }) {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(4);
   const [hoveredProduct, setHoveredProduct] = useState<any | null>(null);
   const [activeMobilePopup, setActiveMobilePopup] = useState<any | null>(null);
+
+  useEffect(() => {
+    if (selectedCategoryId) {
+      setIsLoading(true);
+      setVisibleCount(4);
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+        const fullLoadTimer = setTimeout(() => {
+          setVisibleCount(20);
+        }, 500);
+        return () => clearTimeout(fullLoadTimer);
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedCategoryId]);
   const sliderRef = useRef<HTMLDivElement>(null);
   const categorySliderRef = useRef<HTMLDivElement>(null);
   const { addToCart } = useCart();
@@ -31,7 +48,8 @@ export default function CategoryShowcase({ products, categories, language, t }: 
     }
   }, [categories]);
 
-  const filtered = products.filter(p => p.category_id === selectedCategoryId).slice(0, 20);
+  const filtered = products.filter(p => p.category_id === selectedCategoryId).slice(0, visibleCount);
+  const totalInCategory = products.filter(p => p.category_id === selectedCategoryId).length;
   const selectedCat = categories.find(c => c.id === selectedCategoryId);
   const selectedCatName = selectedCat ? (typeof selectedCat.title === 'object' ? (selectedCat.title[language] || selectedCat.title.en) : selectedCat.title) : "";
 
@@ -128,14 +146,25 @@ export default function CategoryShowcase({ products, categories, language, t }: 
               ref={sliderRef}
               className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none select-none pb-8"
             >
-              {filtered.length === 0 ? (
+              {isLoading ? (
+                [1, 2, 3, 4].map((n) => (
+                  <div key={`skel-${n}`} className="snap-start shrink-0 w-[45%] md:w-[30%] lg:w-[23%] bg-white dark:bg-[#09090B] border border-zinc-200 dark:border-white/5 rounded-3xl overflow-hidden flex flex-col animate-pulse shadow-sm min-h-[300px]">
+                    <div className="h-40 bg-zinc-100 dark:bg-zinc-800" />
+                    <div className="p-4 flex flex-col flex-1 space-y-3">
+                      <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-3/4" />
+                      <div className="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-1/2" />
+                      <div className="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-1/4 mt-auto" />
+                    </div>
+                  </div>
+                ))
+              ) : filtered.length === 0 ? (
                 <div className="w-full text-center py-16 bg-white/[0.01] border border-zinc-200 dark:border-white/5 rounded-[2.5rem]">
                   <span className="text-xs text-zinc-500 font-bold uppercase tracking-widest flex items-center justify-center gap-2">
-                  <Package className="w-5 h-5 text-primary" /> No presentations uploaded to this shelf yet.
-                </span>
-              </div>
-            ) : (
-              filtered.map((prod) => {
+                    <Package className="w-5 h-5 text-primary" /> No presentations uploaded to this shelf yet.
+                  </span>
+                </div>
+              ) : (
+                filtered.map((prod) => {
                 const titleStr = typeof prod.title === 'object' ? (prod.title[language] || prod.title.en) : prod.title;
                 const descStr = typeof prod.description === 'object' ? (prod.description[language] || prod.description.en) : prod.description;
                 const isBestseller = typeof prod.title === 'object' && prod.title?.is_bestseller;
