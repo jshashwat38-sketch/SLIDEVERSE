@@ -19,6 +19,13 @@ export default function CategoryClientPage({ category, products, id }: CategoryC
   const pathname = usePathname();
   const { language } = useLanguage();
 
+  useState(true);
+  useMemo(() => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  }, [id]);
+
   const [priceType, setPriceType] = useState<string>(searchParams.get('priceType') || 'all');
   const [priceRange, setPriceRange] = useState<string>(searchParams.get('priceRange') || 'all');
   const [ratingFilter, setRatingFilter] = useState<number>(Number(searchParams.get('rating')) || 0);
