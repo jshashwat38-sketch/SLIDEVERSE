@@ -118,9 +118,7 @@ export async function addProduct(formData: FormData) {
       features: features.split(',').map((f: string) => f.trim()).filter(Boolean),
       drive_link: driveLink,
       faqs: faqs,
-      variants: variants,
-      is_bestseller: formData.get("isBestseller") === "true",
-      is_top9: formData.get("isTop9") === "true"
+      variants: variants
     };
     
     const { error: insertError } = await supabase
@@ -134,7 +132,7 @@ export async function addProduct(formData: FormData) {
     return { success: true, product: newProduct };
   } catch (error) {
     console.error("Error adding product:", error);
-    return { success: false, error: "Failed to add product" };
+    return { success: false, error: error instanceof Error ? error.message : "Failed to add product" };
   }
 }
 
@@ -228,9 +226,7 @@ export async function updateProduct(id: string, formData: FormData) {
       features: features.split(',').map((f: string) => f.trim()).filter(Boolean),
       drive_link: driveLink,
       faqs: faqs,
-      variants: variants,
-      is_bestseller: formData.get("isBestseller") === "true",
-      is_top9: formData.get("isTop9") === "true"
+      variants: variants
     };
 
     if (finalImages.length > 0) {
@@ -250,7 +246,7 @@ export async function updateProduct(id: string, formData: FormData) {
     return { success: true };
   } catch (error) {
     console.error("Error updating product:", error);
-    return { success: false, error: "Failed to update product" };
+    return { success: false, error: error instanceof Error ? error.message : "Failed to update product" };
   }
 }
 
