@@ -322,11 +322,71 @@ export default function AdminProducts() {
                     <div className="h-[1px] flex-1 bg-white/5" />
                   </div>
                   
+                  <div className="mb-8">
+                    <div className="flex flex-col gap-3 max-w-md">
+                      <div className="flex items-center justify-between px-2">
+                        <span className="text-[10px] font-black text-primary uppercase tracking-widest">Cover Image (Required)</span>
+                        {imageUrls[0] || imageFiles[0] ? (
+                          <span className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">Active</span>
+                        ) : (
+                          <span className="text-[8px] font-black text-zinc-800 uppercase tracking-widest bg-white/[0.02] px-2 py-0.5 rounded-full border border-white/5">Empty</span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="relative shrink-0">
+                          <input
+                            type="file"
+                            accept="image/png, image/jpeg, image/jpg"
+                            onChange={(e) => {
+                              if (e.target.files && e.target.files[0]) {
+                                const newFiles = [...imageFiles];
+                                newFiles[0] = e.target.files[0];
+                                setImageFiles(newFiles);
+                                const newUrls = [...imageUrls];
+                                newUrls[0] = "";
+                                setImageUrls(newUrls);
+                              }
+                            }}
+                            className="hidden"
+                            id="image-upload-cover"
+                          />
+                          <label 
+                            htmlFor="image-upload-cover"
+                            className={`flex items-center justify-center w-16 h-16 rounded-2xl cursor-pointer transition-all border ${imageFiles[0] ? 'bg-primary text-black border-primary shadow-[0_0_15px_rgba(197,165,114,0.3)]' : 'bg-white/5 text-zinc-500 border-white/10 hover:border-primary/30 hover:bg-primary/5'}`}
+                          >
+                            <ImageIcon className="w-6 h-6" />
+                          </label>
+                        </div>
+                        <input
+                          type="url"
+                          value={imageUrls[0]}
+                          onChange={(e) => {
+                            const newUrls = [...imageUrls];
+                            newUrls[0] = e.target.value;
+                            setImageUrls(newUrls);
+                            const newFiles = [...imageFiles];
+                            newFiles[0] = null;
+                            setImageFiles(newFiles);
+                          }}
+                          className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary/40 text-xs text-white placeholder:text-zinc-600"
+                          placeholder="Paste image URL here..."
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 mb-6 mt-8">
+                    <span className="text-[10px] font-black text-zinc-700 uppercase tracking-[0.4em]">Gallery Assets</span>
+                    <div className="h-[1px] flex-1 bg-white/5" />
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 mb-12">
-                    {[0, 1, 2, 3, 4, 5].map((index) => (
+                    {[1, 2, 3, 4, 5].map((index) => (
                       <div key={index} className="flex flex-col gap-3">
                         <div className="flex items-center justify-between px-2">
-                          <span className="text-[9px] font-black text-zinc-700 uppercase tracking-widest">Asset Slot {index + 1} (Recommended: 1200x800px)</span>
+                          <span className="text-[9px] font-black text-zinc-700 uppercase tracking-widest">
+                            {index === 0 ? "Cover Image (Main Display)" : `Gallery Asset ${index}`} (1200x800px)
+                          </span>
                           {imageUrls[index] || imageFiles[index] ? (
                             <span className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">Active</span>
                           ) : (
