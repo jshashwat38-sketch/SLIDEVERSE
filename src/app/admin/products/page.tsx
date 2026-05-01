@@ -376,9 +376,13 @@ export default function ProductsPage() {
                           />
                           <label 
                             htmlFor="image-upload-cover"
-                            className={`flex items-center justify-center w-16 h-16 rounded-2xl cursor-pointer transition-all border ${imageFiles[0] ? 'bg-primary text-black border-primary shadow-[0_0_15px_rgba(197,165,114,0.3)]' : 'bg-white/5 text-zinc-500 border-white/10 hover:border-primary/30 hover:bg-primary/5'}`}
+                            className={`flex items-center justify-center w-16 h-16 rounded-2xl cursor-pointer transition-all border overflow-hidden ${imageFiles[0] || imageUrls[0] ? 'border-primary shadow-[0_0_15px_rgba(197,165,114,0.3)]' : 'bg-white/5 text-zinc-500 border-white/10 hover:border-primary/30 hover:bg-primary/5'}`}
                           >
-                            <ImageIcon className="w-6 h-6" />
+                            {imageFiles[0] || imageUrls[0] ? (
+                              <img src={imageFiles[0] ? URL.createObjectURL(imageFiles[0]) : imageUrls[0]} className="w-full h-full object-cover" />
+                            ) : (
+                              <ImageIcon className="w-6 h-6" />
+                            )}
                           </label>
                         </div>
                         <input
@@ -444,9 +448,13 @@ export default function ProductsPage() {
                             />
                             <label 
                               htmlFor={`image-upload-${index}`}
-                              className={`flex items-center justify-center w-14 h-14 rounded-2xl cursor-pointer transition-all border ${imageFiles[index] ? 'bg-primary text-black border-primary shadow-[0_0_15px_rgba(197,165,114,0.3)]' : 'bg-white/5 text-zinc-500 border-white/10 hover:border-primary/30 hover:bg-primary/5'}`}
+                              className={`flex items-center justify-center w-16 h-16 rounded-2xl cursor-pointer transition-all border overflow-hidden ${imageFiles[index] || imageUrls[index] ? 'border-primary shadow-[0_0_15px_rgba(197,165,114,0.3)]' : 'bg-white/5 text-zinc-500 border-white/10 hover:border-primary/30 hover:bg-primary/5'}`}
                             >
-                              <ImageIcon className="w-5 h-5" />
+                              {imageFiles[index] || imageUrls[index] ? (
+                                <img src={imageFiles[index] ? URL.createObjectURL(imageFiles[index]) : imageUrls[index]} className="w-full h-full object-cover" />
+                              ) : (
+                                <ImageIcon className="w-6 h-6" />
+                              )}
                             </label>
                           </div>
                           <input
@@ -685,7 +693,7 @@ export default function ProductsPage() {
                     <tr key={product.id} className="hover:bg-white/[0.02] transition-colors group">
                       <td className="p-10">
                         <div className="flex items-center gap-8">
-                          <div className="w-20 h-20 rounded-[1.5rem] overflow-hidden border border-white/10 group-hover:border-primary/50 transition-all shadow-2xl relative">
+                          <div className="w-32 h-20 rounded-[1.2rem] overflow-hidden border border-white/10 group-hover:border-primary/50 transition-all shadow-2xl relative shrink-0">
                             <img 
                               src={product.image_url || product.imageUrl || (product.images && product.images[0]) || "https://placehold.co/400x400?text=No+Asset"} 
                               alt="" 
