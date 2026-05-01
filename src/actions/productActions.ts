@@ -138,6 +138,25 @@ export async function addProduct(formData: FormData) {
 
 export async function addBundle(bundleData: any) {
   try {
+    let finalImageUrl = bundleData.imageUrl || "";
+
+    if (bundleData.imageFile && bundleData.imageFile.size > 0) {
+      const file = bundleData.imageFile;
+      const filename = `bundles/${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from("product-images")
+        .upload(filename, file);
+
+      if (!uploadError) {
+        const { data: publicUrlData } = supabase.storage
+          .from("product-images")
+          .getPublicUrl(filename);
+        finalImageUrl = publicUrlData.publicUrl;
+      } else {
+        console.error("Bundle image upload error:", uploadError);
+      }
+    }
+
     const id = `bundle-${Date.now()}`;
     const newBundle = {
       id,
@@ -152,8 +171,8 @@ export async function addBundle(bundleData: any) {
       description: { en: bundleData.description || "" },
       price: Number(bundleData.price || 0),
       category_id: bundleData.categoryId || null,
-      image_url: bundleData.imageUrl || "",
-      images: [bundleData.imageUrl].filter(Boolean),
+      image_url: finalImageUrl,
+      images: [finalImageUrl].filter(Boolean),
       features: typeof bundleData.features === 'string' ? bundleData.features.split(',').map((f: string) => f.trim()).filter(Boolean) : [],
       drive_link: bundleData.driveLink || "",
       faqs: [],
@@ -178,6 +197,25 @@ export async function addBundle(bundleData: any) {
 
 export async function updateBundle(id: string, bundleData: any) {
   try {
+    let finalImageUrl = bundleData.imageUrl || "";
+
+    if (bundleData.imageFile && bundleData.imageFile.size > 0) {
+      const file = bundleData.imageFile;
+      const filename = `bundles/${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from("product-images")
+        .upload(filename, file);
+
+      if (!uploadError) {
+        const { data: publicUrlData } = supabase.storage
+          .from("product-images")
+          .getPublicUrl(filename);
+        finalImageUrl = publicUrlData.publicUrl;
+      } else {
+        console.error("Bundle image upload error:", uploadError);
+      }
+    }
+
     const updatedBundle: any = {
       title: { 
         en: bundleData.title, 
@@ -193,9 +231,9 @@ export async function updateBundle(id: string, bundleData: any) {
       drive_link: bundleData.driveLink || ""
     };
 
-    if (bundleData.imageUrl) {
-      updatedBundle.image_url = bundleData.imageUrl;
-      updatedBundle.images = [bundleData.imageUrl];
+    if (finalImageUrl) {
+      updatedBundle.image_url = finalImageUrl;
+      updatedBundle.images = [finalImageUrl];
     }
 
     if (typeof bundleData.features === 'string') {

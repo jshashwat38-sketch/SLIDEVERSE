@@ -30,6 +30,7 @@ export default function AdminBundles() {
 
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
   const [bundleItemsCustomData, setBundleItemsCustomData] = useState<Record<string, { name: string; image: string; description: string }>>({});
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   useEffect(() => {
     fetchInitialData();
@@ -77,6 +78,7 @@ export default function AdminBundles() {
     });
     setBundleItemsCustomData(customData);
 
+    setImageFile(null);
     setEditingId(bundle.id);
     setIsAdding(true);
   };
@@ -128,6 +130,7 @@ export default function AdminBundles() {
       isTop9: false,
       active: true
     });
+    setImageFile(null);
     setSelectedProductIds([]);
     setBundleItemsCustomData({});
   };
@@ -145,6 +148,7 @@ export default function AdminBundles() {
 
     const payload = {
       ...formData,
+      imageFile,
       bundleItems
     };
 
@@ -243,15 +247,46 @@ export default function AdminBundles() {
               {/* Extra Meta */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                  <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-3">Cover Image URL</label>
-                  <input
-                    type="url"
-                    required
-                    value={formData.imageUrl}
-                    onChange={(e) => setFormData({...formData, imageUrl: e.target.value})}
-                    className="w-full px-6 py-4 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl text-zinc-900 dark:text-white font-bold"
-                    placeholder="https://images.unsplash.com/..."
-                  />
+                  <div className="flex items-center justify-between mb-3">
+                    <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-widest">Cover Image (Required)</label>
+                    {formData.imageUrl || imageFile ? (
+                      <span className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">Active</span>
+                    ) : (
+                      <span className="text-[8px] font-black text-zinc-800 uppercase tracking-widest bg-white/[0.02] px-2 py-0.5 rounded-full border border-white/5">Empty</span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="relative shrink-0">
+                      <input
+                        type="file"
+                        accept="image/png, image/jpeg, image/jpg"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files[0]) {
+                            setImageFile(e.target.files[0]);
+                            setFormData({ ...formData, imageUrl: "" });
+                          }
+                        }}
+                        className="hidden"
+                        id="bundle-image-upload"
+                      />
+                      <label 
+                        htmlFor="bundle-image-upload"
+                        className={`flex items-center justify-center w-16 h-16 rounded-2xl cursor-pointer transition-all border ${imageFile ? 'bg-primary text-black border-primary shadow-[0_0_15px_rgba(197,165,114,0.3)]' : 'bg-white/5 text-zinc-500 border-white/10 hover:border-primary/30 hover:bg-primary/5'}`}
+                      >
+                        <ImageIcon className="w-6 h-6" />
+                      </label>
+                    </div>
+                    <input
+                      type="url"
+                      value={formData.imageUrl}
+                      onChange={(e) => {
+                        setFormData({...formData, imageUrl: e.target.value});
+                        setImageFile(null);
+                      }}
+                      className="flex-1 px-6 py-4 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl text-zinc-900 dark:text-white font-bold"
+                      placeholder="Paste image URL here..."
+                    />
+                  </div>
                 </div>
 
                 <div>
