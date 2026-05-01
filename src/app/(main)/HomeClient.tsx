@@ -515,6 +515,20 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
         t={t} 
       />
 
+      {/* Custom PPT Section */}
+      <section className="py-20 md:py-28 relative overflow-hidden bg-[#09090B]">
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="w-16 h-[1px] bg-primary/30" />
+              <span className="text-[10px] md:text-xs font-black text-primary uppercase tracking-[0.5em] italic">Need Something Unique?</span>
+              <div className="w-16 h-[1px] bg-primary/30" />
+            </div>
+          </div>
+          <CustomPptBox />
+        </div>
+      </section>
+
       {/* About Us Section */}
       <section id="about" className="scroll-mt-24 py-20 md:py-32 relative overflow-hidden bg-card/40">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
@@ -737,9 +751,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-6">
-        <CustomPptBox />
-      </div>
+
 
       {/* Contact Section */}
       <section id="contact" className="scroll-mt-24 py-24 md:py-32 relative border-t border-white/5">
