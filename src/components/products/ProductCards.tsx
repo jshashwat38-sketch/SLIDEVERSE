@@ -136,7 +136,7 @@ export function ProductCard(props: any) {
   if (variant === "micro-grid-mobile") {
     return (
       <div className="bg-[#09090B] border border-white/5 rounded-xl overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all relative">
-        <Link href={`/product/${id}`} className="block aspect-[4/3] bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-t-xl">
+        <Link href={`/product/${id}`} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-t-xl">
           <img 
             src={displayImage || "https://placehold.co/200x150?text=No+Image"} 
             alt={displayTitle} 
@@ -177,7 +177,7 @@ export function ProductCard(props: any) {
         animate={{ opacity: 1, y: 0 }}
         className="group bg-[#09090B] border border-white/5 rounded-[2.5rem] overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,165,114,0.05)] relative"
       >
-        <Link href={`/product/${id}`} className="block h-48 bg-black relative shrink-0 overflow-hidden cursor-pointer">
+        <Link href={`/product/${id}`} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer">
           <img 
             src={displayImage || "https://placehold.co/600x400?text=No+Image"} 
             alt={displayTitle} 
@@ -286,7 +286,7 @@ export function ProductCard(props: any) {
       animate={{ opacity: 1, y: 0 }}
       className="group bg-[#09090B] border border-white/5 rounded-[2.5rem] overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,165,114,0.05)] relative"
     >
-      <Link href={`/product/${id}`} className="block h-48 bg-black relative shrink-0 overflow-hidden cursor-pointer">
+      <Link href={`/product/${id}`} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer">
         <img 
           src={displayImage || "https://placehold.co/600x400?text=No+Image"} 
           alt={displayTitle} 
