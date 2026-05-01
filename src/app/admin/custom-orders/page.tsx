@@ -194,41 +194,41 @@ export default function CustomOrdersDashboard() {
         </div>
 
         {/* Details Drawer */}
-        <div className="bg-[#09090C] border border-white/5 rounded-[3rem] p-8 lg:p-10 shadow-2xl relative overflow-hidden h-fit">
+        <div className="bg-card dark:bg-[#09090C] border border-zinc-200 dark:border-white/5 rounded-[3rem] p-8 lg:p-10 shadow-2xl relative overflow-hidden h-fit">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
           
-          <h2 className="text-2xl font-black text-white italic uppercase tracking-tighter mb-8 flex items-center gap-3">
+          <h2 className="text-2xl font-black text-zinc-900 dark:text-white italic uppercase tracking-tighter mb-8 flex items-center gap-3">
             <Award className="w-6 h-6 text-primary" />
             Request Info
           </h2>
 
           {selectedOrder ? (
             <div className="space-y-6">
-              <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 flex flex-col gap-2">
+              <div className="bg-zinc-50 dark:bg-white/[0.02] border border-zinc-200 dark:border-white/5 rounded-2xl p-4 flex flex-col gap-2">
                 <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Topic / Purpose</span>
-                <span className="text-white font-black text-lg uppercase italic tracking-tight">{selectedOrder.specs.topic}</span>
+                <span className="text-zinc-900 dark:text-white font-black text-lg uppercase italic tracking-tight">{selectedOrder.specs.topic}</span>
                 <span className="text-xs text-primary font-bold uppercase tracking-widest">{selectedOrder.specs.purpose}</span>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 flex flex-col gap-1">
+                <div className="bg-zinc-50 dark:bg-white/[0.02] border border-zinc-200 dark:border-white/5 rounded-2xl p-4 flex flex-col gap-1">
                   <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Slides</span>
-                  <span className="text-white font-black text-sm">{selectedOrder.specs.slides}</span>
+                  <span className="text-zinc-900 dark:text-white font-black text-sm">{selectedOrder.specs.slides}</span>
                 </div>
-                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 flex flex-col gap-1">
+                <div className="bg-zinc-50 dark:bg-white/[0.02] border border-zinc-200 dark:border-white/5 rounded-2xl p-4 flex flex-col gap-1">
                   <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Style</span>
-                  <span className="text-white font-black text-sm uppercase">{selectedOrder.specs.style}</span>
+                  <span className="text-zinc-900 dark:text-white font-black text-sm uppercase">{selectedOrder.specs.style}</span>
                 </div>
               </div>
 
-              <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 flex flex-col gap-3">
+              <div className="bg-zinc-50 dark:bg-white/[0.02] border border-zinc-200 dark:border-white/5 rounded-2xl p-4 flex flex-col gap-3">
                 <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Customer Specs</span>
-                <div className="flex items-center gap-3 text-xs text-white">
+                <div className="flex items-center gap-3 text-xs text-zinc-900 dark:text-white">
                   <Mail className="w-4 h-4 text-primary shrink-0" />
                   <span className="truncate">{selectedOrder.email}</span>
                 </div>
                 {selectedOrder.specs.phone && (
-                  <div className="flex items-center gap-3 text-xs text-white">
+                  <div className="flex items-center gap-3 text-xs text-zinc-900 dark:text-white">
                     <Phone className="w-4 h-4 text-primary shrink-0" />
                     <span>{selectedOrder.specs.phone}</span>
                   </div>
@@ -236,9 +236,9 @@ export default function CustomOrdersDashboard() {
               </div>
 
               {selectedOrder.specs.notes && (
-                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 flex flex-col gap-1">
+                <div className="bg-zinc-50 dark:bg-white/[0.02] border border-zinc-200 dark:border-white/5 rounded-2xl p-4 flex flex-col gap-1">
                   <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Extra Notes</span>
-                  <p className="text-zinc-300 text-xs font-semibold leading-relaxed">{selectedOrder.specs.notes}</p>
+                  <p className="text-zinc-600 dark:text-zinc-300 text-xs font-semibold leading-relaxed">{selectedOrder.specs.notes}</p>
                 </div>
               )}
 
@@ -257,7 +257,7 @@ export default function CustomOrdersDashboard() {
                 </div>
               )}
 
-              <div className="pt-6 border-t border-white/5">
+              <div className="pt-6 border-t border-zinc-200 dark:border-white/5">
                 <span className="block text-[9px] font-black uppercase tracking-widest text-zinc-500 mb-3 ml-1">Update Status</span>
                 <div className="grid grid-cols-2 gap-2">
                   {["Reviewing", "In Progress", "Awaiting Details", "Completed", "Delivered", "Cancelled"].map((st) => (
@@ -267,7 +267,7 @@ export default function CustomOrdersDashboard() {
                       className={`text-[9px] font-black uppercase tracking-widest py-2.5 rounded-xl border transition-all ${
                         selectedOrder.specs.orderStatus === st
                           ? "bg-primary border-primary text-black"
-                          : "border-white/5 hover:border-primary/40 text-zinc-400"
+                          : "border-zinc-200 dark:border-white/5 hover:border-primary/40 text-zinc-600 dark:text-zinc-400"
                       }`}
                     >
                       {st}
