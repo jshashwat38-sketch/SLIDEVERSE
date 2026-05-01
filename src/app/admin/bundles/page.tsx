@@ -149,20 +149,33 @@ export default function AdminBundles() {
       description: bundleItemsCustomData[id]?.description || ""
     }));
 
-    const payload = {
-      ...formData,
-      imageFile,
-      bundleItems
-    };
+    const data = new FormData();
+    const dataObj = { ...formData, bundleItems: bundleItems.map(item => ({ ...item, imageFile: undefined })) };
+    data.append('bundleData', JSON.stringify(dataObj));
 
-    const res = editingId ? await updateBundle(editingId, payload) : await addBundle(payload);
+    if (imageFile) {
+      data.append('mainImage', imageFile);
+    }
 
-    if (res.success) {
-      toast.success(editingId ? "Bundle updated!" : "Bundle created!");
-      resetForm();
-      fetchInitialData();
-    } else {
-      toast.error(`Failed: ${res.error}`);
+    bundleItems.forEach((item, index) => {
+      if (item.imageFile) {
+        data.append(`itemImage_${index}`, item.imageFile);
+      }
+    });
+
+    try {
+      const res = editingId ? await updateBundle(editingId, data) : await addBundle(data);
+
+      if (res.success) {
+        toast.success(editingId ? "Bundle updated!" : "Bundle created!");
+        resetForm();
+        fetchInitialData();
+      } else {
+        toast.error(`Failed: ${res.error}`);
+      }
+    } catch (err: any) {
+      console.error(err);
+      toast.error(`Error: ${err.message || 'An error occurred during deployment'}`);
     }
     setIsSubmitting(false);
   };

@@ -100,11 +100,17 @@ export function GlobalFooter() {
           <div className="space-y-6">
             <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] italic">Navigation</h3>
             <ul className="space-y-4">
-              {["Home", "Categories", "About Us", "Our Story", "Contact Us"].map((item, i) => (
+              {[
+                { name: "Home", link: "/" },
+                { name: "Categories", link: "/#featured" },
+                { name: "About Us", link: "/#about" },
+                { name: "Our Story", link: "/#story" },
+                { name: "Contact Us", link: "/#contact" }
+              ].map((item, i) => (
                 <li key={i}>
-                  <Link href={`/#${item.toLowerCase().replace(" ", "")}`} className="text-zinc-500 hover:text-primary text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2 group">
+                  <Link href={item.link} className="text-zinc-500 hover:text-primary text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2 group">
                     <span className="w-0 h-px bg-primary transition-all group-hover:w-4" />
-                    {item}
+                    {item.name}
                   </Link>
                 </li>
               ))}

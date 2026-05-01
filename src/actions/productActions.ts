@@ -136,16 +136,19 @@ export async function addProduct(formData: FormData) {
   }
 }
 
-export async function addBundle(bundleData: any) {
+export async function addBundle(formData: FormData) {
   try {
+    const bundleDataStr = formData.get('bundleData') as string;
+    const bundleData = JSON.parse(bundleDataStr);
+
     let finalImageUrl = bundleData.imageUrl || "";
 
-    if (bundleData.imageFile && bundleData.imageFile.size > 0) {
-      const file = bundleData.imageFile;
-      const filename = `bundles/${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
-      const { data: uploadData, error: uploadError } = await supabase.storage
+    const mainImage = formData.get('mainImage') as File | null;
+    if (mainImage && mainImage.size > 0) {
+      const filename = `bundles/${Date.now()}-${Math.random().toString(36).substring(7)}-${mainImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+      const { error: uploadError } = await supabase.storage
         .from("product-images")
-        .upload(filename, file);
+        .upload(filename, mainImage);
 
       if (!uploadError) {
         const { data: publicUrlData } = supabase.storage
@@ -157,13 +160,14 @@ export async function addBundle(bundleData: any) {
       }
     }
 
-    for (const item of bundleData.bundleItems || []) {
-      if (item.imageFile && item.imageFile.size > 0) {
-        const file = item.imageFile;
-        const filename = `bundles/items/${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+    for (let i = 0; i < (bundleData.bundleItems || []).length; i++) {
+      const item = bundleData.bundleItems[i];
+      const itemImage = formData.get(`itemImage_${i}`) as File | null;
+      if (itemImage && itemImage.size > 0) {
+        const filename = `bundles/items/${Date.now()}-${Math.random().toString(36).substring(7)}-${itemImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
         const { error: uploadError } = await supabase.storage
           .from("product-images")
-          .upload(filename, file);
+          .upload(filename, itemImage);
 
         if (!uploadError) {
           const { data: publicUrlData } = supabase.storage
@@ -174,7 +178,6 @@ export async function addBundle(bundleData: any) {
           console.error("Bundle item image upload error:", uploadError);
         }
       }
-      delete item.imageFile;
     }
 
     const id = `bundle-${Date.now()}`;
@@ -215,16 +218,19 @@ export async function addBundle(bundleData: any) {
   }
 }
 
-export async function updateBundle(id: string, bundleData: any) {
+export async function updateBundle(id: string, formData: FormData) {
   try {
+    const bundleDataStr = formData.get('bundleData') as string;
+    const bundleData = JSON.parse(bundleDataStr);
+
     let finalImageUrl = bundleData.imageUrl || "";
 
-    if (bundleData.imageFile && bundleData.imageFile.size > 0) {
-      const file = bundleData.imageFile;
-      const filename = `bundles/${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
-      const { data: uploadData, error: uploadError } = await supabase.storage
+    const mainImage = formData.get('mainImage') as File | null;
+    if (mainImage && mainImage.size > 0) {
+      const filename = `bundles/${Date.now()}-${Math.random().toString(36).substring(7)}-${mainImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+      const { error: uploadError } = await supabase.storage
         .from("product-images")
-        .upload(filename, file);
+        .upload(filename, mainImage);
 
       if (!uploadError) {
         const { data: publicUrlData } = supabase.storage
@@ -236,13 +242,14 @@ export async function updateBundle(id: string, bundleData: any) {
       }
     }
 
-    for (const item of bundleData.bundleItems || []) {
-      if (item.imageFile && item.imageFile.size > 0) {
-        const file = item.imageFile;
-        const filename = `bundles/items/${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+    for (let i = 0; i < (bundleData.bundleItems || []).length; i++) {
+      const item = bundleData.bundleItems[i];
+      const itemImage = formData.get(`itemImage_${i}`) as File | null;
+      if (itemImage && itemImage.size > 0) {
+        const filename = `bundles/items/${Date.now()}-${Math.random().toString(36).substring(7)}-${itemImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
         const { error: uploadError } = await supabase.storage
           .from("product-images")
-          .upload(filename, file);
+          .upload(filename, itemImage);
 
         if (!uploadError) {
           const { data: publicUrlData } = supabase.storage
@@ -253,7 +260,6 @@ export async function updateBundle(id: string, bundleData: any) {
           console.error("Bundle item image upload error:", uploadError);
         }
       }
-      delete item.imageFile;
     }
 
     const updatedBundle: any = {
