@@ -420,7 +420,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 </div>
 
                 {/* Desktop Grid (Hidden on Mobile) */}
-                <div className="hidden sm:grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-4 lg:gap-6">
+                <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
                   {featuredProducts.map((product, index) => (
                     <motion.div 
                       key={product.id}
@@ -470,7 +470,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 </div>
 
                 {/* Desktop Bestsellers (Hidden on Mobile) */}
-                <div className="hidden sm:grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-6 lg:gap-8">
+                <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
                   {(() => {
                     const explicitBestsellers = filteredProducts.filter(p => p.is_bestseller || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_bestseller));
                     return explicitBestsellers.length > 0 
