@@ -261,6 +261,51 @@ export default function BundlesPage() {
                 </div>
               </div>
 
+              {/* Storefront Assignment */}
+              <div className="bg-white/[0.02] p-8 rounded-[2rem] border border-white/5">
+                <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-6 ml-2">Storefront Assignment</label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setFormData({...formData, isBestseller: !formData.isBestseller, isTop9: false})}
+                    className={`flex items-center justify-between p-6 rounded-2xl border transition-all ${formData.isBestseller ? 'bg-primary/10 border-primary/40 text-primary shadow-[0_0_20px_rgba(197,165,114,0.1)]' : 'bg-black/20 border-white/5 text-zinc-500 hover:border-white/10'}`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`p-3 rounded-xl ${formData.isBestseller ? 'bg-primary text-black' : 'bg-white/5'}`}>
+                        <Sparkles className="w-5 h-5" />
+                      </div>
+                      <div className="text-left">
+                        <div className="text-xs font-black uppercase tracking-widest mb-1">Bestsellers</div>
+                        <div className="text-[10px] opacity-60 font-medium">Show in premium matrix</div>
+                      </div>
+                    </div>
+                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${formData.isBestseller ? 'border-primary bg-primary' : 'border-white/10'}`}>
+                      {formData.isBestseller && <div className="w-2 h-2 bg-black rounded-full" />}
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setFormData({...formData, isTop9: !formData.isTop9, isBestseller: false})}
+                    className={`flex items-center justify-between p-6 rounded-2xl border transition-all ${formData.isTop9 ? 'bg-primary/10 border-primary/40 text-primary shadow-[0_0_20px_rgba(197,165,114,0.1)]' : 'bg-black/20 border-white/5 text-zinc-500 hover:border-white/10'}`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`p-3 rounded-xl ${formData.isTop9 ? 'bg-primary text-black' : 'bg-white/5'}`}>
+                        <Package className="w-5 h-5" />
+                      </div>
+                      <div className="text-left">
+                        <div className="text-xs font-black uppercase tracking-widest mb-1">Featured Additions</div>
+                        <div className="text-[10px] opacity-60 font-medium">Show in primary showcase</div>
+                      </div>
+                    </div>
+                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${formData.isTop9 ? 'border-primary bg-primary' : 'border-white/10'}`}>
+                      {formData.isTop9 && <div className="w-2 h-2 bg-black rounded-full" />}
+                    </div>
+                  </button>
+                </div>
+                <p className="mt-4 ml-2 text-[9px] text-zinc-600 font-bold uppercase tracking-widest">Select one section or leave both unselected for standard catalog placement.</p>
+              </div>
+
               {/* Extra Meta */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
