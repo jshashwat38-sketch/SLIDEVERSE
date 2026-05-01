@@ -157,6 +157,26 @@ export async function addBundle(bundleData: any) {
       }
     }
 
+    for (const item of bundleData.bundleItems || []) {
+      if (item.imageFile && item.imageFile.size > 0) {
+        const file = item.imageFile;
+        const filename = `bundles/items/${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+        const { error: uploadError } = await supabase.storage
+          .from("product-images")
+          .upload(filename, file);
+
+        if (!uploadError) {
+          const { data: publicUrlData } = supabase.storage
+            .from("product-images")
+            .getPublicUrl(filename);
+          item.image = publicUrlData.publicUrl;
+        } else {
+          console.error("Bundle item image upload error:", uploadError);
+        }
+      }
+      delete item.imageFile;
+    }
+
     const id = `bundle-${Date.now()}`;
     const newBundle = {
       id,
@@ -214,6 +234,26 @@ export async function updateBundle(id: string, bundleData: any) {
       } else {
         console.error("Bundle image upload error:", uploadError);
       }
+    }
+
+    for (const item of bundleData.bundleItems || []) {
+      if (item.imageFile && item.imageFile.size > 0) {
+        const file = item.imageFile;
+        const filename = `bundles/items/${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+        const { error: uploadError } = await supabase.storage
+          .from("product-images")
+          .upload(filename, file);
+
+        if (!uploadError) {
+          const { data: publicUrlData } = supabase.storage
+            .from("product-images")
+            .getPublicUrl(filename);
+          item.image = publicUrlData.publicUrl;
+        } else {
+          console.error("Bundle item image upload error:", uploadError);
+        }
+      }
+      delete item.imageFile;
     }
 
     const updatedBundle: any = {

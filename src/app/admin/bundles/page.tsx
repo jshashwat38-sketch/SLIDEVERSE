@@ -29,7 +29,7 @@ export default function AdminBundles() {
   });
 
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
-  const [bundleItemsCustomData, setBundleItemsCustomData] = useState<Record<string, { name: string; image: string; description: string }>>({});
+  const [bundleItemsCustomData, setBundleItemsCustomData] = useState<Record<string, { name: string; image: string; imageFile?: File | null; description: string }>>({});
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   useEffect(() => {
@@ -73,6 +73,7 @@ export default function AdminBundles() {
       customData[item.product_id] = {
         name: item.name || "",
         image: item.image || "",
+        imageFile: null,
         description: item.description || ""
       };
     });
@@ -107,6 +108,7 @@ export default function AdminBundles() {
           [productId]: {
             name: typeof prod.title === 'object' ? (prod.title.en || "") : (prod.title || ""),
             image: prod.image_url || "",
+            imageFile: null,
             description: typeof prod.description === 'object' ? (prod.description.en || "") : (prod.description || "")
           }
         }));
@@ -143,6 +145,7 @@ export default function AdminBundles() {
       product_id: id,
       name: bundleItemsCustomData[id]?.name || "",
       image: bundleItemsCustomData[id]?.image || "",
+      imageFile: bundleItemsCustomData[id]?.imageFile || null,
       description: bundleItemsCustomData[id]?.description || ""
     }));
 
@@ -390,17 +393,41 @@ export default function AdminBundles() {
                       </div>
 
                       <div className="md:col-span-1">
-                        <span className="text-[10px] text-zinc-500 font-bold uppercase block mb-1">Display Image URL</span>
-                        <input
-                          type="url"
-                          required
-                          value={bundleItemsCustomData[id]?.image || ""}
-                          onChange={(e) => setBundleItemsCustomData({
-                            ...bundleItemsCustomData,
-                            [id]: { ...bundleItemsCustomData[id], image: e.target.value }
-                          })}
-                          className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-xs"
-                        />
+                        <span className="text-[10px] text-zinc-500 font-bold uppercase block mb-1">Display Image Asset</span>
+                        <div className="flex items-center gap-4">
+                          <div className="relative shrink-0">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              id={`bundle-item-img-${id}`}
+                              className="hidden"
+                              onChange={(e) => {
+                                if (e.target.files && e.target.files[0]) {
+                                  setBundleItemsCustomData({
+                                    ...bundleItemsCustomData,
+                                    [id]: { ...bundleItemsCustomData[id], imageFile: e.target.files[0], image: "" }
+                                  });
+                                }
+                              }}
+                            />
+                            <label 
+                              htmlFor={`bundle-item-img-${id}`}
+                              className={`flex items-center justify-center w-10 h-10 rounded-lg border cursor-pointer transition-all ${bundleItemsCustomData[id]?.imageFile ? 'bg-primary text-black border-primary shadow-[0_0_15px_rgba(197,165,114,0.3)]' : 'bg-white/5 text-zinc-500 border-white/10 hover:border-primary/40 hover:bg-primary/5'}`}
+                            >
+                              <ImageIcon className="w-4 h-4" />
+                            </label>
+                          </div>
+                          <input
+                            type="url"
+                            value={bundleItemsCustomData[id]?.image || ""}
+                            onChange={(e) => setBundleItemsCustomData({
+                              ...bundleItemsCustomData,
+                              [id]: { ...bundleItemsCustomData[id], image: e.target.value, imageFile: null }
+                            })}
+                            className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-xs"
+                            placeholder="URL..."
+                          />
+                        </div>
                       </div>
                     </div>
                   ))}
