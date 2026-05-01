@@ -419,9 +419,9 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                   </h3>
                 </div>
 
-                {/* Desktop Grid (Hidden on Mobile) */}
-                <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-                  {featuredProducts.map((product, index) => (
+                {/* 3-Column Matrix (Desktop, Tablet, Mobile) */}
+                <div className="grid grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+                  {featuredProducts.slice(0, 12).map((product, index) => (
                     <motion.div 
                       key={product.id}
                       initial={{ opacity: 0, y: 30 }}
@@ -435,27 +435,17 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                       }`}
                       onClick={() => handleGridItemClick(index)}
                     >
-                      <ProductCard {...product} />
+                      {/* Using micro-variant for mobile/compact feel in 3-col grid if needed, or standard ProductCard */}
+                      <div className="hidden sm:block h-full">
+                        <ProductCard {...product} />
+                      </div>
+                      <div className="block sm:hidden">
+                        <ProductCard {...product} variant="micro-grid-mobile" />
+                      </div>
                     </motion.div>
                   ))}
                 </div>
-
-                {/* Mobile Grid (Compact 3 Columns) */}
-                <div className="grid sm:hidden grid-cols-3 gap-1.5">
-                  {featuredProducts.map((product, index) => (
-                    <div 
-                      key={`mob-${product.id}`}
-                      className={`rounded-xl overflow-hidden ${
-                        index === activeHeroIndex 
-                          ? "ring-1 ring-primary border border-primary/20 scale-[1.02]" 
-                          : "border border-transparent"
-                      }`}
-                      onClick={() => handleGridItemClick(index)}
-                    >
-                      <ProductCard {...product} variant="compact-home-mobile" />
-                    </div>
-                  ))}
-                </div>
+              </div>
               </div>
 
               {/* Bestsellers Grid */}
