@@ -147,7 +147,7 @@ export default function CategoriesPage() {
               </div>
 
               <div className="space-y-4">
-                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Visual Asset (Recommended: 800x800px)</label>
+                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Visual Asset (Recommended: 1000x1000px Square)</label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <input 
@@ -171,7 +171,7 @@ export default function CategoriesPage() {
                     </div>
                   </div>
                   
-                  <div className="aspect-video bg-white/5 rounded-2xl overflow-hidden border border-white/10 flex items-center justify-center relative group">
+                  <div className="aspect-square bg-white/5 rounded-2xl overflow-hidden border border-white/10 flex items-center justify-center relative group">
                     {(editingCategory?.imageUrl || formData.imageUrl) ? (
                       <img 
                         src={editingCategory ? editingCategory.imageUrl : formData.imageUrl} 

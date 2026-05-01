@@ -310,7 +310,7 @@ export default function BundlesPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <label className="block text-[10px] font-black text-primary uppercase tracking-widest">Main Bundle Image (Recommended: 1200x800px)</label>
+                    <label className="block text-[10px] font-black text-primary uppercase tracking-widest">Main Bundle Image (Recommended: 1000x1000px Square)</label>
                     {formData.imageUrl || imageFile ? (
                       <span className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">Active</span>
                     ) : (

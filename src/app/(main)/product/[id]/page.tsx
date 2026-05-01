@@ -219,7 +219,7 @@ export default function ProductDetailsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
           {/* Left: Gallery */}
           <div className="space-y-6">
-            <div className="aspect-[4/5] bg-white/[0.02] rounded-[3rem] overflow-hidden border border-white/5 relative group">
+            <div className="aspect-square bg-white/[0.02] rounded-[3rem] overflow-hidden border border-white/5 relative group">
               <AnimatePresence mode="wait">
                 <motion.img
                   key={activeImage}

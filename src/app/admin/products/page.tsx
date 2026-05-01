@@ -342,7 +342,7 @@ export default function ProductsPage() {
                   <div className="mb-8">
                     <div className="flex flex-col gap-3 max-w-md">
                       <div className="flex items-center justify-between px-2">
-                        <span className="text-[10px] font-black text-primary uppercase tracking-widest">Cover Image (Recommended: 1200x800px)</span>
+                        <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-3">Main Cover Asset (Recommended: 1000x1000px Square)</label>
                         {imageUrls[0] || imageFiles[0] ? (
                           <span className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">Active</span>
                         ) : (
@@ -413,7 +413,7 @@ export default function ProductsPage() {
                       <div key={index} className="flex flex-col gap-3">
                         <div className="flex items-center justify-between px-2">
                           <span className="text-[9px] font-black text-zinc-700 uppercase tracking-widest">
-                            Gallery Asset {index} (Rec: 1200x800px)
+                            Gallery Asset {index} (Rec: 1000x1000px Square)
                           </span>
                           {imageUrls[index] || imageFiles[index] ? (
                             <span className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">Active</span>
