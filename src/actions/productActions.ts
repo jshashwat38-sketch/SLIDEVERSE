@@ -108,6 +108,11 @@ export async function addProduct(formData: FormData) {
       if (url) finalImages.push(url);
     });
 
+    const faqs = questions.map((q, i) => ({
+      question: q.trim(),
+      answer: answers[i]?.trim() || ""
+    })).filter(faq => faq.question && faq.answer);
+
     const newProduct = {
       id: `prod-${Date.now()}`,
       title: { 
