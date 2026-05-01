@@ -44,7 +44,9 @@ export default function ProductsPage() {
 
   const fetchProducts = async () => {
     const data = await getProducts();
-    setProducts(data);
+    // Exclude bundles from the products list
+    const filtered = data.filter((p: any) => !(typeof p.title === 'object' && p.title?.is_bundle));
+    setProducts(filtered);
   };
 
   const resetForm = () => {
