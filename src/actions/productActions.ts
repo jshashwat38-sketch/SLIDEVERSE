@@ -143,42 +143,50 @@ export async function addBundle(formData: FormData) {
 
     let finalImageUrl = bundleData.imageUrl || "";
 
+    const uploadPromises: Promise<void>[] = [];
+
     const mainImage = formData.get('mainImage') as File | null;
     if (mainImage && mainImage.size > 0) {
-      const filename = `bundles/${Date.now()}-${Math.random().toString(36).substring(7)}-${mainImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
-      const { error: uploadError } = await supabase.storage
-        .from("product-images")
-        .upload(filename, mainImage);
-
-      if (!uploadError) {
-        const { data: publicUrlData } = supabase.storage
+      uploadPromises.push((async () => {
+        const filename = `bundles/${Date.now()}-${Math.random().toString(36).substring(7)}-${mainImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+        const { error: uploadError } = await supabase.storage
           .from("product-images")
-          .getPublicUrl(filename);
-        finalImageUrl = publicUrlData.publicUrl;
-      } else {
-        console.error("Bundle image upload error:", uploadError);
-      }
+          .upload(filename, mainImage);
+
+        if (!uploadError) {
+          const { data: publicUrlData } = supabase.storage
+            .from("product-images")
+            .getPublicUrl(filename);
+          finalImageUrl = publicUrlData.publicUrl;
+        } else {
+          console.error("Bundle image upload error:", uploadError);
+        }
+      })());
     }
 
     for (let i = 0; i < (bundleData.bundleItems || []).length; i++) {
       const item = bundleData.bundleItems[i];
       const itemImage = formData.get(`itemImage_${i}`) as File | null;
       if (itemImage && itemImage.size > 0) {
-        const filename = `bundles/items/${Date.now()}-${Math.random().toString(36).substring(7)}-${itemImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
-        const { error: uploadError } = await supabase.storage
-          .from("product-images")
-          .upload(filename, itemImage);
-
-        if (!uploadError) {
-          const { data: publicUrlData } = supabase.storage
+        uploadPromises.push((async () => {
+          const filename = `bundles/items/${Date.now()}-${Math.random().toString(36).substring(7)}-${itemImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+          const { error: uploadError } = await supabase.storage
             .from("product-images")
-            .getPublicUrl(filename);
-          item.image = publicUrlData.publicUrl;
-        } else {
-          console.error("Bundle item image upload error:", uploadError);
-        }
+            .upload(filename, itemImage);
+
+          if (!uploadError) {
+            const { data: publicUrlData } = supabase.storage
+              .from("product-images")
+              .getPublicUrl(filename);
+            item.image = publicUrlData.publicUrl;
+          } else {
+            console.error("Bundle item image upload error:", uploadError);
+          }
+        })());
       }
     }
+
+    await Promise.all(uploadPromises);
 
     const id = `bundle-${Date.now()}`;
     const newBundle = {
@@ -225,42 +233,50 @@ export async function updateBundle(id: string, formData: FormData) {
 
     let finalImageUrl = bundleData.imageUrl || "";
 
+    const uploadPromises: Promise<void>[] = [];
+
     const mainImage = formData.get('mainImage') as File | null;
     if (mainImage && mainImage.size > 0) {
-      const filename = `bundles/${Date.now()}-${Math.random().toString(36).substring(7)}-${mainImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
-      const { error: uploadError } = await supabase.storage
-        .from("product-images")
-        .upload(filename, mainImage);
-
-      if (!uploadError) {
-        const { data: publicUrlData } = supabase.storage
+      uploadPromises.push((async () => {
+        const filename = `bundles/${Date.now()}-${Math.random().toString(36).substring(7)}-${mainImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+        const { error: uploadError } = await supabase.storage
           .from("product-images")
-          .getPublicUrl(filename);
-        finalImageUrl = publicUrlData.publicUrl;
-      } else {
-        console.error("Bundle image upload error:", uploadError);
-      }
+          .upload(filename, mainImage);
+
+        if (!uploadError) {
+          const { data: publicUrlData } = supabase.storage
+            .from("product-images")
+            .getPublicUrl(filename);
+          finalImageUrl = publicUrlData.publicUrl;
+        } else {
+          console.error("Bundle image upload error:", uploadError);
+        }
+      })());
     }
 
     for (let i = 0; i < (bundleData.bundleItems || []).length; i++) {
       const item = bundleData.bundleItems[i];
       const itemImage = formData.get(`itemImage_${i}`) as File | null;
       if (itemImage && itemImage.size > 0) {
-        const filename = `bundles/items/${Date.now()}-${Math.random().toString(36).substring(7)}-${itemImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
-        const { error: uploadError } = await supabase.storage
-          .from("product-images")
-          .upload(filename, itemImage);
-
-        if (!uploadError) {
-          const { data: publicUrlData } = supabase.storage
+        uploadPromises.push((async () => {
+          const filename = `bundles/items/${Date.now()}-${Math.random().toString(36).substring(7)}-${itemImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+          const { error: uploadError } = await supabase.storage
             .from("product-images")
-            .getPublicUrl(filename);
-          item.image = publicUrlData.publicUrl;
-        } else {
-          console.error("Bundle item image upload error:", uploadError);
-        }
+            .upload(filename, itemImage);
+
+          if (!uploadError) {
+            const { data: publicUrlData } = supabase.storage
+              .from("product-images")
+              .getPublicUrl(filename);
+            item.image = publicUrlData.publicUrl;
+          } else {
+            console.error("Bundle item image upload error:", uploadError);
+          }
+        })());
       }
     }
+
+    await Promise.all(uploadPromises);
 
     const updatedBundle: any = {
       title: { 
