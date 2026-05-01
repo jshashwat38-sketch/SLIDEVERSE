@@ -210,13 +210,13 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
   }
 
   return (
-    <div id="custom-ppt-form-section" className="bg-card border border-white/10 rounded-[2.5rem] p-8 md:p-12 lg:p-16 relative overflow-hidden group hover:border-primary/10 transition-all max-w-[1400px] w-[95%] mx-auto shadow-2xl my-16 border-t-2 border-t-primary/30">
+    <div id="custom-ppt-form-section" className="bg-card border border-white/10 rounded-[2.5rem] p-8 md:p-12 lg:p-16 relative overflow-hidden group hover:border-primary/10 transition-all w-[94%] max-w-[1500px] mx-auto shadow-2xl my-16 border-t-2 border-t-primary/30">
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       <div className="absolute top-0 right-0 w-80 h-80 bg-primary/5 rounded-full blur-[100px] -mr-40 -mt-40 group-hover:bg-primary/10 transition-colors pointer-events-none" />
       
-      <div className="flex flex-col lg:flex-row items-start justify-between gap-12 relative z-10">
+      <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] items-start justify-between gap-12 lg:gap-[48px] relative z-10">
         {/* Left Informative Panel */}
-        <div className="flex-1 lg:w-[40%] max-w-xl">
+        <div className="max-w-xl">
           <div className="flex items-center gap-3 mb-6">
             <Gift className="w-5 h-5 text-primary animate-pulse" />
             <span className="text-[10px] font-black text-primary uppercase tracking-[0.4em] italic">Bespoke slide mechanics</span>
@@ -246,7 +246,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
         </div>
 
         {/* Right Input Form */}
-        <form onSubmit={handleRequest} className="w-full lg:w-[60%] bg-background/40 border border-white/10 rounded-[2rem] p-6 md:p-10 space-y-6">
+        <form onSubmit={handleRequest} className="w-full bg-background/40 border border-white/10 rounded-[2rem] p-6 md:p-10 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] px-1">Full Name *</label>

@@ -206,7 +206,7 @@ export default function ProductDetailsPage() {
 
   return (
     <div className="min-h-screen bg-[#09090B] text-white pt-24 pb-32">
-      <div className="max-w-[1600px] w-[95%] mx-auto 2xl:max-w-[1800px] px-6 lg:px-12">
+      <div className="w-[94%] max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-6">
         {/* Navigation Breadcrumb */}
         <button 
           onClick={() => router.back()}

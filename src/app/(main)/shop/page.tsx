@@ -127,9 +127,9 @@ export default function ShopPage() {
   };
 
   return (
-    <div className="animate-in fade-in duration-500 min-h-screen bg-background text-white pb-20 pt-10">
+    <div className="animate-in fade-in duration-500 min-h-screen bg-[#09090B] text-white pb-20 pt-10">
       {/* Search Header */}
-      <div className="max-w-[1600px] w-[95%] mx-auto 2xl:max-w-[1800px] px-6 mb-12">
+      <div className="w-[94%] max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-6 mb-12">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <span className="text-[10px] font-black text-primary uppercase tracking-[0.4em] italic flex items-center gap-2 mb-2">
@@ -152,7 +152,7 @@ export default function ShopPage() {
         </div>
       </div>
 
-      <div className="max-w-[1600px] w-[95%] mx-auto 2xl:max-w-[1800px] px-6 grid grid-cols-1 lg:grid-cols-4 gap-12 relative">
+      <div className="w-[94%] max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-4 gap-12 relative">
         {/* Desktop Sidebar Filters */}
         <div className="hidden lg:block lg:col-span-1 bg-[#09090B] border border-white/5 rounded-[2.5rem] p-8 space-y-8 sticky top-28 h-fit shadow-xl border-t border-t-primary/10">
           <div className="flex items-center gap-3 pb-4 border-b border-white/5">
@@ -281,7 +281,7 @@ export default function ShopPage() {
               <p className="text-zinc-500 uppercase tracking-widest font-black text-xs">{t("empty_states")}</p>
             </div>
           ) : (
-            <div className="grid grid-cols-3 sm:grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-2 sm:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-7 lg:gap-8">
               {filteredProducts.map((product) => (
                 <div key={product.id} className="animate-in fade-in duration-500 h-full">
                   <div className="block sm:hidden h-full">

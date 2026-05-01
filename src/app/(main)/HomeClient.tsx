@@ -357,9 +357,9 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
             <Image 
               src="/uploads/slideverse_presentation_hero.png"
               alt="Slideverse Premium Presentation Framework"
-              width={600}
-              height={600}
-              className="rounded-[2.5rem] border border-white/10 shadow-2xl object-cover hover:border-primary/40 transition-colors duration-500 shadow-[0_20px_50px_rgba(197,165,114,0.15)]"
+              width={750}
+              height={750}
+              className="rounded-[3rem] border border-white/10 shadow-2xl object-cover hover:border-primary/40 transition-colors duration-500 shadow-[0_30px_70px_rgba(197,165,114,0.2)] w-full h-auto"
               priority
             />
           </motion.div>
@@ -368,7 +368,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
 
       {/* Sort & Filter Section */}
       <section id="featured" className="scroll-mt-24 py-20 md:py-32 relative border-t border-white/5">
-        <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px] mb-12 flex flex-col items-center justify-center text-center gap-6">
+        <div className="w-[94%] max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-6 mb-16 flex flex-col items-center justify-center text-center gap-6">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -389,7 +389,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
           </motion.div>
         </div>
         
-        <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px] space-y-24">
+        <div className="w-[94%] max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-6 space-y-32">
           {filteredProducts.length === 0 ? (
             <div className="text-center py-20 bg-white/[0.01] border border-white/5 rounded-[2.5rem]">
               <p className="text-zinc-500 uppercase tracking-widest font-black text-xs">{t("empty_states")}</p>
@@ -419,8 +419,8 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                   </h3>
                 </div>
 
-                {/* 3-Column Matrix (Desktop, Tablet, Mobile) */}
-                <div className="grid grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+                {/* Responsive Grid - Featured Additions */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-7 lg:gap-8">
                   {featuredProducts.slice(0, 12).map((product, index) => (
                     <motion.div 
                       key={product.id}
@@ -458,8 +458,8 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                   </p>
                 </div>
 
-                {/* 4-Column Matrix (6 rows x 4 columns = 24 items) */}
-                <div className="grid grid-cols-4 gap-2 md:gap-6 lg:gap-8">
+                {/* Responsive Grid - Bestsellers */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-7 lg:gap-8">
                   {(() => {
                     const explicitBestsellers = filteredProducts.filter(p => p.is_bestseller || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_bestseller));
                     const list = explicitBestsellers.length > 0 
@@ -498,7 +498,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
 
       {/* Custom PPT Section */}
       <section className="py-20 md:py-28 relative overflow-hidden bg-[#09090B]">
-        <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px] relative z-10">
+        <div className="w-[94%] max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-6 relative z-10">
           <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-3 mb-6">
               <div className="w-16 h-[1px] bg-primary/30" />
@@ -511,8 +511,8 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
       </section>
 
       {/* About Us Section */}
-      <section id="about" className="scroll-mt-24 py-20 md:py-32 relative overflow-hidden bg-card/40">
-        <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px] grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+      <section id="about" className="scroll-mt-24 py-20 md:py-32 relative overflow-hidden">
+        <div className="w-[94%] max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -732,11 +732,9 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
         </div>
       </section>
 
-
-
       {/* Contact Section */}
       <section id="contact" className="scroll-mt-24 py-24 md:py-32 relative border-t border-white/5">
-        <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px] grid grid-cols-1 lg:grid-cols-3 gap-16 md:gap-20">
+        <div className="w-[94%] max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-16 md:gap-20">
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-8">
               <Sparkles className="w-5 h-5 text-primary animate-pulse" />

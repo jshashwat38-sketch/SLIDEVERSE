@@ -68,7 +68,7 @@ export default function CategoryShowcase({ products, categories, language, t }: 
 
   return (
     <section className="py-24 border-t border-zinc-200 dark:border-white/5 relative bg-[#FCFBF8] dark:bg-[#040405]">
-      <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px]">
+      <div className="w-[94%] max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-6">
         {/* Headings */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-heading font-black text-zinc-900 dark:text-white italic uppercase tracking-tighter">
@@ -168,7 +168,7 @@ export default function CategoryShowcase({ products, categories, language, t }: 
               exit={{ opacity: 0, x: -15 }}
               transition={{ duration: 0.3 }}
               ref={sliderRef}
-              className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none select-none pb-8"
+              className="flex gap-8 overflow-x-auto snap-x snap-mandatory scrollbar-none select-none pb-12"
             >
               {isLoading ? (
                 [1, 2, 3, 4].map((n) => (
@@ -197,7 +197,7 @@ export default function CategoryShowcase({ products, categories, language, t }: 
                 return (
                   <div
                     key={prod.id}
-                    className="snap-start shrink-0 w-[45%] md:w-[30%] lg:w-[23%] relative"
+                    className="snap-start shrink-0 w-[85%] sm:w-[45%] md:w-[30%] lg:w-[calc(25%-1.5rem)] xl:w-[calc(20%-1.5rem)] relative"
                     onMouseEnter={() => setHoveredProduct(prod)}
                     onMouseLeave={() => setHoveredProduct(null)}
                     onClick={() => {
