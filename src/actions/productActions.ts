@@ -65,7 +65,8 @@ export async function addProduct(formData: FormData) {
               .getPublicUrl(filename);
             uploadedImages[i] = publicUrlData.publicUrl;
           } else {
-            console.error("Upload error:", uploadError);
+            console.error(`Upload error for asset ${i}:`, uploadError);
+            throw new Error(`Failed to upload product image ${i+1}: ${uploadError.message}`);
           }
         })());
       }
@@ -95,6 +96,9 @@ export async function addProduct(formData: FormData) {
               .from("product-images")
               .getPublicUrl(filename);
             variantObj.image = publicUrlData.publicUrl;
+          } else {
+            console.error(`Variant upload error for ${variantObj.name}:`, uploadError);
+            throw new Error(`Failed to upload variant image: ${uploadError.message}`);
           }
         })());
       }
@@ -172,7 +176,8 @@ export async function addBundle(formData: FormData) {
             .getPublicUrl(filename);
           finalImageUrl = publicUrlData.publicUrl;
         } else {
-          console.error("Bundle image upload error:", uploadError);
+          console.error("Bundle main image upload failure in product-images:", uploadError);
+          throw new Error(`Main bundle asset upload failed: ${uploadError.message}`);
         }
       })());
     }
@@ -193,7 +198,8 @@ export async function addBundle(formData: FormData) {
               .getPublicUrl(filename);
             item.image = publicUrlData.publicUrl;
           } else {
-            console.error("Bundle item image upload error:", uploadError);
+            console.error("Bundle item image upload failure in product-images:", uploadError);
+            throw new Error(`Bundle item asset upload failed: ${uploadError.message}`);
           }
         })());
       }
@@ -375,6 +381,9 @@ export async function updateProduct(id: string, formData: FormData) {
               .from("product-images")
               .getPublicUrl(filename);
             uploadedImages[i] = data.publicUrl;
+          } else {
+            console.error(`Upload error for file ${i} in bucket product-images:`, uploadError);
+            throw new Error(`Critical upload failure for image asset ${i}: ${uploadError.message}`);
           }
         })());
       }
@@ -404,6 +413,9 @@ export async function updateProduct(id: string, formData: FormData) {
               .from("product-images")
               .getPublicUrl(filename);
             variantObj.image = data.publicUrl;
+          } else {
+            console.error(`Variant image upload failure in bucket product-images:`, uploadError);
+            throw new Error(`Variant asset upload failed: ${uploadError.message}`);
           }
         })());
       }

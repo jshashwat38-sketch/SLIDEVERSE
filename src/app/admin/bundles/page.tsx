@@ -264,18 +264,18 @@ export default function AdminBundles() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-widest">Cover Image (Required)</label>
+                    <label className="block text-[10px] font-black text-primary uppercase tracking-widest">Main Bundle Image (Recommended: 1200x800px)</label>
                     {formData.imageUrl || imageFile ? (
                       <span className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">Active</span>
                     ) : (
-                      <span className="text-[8px] font-black text-zinc-800 uppercase tracking-widest bg-white/[0.02] px-2 py-0.5 rounded-full border border-white/5">Empty</span>
+                      <span className="text-[8px] font-black text-zinc-800 uppercase tracking-widest bg-white/[0.02] px-2 py-0.5 rounded-full border border-white/5">Required</span>
                     )}
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="relative shrink-0">
                       <input
                         type="file"
-                        accept="image/png, image/jpeg, image/jpg"
+                        accept="image/*"
                         onChange={(e) => {
                           if (e.target.files && e.target.files[0]) {
                             setImageFile(e.target.files[0]);
@@ -406,7 +406,7 @@ export default function AdminBundles() {
                       </div>
 
                       <div className="md:col-span-1">
-                        <span className="text-[10px] text-zinc-500 font-bold uppercase block mb-1">Display Image Asset</span>
+                        <span className="text-[10px] text-zinc-500 font-bold uppercase block mb-1">Display Image Asset (Recommended: 1200x800px)</span>
                         <div className="flex items-center gap-4">
                           <div className="relative shrink-0">
                             <input

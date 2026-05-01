@@ -325,18 +325,18 @@ export default function AdminProducts() {
                   <div className="mb-8">
                     <div className="flex flex-col gap-3 max-w-md">
                       <div className="flex items-center justify-between px-2">
-                        <span className="text-[10px] font-black text-primary uppercase tracking-widest">Cover Image (Required)</span>
+                        <span className="text-[10px] font-black text-primary uppercase tracking-widest">Cover Image (Recommended: 1200x800px)</span>
                         {imageUrls[0] || imageFiles[0] ? (
                           <span className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">Active</span>
                         ) : (
-                          <span className="text-[8px] font-black text-zinc-800 uppercase tracking-widest bg-white/[0.02] px-2 py-0.5 rounded-full border border-white/5">Empty</span>
+                          <span className="text-[8px] font-black text-zinc-800 uppercase tracking-widest bg-white/[0.02] px-2 py-0.5 rounded-full border border-white/5">Required</span>
                         )}
                       </div>
                       <div className="flex items-center gap-4">
                         <div className="relative shrink-0">
                           <input
                             type="file"
-                            accept="image/png, image/jpeg, image/jpg"
+                            accept="image/*"
                             onChange={(e) => {
                               if (e.target.files && e.target.files[0]) {
                                 const newFiles = [...imageFiles];
@@ -385,19 +385,19 @@ export default function AdminProducts() {
                       <div key={index} className="flex flex-col gap-3">
                         <div className="flex items-center justify-between px-2">
                           <span className="text-[9px] font-black text-zinc-700 uppercase tracking-widest">
-                            {index === 0 ? "Cover Image (Main Display)" : `Gallery Asset ${index}`} (1200x800px)
+                            {index === 0 ? "Cover Image (Main Display)" : `Gallery Asset ${index}`} (Rec: 1200x800px)
                           </span>
                           {imageUrls[index] || imageFiles[index] ? (
                             <span className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">Active</span>
                           ) : (
-                            <span className="text-[8px] font-black text-zinc-800 uppercase tracking-widest bg-white/[0.02] px-2 py-0.5 rounded-full border border-white/5">Empty</span>
+                            <span className="text-[8px] font-black text-zinc-800 uppercase tracking-widest bg-white/[0.02] px-2 py-0.5 rounded-full border border-white/5">Optional</span>
                           )}
                         </div>
                         <div className="flex items-center gap-4">
                           <div className="relative shrink-0">
                             <input
                               type="file"
-                              accept="image/png, image/jpeg, image/jpg"
+                              accept="image/*"
                               onChange={(e) => {
                                 if (e.target.files && e.target.files[0]) {
                                   const newFiles = [...imageFiles];
