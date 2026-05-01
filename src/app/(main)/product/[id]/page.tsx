@@ -53,6 +53,7 @@ export default function ProductDetailsPage() {
   const [hasReviewed, setHasReviewed] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchProduct = async () => {
       const products = await getProducts();
       const foundProduct = products.find((p: any) => p.id === id);
