@@ -6,6 +6,49 @@ import { getProducts, deleteProduct, addBundle, updateBundle } from "@/actions/p
 import { getCategories } from "@/actions/adminActions";
 import { toast } from "react-hot-toast";
 
+// Client-side image compression utility
+async function compressImage(file: File, maxWidth = 1200, maxHeight = 1200, quality = 0.8): Promise<File> {
+  if (!file.type.startsWith('image/')) return file;
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target?.result as string;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        if (width > height) {
+          if (width > maxWidth) {
+            height *= maxWidth / width;
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width *= maxHeight / height;
+            height = maxHeight;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0, width, height);
+        canvas.toBlob((blob) => {
+          if (blob) {
+            resolve(new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", {
+              type: 'image/jpeg',
+              lastModified: Date.now(),
+            }));
+          } else { resolve(file); }
+        }, 'image/jpeg', quality);
+      };
+      img.onerror = () => resolve(file);
+    };
+    reader.onerror = () => resolve(file);
+  });
+}
+
 export default function AdminBundles() {
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -276,9 +319,10 @@ export default function AdminBundles() {
                       <input
                         type="file"
                         accept="image/*"
-                        onChange={(e) => {
+                        onChange={async (e) => {
                           if (e.target.files && e.target.files[0]) {
-                            setImageFile(e.target.files[0]);
+                            const optimized = await compressImage(e.target.files[0]);
+                            setImageFile(optimized);
                             setFormData({ ...formData, imageUrl: "" });
                           }
                         }}
@@ -414,11 +458,12 @@ export default function AdminBundles() {
                               accept="image/*"
                               id={`bundle-item-img-${id}`}
                               className="hidden"
-                              onChange={(e) => {
+                              onChange={async (e) => {
                                 if (e.target.files && e.target.files[0]) {
+                                  const optimized = await compressImage(e.target.files[0]);
                                   setBundleItemsCustomData({
                                     ...bundleItemsCustomData,
-                                    [id]: { ...bundleItemsCustomData[id], imageFile: e.target.files[0], image: "" }
+                                    [id]: { ...bundleItemsCustomData[id], imageFile: optimized, image: "" }
                                   });
                                 }
                               }}

@@ -16,7 +16,10 @@ export async function uploadImage(formData: FormData): Promise<UploadResult> {
       .from("product-images")
       .upload(filename, file);
 
-    if (error) throw error;
+    if (error) {
+      console.error("Upload error in product-images bucket:", error);
+      throw new Error(`Critical asset upload failure: ${error.message}`);
+    }
 
     const { data: publicUrlData } = supabase.storage
       .from("product-images")
@@ -24,8 +27,8 @@ export async function uploadImage(formData: FormData): Promise<UploadResult> {
 
     return { success: true, url: publicUrlData.publicUrl };
   } catch (error: any) {
-    console.error("Upload error:", error);
-    return { success: false, error: error.message || "Failed to upload image" };
+    console.error("Category image upload error:", error);
+    return { success: false, error: error.message || "Failed to upload architectural asset" };
   }
 }
 

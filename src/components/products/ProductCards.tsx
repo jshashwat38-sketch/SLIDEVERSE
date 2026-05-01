@@ -413,11 +413,11 @@ export function HeroProductCard(props: any) {
   }
 
   const handleAddToCart = () => {
-    addToCart({ id, title: displayTitle, price, imageUrl: imageUrl });
+    addToCart({ id, title: displayTitle, price, imageUrl: displayImage });
   };
 
   const handleShopNow = () => {
-    addToCart({ id, title: displayTitle, price, imageUrl: imageUrl });
+    addToCart({ id, title: displayTitle, price, imageUrl: displayImage });
     router.push("/cart");
   };
 
