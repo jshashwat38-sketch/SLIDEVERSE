@@ -446,7 +446,6 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                   ))}
                 </div>
               </div>
-              </div>
 
               {/* Bestsellers Grid */}
               <div className="mt-32 border-t border-zinc-200 dark:border-white/5 pt-28 sm:pt-20">
