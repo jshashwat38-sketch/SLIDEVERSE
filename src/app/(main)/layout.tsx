@@ -4,8 +4,9 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 import { GlobalFooter } from "@/components/layout/GlobalFooter";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 
 export default function MainLayout({
@@ -14,6 +15,14 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const pathname = usePathname();
+  const mainRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (mainRef.current) {
+      mainRef.current.scrollTop = 0;
+    }
+  }, [pathname]);
 
   return (
     <div className="flex h-screen bg-background relative overflow-hidden">
@@ -36,7 +45,10 @@ export default function MainLayout({
 
       <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
         <Header onMenuClick={() => setIsSidebarOpen(true)} />
-        <main className="flex-1 overflow-y-auto scroll-smooth bg-[#09090B] custom-scrollbar">
+        <main 
+          ref={mainRef}
+          className="flex-1 overflow-y-auto scroll-smooth bg-[#09090B] custom-scrollbar"
+        >
 
           <div className="max-w-[1600px] w-[95%] mx-auto 2xl:max-w-[1800px] p-4 md:p-8">
             {children}
