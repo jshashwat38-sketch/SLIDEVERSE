@@ -207,7 +207,7 @@ export default function CategoryShowcase({ products, categories, language, t }: 
                     }}
                   >
                     <div className="bg-white dark:bg-[#09090B] border border-zinc-200 dark:border-white/5 rounded-3xl overflow-hidden h-full flex flex-col hover:border-primary/20 transition-all duration-500 shadow-sm">
-                      <Link href={`/product/${prod.id}`} className="block h-40 bg-black overflow-hidden relative cursor-pointer">
+                      <Link href={`/product/${prod.id}`} className="block aspect-square bg-black overflow-hidden relative cursor-pointer">
                         <img
                           src={prod.image_url || prod.imageUrl || (prod.images && prod.images[0]) || "https://placehold.co/400x300?text=No+Image"}
                           alt={titleStr}
