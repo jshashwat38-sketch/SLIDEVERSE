@@ -20,7 +20,19 @@ export default function MainLayout({
 
   useEffect(() => {
     if (mainRef.current) {
+      // Force immediate scroll reset bypassing smooth behavior
+      mainRef.current.style.scrollBehavior = 'auto';
       mainRef.current.scrollTop = 0;
+      
+      // Use a small timeout to ensure it sticks after Next.js finishes rendering
+      const timeoutId = setTimeout(() => {
+        if (mainRef.current) {
+          mainRef.current.scrollTop = 0;
+          mainRef.current.style.scrollBehavior = 'smooth';
+        }
+      }, 0);
+
+      return () => clearTimeout(timeoutId);
     }
   }, [pathname]);
 
