@@ -458,37 +458,29 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                   </p>
                 </div>
 
-                {/* Desktop Bestsellers (Hidden on Mobile) */}
-                <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                {/* 4-Column Matrix (6 rows x 4 columns = 24 items) */}
+                <div className="grid grid-cols-4 gap-2 md:gap-6 lg:gap-8">
                   {(() => {
                     const explicitBestsellers = filteredProducts.filter(p => p.is_bestseller || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_bestseller));
-                    return explicitBestsellers.length > 0 
-                      ? explicitBestsellers.slice(0, 25) 
-                      : filteredProducts.filter(p => !(p.is_top9 || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_top9))).slice(0, 25);
+                    const list = explicitBestsellers.length > 0 
+                      ? explicitBestsellers 
+                      : filteredProducts.filter(p => !(p.is_top9 || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_top9)));
+                    return list.slice(0, 24);
                   })().map((product, index) => (
                     <motion.div 
                       key={`best-${product.id}`}
                       initial={{ opacity: 0, y: 30 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
-                      transition={{ delay: (index % 5) * 0.05, duration: 0.6 }}
+                      transition={{ delay: (index % 4) * 0.05, duration: 0.6 }}
                     >
-                      <ProductCard {...product} />
+                      <div className="hidden sm:block">
+                        <ProductCard {...product} />
+                      </div>
+                      <div className="block sm:hidden">
+                        <ProductCard {...product} variant="micro-grid-mobile" />
+                      </div>
                     </motion.div>
-                  ))}
-                </div>
-
-                {/* Mobile Bestsellers (Compact 5 Columns) */}
-                <div className="grid sm:hidden grid-cols-5 gap-1.5">
-                  {(() => {
-                    const explicitBestsellers = filteredProducts.filter(p => p.is_bestseller || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_bestseller));
-                    return explicitBestsellers.length > 0 
-                      ? explicitBestsellers.slice(0, 25) 
-                      : filteredProducts.filter(p => !(p.is_top9 || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_top9))).slice(0, 25);
-                  })().map((product, index) => (
-                    <div key={`best-mob-${product.id}`} className="rounded-xl overflow-hidden">
-                      <ProductCard {...product} variant="micro-grid-mobile" />
-                    </div>
                   ))}
                 </div>
               </div>
