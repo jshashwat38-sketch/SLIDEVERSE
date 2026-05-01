@@ -46,7 +46,7 @@ export function GlobalFooter() {
 
   return (
     <footer className="bg-card border-t border-white/10 pt-20 pb-10 px-6">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[1600px] w-[95%] mx-auto 2xl:max-w-[1800px]">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand Section */}
           <div className="space-y-6">

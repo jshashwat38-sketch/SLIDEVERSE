@@ -68,7 +68,7 @@ export default function CategoryShowcase({ products, categories, language, t }: 
 
   return (
     <section className="py-24 border-t border-zinc-200 dark:border-white/5 relative bg-[#FCFBF8] dark:bg-[#040405]">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px]">
         {/* Headings */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-heading font-black text-zinc-900 dark:text-white italic uppercase tracking-tighter">

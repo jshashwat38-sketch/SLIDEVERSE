@@ -204,7 +204,7 @@ export default function AdminLayout({
           </button>
         </div>
         
-        <div className="max-w-7xl mx-auto p-6 lg:p-12">
+        <div className="max-w-[1600px] w-[95%] mx-auto 2xl:max-w-[1800px] p-6 lg:p-12">
           {children}
         </div>
       </main>

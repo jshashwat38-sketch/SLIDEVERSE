@@ -47,7 +47,7 @@ function SearchContent() {
   const hasResults = products.length > 0 || categories.length > 0;
 
   return (
-    <div className="animate-in fade-in duration-500 max-w-7xl mx-auto px-4 py-12">
+    <div className="animate-in fade-in duration-500 max-w-[1600px] w-[95%] mx-auto 2xl:max-w-[1800px] px-6 py-12">
       <header className="mb-16 bg-[#09090B] p-10 md:p-14 rounded-[3.5rem] shadow-2xl border border-white/5 relative overflow-hidden group">
         {/* Background Accent */}
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[150px] -z-10" />
@@ -87,7 +87,7 @@ function SearchContent() {
             <div className="w-8 h-[1px] bg-primary/50" />
             <h2 className="text-xl font-black text-white uppercase italic tracking-tighter">Matched Acquisitions</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-10">
             {products.map(p => <ProductCard key={p.id} {...p} />)}
           </div>
         </section>
@@ -99,7 +99,7 @@ function SearchContent() {
             <div className="w-8 h-[1px] bg-primary/50" />
             <h2 className="text-xl font-black text-white uppercase italic tracking-tighter">Matched Categories</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-10">
             {categories.map(c => (
               <ProductCard 
                 key={c.id} 

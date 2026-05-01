@@ -120,7 +120,7 @@ export default function CategoryClientPage({ category, products, id }: CategoryC
   const displayedProducts = filteredAndSortedProducts.slice(0, visibleCount);
 
   return (
-    <div className="animate-in fade-in duration-500 max-w-7xl mx-auto px-4 pt-6">
+    <div className="animate-in fade-in duration-500 max-w-[1600px] w-[95%] mx-auto 2xl:max-w-[1800px] px-6 pt-6">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-6">
         <span>Home</span>
@@ -283,7 +283,7 @@ export default function CategoryClientPage({ category, products, id }: CategoryC
 
           {/* Grid Render */}
           {displayedProducts.length > 0 ? (
-            <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6">
+            <div className="grid grid-cols-3 sm:grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-2 sm:gap-6">
               {displayedProducts.map((product: any) => (
                 <div key={product.id} className="h-full">
                   <div className="block sm:hidden h-full">

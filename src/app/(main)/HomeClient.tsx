@@ -233,7 +233,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
           <div className="absolute bottom-[-5%] right-[-5%] w-[30%] h-[30%] bg-primary/5 blur-[120px] rounded-full" />
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center relative z-10">
+        <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px] grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] lg:gap-[60px] gap-12 md:gap-20 items-center relative z-10">
           <motion.div 
             variants={containerVariants}
             initial="hidden"
@@ -368,7 +368,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
 
       {/* Sort & Filter Section */}
       <section id="featured" className="scroll-mt-24 py-20 md:py-32 relative border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col items-center justify-center text-center gap-6">
+        <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px] mb-12 flex flex-col items-center justify-center text-center gap-6">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -389,7 +389,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
           </motion.div>
         </div>
         
-        <div className="max-w-7xl mx-auto px-6 space-y-24">
+        <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px] space-y-24">
           {filteredProducts.length === 0 ? (
             <div className="text-center py-20 bg-white/[0.01] border border-white/5 rounded-[2.5rem]">
               <p className="text-zinc-500 uppercase tracking-widest font-black text-xs">{t("empty_states")}</p>
@@ -420,7 +420,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 </div>
 
                 {/* Desktop Grid (Hidden on Mobile) */}
-                <div className="hidden sm:grid sm:grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6">
+                <div className="hidden sm:grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-4 lg:gap-6">
                   {featuredProducts.map((product, index) => (
                     <motion.div 
                       key={product.id}
@@ -470,7 +470,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
                 </div>
 
                 {/* Desktop Bestsellers (Hidden on Mobile) */}
-                <div className="hidden sm:grid sm:grid-cols-3 lg:grid-cols-5 gap-6 lg:gap-8">
+                <div className="hidden sm:grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-6 lg:gap-8">
                   {(() => {
                     const explicitBestsellers = filteredProducts.filter(p => p.is_bestseller || (typeof p.title === 'object' && p.title !== null && (p.title as any).is_bestseller));
                     return explicitBestsellers.length > 0 
@@ -517,7 +517,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
 
       {/* Custom PPT Section */}
       <section className="py-20 md:py-28 relative overflow-hidden bg-[#09090B]">
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px] relative z-10">
           <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-3 mb-6">
               <div className="w-16 h-[1px] bg-primary/30" />
@@ -531,7 +531,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
 
       {/* About Us Section */}
       <section id="about" className="scroll-mt-24 py-20 md:py-32 relative overflow-hidden bg-card/40">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+        <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px] grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -583,7 +583,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
       {/* Story Section */}
       <section className="py-24 md:py-40 bg-card/60 relative overflow-hidden border-y border-white/5">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(197,165,114,0.05),transparent_50%)]" />
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px] relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center mb-40">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
@@ -675,7 +675,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
 
       {/* Testimonials Section */}
       <section id="testimonials" className="py-24 md:py-32 relative overflow-hidden bg-card">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px]">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -755,7 +755,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
 
       {/* Contact Section */}
       <section id="contact" className="scroll-mt-24 py-24 md:py-32 relative border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-16 md:gap-20">
+        <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px] grid grid-cols-1 lg:grid-cols-3 gap-16 md:gap-20">
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-8">
               <Sparkles className="w-5 h-5 text-primary animate-pulse" />

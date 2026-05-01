@@ -38,7 +38,7 @@ export default function MainLayout({
         <Header onMenuClick={() => setIsSidebarOpen(true)} />
         <main className="flex-1 overflow-y-auto scroll-smooth bg-[#09090B] custom-scrollbar">
 
-          <div className="max-w-7xl mx-auto p-4 md:p-8">
+          <div className="max-w-[1600px] w-[95%] mx-auto 2xl:max-w-[1800px] p-4 md:p-8">
             {children}
           </div>
           <GlobalFooter />
