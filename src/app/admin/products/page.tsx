@@ -5,51 +5,9 @@ import { Plus, Save, Image as ImageIcon, Link as LinkIcon, AlertCircle, Package,
 import { addProduct, getProducts, updateProduct, deleteProduct } from "@/actions/productActions";
 import { getCategories } from "@/actions/adminActions";
 import { toast } from "react-hot-toast";
+import { compressImage } from "@/utils/imageUtils";
 
-// Client-side image compression utility
-async function compressImage(file: File, maxWidth = 1200, maxHeight = 1200, quality = 0.8): Promise<File> {
-  if (!file.type.startsWith('image/')) return file;
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (event) => {
-      const img = new Image();
-      img.src = event.target?.result as string;
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        let width = img.width;
-        let height = img.height;
-        if (width > height) {
-          if (width > maxWidth) {
-            height *= maxWidth / width;
-            width = maxWidth;
-          }
-        } else {
-          if (height > maxHeight) {
-            width *= maxHeight / height;
-            height = maxHeight;
-          }
-        }
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        ctx?.drawImage(img, 0, 0, width, height);
-        canvas.toBlob((blob) => {
-          if (blob) {
-            resolve(new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", {
-              type: 'image/jpeg',
-              lastModified: Date.now(),
-            }));
-          } else { resolve(file); }
-        }, 'image/jpeg', quality);
-      };
-      img.onerror = () => resolve(file);
-    };
-    reader.onerror = () => resolve(file);
-  });
-}
-
-export default function AdminProducts() {
+export default function ProductsPage() {
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [productToDelete, setProductToDelete] = useState<string | null>(null);
@@ -380,15 +338,21 @@ export default function AdminProducts() {
                           <input
                             type="file"
                             accept="image/*"
-                            onChange={async (e) => {
+                            onChange={(e) => {
                               if (e.target.files && e.target.files[0]) {
-                                const optimized = await compressImage(e.target.files[0]);
-                                const newFiles = [...imageFiles];
-                                newFiles[0] = optimized;
-                                setImageFiles(newFiles);
-                                const newUrls = [...imageUrls];
-                                newUrls[0] = "";
-                                setImageUrls(newUrls);
+                                const file = e.target.files[0];
+                                compressImage(file).then(optimized => {
+                                  setImageFiles(prev => {
+                                    const next = [...prev];
+                                    next[0] = optimized;
+                                    return next;
+                                  });
+                                  setImageUrls(prev => {
+                                    const next = [...prev];
+                                    next[0] = "";
+                                    return next;
+                                  });
+                                });
                               }
                             }}
                             className="hidden"
@@ -442,15 +406,21 @@ export default function AdminProducts() {
                             <input
                               type="file"
                               accept="image/*"
-                              onChange={async (e) => {
+                              onChange={(e) => {
                                 if (e.target.files && e.target.files[0]) {
-                                  const optimized = await compressImage(e.target.files[0]);
-                                  const newFiles = [...imageFiles];
-                                  newFiles[index] = optimized;
-                                  setImageFiles(newFiles);
-                                  const newUrls = [...imageUrls];
-                                  newUrls[index] = "";
-                                  setImageUrls(newUrls);
+                                  const file = e.target.files[0];
+                                  compressImage(file).then(optimized => {
+                                    setImageFiles(prev => {
+                                      const next = [...prev];
+                                      next[index] = optimized;
+                                      return next;
+                                    });
+                                    setImageUrls(prev => {
+                                      const next = [...prev];
+                                      next[index] = "";
+                                      return next;
+                                    });
+                                  });
                                 }
                               }}
                               className="hidden"
@@ -582,12 +552,16 @@ export default function AdminProducts() {
                                   accept="image/*"
                                   id={`variant-img-${index}`}
                                   className="hidden"
-                                  onChange={async (e) => {
+                                  onChange={(e) => {
                                     if (e.target.files?.[0]) {
-                                      const optimized = await compressImage(e.target.files[0]);
-                                      const newVariants = [...variants];
-                                      newVariants[index] = { ...newVariants[index], imageFile: optimized, imageUrl: "" };
-                                      setVariants(newVariants);
+                                      const file = e.target.files[0];
+                                      compressImage(file).then(optimized => {
+                                        setVariants(prev => {
+                                          const next = [...prev];
+                                          next[index] = { ...next[index], imageFile: optimized, imageUrl: "" };
+                                          return next;
+                                        });
+                                      });
                                     }
                                   }}
                                 />
