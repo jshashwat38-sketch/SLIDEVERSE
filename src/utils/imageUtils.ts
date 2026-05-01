@@ -1,5 +1,5 @@
-// Client-side image compression utility
 export async function compressImage(file: File, maxWidth = 1200, maxHeight = 1200, quality = 0.8): Promise<File> {
+  if (typeof window === 'undefined') return file;
   if (!file || !file.type.startsWith('image/')) return file;
   
   return new Promise((resolve) => {
