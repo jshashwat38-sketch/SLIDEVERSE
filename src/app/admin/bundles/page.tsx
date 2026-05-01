@@ -466,9 +466,12 @@ export default function AdminBundles() {
                 <div key={bundle.id} className="bg-[#09090B] border border-white/5 rounded-3xl p-6 relative group overflow-hidden">
                   <div className="h-40 bg-zinc-900 rounded-2xl overflow-hidden mb-4 relative">
                     <img 
-                      src={bundle.image_url || "https://placehold.co/400x300"} 
+                      src={bundle.image_url || bundle.imageUrl || (bundle.images && bundle.images[0]) || "https://placehold.co/400x300?text=No+Asset"} 
                       alt={titleStr}
                       className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform" 
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "https://placehold.co/400x300?text=Broken+Asset";
+                      }}
                     />
                     <div className="absolute top-4 right-4 bg-primary text-black font-black text-[10px] px-3 py-1 rounded-full uppercase">
                       Bundle

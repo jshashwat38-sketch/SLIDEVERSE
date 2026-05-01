@@ -121,7 +121,7 @@ export default function ProductDetailsPage() {
     );
   }
 
-  const allImages = product.images || [product.imageUrl];
+  const allImages = (product.images && product.images.length > 0) ? product.images : [product.image_url || product.imageUrl].filter(Boolean);
   const faqs = product.faqs || [];
 
   const handleAddToCart = () => {
@@ -129,7 +129,7 @@ export default function ProductDetailsPage() {
       id: product.id, 
       title: getLangString(product.title, language), 
       price: product.price, 
-      imageUrl: allImages[0] 
+      imageUrl: allImages[0] || product.image_url || product.imageUrl || ""
     });
   };
 

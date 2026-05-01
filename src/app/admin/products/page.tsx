@@ -651,11 +651,11 @@ export default function AdminProducts() {
                         <div className="flex items-center gap-8">
                           <div className="w-20 h-20 rounded-[1.5rem] overflow-hidden border border-white/10 group-hover:border-primary/50 transition-all shadow-2xl relative">
                             <img 
-                              src={product.image_url || product.imageUrl || "https://placehold.co/400x400?text=No+Asset"} 
+                              src={product.image_url || product.imageUrl || (product.images && product.images[0]) || "https://placehold.co/400x400?text=No+Asset"} 
                               alt="" 
                               className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" 
                               onError={(e) => {
-                                (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=No+Image";
+                                (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=Broken+Asset";
                               }}
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
