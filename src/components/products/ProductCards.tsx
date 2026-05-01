@@ -20,12 +20,12 @@ export interface ProductProps {
 }
 
 export function ProductCard(props: any) {
-  const { id, price, imageUrl, images, features, variant } = props;
+  const { id, price, imageUrl, image_url, images, features, variant } = props;
   const { addToCart } = useCart();
   const router = useRouter();
   const { language, t } = useLanguage();
   
-  const displayImage = imageUrl || (images && images.length > 0 ? images[0] : "");
+  const displayImage = image_url || imageUrl || (images && images.length > 0 ? images[0] : "");
   const safeFeatures = Array.isArray(features) ? features : [];
   
   const [avgRating, setAvgRating] = useState<number | null>(null);
@@ -356,11 +356,12 @@ export function ProductCard(props: any) {
 }
 
 export function HeroProductCard(props: any) {
-  const { id, price, imageUrl, features } = props;
+  const { id, price, imageUrl, image_url, images, features } = props;
   const { addToCart } = useCart();
   const router = useRouter();
   const { language, t } = useLanguage();
 
+  const displayImage = image_url || imageUrl || (images && images.length > 0 ? images[0] : "");
   const safeFeatures = Array.isArray(features) ? features : [];
   
   const [avgRating, setAvgRating] = useState<number | null>(null);
@@ -480,7 +481,7 @@ export function HeroProductCard(props: any) {
 
       <Link href={`/product/${id}`} className="w-full lg:w-1/2 relative min-h-[300px] md:min-h-[400px] lg:min-h-full overflow-hidden cursor-pointer order-1 lg:order-2">
         <img 
-          src={imageUrl || "https://placehold.co/600x400?text=No+Image"} 
+          src={displayImage || "https://placehold.co/600x400?text=No+Image"} 
           alt={displayTitle} 
           className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2000ms] opacity-80 group-hover:opacity-100" 
           onError={(e) => {

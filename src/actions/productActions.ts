@@ -46,61 +46,67 @@ export async function addProduct(formData: FormData) {
       if (url && url.trim()) finalImages.push(url.trim());
     });
 
+    const uploadPromises: Promise<void>[] = [];
+
     // 2. Handle File uploads to Supabase Storage
-    for (const file of imageFiles) {
+    const uploadedImages: string[] = new Array(imageFiles.length);
+    for (let i = 0; i < imageFiles.length; i++) {
+      const file = imageFiles[i];
       if (file && file.size > 0) {
-        const filename = `${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
-        
-        const { data: uploadData, error: uploadError } = await supabase.storage
-          .from("product-images")
-          .upload(filename, file);
+        uploadPromises.push((async () => {
+          const filename = `${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+          const { error: uploadError } = await supabase.storage
+            .from("product-images")
+            .upload(filename, file);
 
-        if (uploadError) {
-          console.error("Upload error:", uploadError);
-          continue;
-        }
-
-        const { data: publicUrlData } = supabase.storage
-          .from("product-images")
-          .getPublicUrl(filename);
-
-        finalImages.push(publicUrlData.publicUrl);
+          if (!uploadError) {
+            const { data: publicUrlData } = supabase.storage
+              .from("product-images")
+              .getPublicUrl(filename);
+            uploadedImages[i] = publicUrlData.publicUrl;
+          } else {
+            console.error("Upload error:", uploadError);
+          }
+        })());
       }
     }
 
-    const faqs = questions.map((q, i) => ({
-      question: q.trim(),
-      answer: answers[i]?.trim() || ""
-    })).filter(faq => faq.question && faq.answer);
-
-    const variants = [];
+    const variants: any[] = [];
     for (let i = 0; i < variantNames.length; i++) {
-      // Process all variants sent from the frontend
-      
       let variantImage = variantImageUrls[i] || "";
       const file = variantImageFiles[i];
       
-      if (file && file.size > 0 && file.name !== "empty") {
-        const filename = `variants/${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
-        const { data: uploadData, error: uploadError } = await supabase.storage
-          .from("product-images")
-          .upload(filename, file);
-
-        if (!uploadError) {
-          const { data: publicUrlData } = supabase.storage
-            .from("product-images")
-            .getPublicUrl(filename);
-          variantImage = publicUrlData.publicUrl;
-        }
-      }
-
-      variants.push({
+      const variantObj = {
         name: variantNames[i].trim(),
         price: Number(variantPrices[i]) || 0,
         drive_link: variantDriveLinks[i] || "",
         image: variantImage
-      });
+      };
+      
+      if (file && file.size > 0 && file.name !== "empty") {
+        uploadPromises.push((async () => {
+          const filename = `variants/${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+          const { error: uploadError } = await supabase.storage
+            .from("product-images")
+            .upload(filename, file);
+
+          if (!uploadError) {
+            const { data: publicUrlData } = supabase.storage
+              .from("product-images")
+              .getPublicUrl(filename);
+            variantObj.image = publicUrlData.publicUrl;
+          }
+        })());
+      }
+      variants.push(variantObj);
     }
+
+    await Promise.all(uploadPromises);
+    
+    // Merge URL images and newly uploaded images, maintaining order
+    uploadedImages.forEach(url => {
+      if (url) finalImages.push(url);
+    });
 
     const newProduct = {
       id: `prod-${Date.now()}`,
@@ -148,7 +154,7 @@ export async function addBundle(formData: FormData) {
     const mainImage = formData.get('mainImage') as File | null;
     if (mainImage && mainImage.size > 0) {
       uploadPromises.push((async () => {
-        const filename = `bundles/${Date.now()}-${Math.random().toString(36).substring(7)}-${mainImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+        const filename = `${Date.now()}-${Math.random().toString(36).substring(7)}-${mainImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
         const { error: uploadError } = await supabase.storage
           .from("product-images")
           .upload(filename, mainImage);
@@ -169,7 +175,7 @@ export async function addBundle(formData: FormData) {
       const itemImage = formData.get(`itemImage_${i}`) as File | null;
       if (itemImage && itemImage.size > 0) {
         uploadPromises.push((async () => {
-          const filename = `bundles/items/${Date.now()}-${Math.random().toString(36).substring(7)}-${itemImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+          const filename = `${Date.now()}-${Math.random().toString(36).substring(7)}-${itemImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
           const { error: uploadError } = await supabase.storage
             .from("product-images")
             .upload(filename, itemImage);
@@ -238,7 +244,7 @@ export async function updateBundle(id: string, formData: FormData) {
     const mainImage = formData.get('mainImage') as File | null;
     if (mainImage && mainImage.size > 0) {
       uploadPromises.push((async () => {
-        const filename = `bundles/${Date.now()}-${Math.random().toString(36).substring(7)}-${mainImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+        const filename = `${Date.now()}-${Math.random().toString(36).substring(7)}-${mainImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
         const { error: uploadError } = await supabase.storage
           .from("product-images")
           .upload(filename, mainImage);
@@ -259,7 +265,7 @@ export async function updateBundle(id: string, formData: FormData) {
       const itemImage = formData.get(`itemImage_${i}`) as File | null;
       if (itemImage && itemImage.size > 0) {
         uploadPromises.push((async () => {
-          const filename = `bundles/items/${Date.now()}-${Math.random().toString(36).substring(7)}-${itemImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
+          const filename = `${Date.now()}-${Math.random().toString(36).substring(7)}-${itemImage.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
           const { error: uploadError } = await supabase.storage
             .from("product-images")
             .upload(filename, itemImage);
