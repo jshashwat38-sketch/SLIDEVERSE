@@ -43,6 +43,19 @@ import { toast } from "react-hot-toast";
 import { motion, Reorder, AnimatePresence } from "framer-motion";
 import HomeClient from "@/app/(main)/HomeClient";
 
+const SECTIONS = [
+  { id: 'hero', name: 'Hero Banner', icon: Layout },
+  { id: 'trust', name: 'Trust Stats', icon: Star },
+  { id: 'featured', name: 'Featured Additions', icon: Sparkles },
+  { id: 'bestsellers', name: 'Bestsellers', icon: Zap },
+  { id: 'categories', name: 'Category Slider', icon: Settings },
+  { id: 'customPpt', name: 'Custom PPT Box', icon: Plus },
+  { id: 'about', name: 'About Atelier', icon: ImageIcon },
+  { id: 'story', name: 'The Story', icon: Type },
+  { id: 'testimonials', name: 'Testimonials', icon: Mail },
+  { id: 'contact', name: 'Contact Hub', icon: Phone },
+];
+
 export default function AppearancePage() {
   const [appearance, setAppearance] = useState<any>(null);
   const [products, setProducts] = useState<any[]>([]);
@@ -69,13 +82,13 @@ export default function AppearancePage() {
         }
       }
     };
-    const timer = setTimeout(updateScale, 100);
+    const timer = setTimeout(updateScale, 500); // More delay for stability
     window.addEventListener('resize', updateScale);
     return () => {
       clearTimeout(timer);
       window.removeEventListener('resize', updateScale);
     };
-  }, [previewMode, appearance]);
+  }, [previewMode]); // Remove appearance dependency
 
   const [fetchError, setFetchError] = useState<string | null>(null);
   const isLoaded = useRef(false);
@@ -218,28 +231,19 @@ export default function AppearancePage() {
     setIsUploading(null);
   };
 
-  const sections = [
-    { id: 'hero', name: 'Hero Banner', icon: Layout },
-    { id: 'trust', name: 'Trust Stats', icon: Star },
-    { id: 'featured', name: 'Featured Additions', icon: Sparkles },
-    { id: 'bestsellers', name: 'Bestsellers', icon: Zap },
-    { id: 'categories', name: 'Category Slider', icon: Settings },
-    { id: 'customPpt', name: 'Custom PPT Box', icon: Plus },
-    { id: 'about', name: 'About Atelier', icon: ImageIcon },
-    { id: 'story', name: 'The Story', icon: Type },
-    { id: 'testimonials', name: 'Testimonials', icon: Mail },
-    { id: 'contact', name: 'Contact Hub', icon: Phone },
-  ];
-
   if (!appearance) return (
     <div className="flex items-center justify-center min-h-screen bg-[#09090B]">
       <LogoLoader />
     </div>
   );
 
+  const layoutArray = Array.isArray(appearance?.homepageLayout) ? appearance.homepageLayout : [];
+  const validLayout = layoutArray.filter((id: string, index: number, self: string[]) => 
+    self.indexOf(id) === index && SECTIONS.find(s => s.id === id)
+  );
+
   return (
     <div className="fixed inset-0 z-[100] flex flex-col bg-[#050505] text-zinc-300 font-sans select-none overflow-hidden">
-      {/* Top Header Bar */}
       <header className="h-14 border-b border-white/5 bg-black/80 backdrop-blur-2xl flex items-center justify-between px-6 z-50 shrink-0">
         <div className="flex items-center gap-4">
           <Link href="/admin" className="p-2 hover:bg-white/5 rounded-xl transition-all group">
@@ -285,16 +289,12 @@ export default function AppearancePage() {
             <h3 className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.3em] mb-4">Architecture</h3>
             <Reorder.Group 
               axis="y" 
-              values={(appearance?.homepageLayout || []).filter((id: string, index: number, self: string[]) => 
-                self.indexOf(id) === index && sections.find(s => s.id === id)
-              )} 
+              values={validLayout} 
               onReorder={handleReorder}
               className="space-y-2"
             >
-              {(appearance?.homepageLayout || []).filter((id: string, index: number, self: string[]) => 
-                self.indexOf(id) === index && sections.find(s => s.id === id)
-              ).map((id: string) => {
-                const config = sections.find(s => s.id === id);
+              {validLayout.map((id: string) => {
+                const config = SECTIONS.find(s => s.id === id);
                 if (!config) return null;
                 const isVisible = appearance?.sectionVisibility ? appearance.sectionVisibility[id] !== false : true;
                 const isActive = activeSection === id;
@@ -342,13 +342,13 @@ export default function AppearancePage() {
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
                     {(() => {
-                      const Icon = sections.find(s => s.id === activeSection)?.icon || Settings;
+                      const Icon = SECTIONS.find(s => s.id === activeSection)?.icon || Settings;
                       return <Icon className="w-5 h-5" />;
                     })()}
                   </div>
                   <div>
                     <h2 className="text-xl font-black text-white uppercase italic tracking-tight">
-                      {sections.find(s => s.id === activeSection)?.name}
+                      {SECTIONS.find(s => s.id === activeSection)?.name}
                     </h2>
                     <p className="text-[9px] text-zinc-600 font-black uppercase tracking-widest mt-0.5">Configure Intelligence Layer</p>
                   </div>
