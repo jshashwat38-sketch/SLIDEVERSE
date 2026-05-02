@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { 
   getProductsAdmin,
   getAppearance,
@@ -52,7 +52,12 @@ export default function AppearancePage() {
   const [previewMode, setPreviewMode] = useState<"desktop" | "mobile">("desktop");
   const [isUploading, setIsUploading] = useState<string | null>(null);
 
+  const [fetchError, setFetchError] = useState<string | null>(null);
+  const isLoaded = useRef(false);
+
   useEffect(() => {
+    if (isLoaded.current) return;
+    isLoaded.current = true;
     loadData();
   }, []);
 
@@ -128,12 +133,17 @@ export default function AppearancePage() {
     }));
   };
 
-  const handleReorder = (newOrder: string[]) => {
-    setAppearance((prev: any) => ({
-      ...prev,
-      homepageLayout: newOrder
-    }));
-  };
+  const handleReorder = useCallback((newOrder: string[]) => {
+    setAppearance((prev: any) => {
+      if (!prev) return prev;
+      // Prevent update if order is identical to avoid loops
+      if (JSON.stringify(prev.homepageLayout) === JSON.stringify(newOrder)) return prev;
+      return {
+        ...prev,
+        homepageLayout: newOrder
+      };
+    });
+  }, []);
 
   const handleSaveDraft = async () => {
     setIsSaving(true);
@@ -462,13 +472,20 @@ export default function AppearancePage() {
           
           <div className="flex-1 overflow-hidden p-8 flex items-center justify-center bg-[#09090B]">
             <div className={`transition-all duration-700 h-full border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.8)] bg-background ${previewMode === "desktop" ? "w-full" : "w-[320px]"}`}>
-              <div className="w-full h-full overflow-y-auto custom-scrollbar">
-                <HomeClient 
-                  initialAppearance={appearance} 
-                  initialProducts={products} 
-                  initialReviews={reviews} 
-                  isEditor={true} 
-                />
+              <div className={`${previewMode === "mobile" ? 'h-[667px] overflow-y-auto custom-scrollbar' : ''}`}>
+                {fetchError ? (
+                  <div className="p-20 text-center">
+                    <div className="text-primary text-4xl mb-4 font-black italic uppercase">System Alert</div>
+                    <p className="text-zinc-500 text-xs uppercase tracking-[0.3em]">{fetchError}</p>
+                  </div>
+                ) : (
+                  <HomeClient 
+                    initialAppearance={appearance} 
+                    initialProducts={products} 
+                    initialReviews={reviews} 
+                    isEditor={true} 
+                  />
+                )}
               </div>
             </div>
           </div>
