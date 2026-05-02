@@ -259,11 +259,15 @@ export default function AppearancePage() {
             <h3 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-6">Page Architecture</h3>
             <Reorder.Group 
               axis="y" 
-              values={appearance?.homepageLayout || []} 
+              values={(appearance?.homepageLayout || []).filter((id: string, index: number, self: string[]) => 
+                self.indexOf(id) === index && sections.find(s => s.id === id)
+              )} 
               onReorder={handleReorder}
               className="space-y-2"
             >
-              {(appearance?.homepageLayout || []).map((id: string) => {
+              {(appearance?.homepageLayout || []).filter((id: string, index: number, self: string[]) => 
+                self.indexOf(id) === index && sections.find(s => s.id === id)
+              ).map((id: string) => {
                 const config = sections.find(s => s.id === id);
                 if (!config) return null;
                 const isVisible = appearance?.sectionVisibility ? appearance.sectionVisibility[id] !== false : true;

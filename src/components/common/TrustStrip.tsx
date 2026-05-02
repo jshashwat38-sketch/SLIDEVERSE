@@ -13,8 +13,9 @@ interface StatItemProps {
 
 function Counter({ value }: { value: string }) {
   const [count, setCount] = useState(0);
-  const numericValue = parseInt(value.replace(/[^0-9]/g, ""));
-  const suffix = value.replace(/[0-9]/g, "");
+  const safeValue = String(value || "0");
+  const numericValue = parseInt(safeValue.replace(/[^0-9]/g, "")) || 0;
+  const suffix = safeValue.replace(/[0-9]/g, "");
 
   useEffect(() => {
     let start = 0;
