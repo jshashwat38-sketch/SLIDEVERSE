@@ -218,12 +218,6 @@ export default function AppearancePage() {
     setIsUploading(null);
   };
 
-  if (!appearance) return (
-    <div className="flex items-center justify-center min-h-screen bg-[#09090B]">
-      <LogoLoader />
-    </div>
-  );
-
   const sections = [
     { id: 'hero', name: 'Hero Banner', icon: Layout },
     { id: 'trust', name: 'Trust Stats', icon: Star },
@@ -236,6 +230,12 @@ export default function AppearancePage() {
     { id: 'testimonials', name: 'Testimonials', icon: Mail },
     { id: 'contact', name: 'Contact Hub', icon: Phone },
   ];
+
+  if (!appearance) return (
+    <div className="flex items-center justify-center min-h-screen bg-[#09090B]">
+      <LogoLoader />
+    </div>
+  );
 
   return (
     <div className="fixed inset-0 z-[100] flex flex-col bg-[#050505] text-zinc-300 font-sans select-none overflow-hidden">
@@ -298,6 +298,7 @@ export default function AppearancePage() {
                 if (!config) return null;
                 const isVisible = appearance?.sectionVisibility ? appearance.sectionVisibility[id] !== false : true;
                 const isActive = activeSection === id;
+                const SectionIcon = config.icon || Settings;
 
                 return (
                   <Reorder.Item 
@@ -311,7 +312,7 @@ export default function AppearancePage() {
                     onClick={() => setActiveSection(id)}
                   >
                     <GripVertical className="w-4 h-4 text-zinc-700 group-hover:text-zinc-500 shrink-0 cursor-grab active:cursor-grabbing" />
-                    <config.icon className="w-4 h-4 shrink-0" />
+                    <SectionIcon className="w-4 h-4 shrink-0" />
                     <span className="text-xs font-bold uppercase tracking-wider flex-1 truncate">{config.name}</span>
                     <button 
                       onClick={(e) => { e.stopPropagation(); toggleVisibility(id); }}
@@ -493,8 +494,8 @@ export default function AppearancePage() {
                   className="origin-top-left transition-transform duration-500"
                   style={{ 
                     width: previewMode === "desktop" ? "1440px" : "100%",
-                    transform: previewMode === "desktop" ? `scale(${previewScale})` : 'none',
-                    height: previewMode === "desktop" ? `${100 / Math.max(0.1, previewScale)}%` : "100%",
+                    transform: previewMode === "desktop" ? `scale(${previewScale || 0.3})` : 'none',
+                    height: previewMode === "desktop" ? `${100 / Math.max(0.1, previewScale || 0.3)}%` : "100%",
                     pointerEvents: "none"
                   }}
                 >
