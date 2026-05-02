@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { 
+  getAppearance,
   getAppearanceDraft, 
   saveAppearanceDraft, 
   publishAppearance, 
@@ -56,14 +57,23 @@ export default function AppearancePage() {
   }, []);
 
   async function loadData() {
-    const [appData, prodData, revData] = await Promise.all([
-      getAppearanceDraft(),
-      supabase.from("products").select("*").order("created_at", { ascending: false }),
-      getReviews()
-    ]);
-    setAppearance(appData);
-    setProducts(prodData.data || []);
-    setReviews(revData);
+    try {
+      const [prodData, revData] = await Promise.all([
+        supabase.from("products").select("*").order("created_at", { ascending: false }),
+        getReviews()
+      ]);
+      
+      const appData = await getAppearanceDraft();
+      
+      setAppearance(appData);
+      setProducts(prodData.data || []);
+      setReviews(revData);
+    } catch (error) {
+      console.error("Critical failure in loadData:", error);
+      toast.error("Failed to initialize editor. Emergency restoration active.");
+      const fallback = await getAppearance();
+      setAppearance(fallback);
+    }
   }
 
   const updateField = (section: string, field: string, value: any) => {
@@ -217,14 +227,14 @@ export default function AppearancePage() {
             <h3 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-6">Page Architecture</h3>
             <Reorder.Group 
               axis="y" 
-              values={appearance.homepageLayout} 
+              values={appearance?.homepageLayout || []} 
               onReorder={handleReorder}
               className="space-y-2"
             >
-              {appearance.homepageLayout.map((id: string) => {
+              {(appearance?.homepageLayout || []).map((id: string) => {
                 const config = sections.find(s => s.id === id);
                 if (!config) return null;
-                const isVisible = appearance.sectionVisibility[id];
+                const isVisible = appearance?.sectionVisibility ? appearance.sectionVisibility[id] !== false : true;
                 const isActive = activeSection === id;
 
                 return (
@@ -284,28 +294,28 @@ export default function AppearancePage() {
                 {/* Section Specific Editors */}
                 {activeSection === "hero" && (
                   <div className="grid grid-cols-1 gap-8">
-                    <EditorField label="Headline" value={appearance.hero.title} onChange={(val) => updateField("hero", "title", val)} type="textarea" rows={3} />
-                    <EditorField label="Subheadline" value={appearance.hero.subtitle} onChange={(val) => updateField("hero", "subtitle", val)} type="textarea" rows={3} />
-                    <EditorField label="Badge Text" value={appearance.hero.badge} onChange={(val) => updateField("hero", "badge", val)} />
-                    <ImageUploadField label="Hero Showcase Image" value={appearance.hero.image} onChange={(url) => updateField("hero", "image", url)} uploading={isUploading === "hero-image"} onUpload={(e) => handleImageUpload(e, "hero", "image")} />
+                    <EditorField label="Headline" value={appearance?.hero?.title} onChange={(val) => updateField("hero", "title", val)} type="textarea" rows={3} />
+                    <EditorField label="Subheadline" value={appearance?.hero?.subtitle} onChange={(val) => updateField("hero", "subtitle", val)} type="textarea" rows={3} />
+                    <EditorField label="Badge Text" value={appearance?.hero?.badge} onChange={(val) => updateField("hero", "badge", val)} />
+                    <ImageUploadField label="Hero Showcase Image" value={appearance?.hero?.image} onChange={(url) => updateField("hero", "image", url)} uploading={isUploading === "hero-image"} onUpload={(e) => handleImageUpload(e, "hero", "image")} />
                     <div className="grid grid-cols-2 gap-6">
-                      <EditorField label="Primary Button Text" value={appearance.buttons.primary.label} onChange={(val) => setAppearance((p: any) => ({...p, buttons: {...p.buttons, primary: {...p.buttons.primary, label: val}}}))} />
-                      <EditorField label="Primary Link" value={appearance.buttons.primary.link} onChange={(val) => setAppearance((p: any) => ({...p, buttons: {...p.buttons, primary: {...p.buttons.primary, link: val}}}))} />
+                      <EditorField label="Primary Button Text" value={appearance?.buttons?.primary?.label} onChange={(val) => setAppearance((p: any) => ({...p, buttons: {...p.buttons, primary: {...p.buttons.primary, label: val}}}))} />
+                      <EditorField label="Primary Link" value={appearance?.buttons?.primary?.link} onChange={(val) => setAppearance((p: any) => ({...p, buttons: {...p.buttons, primary: {...p.buttons.primary, link: val}}}))} />
                     </div>
                   </div>
                 )}
 
                 {activeSection === "trust" && (
                   <div className="grid grid-cols-2 gap-8">
-                    <EditorField label="Metric 1: Downloads" value={appearance.trust.downloads} onChange={(val) => updateField("trust", "downloads", val)} />
-                    <EditorField label="Metric 2: Users" value={appearance.trust.users} onChange={(val) => updateField("trust", "users", val)} />
-                    <EditorField label="Metric 3: Rating" value={appearance.trust.rating} onChange={(val) => updateField("trust", "rating", val)} />
-                    <EditorField label="Metric 4: Custom Orders" value={appearance.trust.customOrders} onChange={(val) => updateField("trust", "customOrders", val)} />
+                    <EditorField label="Metric 1: Downloads" value={appearance?.trust?.downloads} onChange={(val) => updateField("trust", "downloads", val)} />
+                    <EditorField label="Metric 2: Users" value={appearance?.trust?.users} onChange={(val) => updateField("trust", "users", val)} />
+                    <EditorField label="Metric 3: Rating" value={appearance?.trust?.rating} onChange={(val) => updateField("trust", "rating", val)} />
+                    <EditorField label="Metric 4: Custom Orders" value={appearance?.trust?.customOrders} onChange={(val) => updateField("trust", "customOrders", val)} />
                     <div className="col-span-2">
                       <label className="flex items-center gap-4 cursor-pointer p-6 bg-white/[0.02] border border-white/5 rounded-2xl hover:bg-white/[0.04] transition-all">
                         <input 
                           type="checkbox"
-                          checked={appearance.trust.animated !== false}
+                          checked={appearance?.trust?.animated !== false}
                           onChange={(e) => updateField("trust", "animated", e.target.checked)}
                           className="w-5 h-5 rounded border-white/10 bg-black/40 text-primary focus:ring-primary focus:ring-opacity-25"
                         />
@@ -320,12 +330,12 @@ export default function AppearancePage() {
 
                 {activeSection === "featured" && (
                   <div className="grid grid-cols-1 gap-8">
-                    <EditorField label="Section Heading" value={appearance.featured.heading} onChange={(val) => updateField("featured", "heading", val)} />
-                    <EditorField label="Subheadline" value={appearance.featured.subtitle} onChange={(val) => updateField("featured", "subtitle", val)} type="textarea" />
+                    <EditorField label="Section Heading" value={appearance?.featured?.heading} onChange={(val) => updateField("featured", "heading", val)} />
+                    <EditorField label="Subheadline" value={appearance?.featured?.subtitle} onChange={(val) => updateField("featured", "subtitle", val)} type="textarea" />
                     <ProductSelector 
                       label="Select Featured Products (Max 12)" 
                       products={products} 
-                      selectedIds={appearance.featured.productIds || []} 
+                      selectedIds={appearance?.featured?.productIds || []} 
                       onChange={(ids) => updateField("featured", "productIds", ids)} 
                     />
                   </div>
@@ -333,12 +343,12 @@ export default function AppearancePage() {
 
                 {activeSection === "bestsellers" && (
                   <div className="grid grid-cols-1 gap-8">
-                    <EditorField label="Section Heading" value={appearance.bestsellers.heading} onChange={(val) => updateField("bestsellers", "heading", val)} />
-                    <EditorField label="Subheadline" value={appearance.bestsellers.subtitle} onChange={(val) => updateField("bestsellers", "subtitle", val)} type="textarea" />
+                    <EditorField label="Section Heading" value={appearance?.bestsellers?.heading} onChange={(val) => updateField("bestsellers", "heading", val)} />
+                    <EditorField label="Subheadline" value={appearance?.bestsellers?.subtitle} onChange={(val) => updateField("bestsellers", "subtitle", val)} type="textarea" />
                     <ProductSelector 
                       label="Select Bestsellers (Max 24)" 
                       products={products} 
-                      selectedIds={appearance.bestsellers.productIds || []} 
+                      selectedIds={appearance?.bestsellers?.productIds || []} 
                       onChange={(ids) => updateField("bestsellers", "productIds", ids)} 
                     />
                   </div>
@@ -346,47 +356,47 @@ export default function AppearancePage() {
 
                 {activeSection === "categories" && (
                   <div className="grid grid-cols-1 gap-8">
-                    <EditorField label="Section Heading" value={appearance.categorySlider.heading} onChange={(val) => updateField("categorySlider", "heading", val)} />
-                    <EditorField label="Subheadline" value={appearance.categorySlider.subtitle} onChange={(val) => updateField("categorySlider", "subtitle", val)} type="textarea" />
+                    <EditorField label="Section Heading" value={appearance?.categorySlider?.heading} onChange={(val) => updateField("categorySlider", "heading", val)} />
+                    <EditorField label="Subheadline" value={appearance?.categorySlider?.subtitle} onChange={(val) => updateField("categorySlider", "subtitle", val)} type="textarea" />
                   </div>
                 )}
 
                 {activeSection === "customPpt" && (
                   <div className="grid grid-cols-2 gap-8">
-                    <EditorField label="Service Price (₹)" value={appearance.customPpt.price} onChange={(val) => updateField("customPpt", "price", Number(val))} type="number" />
-                    <EditorField label="Sale Price (₹)" value={appearance.customPpt.salePrice} onChange={(val) => updateField("customPpt", "salePrice", Number(val))} type="number" />
-                    <EditorField label="MRP Price (₹)" value={appearance.customPpt.mrpPrice} onChange={(val) => updateField("customPpt", "mrpPrice", Number(val))} type="number" />
-                    <EditorField label="Completion Timeline" value={appearance.customPpt.timelineText} onChange={(val) => updateField("customPpt", "timelineText", val)} />
+                    <EditorField label="Service Price (₹)" value={appearance?.customPpt?.price} onChange={(val) => updateField("customPpt", "price", Number(val))} type="number" />
+                    <EditorField label="Sale Price (₹)" value={appearance?.customPpt?.salePrice} onChange={(val) => updateField("customPpt", "salePrice", Number(val))} type="number" />
+                    <EditorField label="MRP Price (₹)" value={appearance?.customPpt?.mrpPrice} onChange={(val) => updateField("customPpt", "mrpPrice", Number(val))} type="number" />
+                    <EditorField label="Completion Timeline" value={appearance?.customPpt?.timelineText} onChange={(val) => updateField("customPpt", "timelineText", val)} />
                   </div>
                 )}
 
                 {activeSection === "about" && (
                   <div className="grid grid-cols-1 gap-8">
-                    <EditorField label="Heading" value={appearance.about.title} onChange={(val) => updateField("about", "title", val)} />
-                    <EditorField label="Description" value={appearance.about.description} onChange={(val) => updateField("about", "description", val)} type="textarea" rows={5} />
-                    <ImageUploadField label="Side Visual" value={appearance.about.image} onChange={(url) => updateField("about", "image", url)} uploading={isUploading === "about-image"} onUpload={(e) => handleImageUpload(e, "about", "image")} />
+                    <EditorField label="Heading" value={appearance?.about?.title} onChange={(val) => updateField("about", "title", val)} />
+                    <EditorField label="Description" value={appearance?.about?.description} onChange={(val) => updateField("about", "description", val)} type="textarea" rows={5} />
+                    <ImageUploadField label="Side Visual" value={appearance?.about?.image} onChange={(url) => updateField("about", "image", url)} uploading={isUploading === "about-image"} onUpload={(e) => handleImageUpload(e, "about", "image")} />
                   </div>
                 )}
 
                 {activeSection === "story" && (
                   <div className="grid grid-cols-1 gap-8">
-                    <EditorField label="Heading" value={appearance.story.title} onChange={(val) => updateField("story", "title", val)} />
-                    <EditorField label="Subtitle" value={appearance.story.subtitle} onChange={(val) => updateField("story", "subtitle", val)} type="textarea" />
-                    <ImageUploadField label="Philosophy Visual" value={appearance.story.image} onChange={(url) => updateField("story", "image", url)} uploading={isUploading === "story-image"} onUpload={(e) => handleImageUpload(e, "story", "image")} />
+                    <EditorField label="Heading" value={appearance?.story?.title} onChange={(val) => updateField("story", "title", val)} />
+                    <EditorField label="Subtitle" value={appearance?.story?.subtitle} onChange={(val) => updateField("story", "subtitle", val)} type="textarea" />
+                    <ImageUploadField label="Philosophy Visual" value={appearance?.story?.image} onChange={(url) => updateField("story", "image", url)} uploading={isUploading === "story-image"} onUpload={(e) => handleImageUpload(e, "story", "image")} />
                   </div>
                 )}
 
                 {activeSection === "testimonials" && (
                   <div className="grid grid-cols-1 gap-8">
-                    <EditorField label="Section Heading" value={appearance.testimonials.heading} onChange={(val) => updateField("testimonials", "heading", val)} />
-                    <EditorField label="Subheadline" value={appearance.testimonials.subtitle} onChange={(val) => updateField("testimonials", "subtitle", val)} type="textarea" />
+                    <EditorField label="Section Heading" value={appearance?.testimonials?.heading} onChange={(val) => updateField("testimonials", "heading", val)} />
+                    <EditorField label="Subheadline" value={appearance?.testimonials?.subtitle} onChange={(val) => updateField("testimonials", "subtitle", val)} type="textarea" />
                   </div>
                 )}
 
                 {activeSection === "contact" && (
                   <div className="grid grid-cols-2 gap-8">
-                    <EditorField label="Official Email" value={appearance.contact.email} onChange={(val) => updateField("contact", "email", val)} />
-                    <EditorField label="Support Line" value={appearance.contact.mobile} onChange={(val) => updateField("contact", "mobile", val)} />
+                    <EditorField label="Official Email" value={appearance?.contact?.email} onChange={(val) => updateField("contact", "email", val)} />
+                    <EditorField label="Support Line" value={appearance?.contact?.mobile} onChange={(val) => updateField("contact", "mobile", val)} />
                   </div>
                 )}
 

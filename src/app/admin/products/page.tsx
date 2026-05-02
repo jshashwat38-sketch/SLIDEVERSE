@@ -660,7 +660,7 @@ export default function ProductsPage() {
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="px-8 py-4 text-zinc-600 font-black uppercase tracking-[0.3em] text-[10px] hover:text-white transition-colors"
+                  className="px-10 py-5 bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-400 hover:text-white font-black uppercase tracking-[0.3em] text-xs rounded-2xl transition-all shadow-[0_0_10px_rgba(255,255,255,0.02)] hover:shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:-translate-y-0.5"
                 >
                   Terminate
                 </button>

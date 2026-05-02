@@ -222,7 +222,8 @@ export async function getAppearance() {
       sectionVisibility: { ...defaultAppearance.sectionVisibility, ...(dbData.sectionVisibility || {}) },
       featured: { ...defaultAppearance.featured, ...(dbData.featured || {}) },
       bestsellers: { ...defaultAppearance.bestsellers, ...(dbData.bestsellers || {}) },
-      categorySlider: { ...defaultAppearance.categorySlider, ...(dbData.categorySlider || {}) }
+      categorySlider: { ...defaultAppearance.categorySlider, ...(dbData.categorySlider || {}) },
+      testimonials: { ...defaultAppearance.testimonials, ...(dbData.testimonials || {}) }
     };
   } catch (error) {
     console.error("Error fetching appearance:", error);
@@ -231,6 +232,7 @@ export async function getAppearance() {
 }
 
 export async function getAppearanceDraft() {
+  const defaultApp = await getAppearance();
   try {
     const { data, error } = await supabase
       .from('appearance')
@@ -239,12 +241,32 @@ export async function getAppearanceDraft() {
       .single();
     
     if (error) {
-      if (error.code === 'PGRST116') return await getAppearance();
+      if (error.code === 'PGRST116') return defaultApp;
       throw error;
     }
-    return data.data;
+    
+    const dbData = data.data || {};
+    // Deep merge to ensure all sections exist
+    return {
+      ...defaultApp,
+      ...dbData,
+      hero: { ...defaultApp.hero, ...(dbData.hero || {}) },
+      about: { ...defaultApp.about, ...(dbData.about || {}) },
+      story: { ...defaultApp.story, ...(dbData.story || {}) },
+      site: { ...defaultApp.site, ...(dbData.site || {}) },
+      contact: { ...defaultApp.contact, ...(dbData.contact || {}) },
+      buttons: { ...defaultApp.buttons, ...(dbData.buttons || {}) },
+      policies: { ...defaultApp.policies, ...(dbData.policies || {}) },
+      customPpt: { ...defaultApp.customPpt, ...(dbData.customPpt || {}) },
+      trust: { ...defaultApp.trust, ...(dbData.trust || {}) },
+      sectionVisibility: { ...defaultApp.sectionVisibility, ...(dbData.sectionVisibility || {}) },
+      featured: { ...defaultApp.featured, ...(dbData.featured || {}) },
+      bestsellers: { ...defaultApp.bestsellers, ...(dbData.bestsellers || {}) },
+      categorySlider: { ...defaultApp.categorySlider, ...(dbData.categorySlider || {}) },
+      testimonials: { ...defaultApp.testimonials, ...(dbData.testimonials || {}) }
+    };
   } catch {
-    return await getAppearance();
+    return defaultApp;
   }
 }
 

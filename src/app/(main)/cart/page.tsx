@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Script from "next/script";
-import { Trash2, Plus, Minus, ArrowRight, ShoppingBag, PlusCircle, ShieldCheck, Zap } from "lucide-react";
+import { Trash2, Plus, Minus, ArrowRight, ShoppingBag, PlusCircle, ShieldCheck, Zap, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createRazorpayOrder, verifyPayment } from "@/actions/paymentActions";
@@ -28,6 +28,7 @@ export default function CartPage() {
   const router = useRouter();
   const { language } = useLanguage();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isRazorpayLoaded, setIsRazorpayLoaded] = useState(false);
 
   const [couponCode, setCouponCode] = useState("");
   const [discount, setDiscount] = useState(0);
@@ -78,7 +79,7 @@ export default function CartPage() {
 
     if (typeof window === "undefined") return;
 
-    if (!window.Razorpay) {
+    if (!window.Razorpay && !isRazorpayLoaded) {
       toast.error("Payment gateway is still initializing. Please wait a moment.");
       return;
     }
@@ -205,7 +206,11 @@ export default function CartPage() {
 
   return (
     <div className="animate-in fade-in duration-700 max-w-6xl mx-auto py-12 px-4 relative">
-      <Script src="https://checkout.razorpay.com/v1/checkout.js" />
+      <Script 
+        src="https://checkout.razorpay.com/v1/checkout.js" 
+        onLoad={() => setIsRazorpayLoaded(true)}
+        onError={() => toast.error("Failed to load payment gateway. Check your connection.")}
+      />
       
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[150px] -z-10" />
       
@@ -374,13 +379,18 @@ export default function CartPage() {
 
             <button 
               onClick={handleCheckout}
-              disabled={isProcessing}
-              className="w-full bg-primary hover:bg-white text-black py-6 px-8 rounded-2xl font-black text-base md:text-lg transition-all shadow-[0_0_30px_rgba(197,165,114,0.2)] hover:shadow-[0_0_50px_rgba(197,165,114,0.4)] hover:-translate-y-1 flex items-center justify-center gap-3 uppercase tracking-widest italic group disabled:opacity-50 whitespace-nowrap"
+              disabled={isProcessing || (!isRazorpayLoaded && !window.Razorpay)}
+              className="w-full bg-primary hover:bg-white text-black py-6 px-8 rounded-2xl font-black text-base md:text-lg transition-all shadow-[0_0_30px_rgba(197,165,114,0.2)] hover:shadow-[0_0_50px_rgba(197,165,114,0.4)] hover:-translate-y-1 flex items-center justify-center gap-3 uppercase tracking-widest italic group disabled:opacity-50 disabled:hover:translate-y-0 whitespace-nowrap"
             >
               {isProcessing ? (
                 <div className="flex items-center gap-3">
                   <Image src="/logo.png" alt="Logo" width={24} height={24} className="animate-spin" />
                   <span>Processing...</span>
+                </div>
+              ) : !isRazorpayLoaded && !window.Razorpay ? (
+                <div className="flex items-center gap-3">
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span>Initializing Gateway...</span>
                 </div>
               ) : (
                 <>
