@@ -62,14 +62,20 @@ export default function AppearancePage() {
     const updateScale = () => {
       if (previewContainerRef.current) {
         const width = previewContainerRef.current.offsetWidth;
-        const targetWidth = previewMode === "desktop" ? 1440 : 320;
-        setPreviewScale((width - 48) / targetWidth); // subtract padding
+        if (width > 0) {
+          const targetWidth = previewMode === "desktop" ? 1440 : 320;
+          const newScale = (width - 40) / targetWidth;
+          setPreviewScale(Math.max(0.1, newScale));
+        }
       }
     };
-    updateScale();
+    const timer = setTimeout(updateScale, 100);
     window.addEventListener('resize', updateScale);
-    return () => window.removeEventListener('resize', updateScale);
-  }, [previewMode, appearance]); // Recalculate when mode changes
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', updateScale);
+    };
+  }, [previewMode, appearance]);
 
   const [fetchError, setFetchError] = useState<string | null>(null);
   const isLoaded = useRef(false);
@@ -232,16 +238,16 @@ export default function AppearancePage() {
   ];
 
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col bg-[#050505] text-zinc-300 font-sans select-none">
+    <div className="fixed inset-0 z-[100] flex flex-col bg-[#050505] text-zinc-300 font-sans select-none overflow-hidden">
       {/* Top Header Bar */}
-      <header className="h-16 border-b border-white/5 bg-black/80 backdrop-blur-2xl flex items-center justify-between px-6 z-50 shrink-0">
+      <header className="h-14 border-b border-white/5 bg-black/80 backdrop-blur-2xl flex items-center justify-between px-6 z-50 shrink-0">
         <div className="flex items-center gap-4">
           <Link href="/admin" className="p-2 hover:bg-white/5 rounded-xl transition-all group">
-            <ChevronLeft className="w-5 h-5 text-zinc-500 group-hover:text-white" />
+            <ChevronLeft className="w-4 h-4 text-zinc-500 group-hover:text-white" />
           </Link>
-          <div className="h-6 w-[1px] bg-white/10" />
-          <h1 className="text-sm font-black text-white uppercase italic tracking-tighter">
-            CMS <span className="text-primary">Appearance Editor</span>
+          <div className="h-4 w-[1px] bg-white/10" />
+          <h1 className="text-[11px] font-black text-white uppercase italic tracking-tighter">
+            CMS <span className="text-primary">Appearance</span>
           </h1>
         </div>
         
@@ -332,18 +338,18 @@ export default function AppearancePage() {
                 transition={{ duration: 0.2 }}
                 className="space-y-10"
               >
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
                     {(() => {
                       const Icon = sections.find(s => s.id === activeSection)?.icon || Settings;
-                      return <Icon className="w-6 h-6" />;
+                      return <Icon className="w-5 h-5" />;
                     })()}
                   </div>
                   <div>
-                    <h2 className="text-3xl font-black text-white uppercase italic tracking-tighter">
+                    <h2 className="text-xl font-black text-white uppercase italic tracking-tight">
                       {sections.find(s => s.id === activeSection)?.name}
                     </h2>
-                    <p className="text-zinc-500 text-xs font-medium uppercase tracking-widest mt-1">Configure section-specific intelligence layers</p>
+                    <p className="text-[9px] text-zinc-600 font-black uppercase tracking-widest mt-0.5">Configure Intelligence Layer</p>
                   </div>
                 </div>
 
@@ -488,7 +494,8 @@ export default function AppearancePage() {
                   style={{ 
                     width: previewMode === "desktop" ? "1440px" : "100%",
                     transform: previewMode === "desktop" ? `scale(${previewScale})` : 'none',
-                    height: previewMode === "desktop" ? `${100 / previewScale}%` : "100%"
+                    height: previewMode === "desktop" ? `${100 / Math.max(0.1, previewScale)}%` : "100%",
+                    pointerEvents: "none"
                   }}
                 >
                 {fetchError ? (
