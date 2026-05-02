@@ -23,6 +23,7 @@ import {
   Trash2, 
   GripVertical, 
   ChevronRight,
+  ChevronLeft,
   Monitor,
   Smartphone,
   Check,
@@ -231,74 +232,51 @@ export default function AppearancePage() {
   ];
 
   return (
-    <div className="fixed inset-0 flex flex-col bg-[#09090B] overflow-hidden text-zinc-300 font-sans">
+    <div className="fixed inset-0 z-[100] flex flex-col bg-[#050505] text-zinc-300 font-sans select-none">
       {/* Top Header Bar */}
-      <header className="h-20 border-b border-white/5 bg-black/40 backdrop-blur-3xl flex items-center justify-between px-8 z-50 shrink-0">
-          <div className="flex items-center gap-3">
-            <button 
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="xl:hidden p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all"
-            >
-              <Layout className="w-5 h-5 text-primary" />
-            </button>
-            <h1 className="text-xl font-black text-white uppercase italic tracking-tighter">
-              Homepage <span className="text-primary">Visual Editor</span>
-            </h1>
-          </div>
-          <div className="flex items-center bg-white/5 p-1 rounded-xl border border-white/5">
-            <button 
-              onClick={() => setPreviewMode("desktop")}
-              className={`p-2 rounded-lg transition-all ${previewMode === "desktop" ? "bg-primary text-black" : "hover:text-white"}`}
-            >
-              <Monitor className="w-4 h-4" />
-            </button>
-            <button 
-              onClick={() => setPreviewMode("mobile")}
-              className={`p-2 rounded-lg transition-all ${previewMode === "mobile" ? "bg-primary text-black" : "hover:text-white"}`}
-            >
-              <Smartphone className="w-4 h-4" />
-            </button>
-          </div>
+      <header className="h-16 border-b border-white/5 bg-black/80 backdrop-blur-2xl flex items-center justify-between px-6 z-50 shrink-0">
+        <div className="flex items-center gap-4">
+          <Link href="/admin" className="p-2 hover:bg-white/5 rounded-xl transition-all group">
+            <ChevronLeft className="w-5 h-5 text-zinc-500 group-hover:text-white" />
+          </Link>
+          <div className="h-6 w-[1px] bg-white/10" />
+          <h1 className="text-sm font-black text-white uppercase italic tracking-tighter">
+            CMS <span className="text-primary">Appearance Editor</span>
+          </h1>
+        </div>
+        
+        <div className="flex items-center gap-2 bg-black/40 p-1 rounded-xl border border-white/5">
+          <button 
+            onClick={() => setPreviewMode("desktop")}
+            className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${previewMode === "desktop" ? "bg-primary text-black" : "text-zinc-500 hover:text-white"}`}
+          >
+            Desktop
+          </button>
+          <button 
+            onClick={() => setPreviewMode("mobile")}
+            className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${previewMode === "mobile" ? "bg-primary text-black" : "text-zinc-500 hover:text-white"}`}
+          >
+            Mobile
+          </button>
         </div>
 
-        <div className="flex items-center gap-4">
-          <button 
-            onClick={handleRevert}
-            disabled={isReverting}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-black uppercase tracking-widest transition-all"
-          >
-            <RotateCcw className="w-4 h-4" /> Revert
-          </button>
+        <div className="flex items-center gap-3">
+          <div className="h-8 w-[1px] bg-white/10" />
           <button 
             onClick={handleSaveDraft}
             disabled={isSaving}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-black uppercase tracking-widest transition-all"
+            className="flex items-center gap-2 bg-primary hover:bg-white text-black px-6 py-2 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all italic disabled:opacity-50"
           >
             <Save className="w-4 h-4" /> {isSaving ? "Saving..." : "Save Draft"}
-          </button>
-          <button 
-            onClick={handlePublish}
-            disabled={isPublishing}
-            className="flex items-center gap-2 px-8 py-3 rounded-xl bg-primary hover:bg-primary-hover text-black text-xs font-black uppercase tracking-widest transition-all shadow-[0_10px_30px_rgba(197,165,114,0.3)]"
-          >
-            <Send className="w-4 h-4" /> {isPublishing ? "Publishing..." : "Publish To Live"}
           </button>
         </div>
       </header>
 
-      <div className="flex-1 flex overflow-hidden relative">
+      <div className="flex-1 flex overflow-hidden">
         {/* Left Sidebar: Section Management */}
-        <aside className={`
-          fixed inset-y-0 left-0 z-40 w-72 bg-black/95 border-r border-white/5 flex flex-col transition-transform duration-500 xl:relative xl:translate-x-0 xl:bg-black/20
-          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-        `}>
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em]">Page Architecture</h3>
-              <button onClick={() => setSidebarOpen(false)} className="xl:hidden p-2 text-zinc-500 hover:text-white">
-                <X className="w-4 h-4" />
-              </button>
-            </div>
+        <aside className="w-64 border-r border-white/5 bg-black/20 flex flex-col shrink-0 overflow-y-auto custom-scrollbar">
+          <div className="p-5">
+            <h3 className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.3em] mb-4">Architecture</h3>
             <Reorder.Group 
               axis="y" 
               values={(appearance?.homepageLayout || []).filter((id: string, index: number, self: string[]) => 
@@ -343,8 +321,8 @@ export default function AppearancePage() {
         </aside>
 
         {/* Middle Column: Active Section Editor */}
-        <main className="flex-1 overflow-y-auto p-6 md:p-10 lg:p-14 xl:p-16 custom-scrollbar bg-black/40">
-          <div className="max-w-4xl mx-auto">
+        <main className="flex-1 overflow-y-auto p-8 xl:p-12 custom-scrollbar bg-black/40 border-r border-white/5">
+          <div className="max-w-3xl mx-auto">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeSection}
@@ -492,19 +470,19 @@ export default function AppearancePage() {
         </main>
 
         {/* Right Sidebar: Live Preview Screen */}
-        <aside className="flex-1 lg:flex-[0_0_400px] xl:lg:flex-[0_0_500px] border-l border-white/5 bg-black/40 relative overflow-hidden shrink-0 flex flex-col">
-          <div className="h-14 bg-black/40 border-b border-white/5 flex items-center justify-between px-6 shrink-0">
-            <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Real-time Preview</span>
-            <div className="flex gap-2">
-              <div className="w-2.5 h-2.5 rounded-full bg-red-500/20" />
-              <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/20" />
-              <div className="w-2.5 h-2.5 rounded-full bg-green-500/20" />
+        <aside className="w-[400px] 2xl:w-[500px] bg-[#09090B] relative overflow-hidden shrink-0 flex flex-col hidden lg:flex">
+          <div className="h-12 border-b border-white/5 flex items-center justify-between px-6 shrink-0 bg-black/40">
+            <span className="text-[8px] font-black text-zinc-600 uppercase tracking-[0.3em]">Deployment Preview</span>
+            <div className="flex gap-1.5">
+              <div className="w-2 h-2 rounded-full bg-red-500/10 border border-red-500/20" />
+              <div className="w-2 h-2 rounded-full bg-yellow-500/10 border border-yellow-500/20" />
+              <div className="w-2 h-2 rounded-full bg-green-500/10 border border-green-500/20" />
             </div>
           </div>
           
-          <div ref={previewContainerRef} className="flex-1 overflow-hidden p-4 xl:p-8 flex items-center justify-center bg-[#09090B]">
-            <div className={`transition-all duration-700 h-full border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.8)] bg-background relative ${previewMode === "desktop" ? "w-full" : "w-[320px]"}`}>
-              <div className={`absolute inset-0 ${previewMode === "mobile" ? 'overflow-y-auto' : ''}`}>
+          <div ref={previewContainerRef} className="flex-1 overflow-hidden p-6 flex items-center justify-center relative">
+            <div className={`transition-all duration-700 h-full border border-white/10 rounded-2xl overflow-hidden shadow-2xl bg-background relative ${previewMode === "desktop" ? "w-full" : "w-[320px]"}`}>
+              <div className={`absolute inset-0 ${previewMode === "mobile" ? 'overflow-y-auto scrollbar-hide' : ''}`}>
                 <div 
                   className="origin-top-left transition-transform duration-500"
                   style={{ 
