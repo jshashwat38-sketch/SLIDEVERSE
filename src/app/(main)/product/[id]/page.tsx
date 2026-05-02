@@ -30,7 +30,6 @@ import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-hot-toast";
 import { useLanguage } from "@/context/LanguageContext";
 import { getLangString } from "@/utils/lang";
-import { Star } from "lucide-react";
 import LogoLoader from "@/components/common/LogoLoader";
 
 

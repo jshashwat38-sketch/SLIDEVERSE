@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { getAppearance } from "@/actions/adminActions";
 import Link from "next/link";
-import { Mail, Phone, ShieldCheck, FolderOpen } from "lucide-react";
+import { Mail, Phone, ShieldCheck, FolderOpen, Zap } from "lucide-react";
 
 
 
