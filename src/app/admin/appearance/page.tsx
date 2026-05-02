@@ -52,6 +52,23 @@ export default function AppearancePage() {
   const [activeSection, setActiveSection] = useState<string>("hero");
   const [previewMode, setPreviewMode] = useState<"desktop" | "mobile">("desktop");
   const [isUploading, setIsUploading] = useState<string | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const previewContainerRef = useRef<HTMLDivElement>(null);
+  const [previewScale, setPreviewScale] = useState(0.3);
+
+  useEffect(() => {
+    const updateScale = () => {
+      if (previewContainerRef.current) {
+        const width = previewContainerRef.current.offsetWidth;
+        const targetWidth = previewMode === "desktop" ? 1440 : 320;
+        setPreviewScale((width - 48) / targetWidth); // subtract padding
+      }
+    };
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, [previewMode, appearance]); // Recalculate when mode changes
 
   const [fetchError, setFetchError] = useState<string | null>(null);
   const isLoaded = useRef(false);
@@ -217,11 +234,17 @@ export default function AppearancePage() {
     <div className="fixed inset-0 flex flex-col bg-[#09090B] overflow-hidden text-zinc-300 font-sans">
       {/* Top Header Bar */}
       <header className="h-20 border-b border-white/5 bg-black/40 backdrop-blur-3xl flex items-center justify-between px-8 z-50 shrink-0">
-        <div className="flex items-center gap-6">
-          <h1 className="text-xl font-black text-white uppercase italic tracking-tighter">
-            Homepage <span className="text-primary">Visual Editor</span>
-          </h1>
-          <div className="h-6 w-[1px] bg-white/10" />
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="xl:hidden p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all"
+            >
+              <Layout className="w-5 h-5 text-primary" />
+            </button>
+            <h1 className="text-xl font-black text-white uppercase italic tracking-tighter">
+              Homepage <span className="text-primary">Visual Editor</span>
+            </h1>
+          </div>
           <div className="flex items-center bg-white/5 p-1 rounded-xl border border-white/5">
             <button 
               onClick={() => setPreviewMode("desktop")}
@@ -263,11 +286,19 @@ export default function AppearancePage() {
         </div>
       </header>
 
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden relative">
         {/* Left Sidebar: Section Management */}
-        <aside className="w-80 border-r border-white/5 bg-black/20 flex flex-col shrink-0 overflow-y-auto custom-scrollbar">
+        <aside className={`
+          fixed inset-y-0 left-0 z-40 w-72 bg-black/95 border-r border-white/5 flex flex-col transition-transform duration-500 xl:relative xl:translate-x-0 xl:bg-black/20
+          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        `}>
           <div className="p-6">
-            <h3 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-6">Page Architecture</h3>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em]">Page Architecture</h3>
+              <button onClick={() => setSidebarOpen(false)} className="xl:hidden p-2 text-zinc-500 hover:text-white">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
             <Reorder.Group 
               axis="y" 
               values={(appearance?.homepageLayout || []).filter((id: string, index: number, self: string[]) => 
@@ -311,9 +342,9 @@ export default function AppearancePage() {
           </div>
         </aside>
 
-        {/* Center: Editor Canvas */}
-        <main className="flex-1 flex flex-col bg-[#050505] overflow-y-auto custom-scrollbar">
-          <div className="p-12 max-w-4xl mx-auto w-full">
+        {/* Middle Column: Active Section Editor */}
+        <main className="flex-1 overflow-y-auto p-6 md:p-10 lg:p-14 xl:p-16 custom-scrollbar bg-black/40">
+          <div className="max-w-4xl mx-auto">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeSection}
@@ -461,7 +492,7 @@ export default function AppearancePage() {
         </main>
 
         {/* Right Sidebar: Live Preview Screen */}
-        <aside className="w-[500px] border-l border-white/5 bg-black/40 relative overflow-hidden shrink-0 flex flex-col">
+        <aside className="flex-1 lg:flex-[0_0_400px] xl:lg:flex-[0_0_500px] border-l border-white/5 bg-black/40 relative overflow-hidden shrink-0 flex flex-col">
           <div className="h-14 bg-black/40 border-b border-white/5 flex items-center justify-between px-6 shrink-0">
             <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Real-time Preview</span>
             <div className="flex gap-2">
@@ -471,9 +502,17 @@ export default function AppearancePage() {
             </div>
           </div>
           
-          <div className="flex-1 overflow-hidden p-8 flex items-center justify-center bg-[#09090B]">
-            <div className={`transition-all duration-700 h-full border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.8)] bg-background ${previewMode === "desktop" ? "w-full" : "w-[320px]"}`}>
-              <div className={`${previewMode === "mobile" ? 'h-[667px] overflow-y-auto custom-scrollbar' : ''}`}>
+          <div ref={previewContainerRef} className="flex-1 overflow-hidden p-4 xl:p-8 flex items-center justify-center bg-[#09090B]">
+            <div className={`transition-all duration-700 h-full border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.8)] bg-background relative ${previewMode === "desktop" ? "w-full" : "w-[320px]"}`}>
+              <div className={`absolute inset-0 ${previewMode === "mobile" ? 'overflow-y-auto' : ''}`}>
+                <div 
+                  className="origin-top-left transition-transform duration-500"
+                  style={{ 
+                    width: previewMode === "desktop" ? "1440px" : "100%",
+                    transform: previewMode === "desktop" ? `scale(${previewScale})` : 'none',
+                    height: previewMode === "desktop" ? `${100 / previewScale}%` : "100%"
+                  }}
+                >
                 {fetchError ? (
                   <div className="p-20 text-center">
                     <div className="text-primary text-4xl mb-4 font-black italic uppercase">System Alert</div>
@@ -487,6 +526,7 @@ export default function AppearancePage() {
                     isEditor={true} 
                   />
                 )}
+                </div>
               </div>
             </div>
           </div>
