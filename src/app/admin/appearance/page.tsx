@@ -34,7 +34,8 @@ import {
   Mail,
   ArrowRight,
   Sparkles,
-  Zap
+  Zap,
+  Phone
 } from "lucide-react";
 import LogoLoader from "@/components/common/LogoLoader";
 import { toast } from "react-hot-toast";
