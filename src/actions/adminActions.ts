@@ -146,7 +146,51 @@ export async function getAppearance() {
       downloads: "1,200+",
       users: "500+",
       rating: "4.9/5",
-      customOrders: "100+"
+      customOrders: "100+",
+      animated: true
+    },
+    homepageLayout: [
+      'hero',
+      'trust',
+      'featured',
+      'bestsellers',
+      'categories',
+      'customPpt',
+      'about',
+      'story',
+      'testimonials',
+      'contact'
+    ],
+    sectionVisibility: {
+      hero: true,
+      trust: true,
+      featured: true,
+      bestsellers: true,
+      categories: true,
+      customPpt: true,
+      about: true,
+      story: true,
+      testimonials: true,
+      contact: true
+    },
+    featured: {
+      heading: 'Premium <span class="text-primary">Featured</span> Additions',
+      subtitle: 'The absolute elite in presentation architecture, curated for high-stakes impact.',
+      productIds: []
+    },
+    bestsellers: {
+      heading: 'Our <span class="text-primary">Bestsellers</span>',
+      subtitle: 'Most Loved Templates by Our Customers.',
+      productIds: []
+    },
+    categorySlider: {
+      heading: 'Browse by <span class="text-primary">Intelligence</span>',
+      subtitle: 'Discover specialized frameworks across diverse strategic sectors.',
+      categoryIds: []
+    },
+    testimonials: {
+      heading: 'Client <span class="text-primary">Intelligence</span>',
+      subtitle: "Voices from the world's leading strategic innovators."
     }
   };
 
@@ -158,48 +202,112 @@ export async function getAppearance() {
       .single();
     
     if (error) {
-      if (error.code === 'PGRST116') { // Record not found
-        return defaultAppearance;
-      }
+      if (error.code === 'PGRST116') return defaultAppearance;
       throw error;
     }
     
-    // Merge database data with defaults to ensure all fields exist
+    const dbData = data.data || {};
     return {
       ...defaultAppearance,
-      ...(data.data || {}),
-      hero: { ...defaultAppearance.hero, ...(data.data?.hero || {}) },
-      about: { ...defaultAppearance.about, ...(data.data?.about || {}) },
-      story: { ...defaultAppearance.story, ...(data.data?.story || {}) },
-      site: { ...defaultAppearance.site, ...(data.data?.site || {}) },
-      contact: { ...defaultAppearance.contact, ...(data.data?.contact || {}) },
-      buttons: { ...defaultAppearance.buttons, ...(data.data?.buttons || {}) },
-      policies: { ...defaultAppearance.policies, ...(data.data?.policies || {}) },
-      customPpt: { ...defaultAppearance.customPpt, ...(data.data?.customPpt || {}) },
-      trust: { ...defaultAppearance.trust, ...(data.data?.trust || {}) }
+      ...dbData,
+      hero: { ...defaultAppearance.hero, ...(dbData.hero || {}) },
+      about: { ...defaultAppearance.about, ...(dbData.about || {}) },
+      story: { ...defaultAppearance.story, ...(dbData.story || {}) },
+      site: { ...defaultAppearance.site, ...(dbData.site || {}) },
+      contact: { ...defaultAppearance.contact, ...(dbData.contact || {}) },
+      buttons: { ...defaultAppearance.buttons, ...(dbData.buttons || {}) },
+      policies: { ...defaultAppearance.policies, ...(dbData.policies || {}) },
+      customPpt: { ...defaultAppearance.customPpt, ...(dbData.customPpt || {}) },
+      trust: { ...defaultAppearance.trust, ...(dbData.trust || {}) },
+      sectionVisibility: { ...defaultAppearance.sectionVisibility, ...(dbData.sectionVisibility || {}) },
+      featured: { ...defaultAppearance.featured, ...(dbData.featured || {}) },
+      bestsellers: { ...defaultAppearance.bestsellers, ...(dbData.bestsellers || {}) },
+      categorySlider: { ...defaultAppearance.categorySlider, ...(dbData.categorySlider || {}) }
     };
-
   } catch (error) {
     console.error("Error fetching appearance:", error);
     return defaultAppearance;
   }
 }
 
-
-export async function updateAppearance(data: any) {
+export async function getAppearanceDraft() {
   try {
+    const { data, error } = await supabase
+      .from('appearance')
+      .select('data')
+      .eq('id', 'draft')
+      .single();
+    
+    if (error) {
+      if (error.code === 'PGRST116') return await getAppearance();
+      throw error;
+    }
+    return data.data;
+  } catch {
+    return await getAppearance();
+  }
+}
+
+export async function saveAppearanceDraft(data: any) {
+  try {
+    const { error } = await supabase
+      .from('appearance')
+      .upsert({ id: 'draft', data });
+    if (error) throw error;
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+export async function publishAppearance(data: any) {
+  try {
+    // 1. Get current global as "previous"
+    const current = await getAppearance();
+    await supabase.from('appearance').upsert({ id: 'previous', data: current });
+
+    // 2. Update global
     const { error } = await supabase
       .from('appearance')
       .upsert({ id: 'global', data });
     
     if (error) throw error;
+
+    // 3. Update draft to match global
+    await supabase.from('appearance').upsert({ id: 'draft', data });
+
     revalidatePath("/");
     revalidatePath("/admin/appearance");
     return { success: true };
-  } catch (error) {
-    console.error("Update appearance error:", error);
-    return { success: false, error: "Failed to update appearance" };
+  } catch (error: any) {
+    return { success: false, error: error.message };
   }
+}
+
+export async function revertAppearance() {
+  try {
+    const { data, error } = await supabase
+      .from('appearance')
+      .select('data')
+      .eq('id', 'previous')
+      .single();
+    
+    if (error) throw error;
+    
+    await supabase.from('appearance').upsert({ id: 'global', data: data.data });
+    await supabase.from('appearance').upsert({ id: 'draft', data: data.data });
+
+    revalidatePath("/");
+    revalidatePath("/admin/appearance");
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+export async function updateAppearance(data: any) {
+  // Legacy support - just calls publish
+  return await publishAppearance(data);
 }
 
 // --- REVIEWS ---

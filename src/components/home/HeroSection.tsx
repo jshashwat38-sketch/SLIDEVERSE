@@ -1,0 +1,113 @@
+"use client";
+
+import { motion } from "framer-motion";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowRight, Shield, Send, Sparkles } from "lucide-react";
+import { getLangString } from "@/utils/lang";
+
+export default function HeroSection({ appearance, t, language, featuredProducts, handleScroll }: any) {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0 }
+    }
+  };
+
+  const itemVariants: any = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
+  };
+
+  return (
+    <section className="relative pt-12 pb-16 flex items-center">
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#141414_1px,transparent_1px),linear-gradient(to_bottom,#141414_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div className="absolute top-[-5%] left-[-5%] w-[40%] h-[40%] bg-primary/10 blur-[100px] rounded-full" />
+        <div className="absolute bottom-[-5%] right-[-5%] w-[30%] h-[30%] bg-primary/5 blur-[120px] rounded-full" />
+      </div>
+
+      <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px] grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] lg:gap-[60px] gap-12 md:gap-20 items-center relative z-10">
+        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="text-left">
+          <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-xl text-primary font-bold px-5 py-2.5 rounded-xl mb-8 text-[9px] uppercase tracking-[0.4em] border border-white/5">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            {getLangString(appearance?.hero?.badge, language) || t("hero_badge")}
+          </motion.div>
+          
+          <motion.h1 
+            variants={itemVariants} 
+            className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-white mb-8 leading-[1.1] tracking-tight italic uppercase"
+            dangerouslySetInnerHTML={{ 
+              __html: (getLangString(appearance?.hero?.title, language) || t("hero_title"))
+                .replace(/Presentation Design/gi, '<span class="text-primary neon-text">Presentation Design</span>')
+            }}
+          />
+          
+          <motion.p variants={itemVariants} className="text-lg md:text-xl text-zinc-400 mb-12 max-w-lg leading-relaxed font-medium tracking-normal">
+            {getLangString(appearance?.hero?.subtitle, language) || t("hero_subtitle")}
+          </motion.p>
+          
+          <motion.div variants={itemVariants} className="hidden md:flex flex-col sm:flex-row items-center gap-6">
+            <Link href={appearance?.buttons?.primary?.link || "/shop"} className="group relative w-full sm:w-auto">
+              <button className="relative w-full sm:w-auto bg-primary hover:bg-white text-black px-10 py-5 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-3 uppercase tracking-wider italic">
+                {getLangString(appearance?.buttons?.primary?.label, language) || t("explore_collection")} <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+              </button>
+            </Link>
+            <Link href={appearance?.buttons?.secondary?.link || "/signin"} className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white px-10 py-5 rounded-xl font-bold text-base transition-all border border-white/5 uppercase tracking-wider italic text-center">
+              {getLangString(appearance?.buttons?.secondary?.label, language) || t("sign_in_securely")}
+            </Link>
+          </motion.div>
+
+          {/* Mobile Command Hub */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="mt-10 md:hidden"
+          >
+            <div className="flex items-center justify-between mb-6">
+              <span className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em]">{t("active_sectors")}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-[8px] font-black text-primary uppercase tracking-widest italic opacity-80">{t("online_status")}</span>
+              </div>
+            </div>
+            <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide -mx-2 px-2">
+              {[
+                { name: t("about"), icon: Shield, link: "/#about", code: "01" },
+                { name: t("contact"), icon: Send, link: "/#contact", code: "02" },
+                { name: t("vault"), icon: Sparkles, link: "/account", code: "03" }
+              ].map((btn, i) => (
+                <motion.div key={i} initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.5 }}>
+                  <a href={btn.link} onClick={(e) => handleScroll(e, btn.link)} className="shrink-0 w-28 aspect-square flex flex-col items-center justify-center bg-white/[0.03] border border-white/10 rounded-[2rem] group active:scale-95 transition-all relative overflow-hidden cursor-pointer">
+                    <div className="absolute top-3 left-3 text-[7px] font-black text-zinc-800">{btn.code}</div>
+                    <btn.icon className="w-6 h-6 text-primary mb-2" />
+                    <span className="text-[9px] font-black text-white uppercase tracking-widest italic">{btn.name}</span>
+                  </a>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: [0, -15, 0] }}
+          transition={{ opacity: { duration: 0.8 }, scale: { duration: 0.8 }, y: { duration: 5, repeat: Infinity, ease: "easeInOut" } }}
+          className="hidden lg:block relative group z-10"
+        >
+          <div className="absolute inset-0 bg-primary/10 rounded-[2.5rem] blur-2xl group-hover:bg-primary/20 transition-all duration-700 -z-10" />
+          <Image 
+            src={appearance?.hero?.image || "/uploads/slideverse_presentation_hero.png"}
+            alt="Hero Visual"
+            width={750}
+            height={750}
+            className="rounded-[3rem] border border-white/10 shadow-2xl object-cover hover:border-primary/40 transition-colors duration-500 shadow-[0_30px_70px_rgba(197,165,114,0.2)] w-full h-auto"
+            priority
+          />
+        </motion.div>
+      </div>
+    </section>
+  );
+}
