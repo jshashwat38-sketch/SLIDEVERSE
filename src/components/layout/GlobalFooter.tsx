@@ -143,6 +143,46 @@ export function GlobalFooter() {
           </div>
         </div>
 
+        {/* Footer Trust Area */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-y border-white/5 mb-12">
+          <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left group">
+            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-zinc-600 group-hover:text-primary group-hover:border-primary/20 border border-transparent transition-all">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-white uppercase tracking-widest mb-0.5">Secure Payments</p>
+              <p className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">100% Encrypted</p>
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left group">
+            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-zinc-600 group-hover:text-primary group-hover:border-primary/20 border border-transparent transition-all">
+              <Zap className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-white uppercase tracking-widest mb-0.5">Fast Delivery</p>
+              <p className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">Instant Activation</p>
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left group">
+            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-zinc-600 group-hover:text-primary group-hover:border-primary/20 border border-transparent transition-all">
+              <Mail className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-white uppercase tracking-widest mb-0.5">Expert Support</p>
+              <p className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">24/7 Assistance</p>
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left group">
+            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-zinc-600 group-hover:text-primary group-hover:border-primary/20 border border-transparent transition-all">
+              <FolderOpen className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-white uppercase tracking-widest mb-0.5">Premium Assets</p>
+              <p className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">Elite Templates</p>
+            </div>
+          </div>
+        </div>
+
         {/* Bottom Bar */}
         <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.3em] italic text-center md:text-left">

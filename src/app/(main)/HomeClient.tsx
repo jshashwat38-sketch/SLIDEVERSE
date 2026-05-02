@@ -12,6 +12,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { getLangString } from "@/utils/lang";
 import CustomPptBox from "@/components/common/CustomPptBox";
 import CategoryShowcase from "@/components/products/CategoryShowcase";
+import TrustStrip from "@/components/common/TrustStrip";
 
 interface HomeClientProps {
   initialAppearance: any;
@@ -365,6 +366,8 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
           </motion.div>
         </div>
       </section>
+
+      <TrustStrip data={appearance?.trust} />
 
       {/* Sort & Filter Section */}
       <section id="featured" className="scroll-mt-24 py-20 md:py-32 relative border-t border-white/5">

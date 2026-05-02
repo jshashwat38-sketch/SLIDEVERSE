@@ -14,7 +14,12 @@ import {
   Globe, 
   CreditCard,
   MessageSquare,
-  ChevronDown
+  ChevronDown,
+  Star,
+  Download,
+  Sparkles,
+  Lock,
+  ShoppingCart
 } from "lucide-react";
 import { getProducts } from "@/actions/productActions";
 import { createRazorpayOrder, verifyPayment } from "@/actions/paymentActions";
@@ -278,6 +283,23 @@ export default function ProductDetailsPage() {
               <span className="text-[10px] font-black text-primary uppercase tracking-[0.5em] italic">Secure Asset Deployment</span>
             </div>
 
+            <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center gap-1 bg-primary/10 text-primary border border-primary/20 px-3 py-1 rounded-full">
+                <Star className="w-3.5 h-3.5 fill-primary" />
+                <span className="text-[10px] font-black uppercase tracking-widest">4.8 Rating</span>
+              </div>
+              <div className="flex items-center gap-2 text-zinc-500">
+                <Download className="w-3.5 h-3.5" />
+                <span className="text-[10px] font-black uppercase tracking-widest">124+ Downloads</span>
+              </div>
+              {(product.is_bestseller || (typeof product.title === 'object' && product.title?.is_bestseller)) && (
+                <div className="flex items-center gap-2 bg-zinc-900 text-white px-3 py-1 rounded-full border border-white/10">
+                  <Sparkles className="w-3 h-3 text-primary" />
+                  <span className="text-[9px] font-black uppercase tracking-widest">Bestseller</span>
+                </div>
+              )}
+            </div>
+
             <h1 className="text-5xl lg:text-7xl font-black text-white italic uppercase tracking-tighter mb-8 leading-[0.9]">
               {typeof product.title === 'object' ? (product.title.en || Object.values(product.title)[0]) : product.title}
             </h1>
@@ -329,18 +351,30 @@ export default function ProductDetailsPage() {
             </div>
 
             {/* Trust Badges */}
-            <div className="grid grid-cols-3 gap-4 mt-12 border-t border-white/5 pt-12">
-              <div className="flex flex-col items-center text-center gap-3">
-                <ShieldCheck className="w-6 h-6 text-zinc-700" />
-                <span className="text-[8px] font-black text-zinc-600 uppercase tracking-widest">Secure Cloud Delivery</span>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-12 border-t border-white/5 pt-12">
+              <div className="flex flex-col items-center text-center gap-3 group">
+                <div className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-center group-hover:border-primary/20 transition-all">
+                  <Lock className="w-5 h-5 text-zinc-600 group-hover:text-primary transition-colors" />
+                </div>
+                <span className="text-[8px] font-black text-zinc-600 uppercase tracking-widest">Secure Encrypted Checkout</span>
               </div>
-              <div className="flex flex-col items-center text-center gap-3">
-                <Zap className="w-6 h-6 text-zinc-700" />
-                <span className="text-[8px] font-black text-zinc-600 uppercase tracking-widest">Instant Activation</span>
+              <div className="flex flex-col items-center text-center gap-3 group">
+                <div className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-center group-hover:border-primary/20 transition-all">
+                  <Zap className="w-5 h-5 text-zinc-600 group-hover:text-primary transition-colors" />
+                </div>
+                <span className="text-[8px] font-black text-zinc-600 uppercase tracking-widest">Instant Digital Delivery</span>
               </div>
-              <div className="flex flex-col items-center text-center gap-3">
-                <Globe className="w-6 h-6 text-zinc-700" />
-                <span className="text-[8px] font-black text-zinc-600 uppercase tracking-widest">Global Ownership</span>
+              <div className="flex flex-col items-center text-center gap-3 group">
+                <div className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-center group-hover:border-primary/20 transition-all">
+                  <CreditCard className="w-5 h-5 text-zinc-600 group-hover:text-primary transition-colors" />
+                </div>
+                <span className="text-[8px] font-black text-zinc-600 uppercase tracking-widest">Safe Razorpay Payments</span>
+              </div>
+              <div className="flex flex-col items-center text-center gap-3 group">
+                <div className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-center group-hover:border-primary/20 transition-all">
+                  <ShieldCheck className="w-5 h-5 text-zinc-600 group-hover:text-primary transition-colors" />
+                </div>
+                <span className="text-[8px] font-black text-zinc-600 uppercase tracking-widest">100% Editable Templates</span>
               </div>
             </div>
           </div>

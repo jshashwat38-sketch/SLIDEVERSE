@@ -141,6 +141,12 @@ export async function getAppearance() {
       mrpPrice: 499,
       enabled: true,
       timelineText: "Your custom PPT will be completed within 7 days."
+    },
+    trust: {
+      downloads: "1,200+",
+      users: "500+",
+      rating: "4.9/5",
+      customOrders: "100+"
     }
   };
 
@@ -169,7 +175,8 @@ export async function getAppearance() {
       contact: { ...defaultAppearance.contact, ...(data.data?.contact || {}) },
       buttons: { ...defaultAppearance.buttons, ...(data.data?.buttons || {}) },
       policies: { ...defaultAppearance.policies, ...(data.data?.policies || {}) },
-      customPpt: { ...defaultAppearance.customPpt, ...(data.data?.customPpt || {}) }
+      customPpt: { ...defaultAppearance.customPpt, ...(data.data?.customPpt || {}) },
+      trust: { ...defaultAppearance.trust, ...(data.data?.trust || {}) }
     };
 
   } catch (error) {

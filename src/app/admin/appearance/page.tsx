@@ -153,6 +153,55 @@ export default function AppearancePage() {
           </div>
         </div>
 
+        {/* Trust Metrics Section */}
+        <div className="bg-card/40 backdrop-blur-3xl p-10 rounded-[3rem] border border-white/5 relative overflow-hidden border-t-2 border-t-primary/20">
+          <div className="flex items-center gap-4 mb-10 pb-6 border-b border-white/5">
+            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <h2 className="text-2xl font-black text-white uppercase italic tracking-tighter">Market Credibility Metrics</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Total Downloads</label>
+              <input 
+                value={appearance?.trust?.downloads || "1,200+"}
+                onChange={(e) => setAppearance({...appearance, trust: {...(appearance.trust || {}), downloads: e.target.value}})}
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold focus:outline-none focus:border-primary transition-all"
+                placeholder="1,200+"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Happy Users</label>
+              <input 
+                value={appearance?.trust?.users || "500+"}
+                onChange={(e) => setAppearance({...appearance, trust: {...(appearance.trust || {}), users: e.target.value}})}
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold focus:outline-none focus:border-primary transition-all"
+                placeholder="500+"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Average Rating</label>
+              <input 
+                value={appearance?.trust?.rating || "4.9/5"}
+                onChange={(e) => setAppearance({...appearance, trust: {...(appearance.trust || {}), rating: e.target.value}})}
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold focus:outline-none focus:border-primary transition-all"
+                placeholder="4.9/5"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">Custom Orders</label>
+              <input 
+                value={appearance?.trust?.customOrders || "100+"}
+                onChange={(e) => setAppearance({...appearance, trust: {...(appearance.trust || {}), customOrders: e.target.value}})}
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-sm font-bold focus:outline-none focus:border-primary transition-all"
+                placeholder="100+"
+              />
+            </div>
+          </div>
+        </div>
+
         {/* Communication Channels */}
         <div className="bg-card/40 backdrop-blur-3xl p-10 rounded-[3rem] border border-white/5 relative overflow-hidden">
           <div className="flex items-center gap-4 mb-10 pb-6 border-b border-white/5">
