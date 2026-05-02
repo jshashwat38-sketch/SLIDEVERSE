@@ -172,8 +172,8 @@ export default function CategoryShowcase({ products, categories, language, t }: 
             >
               {isLoading ? (
                 [1, 2, 3, 4].map((n) => (
-                  <div key={`skel-${n}`} className="snap-start shrink-0 w-[45%] md:w-[30%] lg:w-[23%] bg-white dark:bg-[#09090B] border border-zinc-200 dark:border-white/5 rounded-3xl overflow-hidden flex flex-col animate-pulse shadow-sm min-h-[300px]">
-                    <div className="h-40 bg-zinc-100 dark:bg-zinc-800" />
+                  <div key={`skel-${n}`} className="snap-start shrink-0 w-[45%] md:w-[30%] lg:w-[23%] bg-white dark:bg-[#09090B] border border-zinc-200 dark:border-white/5 rounded-3xl overflow-hidden flex flex-col animate-pulse shadow-sm">
+                    <div className="aspect-square bg-zinc-100 dark:bg-zinc-800" />
                     <div className="p-4 flex flex-col flex-1 space-y-3">
                       <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-3/4" />
                       <div className="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-1/2" />
@@ -209,12 +209,12 @@ export default function CategoryShowcase({ products, categories, language, t }: 
                     <div className="bg-white dark:bg-[#09090B] border border-zinc-200 dark:border-white/5 rounded-3xl overflow-hidden h-full flex flex-col hover:border-primary/20 transition-all duration-500 shadow-sm">
                       <Link href={`/product/${prod.id}`} className="block aspect-square bg-black overflow-hidden relative cursor-pointer">
                         <img
-                          src={prod.image_url || prod.imageUrl || (prod.images && prod.images[0]) || "https://placehold.co/400x300?text=No+Image"}
+                          src={prod.image_url || prod.imageUrl || (prod.images && prod.images[0]) || "https://placehold.co/1000x1000?text=No+Asset"}
                           alt={titleStr}
                           loading="lazy"
                           className="w-full h-full object-cover"
                           onError={(e) => {
-                            (e.target as HTMLImageElement).src = "https://placehold.co/400x300?text=No+Image";
+                            (e.target as HTMLImageElement).src = "https://placehold.co/1000x1000?text=No+Asset";
                           }}
                         />
                         {isBestseller && (
