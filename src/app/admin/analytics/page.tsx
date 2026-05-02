@@ -13,19 +13,33 @@ export default function AdminAnalytics() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const safetyTimeout = setTimeout(() => {
+      if (loading) {
+        console.warn("Analytics fetch timing out. Forcing UI mount.");
+        setLoading(false);
+      }
+    }, 10000);
+
     const loadData = async () => {
-      setLoading(true);
-      const [oData, pData, cData] = await Promise.all([
-        getOrders(),
-        getProducts(),
-        getCoupons()
-      ]);
-      setOrders(oData);
-      setProducts(pData);
-      setCoupons(cData);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const [oData, pData, cData] = await Promise.all([
+          getOrders(),
+          getProducts(),
+          getCoupons()
+        ]);
+        setOrders(oData || []);
+        setProducts(pData || []);
+        setCoupons(cData || []);
+      } catch (error) {
+        console.error("Analytics load error:", error);
+      } finally {
+        clearTimeout(safetyTimeout);
+        setLoading(false);
+      }
     };
     loadData();
+    return () => clearTimeout(safetyTimeout);
   }, []);
 
   if (loading) {

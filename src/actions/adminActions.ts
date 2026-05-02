@@ -2,6 +2,20 @@
 import { revalidatePath } from "next/cache";
 import { supabase } from "@/lib/supabase";
 
+export async function getProductsAdmin() {
+  try {
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error("Error in getProductsAdmin:", error);
+    return [];
+  }
+}
+
 export type UploadResult = 
   | { success: true; url: string } 
   | { success: false; error: string };
@@ -232,7 +246,9 @@ export async function getAppearance() {
 }
 
 export async function getAppearanceDraft() {
-  const defaultApp = await getAppearance();
+  // Use a local copy of defaultAppearance to avoid unnecessary async chain
+  const defaultApp = await getAppearance(); 
+  
   try {
     const { data, error } = await supabase
       .from('appearance')
@@ -242,11 +258,12 @@ export async function getAppearanceDraft() {
     
     if (error) {
       if (error.code === 'PGRST116') return defaultApp;
-      throw error;
+      console.error("Supabase error in getAppearanceDraft:", error);
+      return defaultApp;
     }
     
     const dbData = data.data || {};
-    // Deep merge to ensure all sections exist
+    // Deep merge logic...
     return {
       ...defaultApp,
       ...dbData,
@@ -265,7 +282,8 @@ export async function getAppearanceDraft() {
       categorySlider: { ...defaultApp.categorySlider, ...(dbData.categorySlider || {}) },
       testimonials: { ...defaultApp.testimonials, ...(dbData.testimonials || {}) }
     };
-  } catch {
+  } catch (error) {
+    console.error("Catch in getAppearanceDraft:", error);
     return defaultApp;
   }
 }

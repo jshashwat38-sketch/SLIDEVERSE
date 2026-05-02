@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { 
+  getProductsAdmin,
   getAppearance,
   getAppearanceDraft, 
   saveAppearanceDraft, 
@@ -11,7 +12,6 @@ import {
   getCategories,
   getReviews
 } from "@/actions/adminActions";
-import { supabase } from "@/lib/supabase";
 import { 
   Save, 
   Send, 
@@ -57,24 +57,56 @@ export default function AppearancePage() {
   }, []);
 
   async function loadData() {
+    // Set a safety timeout for the loader
+    const safetyTimeout = setTimeout(() => {
+      if (!appearance) {
+        console.warn("Appearance fetch timing out. Forcing fallback.");
+        getAppearance().then(fallback => setAppearance(fallback));
+      }
+    }, 8000);
+
     try {
-      const [prodData, revData] = await Promise.all([
-        supabase.from("products").select("*").order("created_at", { ascending: false }),
+      console.log("AppearancePage: Initializing data fetch...");
+      const [pData, revData] = await Promise.all([
+        getProductsAdmin(),
         getReviews()
       ]);
       
+      console.log("AppearancePage: Products/Reviews loaded. Fetching draft...");
       const appData = await getAppearanceDraft();
       
+      console.log("AppearancePage: Data fetch complete.");
+      clearTimeout(safetyTimeout);
       setAppearance(appData);
-      setProducts(prodData.data || []);
-      setReviews(revData);
+      setProducts(pData || []);
+      setReviews(revData || []);
     } catch (error) {
-      console.error("Critical failure in loadData:", error);
-      toast.error("Failed to initialize editor. Emergency restoration active.");
+      clearTimeout(safetyTimeout);
+      console.error("Critical failure in AppearancePage loadData:", error);
+      toast.error("Emergency restoration active.");
       const fallback = await getAppearance();
       setAppearance(fallback);
     }
   }
+
+  // Safe nested update utility
+  const updateNestedField = (path: string[], value: any) => {
+    setAppearance((prev: any) => {
+      if (!prev) return prev;
+      const newAppearance = { ...prev };
+      let current = newAppearance;
+      
+      for (let i = 0; i < path.length - 1; i++) {
+        const key = path[i];
+        if (!current[key]) current[key] = {};
+        current[key] = { ...current[key] };
+        current = current[key];
+      }
+      
+      current[path[path.length - 1]] = value;
+      return newAppearance;
+    });
+  };
 
   const updateField = (section: string, field: string, value: any) => {
     setAppearance((prev: any) => ({
@@ -299,8 +331,8 @@ export default function AppearancePage() {
                     <EditorField label="Badge Text" value={appearance?.hero?.badge} onChange={(val) => updateField("hero", "badge", val)} />
                     <ImageUploadField label="Hero Showcase Image" value={appearance?.hero?.image} onChange={(url) => updateField("hero", "image", url)} uploading={isUploading === "hero-image"} onUpload={(e) => handleImageUpload(e, "hero", "image")} />
                     <div className="grid grid-cols-2 gap-6">
-                      <EditorField label="Primary Button Text" value={appearance?.buttons?.primary?.label} onChange={(val) => setAppearance((p: any) => ({...p, buttons: {...p.buttons, primary: {...p.buttons.primary, label: val}}}))} />
-                      <EditorField label="Primary Link" value={appearance?.buttons?.primary?.link} onChange={(val) => setAppearance((p: any) => ({...p, buttons: {...p.buttons, primary: {...p.buttons.primary, link: val}}}))} />
+                      <EditorField label="Primary Button Text" value={appearance?.buttons?.primary?.label} onChange={(val) => updateNestedField(["buttons", "primary", "label"], val)} />
+                      <EditorField label="Primary Link" value={appearance?.buttons?.primary?.link} onChange={(val) => updateNestedField(["buttons", "primary", "link"], val)} />
                     </div>
                   </div>
                 )}
