@@ -14,16 +14,32 @@ interface StatItemProps {
 function Counter({ value }: { value: string }) {
   const [count, setCount] = useState(0);
   const safeValue = String(value || "0");
-  const numericValue = parseInt(safeValue.replace(/[^0-9]/g, "")) || 0;
-  const suffix = safeValue.replace(/[0-9]/g, "");
+  
+  // Handle decimal values like "4.9/5"
+  const isDecimal = safeValue.includes(".");
+  const parts = safeValue.split("/");
+  const mainPart = parts[0];
+  const fractionPart = parts.slice(1).join("/");
+  
+  const numericValue = isDecimal 
+    ? parseFloat(mainPart.replace(/[^0-9.]/g, "")) || 0 
+    : parseInt(mainPart.replace(/[^0-9]/g, "")) || 0;
+    
+  const mainSuffix = mainPart.replace(/[0-9.]/g, "");
+  const finalSuffix = mainSuffix + (fractionPart ? "/" + fractionPart : "");
 
   useEffect(() => {
     let start = 0;
     const end = numericValue;
-    if (start === end) return;
+    if (start === end) {
+      setCount(end);
+      return;
+    }
 
     let totalDuration = 2000;
-    let increment = end / (totalDuration / 16);
+    let stepTime = 16;
+    let steps = totalDuration / stepTime;
+    let increment = end / steps;
     
     let timer = setInterval(() => {
       start += increment;
@@ -31,14 +47,19 @@ function Counter({ value }: { value: string }) {
         setCount(end);
         clearInterval(timer);
       } else {
-        setCount(Math.floor(start));
+        setCount(start);
       }
-    }, 16);
+    }, stepTime);
 
     return () => clearInterval(timer);
   }, [numericValue]);
 
-  return <span>{count.toLocaleString()}{suffix}</span>;
+  return (
+    <span>
+      {isDecimal ? count.toFixed(1) : Math.floor(count).toLocaleString()}
+      {finalSuffix}
+    </span>
+  );
 }
 
 function StatItem({ icon: Icon, value, label, delay = 0 }: StatItemProps) {
