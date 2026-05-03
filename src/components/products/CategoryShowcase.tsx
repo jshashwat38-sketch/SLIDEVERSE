@@ -99,18 +99,17 @@ export default function CategoryShowcase({ products, categories, language, t }: 
           </div>
         ) : (
           <>
-            {/* Clickable Tabs - Horizontal Category Slider */}
-            <div className="relative max-w-2xl mx-auto mb-12 group/cat-slider">
-              {/* Slider buttons (Desktop) */}
+            {/* Desktop Clickable Tabs - Horizontal Category Slider */}
+            <div className="relative max-w-2xl mx-auto mb-12 group/cat-slider hidden md:block">
               <button
                 onClick={() => scrollCategorySlider('left')}
-                className="absolute -left-12 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-white dark:bg-black/80 border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white flex items-center justify-center opacity-0 group-hover/cat-slider:opacity-100 hover:bg-primary hover:text-black hover:border-primary transition-all shadow-md cursor-pointer hidden md:flex"
+                className="absolute -left-12 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-white dark:bg-black/80 border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white flex items-center justify-center opacity-0 group-hover/cat-slider:opacity-100 hover:bg-primary hover:text-black hover:border-primary transition-all shadow-md cursor-pointer flex"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <button
                 onClick={() => scrollCategorySlider('right')}
-                className="absolute -right-12 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-white dark:bg-black/80 border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white flex items-center justify-center opacity-0 group-hover/cat-slider:opacity-100 hover:bg-primary hover:text-black hover:border-primary transition-all shadow-md cursor-pointer hidden md:flex"
+                className="absolute -right-12 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-white dark:bg-black/80 border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white flex items-center justify-center opacity-0 group-hover/cat-slider:opacity-100 hover:bg-primary hover:text-black hover:border-primary transition-all shadow-md cursor-pointer flex"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -140,6 +139,38 @@ export default function CategoryShowcase({ products, categories, language, t }: 
                     </div>
                   );
                 })}
+              </div>
+            </div>
+
+            {/* Mobile Premium Text Slider - Minimalist Chip Strip */}
+            <div className="md:hidden mb-12">
+              <div className="flex flex-col items-center gap-4">
+                <span className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.4em] italic opacity-60">ACTIVE SECTORS</span>
+                <div className="w-full overflow-x-auto scrollbar-none">
+                  <div className="flex items-center gap-4 px-4 whitespace-nowrap min-w-max mx-auto justify-center">
+                    {categories.map((cat, idx) => {
+                      const catName = typeof cat.title === 'object' ? (cat.title[language] || cat.title.en) : cat.title;
+                      const isActive = cat.id === selectedCategoryId;
+                      return (
+                        <div key={cat.id} className="flex items-center gap-4">
+                          <button
+                            onClick={() => setSelectedCategoryId(cat.id)}
+                            className={`text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300 cursor-pointer ${
+                              isActive 
+                                ? 'text-primary italic scale-110' 
+                                : 'text-zinc-400 dark:text-zinc-600 hover:text-zinc-900 dark:hover:text-white'
+                            }`}
+                          >
+                            {catName}
+                          </button>
+                          {idx < categories.length - 1 && (
+                            <span className="w-1 h-1 rounded-full bg-primary/30" />
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
             </div>
 

@@ -97,15 +97,24 @@ export default function TrustStrip({ data }: { data?: any }) {
   return (
     <section className="py-8 md:py-16 relative overflow-hidden">
       <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Mobile Wrapper: Compact Ivory Block */}
-        <div className="md:hidden bg-white dark:bg-[#09090B] border border-zinc-200 dark:border-white/5 rounded-[2.5rem] p-4 shadow-xl relative overflow-hidden">
-           {/* Ambient Glow for Mobile */}
-           <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[60px] pointer-events-none" />
-           <div className="absolute bottom-0 left-0 w-32 h-32 bg-primary/5 blur-[60px] pointer-events-none" />
-           
-           <div className="grid grid-cols-2 gap-3 relative z-10">
+        {/* Mobile Wrapper: Minimalist Text Rows (Option A) */}
+        <div className="md:hidden bg-white dark:bg-[#09090B] border border-zinc-200 dark:border-white/5 rounded-[2.5rem] p-8 shadow-xl relative overflow-hidden">
+           <div className="flex flex-col gap-8">
               {stats.map((stat, i) => (
-                <StatItem key={i} {...stat} delay={i * 0.1} />
+                <div key={i} className="flex flex-col items-center group">
+                  <div className="flex items-center gap-4 mb-2">
+                    <stat.icon className="w-5 h-5 text-primary opacity-80" />
+                    <div className="text-2xl font-black text-zinc-900 dark:text-white italic tracking-tighter">
+                      <Counter value={stat.value} />
+                    </div>
+                  </div>
+                  <div className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">
+                    {stat.label}
+                  </div>
+                  {i < stats.length - 1 && (
+                    <div className="w-12 h-px bg-primary/10 mt-8" />
+                  )}
+                </div>
               ))}
            </div>
         </div>
