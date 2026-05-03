@@ -98,7 +98,7 @@ export default function TrustStrip({ data }: { data?: any }) {
     <section className="py-8 md:py-16 relative overflow-hidden">
       <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Mobile Wrapper: Compact Ivory Block */}
-        <div className="md:hidden bg-[#FAF9F6] dark:bg-[#09090B] border border-zinc-200 dark:border-white/5 rounded-[2.5rem] p-4 shadow-xl relative overflow-hidden">
+        <div className="md:hidden bg-white dark:bg-[#09090B] border border-zinc-200 dark:border-white/5 rounded-[2.5rem] p-4 shadow-xl relative overflow-hidden">
            {/* Ambient Glow for Mobile */}
            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[60px] pointer-events-none" />
            <div className="absolute bottom-0 left-0 w-32 h-32 bg-primary/5 blur-[60px] pointer-events-none" />

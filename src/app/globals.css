@@ -51,7 +51,7 @@ html:not(.dark) body {
   color: #1F1F1F !important;
 }
 
-/* Page Background Overrides -> Ivory */
+/* Page Background Overrides -> Ivory (Desktop) / White (Mobile) */
 html.light .bg-\[\#050505\],
 html.light .bg-\[\#000000\],
 html.light .bg-black,
@@ -63,6 +63,24 @@ html:not(.dark) .bg-\[\#000000\],
 html:not(.dark) .bg-black,
 html:not(.dark) .bg-zinc-950 {
   background-color: #F8F6F1 !important;
+}
+
+@media (max-width: 768px) {
+  html.light body,
+  html.light .bg-\[\#050505\],
+  html.light .bg-\[\#000000\],
+  html.light .bg-black,
+  html.light .bg-zinc-950,
+  html.light .bg-\[\#09090B\],
+  html.light .bg-\[\#0A0A0C\],
+  html.light section,
+  html.light .bg-\[\#F8F6F1\],
+  html.light .bg-\[\#FAF9F6\],
+  html.light .bg-\[\#FCFBF8\],
+  html:not(.dark) body,
+  html:not(.dark) section {
+    background-color: #FFFFFF !important;
+  }
 }
 
 /* Secondary Backgrounds -> Soft Warm White */
