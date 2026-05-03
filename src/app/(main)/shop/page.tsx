@@ -1,7 +1,6 @@
-export const dynamic = 'force-dynamic';
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { getProducts } from "@/actions/productActions";
 import { getReviews } from "@/actions/adminActions";
 import { ProductCard } from "@/components/products/ProductCards";
@@ -14,7 +13,6 @@ export default function ShopPage() {
   const { language, t } = useLanguage();
   const [products, setProducts] = useState<any[]>([]);
   const [reviews, setReviews] = useState<any[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Filter States
@@ -41,7 +39,7 @@ export default function ShopPage() {
     loadData();
   }, []);
 
-  useEffect(() => {
+  const filteredProducts = useMemo(() => {
     let result = [...products];
 
     // 1. Search Query
@@ -110,7 +108,7 @@ export default function ShopPage() {
       });
     }
 
-    setFilteredProducts(result);
+    return result;
   }, [searchQuery, filterType, langFilter, categoryFilter, priceSort, ratingSort, products, reviews]);
 
   const uniqueCategories = Array.from(new Set(products.map(p => String(p.category_id || "General").trim()))).filter(Boolean);
