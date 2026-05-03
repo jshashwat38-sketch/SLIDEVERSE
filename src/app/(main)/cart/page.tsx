@@ -320,7 +320,7 @@ export default function CartPage() {
         </div>
 
         <div className="lg:col-span-1">
-          <div className="bg-[#09090B] rounded-[3rem] p-10 shadow-2xl border border-white/5 sticky top-28 overflow-hidden group">
+          <div className="bg-[#09090B]/80 backdrop-blur-3xl rounded-[3rem] p-10 shadow-2xl border border-white/5 sticky top-28 overflow-hidden group">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
             
             <h2 className="text-3xl font-black text-white mb-10 tracking-tighter italic uppercase leading-none">Valuation Summary</h2>
@@ -377,34 +377,53 @@ export default function CartPage() {
               </div>
             </div>
 
-            <button 
-              onClick={handleCheckout}
-              disabled={isProcessing || (!isRazorpayLoaded && !window.Razorpay)}
-              className="w-full bg-primary hover:bg-white text-black py-6 px-8 rounded-2xl font-black text-base md:text-lg transition-all shadow-[0_0_30px_rgba(197,165,114,0.2)] hover:shadow-[0_0_50px_rgba(197,165,114,0.4)] hover:-translate-y-1 flex items-center justify-center gap-3 uppercase tracking-widest italic group disabled:opacity-50 disabled:hover:translate-y-0 whitespace-nowrap"
-            >
-              {isProcessing ? (
-                <div className="flex items-center gap-3">
-                  <Image src="/logo.png" alt="Logo" width={24} height={24} className="animate-spin" />
-                  <span>Processing...</span>
+            <div className="space-y-4">
+              <motion.button 
+                whileHover={{ y: -2, shadow: "0 20px 40px rgba(197,165,114,0.3)" }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleCheckout}
+                disabled={isProcessing || (!isRazorpayLoaded && !window.Razorpay)}
+                className="relative w-full group overflow-hidden rounded-2xl md:rounded-[1.25rem] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {/* Premium Gold Gradient Background with Gloss */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#E2B96B] via-[#C5A572] to-[#A68A56] group-hover:from-[#F2C97B] group-hover:to-[#B69A66] transition-colors duration-500" />
+                <div className="absolute inset-0 opacity-20 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.4),transparent)] -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+                
+                <div className="relative py-5 px-8 flex items-center justify-center gap-3">
+                  {isProcessing ? (
+                    <div className="flex items-center gap-3">
+                      <Loader2 className="w-5 h-5 animate-spin text-black" />
+                      <span className="text-black font-black text-sm uppercase tracking-[0.2em] italic">Securing Checkout...</span>
+                    </div>
+                  ) : !isRazorpayLoaded && !window.Razorpay ? (
+                    <div className="flex items-center gap-3">
+                      <Loader2 className="w-5 h-5 animate-spin text-black" />
+                      <span className="text-black font-black text-sm uppercase tracking-[0.2em] italic">Initializing...</span>
+                    </div>
+                  ) : (
+                    <>
+                      <span className="text-black font-black text-sm md:text-base uppercase tracking-[0.2em] italic">
+                        Proceed to Checkout
+                      </span>
+                      <ArrowRight className="w-5 h-5 text-black group-hover:translate-x-2 transition-transform duration-500" />
+                    </>
+                  )}
                 </div>
-              ) : !isRazorpayLoaded && !window.Razorpay ? (
-                <div className="flex items-center gap-3">
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>Initializing Gateway...</span>
+              </motion.button>
+
+              {/* Trust & Security Badge */}
+              <div className="text-center space-y-3 pt-4">
+                <div className="flex items-center justify-center gap-2 text-zinc-500">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] italic">🔒 Secure Encrypted Checkout</span>
                 </div>
-              ) : (
-                <>
-                  <span className="flex items-center gap-2">
-                    🔒 Proceed to Checkout
-                  </span>
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                </>
-              )}
-            </button>
-            
-            <div className="mt-8 flex items-center justify-center gap-3 px-6 py-4 bg-white/[0.02] rounded-2xl border border-white/5">
-              <ShieldCheck className="w-5 h-5 text-primary opacity-60" />
-              <span className="text-[8px] font-black text-zinc-600 uppercase tracking-widest italic">End-to-End Encryption Active</span>
+                <div className="flex items-center justify-center gap-4 text-zinc-600 font-bold text-[8px] uppercase tracking-[0.4em] opacity-50">
+                  <span>UPI</span>
+                  <span className="w-1 h-1 bg-zinc-800 rounded-full" />
+                  <span>Cards</span>
+                  <span className="w-1 h-1 bg-zinc-800 rounded-full" />
+                  <span>Razorpay</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
