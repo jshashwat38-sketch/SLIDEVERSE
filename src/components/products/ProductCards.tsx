@@ -226,7 +226,6 @@ export function ProductCard(props: any) {
             </div>
           </div>
 
-          <p className="text-zinc-400 text-[10px] mb-4 line-clamp-2 leading-relaxed font-normal">{displayDescription}</p>
 
           {/* Pricing */}
           <div className="mt-auto">
@@ -322,16 +321,6 @@ export function ProductCard(props: any) {
           </div>
         </div>
         
-        <p className="text-zinc-400 text-[10px] sm:text-xs mb-6 line-clamp-4 sm:line-clamp-none leading-relaxed font-normal">{displayDescription}</p>
-        
-        <div className="space-y-3 mb-8 flex-1">
-          {safeFeatures.slice(0, 3).map((feature, i) => (
-            <div key={i} className="flex items-center text-[10px] font-semibold text-zinc-500 gap-2 uppercase tracking-widest">
-              <div className="w-1 h-1 rounded-full bg-primary/40" />
-              <span className="truncate">{feature}</span>
-            </div>
-          ))}
-        </div>
         
         {mrp > price && (
           <div className="flex items-center gap-2 mb-4">
@@ -449,16 +438,6 @@ export function HeroProductCard(props: any) {
         <Link href={`/product/${id}`}>
           <h2 className="text-3xl md:text-4xl lg:text-6xl font-black text-white italic uppercase tracking-tighter mb-6 group-hover:text-primary transition-colors cursor-pointer leading-[0.9]">{displayTitle}</h2>
         </Link>
-        <p className="text-zinc-400 text-lg mb-10 max-w-xl font-medium leading-relaxed">{displayDescription}</p>
-        
-        <div className="grid grid-cols-2 gap-x-12 gap-y-6 mb-12">
-          {safeFeatures.slice(0, 4).map((feature, i) => (
-            <div key={i} className="flex items-center gap-4 group/item">
-              <div className="w-1.5 h-1.5 rounded-full bg-primary/20 group-hover/item:bg-primary transition-colors" />
-              <span className="text-zinc-500 font-bold uppercase text-[10px] tracking-widest group-hover/item:text-zinc-300 transition-colors">{feature}</span>
-            </div>
-          ))}
-        </div>
 
         {mrp > price && (
           <div className="flex items-center gap-3 mb-8">
