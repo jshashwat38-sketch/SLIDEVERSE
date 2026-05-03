@@ -97,11 +97,11 @@ export function ProductCard(props: any) {
         animate={{ opacity: 1, scale: 1 }}
         className="group bg-[#09090B] border border-white/5 rounded-2xl overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all duration-500 hover:shadow-[0_0_20px_rgba(197,165,114,0.1)] relative"
       >
-        <Link href={isBundle ? bundleHref : productHref} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-t-2xl">
+        <Link href={isBundle ? bundleHref : productHref} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-[2.5rem]">
           <img 
             src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
             alt={displayTitle} 
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100 rounded-2xl" 
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100 rounded-[2.5rem]" 
             onError={(e) => {
               (e.target as HTMLImageElement).src = "https://placehold.co/400x300?text=No+Image";
             }}
@@ -140,12 +140,12 @@ export function ProductCard(props: any) {
   if (variant === "micro-grid-mobile") {
     return (
       <div className="bg-[#09090B] border border-white/5 rounded-xl overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all relative">
-        <Link href={`/product/${id}`} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-t-xl">
+        <Link href={`/product/${id}`} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-[2.5rem]">
           <img 
             src={displayImage || "https://placehold.co/200x150?text=No+Image"} 
             alt={displayTitle} 
             loading="lazy"
-            className="w-full h-full object-cover rounded-xl" 
+            className="w-full h-full object-cover rounded-[2.5rem]" 
             onError={(e) => {
               (e.target as HTMLImageElement).src = "https://placehold.co/200x150?text=No+Image";
             }}
@@ -184,11 +184,11 @@ export function ProductCard(props: any) {
         animate={{ opacity: 1, y: 0 }}
         className="group bg-[#09090B] border border-white/5 rounded-[2.5rem] overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,165,114,0.05)] relative"
       >
-        <Link href={bundleHref} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-t-[2.5rem]">
+        <Link href={bundleHref} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-[2.5rem]">
           <img 
             src={displayImage || "https://placehold.co/600x400?text=No+Image"} 
             alt={displayTitle} 
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100 rounded-2xl" 
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100 rounded-[2.5rem]" 
             onError={(e) => {
               (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=No+Image";
             }}
@@ -292,11 +292,11 @@ export function ProductCard(props: any) {
       animate={{ opacity: 1, y: 0 }}
       className="group bg-[#09090B] border border-white/5 rounded-[2.5rem] overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,165,114,0.05)] relative"
     >
-      <Link href={`/product/${id}`} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-t-[2.5rem]">
+      <Link href={`/product/${id}`} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-[2.5rem]">
         <img 
           src={displayImage || "https://placehold.co/600x400?text=No+Image"} 
           alt={displayTitle} 
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100 rounded-[2rem]" 
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100 rounded-[2.5rem]" 
           onError={(e) => {
             (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=No+Image";
           }}
@@ -487,7 +487,7 @@ export function HeroProductCard(props: any) {
             }}
             src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
             alt={displayTitle} 
-            className="w-full h-full object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.6)] select-none rounded-3xl" 
+            className="w-full h-full object-contain drop-shadow-[0_50px_100px_rgba(0,0,0,0.6)] select-none rounded-[2.5rem]" 
             onError={(e) => {
               (e.target as HTMLImageElement).src = "https://placehold.co/800x400?text=No+Image";
             }}

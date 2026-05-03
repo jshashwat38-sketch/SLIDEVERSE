@@ -261,7 +261,7 @@ export default function CategoryShowcase({ products, categories, language, t, is
                       {/* Main Card Link */}
                       <Link 
                         href={typeof prod.title === 'object' && prod.title?.is_bundle ? `/bundle/${prod.title?.slug || prod.id}` : `/product/${prod.id}`} 
-                        className="block aspect-square bg-black overflow-hidden relative cursor-pointer rounded-t-3xl"
+                        className="block aspect-square bg-black overflow-hidden relative cursor-pointer rounded-3xl"
                       >
                         <img
                           src={prod.image_url || prod.imageUrl || (prod.images && prod.images[0]) || "https://placehold.co/1000x1000?text=No+Asset"}
