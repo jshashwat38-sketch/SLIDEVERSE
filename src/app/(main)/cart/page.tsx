@@ -189,8 +189,8 @@ export default function CartPage() {
           <ShoppingBag className="w-16 h-16 text-zinc-700" />
         </motion.div>
         
-        <h1 className="text-4xl font-black text-white mb-4 tracking-tighter italic uppercase">Vault is Empty</h1>
-        <p className="text-zinc-500 mb-10 max-w-md font-medium uppercase tracking-widest text-xs leading-relaxed italic">
+        <h1 className="text-4xl font-black text-foreground mb-4 tracking-tighter italic uppercase">Vault is Empty</h1>
+        <p className="text-muted-foreground mb-10 max-w-md font-medium uppercase tracking-widest text-xs leading-relaxed italic">
           No premium assets currently staged for acquisition. Explore our elite collection to begin.
         </p>
         
@@ -220,9 +220,9 @@ export default function CartPage() {
             <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em] italic">Acquisition Staging</span>
           </div>
-          <h1 className="text-5xl font-black text-white tracking-tighter italic uppercase leading-none">Your Vault</h1>
+          <h1 className="text-5xl font-black text-foreground tracking-tighter italic uppercase leading-none">Your Vault</h1>
         </div>
-        <div className="text-zinc-500 text-[10px] font-black uppercase tracking-widest bg-white/5 px-4 py-2 rounded-full border border-white/5 italic">
+        <div className="text-muted-foreground text-[10px] font-black uppercase tracking-widest bg-zinc-500/10 dark:bg-white/5 px-4 py-2 rounded-full border border-zinc-500/10 dark:border-white/5 italic">
           {totalItems} Assets Staged
         </div>
       </div>
@@ -238,7 +238,7 @@ export default function CartPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ delay: index * 0.1 }}
                 key={item.id} 
-                className="bg-[#09090B] rounded-[2.5rem] p-8 shadow-2xl border border-white/5 flex flex-col sm:flex-row gap-8 items-center group relative overflow-hidden"
+                className="bg-card dark:bg-[#09090B] rounded-[2.5rem] p-8 shadow-2xl border border-border dark:border-white/5 flex flex-col sm:flex-row gap-8 items-center group relative overflow-hidden"
               >
                 <div className="absolute top-0 left-0 w-1 h-full bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                 
@@ -256,31 +256,31 @@ export default function CartPage() {
                 <div className="flex-1 w-full text-center sm:text-left">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                     <div>
-                      <h3 className="text-2xl font-black text-white mb-2 tracking-tighter italic uppercase group-hover:text-primary transition-colors leading-none">
+                      <h3 className="text-2xl font-black text-foreground mb-2 tracking-tighter italic uppercase group-hover:text-primary transition-colors leading-none">
                         {getLangString(item.title, language)}
                       </h3>
-                      <p className="text-zinc-500 text-[9px] font-black uppercase tracking-widest flex items-center justify-center sm:justify-start gap-2 mt-2">
+                      <p className="text-muted-foreground text-[9px] font-black uppercase tracking-widest flex items-center justify-center sm:justify-start gap-2 mt-2">
                         <Zap className="w-3 h-3 text-primary" />
                         Instant Deployment Delivery
                       </p>
                     </div>
-                    <div className="text-2xl font-black text-white italic tracking-tighter">
+                    <div className="text-2xl font-black text-foreground italic tracking-tighter">
                       ₹{item.price * item.quantity}
                     </div>
                   </div>
                   
-                  <div className="flex items-center justify-between bg-white/[0.02] rounded-2xl p-3 border border-white/5">
+                  <div className="flex items-center justify-between bg-zinc-500/5 dark:bg-white/[0.02] rounded-2xl p-3 border border-border dark:border-white/5">
                     <div className="flex items-center gap-4 px-2">
                       <button 
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="w-10 h-10 flex items-center justify-center text-zinc-500 hover:text-white hover:bg-white/10 rounded-xl transition-all"
+                        className="w-10 h-10 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-zinc-500/10 dark:hover:bg-white/10 rounded-xl transition-all"
                       >
                         <Minus className="w-4 h-4" />
                       </button>
-                      <span className="font-black text-white text-sm w-6 text-center">{item.quantity}</span>
+                      <span className="font-black text-foreground text-sm w-6 text-center">{item.quantity}</span>
                       <button 
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        className="w-10 h-10 flex items-center justify-center text-zinc-500 hover:text-white hover:bg-white/10 rounded-xl transition-all"
+                        className="w-10 h-10 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-zinc-500/10 dark:hover:bg-white/10 rounded-xl transition-all"
                       >
                         <Plus className="w-4 h-4" />
                       </button>
@@ -306,43 +306,43 @@ export default function CartPage() {
           >
             <Link 
               href="/" 
-              className="group flex items-center gap-4 px-8 py-6 rounded-[2rem] border-2 border-dashed border-white/10 hover:border-primary/50 hover:bg-primary/5 transition-all w-full max-w-sm"
+              className="group flex items-center gap-4 px-8 py-6 rounded-[2rem] border-2 border-dashed border-border dark:border-white/10 hover:border-primary/50 hover:bg-primary/5 transition-all w-full max-w-sm"
             >
-              <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-primary group-hover:text-black transition-all">
+              <div className="w-12 h-12 rounded-2xl bg-zinc-500/10 dark:bg-white/5 flex items-center justify-center group-hover:bg-primary group-hover:text-black transition-all">
                 <PlusCircle className="w-6 h-6" />
               </div>
               <div>
-                <span className="block text-white font-black text-sm uppercase italic tracking-widest leading-none">Stage More Assets</span>
-                <span className="block text-zinc-600 text-[8px] font-bold uppercase tracking-widest mt-2 italic">Enhance your collection further</span>
+                <span className="block text-foreground font-black text-sm uppercase italic tracking-widest leading-none">Stage More Assets</span>
+                <span className="block text-muted-foreground text-[8px] font-bold uppercase tracking-widest mt-2 italic">Enhance your collection further</span>
               </div>
             </Link>
           </motion.div>
         </div>
 
         <div className="lg:col-span-1">
-          <div className="bg-[#09090B]/80 backdrop-blur-3xl rounded-[3rem] p-10 shadow-2xl border border-white/5 sticky top-28 overflow-hidden group">
+          <div className="bg-card/80 dark:bg-[#09090B]/80 backdrop-blur-3xl rounded-[3rem] p-10 shadow-2xl border border-border dark:border-white/5 sticky top-28 overflow-hidden group">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
             
-            <h2 className="text-3xl font-black text-white mb-10 tracking-tighter italic uppercase leading-none">Valuation Summary</h2>
+            <h2 className="text-3xl font-black text-foreground mb-10 tracking-tighter italic uppercase leading-none">Valuation Summary</h2>
             
             <div className="space-y-8 text-sm mb-12">
-              <div className="flex justify-between items-center text-zinc-500 font-black uppercase tracking-widest text-xs italic">
+              <div className="flex justify-between items-center text-muted-foreground font-black uppercase tracking-widest text-xs italic">
                 <span>Total Asset Count</span>
-                <span className="text-white text-xl">{totalItems}</span>
+                <span className="text-foreground text-xl">{totalItems}</span>
               </div>
-              <div className="flex justify-between items-center text-zinc-500 font-black uppercase tracking-widest text-xs italic">
+              <div className="flex justify-between items-center text-muted-foreground font-black uppercase tracking-widest text-xs italic">
                 <span>Sub-Valuation</span>
-                <span className="text-white text-xl">₹{totalPrice}</span>
+                <span className="text-foreground text-xl">₹{totalPrice}</span>
               </div>
-              <div className="flex justify-between items-center text-zinc-500 font-black uppercase tracking-widest text-xs italic">
+              <div className="flex justify-between items-center text-muted-foreground font-black uppercase tracking-widest text-xs italic">
                 <span>Deployment Fee</span>
                 <span className="text-primary text-xl font-black">FREE</span>
               </div>
             </div>
             
             {/* Coupon Code Panel */}
-            <div className="border-t border-white/5 pt-6 mt-6 mb-8">
-              <label className="block text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-3 ml-2">Promo Code / Voucher</label>
+            <div className="border-t border-border dark:border-white/5 pt-6 mt-6 mb-8">
+              <label className="block text-[9px] font-black text-muted-foreground uppercase tracking-[0.3em] mb-3 ml-2">Promo Code / Voucher</label>
               <div className="flex gap-2">
                 <input 
                   type="text"
@@ -350,12 +350,12 @@ export default function CartPage() {
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
                   disabled={appliedCoupon}
-                  className="flex-1 px-4 py-3 bg-white/5 border border-white/10 focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/5 rounded-xl text-white font-black uppercase text-xs tracking-wider"
+                  className="flex-1 px-4 py-3 bg-zinc-500/5 dark:bg-white/5 border border-border dark:border-white/10 focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/5 rounded-xl text-foreground font-black uppercase text-xs tracking-wider placeholder:text-muted-foreground/30"
                 />
                 <button 
                   onClick={handleApplyCoupon}
                   disabled={verifyingCoupon || appliedCoupon}
-                  className="bg-white/10 hover:bg-white/20 text-white px-5 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all disabled:opacity-50"
+                  className="bg-zinc-500/10 dark:bg-white/10 hover:bg-zinc-500/20 dark:hover:bg-white/20 text-foreground px-5 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all disabled:opacity-50"
                 >
                   {appliedCoupon ? "applied" : verifyingCoupon ? "..." : "apply"}
                 </button>
@@ -367,13 +367,13 @@ export default function CartPage() {
               )}
             </div>
 
-            <div className="pt-10 border-t border-white/10 mb-12 flex justify-between items-end">
+            <div className="pt-10 border-t border-border dark:border-white/10 mb-12 flex justify-between items-end">
               <div className="space-y-2">
-                <span className="block text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] italic">Final Total Valuation</span>
+                <span className="block text-[10px] font-black text-muted-foreground uppercase tracking-[0.4em] italic">Final Total Valuation</span>
                 {discount > 0 && (
-                  <span className="text-sm text-zinc-500 line-through font-mono block">₹{totalPrice}</span>
+                  <span className="text-sm text-muted-foreground line-through font-mono block">₹{totalPrice}</span>
                 )}
-                <span className="block text-6xl font-black text-white italic tracking-tighter leading-none font-mono">₹{finalTotal}</span>
+                <span className="block text-6xl font-black text-foreground italic tracking-tighter leading-none font-mono">₹{finalTotal}</span>
               </div>
             </div>
 
@@ -413,14 +413,14 @@ export default function CartPage() {
 
               {/* Trust & Security Badge */}
               <div className="text-center space-y-3 pt-4">
-                <div className="flex items-center justify-center gap-2 text-zinc-500">
+                <div className="flex items-center justify-center gap-2 text-muted-foreground">
                   <span className="text-[10px] font-black uppercase tracking-[0.25em] italic">🔒 Secure Encrypted Checkout</span>
                 </div>
-                <div className="flex items-center justify-center gap-4 text-zinc-600 font-bold text-[8px] uppercase tracking-[0.4em] opacity-50">
+                <div className="flex items-center justify-center gap-4 text-muted-foreground/60 font-bold text-[8px] uppercase tracking-[0.4em] opacity-50">
                   <span>UPI</span>
-                  <span className="w-1 h-1 bg-zinc-800 rounded-full" />
+                  <span className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
                   <span>Cards</span>
-                  <span className="w-1 h-1 bg-zinc-800 rounded-full" />
+                  <span className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
                   <span>Razorpay</span>
                 </div>
               </div>
