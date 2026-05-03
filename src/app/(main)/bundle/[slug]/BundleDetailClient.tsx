@@ -63,7 +63,7 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
                   alt={title.en}
                   fill
                   priority
-                  className="object-cover group-hover:scale-110 transition-transform duration-1000"
+                  className="object-cover group-hover:scale-110 transition-transform duration-1000 rounded-[2.5rem]"
                 />
                 {savings > 0 && (
                   <div className="absolute top-8 left-8 bg-primary text-black font-black px-6 py-2 rounded-full text-sm uppercase tracking-tighter shadow-xl italic">
