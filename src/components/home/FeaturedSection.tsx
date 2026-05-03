@@ -58,7 +58,7 @@ export default function FeaturedSection({ appearance, t, language, featuredProdu
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-7 lg:gap-8">
+          <div className="grid grid-cols-3 gap-3 sm:gap-7 lg:gap-8">
             {featuredProducts.slice(0, 12).map((product: any, index: number) => (
               <motion.div 
                 key={product.id}
