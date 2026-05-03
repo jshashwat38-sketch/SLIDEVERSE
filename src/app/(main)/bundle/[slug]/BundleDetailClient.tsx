@@ -4,20 +4,14 @@ import { motion } from "framer-motion";
 import { 
   ShoppingBag, 
   ChevronRight, 
-  CheckCircle2, 
-  Users, 
-  Lightbulb, 
   Zap, 
   ShieldCheck, 
   Star,
   Package,
   ArrowRight,
-  ArrowDown,
   FileText,
-  List,
   Files,
   Target,
-  HelpCircle,
   CheckCircle2 as CheckCircle
 } from "lucide-react";
 import Image from "next/image";
@@ -228,7 +222,7 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
                       <h4 className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] italic">Included Assets ({items.length})</h4>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                      {items.map((item: any, idx: number) => (
+                      {items.map((item: Record<string, any>, idx: number) => (
                         <div key={idx} className="group/card bg-black/40 border border-white/5 rounded-[2rem] overflow-hidden hover:border-primary/20 transition-all duration-500">
                           <div className="aspect-[9/16] relative overflow-hidden bg-zinc-900">
                             <Image 

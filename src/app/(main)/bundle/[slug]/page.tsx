@@ -5,7 +5,7 @@ import BundleDetailClient from "./BundleDetailClient";
 import { notFound } from "next/navigation";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 async function getBundleBySlug(slug: string) {
@@ -27,7 +27,8 @@ async function getBundleBySlug(slug: string) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const bundle = await getBundleBySlug(params.slug);
+  const { slug } = await params;
+  const bundle = await getBundleBySlug(slug);
   if (!bundle) return { title: "Bundle Not Found | Slideverse" };
 
   return {
@@ -37,7 +38,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BundlePage({ params }: Props) {
-  const bundle = await getBundleBySlug(params.slug);
+  const { slug } = await params;
+  const bundle = await getBundleBySlug(slug);
 
   if (!bundle) {
     notFound();

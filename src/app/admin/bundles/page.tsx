@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Save, Image as ImageIcon, Link as LinkIcon, FolderOpen, Trash2, Edit2, X, Sparkles, Package, Gift, ChevronRight, FileText, List, Files, Target, ChevronDown, ChevronUp } from "lucide-react";
+import { Plus, Save, Image as ImageIcon, Link as LinkIcon, FolderOpen, Trash2, Edit2, X, Sparkles, Package, ChevronRight, FileText, List, Files, Target, ChevronDown, ChevronUp } from "lucide-react";
 import { getProducts, deleteProduct, addBundle, updateBundle } from "@/actions/productActions";
 import { getCategories } from "@/actions/adminActions";
 import { toast } from "react-hot-toast";
