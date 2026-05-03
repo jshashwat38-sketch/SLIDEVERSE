@@ -246,7 +246,7 @@ export default function CartPage() {
                   <img 
                     src={item.imageUrl || "https://placehold.co/600x400?text=No+Image"} 
                     alt={item.title} 
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=No+Image";
                     }}
