@@ -23,7 +23,6 @@ import {
   Trash2, 
   GripVertical, 
   ChevronRight,
-  ChevronLeft,
   Monitor,
   Smartphone,
   Check,
@@ -43,19 +42,6 @@ import { toast } from "react-hot-toast";
 import { motion, Reorder, AnimatePresence } from "framer-motion";
 import HomeClient from "@/app/(main)/HomeClient";
 
-const SECTIONS = [
-  { id: 'hero', name: 'Hero Banner', icon: Layout },
-  { id: 'trust', name: 'Trust Stats', icon: Star },
-  { id: 'featured', name: 'Featured Additions', icon: Sparkles },
-  { id: 'bestsellers', name: 'Bestsellers', icon: Zap },
-  { id: 'categories', name: 'Category Slider', icon: Settings },
-  { id: 'customPpt', name: 'Custom PPT Box', icon: Plus },
-  { id: 'about', name: 'About Atelier', icon: ImageIcon },
-  { id: 'story', name: 'The Story', icon: Type },
-  { id: 'testimonials', name: 'Testimonials', icon: Mail },
-  { id: 'contact', name: 'Contact Hub', icon: Phone },
-];
-
 export default function AppearancePage() {
   const [appearance, setAppearance] = useState<any>(null);
   const [products, setProducts] = useState<any[]>([]);
@@ -66,37 +52,28 @@ export default function AppearancePage() {
   const [activeSection, setActiveSection] = useState<string>("hero");
   const [previewMode, setPreviewMode] = useState<"desktop" | "mobile">("desktop");
   const [isUploading, setIsUploading] = useState<string | null>(null);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const previewContainerRef = useRef<HTMLDivElement>(null);
-  const [previewScale, setPreviewScale] = useState(0.3);
-
-  useEffect(() => {
-    const updateScale = () => {
-      if (previewContainerRef.current) {
-        const width = previewContainerRef.current.offsetWidth;
-        if (width > 0) {
-          const targetWidth = previewMode === "desktop" ? 1440 : 320;
-          const newScale = (width - 40) / targetWidth;
-          setPreviewScale(Math.max(0.1, newScale));
-        }
-      }
-    };
-    const timer = setTimeout(updateScale, 500); // More delay for stability
-    window.addEventListener('resize', updateScale);
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('resize', updateScale);
-    };
-  }, [previewMode]); // Remove appearance dependency
 
   const [fetchError, setFetchError] = useState<string | null>(null);
   const isLoaded = useRef(false);
+  const [previewScale, setPreviewScale] = useState(0.4);
 
   useEffect(() => {
     if (isLoaded.current) return;
     isLoaded.current = true;
     loadData();
+
+    // Initial scale calculation
+    const handleResize = () => {
+      const availableWidth = window.innerWidth - 64 - 256; // aside widths
+      if (availableWidth < 1000) {
+        setPreviewScale(Math.max(0.2, (availableWidth - 100) / 1440));
+      } else {
+        setPreviewScale(0.25);
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   async function loadData() {
@@ -237,68 +214,98 @@ export default function AppearancePage() {
     </div>
   );
 
-  const layoutArray = Array.isArray(appearance?.homepageLayout) ? appearance.homepageLayout : [];
-  const validLayout = layoutArray.filter((id: string, index: number, self: string[]) => 
-    self.indexOf(id) === index && SECTIONS.find(s => s.id === id)
-  );
+  const sections = [
+    { id: 'hero', name: 'Hero Banner', icon: Layout },
+    { id: 'trust', name: 'Trust Stats', icon: Star },
+    { id: 'featured', name: 'Featured Additions', icon: Sparkles },
+    { id: 'bestsellers', name: 'Bestsellers', icon: Zap },
+    { id: 'categories', name: 'Category Slider', icon: Settings },
+    { id: 'customPpt', name: 'Custom PPT Box', icon: Plus },
+    { id: 'about', name: 'About Atelier', icon: ImageIcon },
+    { id: 'story', name: 'The Story', icon: Type },
+    { id: 'testimonials', name: 'Testimonials', icon: Mail },
+    { id: 'contact', name: 'Contact Hub', icon: Phone },
+  ];
 
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col bg-[#050505] text-zinc-300 font-sans select-none overflow-hidden">
-      <header className="h-14 border-b border-white/5 bg-black/80 backdrop-blur-2xl flex items-center justify-between px-6 z-50 shrink-0">
-        <div className="flex items-center gap-4">
-          <Link href="/admin" className="p-2 hover:bg-white/5 rounded-xl transition-all group">
-            <ChevronLeft className="w-4 h-4 text-zinc-500 group-hover:text-white" />
-          </Link>
-          <div className="h-4 w-[1px] bg-white/10" />
-          <h1 className="text-[11px] font-black text-white uppercase italic tracking-tighter">
-            CMS <span className="text-primary">Appearance</span>
+    <div className="absolute inset-0 flex flex-col bg-[#09090B] overflow-hidden text-zinc-300 font-sans z-[100]">
+      {/* Top Header Bar */}
+      <header className="h-16 border-b border-white/5 bg-black/40 backdrop-blur-3xl flex items-center justify-between px-6 z-50 shrink-0">
+        <div className="flex items-center gap-6">
+          <h1 className="text-xl font-black text-white uppercase italic tracking-tighter">
+            Homepage <span className="text-primary">Visual Editor</span>
           </h1>
-        </div>
-        
-        <div className="flex items-center gap-2 bg-black/40 p-1 rounded-xl border border-white/5">
+          <div className="h-6 w-[1px] bg-white/10" />
+          <div className="flex items-center bg-white/5 p-1 rounded-xl border border-white/5">
+            <button 
+              onClick={() => { setPreviewMode("desktop"); setPreviewScale(0.4); }}
+              className={`p-2 rounded-lg transition-all ${previewMode === "desktop" ? "bg-primary text-black" : "hover:text-white"}`}
+              title="Desktop View"
+            >
+              <Monitor className="w-4 h-4" />
+            </button>
+            <button 
+              onClick={() => { setPreviewMode("mobile"); setPreviewScale(0.85); }}
+              className={`p-2 rounded-lg transition-all ${previewMode === "mobile" ? "bg-primary text-black" : "hover:text-white"}`}
+              title="Mobile View"
+            >
+              <Smartphone className="w-4 h-4" />
+            </button>
+          </div>
           <button 
-            onClick={() => setPreviewMode("desktop")}
-            className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${previewMode === "desktop" ? "bg-primary text-black" : "text-zinc-500 hover:text-white"}`}
+            onClick={() => window.location.reload()}
+            className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-500 hover:text-white transition-all border border-white/5"
+            title="Refresh System"
           >
-            Desktop
-          </button>
-          <button 
-            onClick={() => setPreviewMode("mobile")}
-            className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${previewMode === "mobile" ? "bg-primary text-black" : "text-zinc-500 hover:text-white"}`}
-          >
-            Mobile
+            <RotateCcw className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="h-8 w-[1px] bg-white/10" />
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={handleRevert}
+            disabled={isReverting}
+            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-black uppercase tracking-widest transition-all"
+          >
+            <RotateCcw className="w-4 h-4" /> Revert
+          </button>
           <button 
             onClick={handleSaveDraft}
             disabled={isSaving}
-            className="flex items-center gap-2 bg-primary hover:bg-white text-black px-6 py-2 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all italic disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-black uppercase tracking-widest transition-all"
           >
             <Save className="w-4 h-4" /> {isSaving ? "Saving..." : "Save Draft"}
+          </button>
+          <button 
+            onClick={handlePublish}
+            disabled={isPublishing}
+            className="flex items-center gap-2 px-8 py-3 rounded-xl bg-primary hover:bg-primary-hover text-black text-xs font-black uppercase tracking-widest transition-all shadow-[0_10px_30px_rgba(197,165,114,0.3)]"
+          >
+            <Send className="w-4 h-4" /> {isPublishing ? "Publishing..." : "Publish To Live"}
           </button>
         </div>
       </header>
 
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden relative">
         {/* Left Sidebar: Section Management */}
         <aside className="w-64 border-r border-white/5 bg-black/20 flex flex-col shrink-0 overflow-y-auto custom-scrollbar">
-          <div className="p-5">
-            <h3 className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.3em] mb-4">Architecture</h3>
+          <div className="p-6">
+            <h3 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-6">Page Architecture</h3>
             <Reorder.Group 
               axis="y" 
-              values={validLayout} 
+              values={(appearance?.homepageLayout || []).filter((id: string, index: number, self: string[]) => 
+                self.indexOf(id) === index && sections.find(s => s.id === id)
+              )} 
               onReorder={handleReorder}
               className="space-y-2"
             >
-              {validLayout.map((id: string) => {
-                const config = SECTIONS.find(s => s.id === id);
+              {(appearance?.homepageLayout || []).filter((id: string, index: number, self: string[]) => 
+                self.indexOf(id) === index && sections.find(s => s.id === id)
+              ).map((id: string) => {
+                const config = sections.find(s => s.id === id);
                 if (!config) return null;
                 const isVisible = appearance?.sectionVisibility ? appearance.sectionVisibility[id] !== false : true;
                 const isActive = activeSection === id;
-                const SectionIcon = config.icon || Settings;
 
                 return (
                   <Reorder.Item 
@@ -312,7 +319,7 @@ export default function AppearancePage() {
                     onClick={() => setActiveSection(id)}
                   >
                     <GripVertical className="w-4 h-4 text-zinc-700 group-hover:text-zinc-500 shrink-0 cursor-grab active:cursor-grabbing" />
-                    <SectionIcon className="w-4 h-4 shrink-0" />
+                    <config.icon className="w-4 h-4 shrink-0" />
                     <span className="text-xs font-bold uppercase tracking-wider flex-1 truncate">{config.name}</span>
                     <button 
                       onClick={(e) => { e.stopPropagation(); toggleVisibility(id); }}
@@ -327,9 +334,9 @@ export default function AppearancePage() {
           </div>
         </aside>
 
-        {/* Middle Column: Active Section Editor */}
-        <main className="flex-1 overflow-y-auto p-8 xl:p-12 custom-scrollbar bg-black/40 border-r border-white/5">
-          <div className="max-w-3xl mx-auto">
+        {/* Center: Editor Canvas */}
+        <main className="flex-1 flex flex-col bg-[#050505] overflow-y-auto custom-scrollbar relative">
+          <div className="p-6 md:p-10 max-w-4xl mx-auto w-full pb-32">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeSection}
@@ -339,18 +346,18 @@ export default function AppearancePage() {
                 transition={{ duration: 0.2 }}
                 className="space-y-10"
               >
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-12">
+                  <div className="w-16 h-16 rounded-3xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shadow-2xl shrink-0">
                     {(() => {
-                      const Icon = SECTIONS.find(s => s.id === activeSection)?.icon || Settings;
-                      return <Icon className="w-5 h-5" />;
+                      const Icon = sections.find(s => s.id === activeSection)?.icon || Settings;
+                      return <Icon className="w-8 h-8" />;
                     })()}
                   </div>
                   <div>
-                    <h2 className="text-xl font-black text-white uppercase italic tracking-tight">
-                      {SECTIONS.find(s => s.id === activeSection)?.name}
+                    <h2 className="text-4xl font-black text-white uppercase italic tracking-tighter leading-none mb-2">
+                      {sections.find(s => s.id === activeSection)?.name}
                     </h2>
-                    <p className="text-[9px] text-zinc-600 font-black uppercase tracking-widest mt-0.5">Configure Intelligence Layer</p>
+                    <p className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] opacity-60">System Configuration Layer v2.0</p>
                   </div>
                 </div>
 
@@ -463,56 +470,89 @@ export default function AppearancePage() {
                   </div>
                 )}
 
-                <div className="pt-12 border-t border-white/5">
-                  <button 
-                    onClick={handleSaveDraft}
-                    className="flex items-center gap-3 px-10 py-5 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-black text-sm uppercase tracking-[0.2em] transition-all border border-white/10"
-                  >
-                    <Save className="w-5 h-5 text-primary" /> Save Changes to Draft
-                  </button>
-                </div>
+                {/* ... (rest of sections) */}
+
               </motion.div>
             </AnimatePresence>
+          </div>
+
+          {/* Fixed Bottom Action Bar for Editor */}
+          <div className="sticky bottom-0 left-0 w-full p-6 bg-black/80 backdrop-blur-3xl border-t border-white/10 flex items-center justify-between z-40">
+            <div className="flex items-center gap-4">
+              <button 
+                onClick={handleSaveDraft}
+                disabled={isSaving}
+                className="flex items-center gap-3 px-8 py-4 rounded-xl bg-primary hover:bg-primary-hover text-black font-black text-xs uppercase tracking-[0.2em] transition-all shadow-[0_10px_20px_rgba(197,165,114,0.2)] disabled:opacity-50"
+              >
+                <Save className="w-5 h-5" /> {isSaving ? "Saving..." : "Save Draft"}
+              </button>
+              <button 
+                onClick={handleRevert}
+                disabled={isReverting}
+                className="flex items-center gap-3 px-6 py-4 rounded-xl bg-white/5 hover:bg-white/10 text-white font-black text-[10px] uppercase tracking-[0.2em] transition-all border border-white/5"
+              >
+                <RotateCcw className="w-4 h-4" /> Reset
+              </button>
+            </div>
+            
+            <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/5">
+              <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <span className="text-[8px] font-black text-zinc-500 uppercase tracking-widest">Auto-save Enabled</span>
+            </div>
           </div>
         </main>
 
         {/* Right Sidebar: Live Preview Screen */}
-        <aside className="w-[400px] 2xl:w-[500px] bg-[#09090B] relative overflow-hidden shrink-0 flex flex-col hidden lg:flex">
-          <div className="h-12 border-b border-white/5 flex items-center justify-between px-6 shrink-0 bg-black/40">
-            <span className="text-[8px] font-black text-zinc-600 uppercase tracking-[0.3em]">Deployment Preview</span>
-            <div className="flex gap-1.5">
-              <div className="w-2 h-2 rounded-full bg-red-500/10 border border-red-500/20" />
-              <div className="w-2 h-2 rounded-full bg-yellow-500/10 border border-yellow-500/20" />
-              <div className="w-2 h-2 rounded-full bg-green-500/10 border border-green-500/20" />
+        <aside className="w-[420px] border-l border-white/5 bg-black/40 relative overflow-hidden shrink-0 flex flex-col">
+          <div className="h-12 bg-black/40 border-b border-white/5 flex items-center justify-between px-4 shrink-0">
+            <div className="flex items-center gap-2">
+              <span className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Real-time Preview</span>
+              <button 
+                onClick={() => setPreviewScale(previewMode === "desktop" ? 0.4 : 0.8)}
+                className="p-1.5 rounded-md hover:bg-white/5 text-[8px] font-black text-zinc-600 uppercase tracking-widest border border-white/5 transition-all"
+              >
+                Reset
+              </button>
+            </div>
+            <div className="flex items-center gap-4">
+              <input 
+                type="range" 
+                min="0.3" 
+                max="1.0" 
+                step="0.05" 
+                value={previewScale} 
+                onChange={(e) => setPreviewScale(parseFloat(e.target.value))}
+                className="w-20 h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary"
+              />
+              <span className="text-[8px] font-black text-primary uppercase w-8">{Math.round(previewScale * 100)}%</span>
             </div>
           </div>
           
-          <div ref={previewContainerRef} className="flex-1 overflow-hidden p-6 flex items-center justify-center relative">
-            <div className={`transition-all duration-700 h-full border border-white/10 rounded-2xl overflow-hidden shadow-2xl bg-background relative ${previewMode === "desktop" ? "w-full" : "w-[320px]"}`}>
-              <div className={`absolute inset-0 ${previewMode === "mobile" ? 'overflow-y-auto scrollbar-hide' : ''}`}>
-                <div 
-                  className="origin-top-left transition-transform duration-500"
-                  style={{ 
-                    width: previewMode === "desktop" ? "1440px" : "100%",
-                    transform: previewMode === "desktop" ? `scale(${previewScale || 0.3})` : 'none',
-                    height: previewMode === "desktop" ? `${100 / Math.max(0.1, previewScale || 0.3)}%` : "100%",
-                    pointerEvents: "none"
-                  }}
-                >
+          <div className="flex-1 overflow-auto p-4 flex items-start justify-center bg-[#09090B] custom-scrollbar">
+            <div 
+              className={`transition-all duration-300 border border-white/10 rounded-[1.5rem] overflow-hidden shadow-2xl bg-background origin-top`}
+              style={{ 
+                width: previewMode === "desktop" ? "1440px" : "375px",
+                height: previewMode === "desktop" ? "2500px" : "812px",
+                transform: `scale(${previewScale || 0.6})`,
+                minWidth: previewMode === "desktop" ? "1440px" : "375px",
+              }}
+            >
                 {fetchError ? (
                   <div className="p-20 text-center">
                     <div className="text-primary text-4xl mb-4 font-black italic uppercase">System Alert</div>
                     <p className="text-zinc-500 text-xs uppercase tracking-[0.3em]">{fetchError}</p>
                   </div>
                 ) : (
-                  <HomeClient 
-                    initialAppearance={appearance} 
-                    initialProducts={products} 
-                    initialReviews={reviews} 
-                    isEditor={true} 
-                  />
+                  <div className="h-full w-full pointer-events-none">
+                    <HomeClient 
+                      initialAppearance={appearance} 
+                      initialProducts={products} 
+                      initialReviews={reviews} 
+                      isEditor={true} 
+                    />
+                  </div>
                 )}
-                </div>
               </div>
             </div>
           </div>
@@ -545,56 +585,50 @@ export default function AppearancePage() {
 }
 
 // Helper Components
-function EditorField({ label, value, onChange, type = "text", rows = 3 }: any) {
-  return (
-    <div className="space-y-3">
-      <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">{label}</label>
+    <div className="space-y-2">
+      <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] ml-2">{label}</label>
       {type === "textarea" ? (
         <textarea 
           rows={rows}
           value={value || ""}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-5 text-white text-sm font-medium focus:outline-none focus:border-primary transition-all resize-none"
+          className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white text-xs font-medium focus:outline-none focus:border-primary transition-all resize-none"
         />
       ) : (
         <input 
           type={type}
           value={value || ""}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-5 text-white text-sm font-bold focus:outline-none focus:border-primary transition-all"
+          className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white text-xs font-bold focus:outline-none focus:border-primary transition-all"
         />
       )}
     </div>
   );
 }
 
-function ImageUploadField({ label, value, uploading, onUpload, onChange }: any) {
-  return (
-    <div className="space-y-4">
-      <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] ml-2">{label}</label>
-      <div className="flex gap-6">
-        <div className="flex-1 space-y-4">
-          <div className="flex gap-3">
-            <input 
-              value={value || ""}
-              onChange={(e) => onChange(e.target.value)}
-              className="flex-1 bg-white/[0.03] border border-white/10 rounded-xl px-5 py-4 text-white text-[10px] font-mono focus:outline-none focus:border-primary transition-all"
-              placeholder="https://..."
-            />
-          </div>
-          <label className="cursor-pointer group flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl py-4 transition-all">
-            <Upload className={`w-4 h-4 ${uploading ? 'animate-bounce text-primary' : 'text-zinc-500'}`} />
-            <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 group-hover:text-white">
-              {uploading ? 'Syncing Asset...' : 'Upload New Asset'}
+    <div className="space-y-3">
+      <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] ml-2">{label}</label>
+      <div className="flex gap-4">
+        <div className="flex-1 space-y-3">
+          <input 
+            value={value || ""}
+            onChange={(e) => onChange(e.target.value)}
+            className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white text-[9px] font-mono focus:outline-none focus:border-primary transition-all"
+            placeholder="Remote Asset URL..."
+          />
+          <label className="cursor-pointer group flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl py-3 transition-all">
+            <Upload className={`w-3.5 h-3.5 ${uploading ? 'animate-bounce text-primary' : 'text-zinc-500'}`} />
+            <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500 group-hover:text-white">
+              {uploading ? 'Archiving...' : 'Upload Local'}
             </span>
             <input type="file" className="hidden" accept="image/*" onChange={onUpload} />
           </label>
         </div>
-        <div className="w-32 h-32 rounded-2xl bg-white/5 border border-white/10 overflow-hidden shrink-0 flex items-center justify-center p-2">
+        <div className="w-24 h-24 rounded-xl bg-white/5 border border-white/10 overflow-hidden shrink-0 flex items-center justify-center p-1.5">
           {value ? (
             <img src={value} className="w-full h-full object-cover rounded-lg" alt="Preview" />
           ) : (
-            <ImageIcon className="w-8 h-8 text-zinc-800" />
+            <ImageIcon className="w-6 h-6 text-zinc-800" />
           )}
         </div>
       </div>

@@ -148,10 +148,10 @@ export default function AdminLayout({
       )}
 
       <aside className={`fixed lg:relative top-0 left-0 h-full w-64 flex flex-col border-r z-[60] transition-transform duration-300 transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"} ${theme === 'dark' ? 'bg-[#080808] border-white/5 text-zinc-400' : 'bg-[#FFFFFF] border-zinc-200 text-zinc-600'}`}>
-        <div className={`p-8 border-b hidden lg:block ${theme === 'dark' ? 'border-white/5' : 'border-zinc-200'}`}>
-          <h1 className={`text-xl font-black tracking-tighter flex items-center gap-3 italic uppercase ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>
-            <Settings className="w-6 h-6 text-primary neon-text" />
-            Admin <span className="text-primary neon-text">Ops</span>
+        <div className={`p-5 border-b hidden lg:block ${theme === 'dark' ? 'border-white/5' : 'border-zinc-200'}`}>
+          <h1 className={`text-lg font-black tracking-tighter flex items-center gap-2.5 italic uppercase ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>
+            <Settings className="w-5 h-5 text-primary" />
+            Admin <span className="text-primary">Ops</span>
           </h1>
         </div>
         <nav className="flex-1 px-4 space-y-2 mt-20 lg:mt-8 overflow-y-auto custom-scrollbar">
@@ -163,7 +163,7 @@ export default function AdminLayout({
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsSidebarOpen(false)}
-                className={`flex items-center gap-4 px-6 py-4 rounded-xl transition-all ${
+                className={`flex items-center gap-3 px-5 py-3 rounded-xl transition-all ${
                   isActive 
                     ? "bg-primary/10 text-primary font-black shadow-[0_0_15px_rgba(197,165,114,0.15)] border border-primary/20" 
                     : theme === 'dark' 
