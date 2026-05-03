@@ -158,8 +158,8 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
             <span className="text-[10px] font-black text-primary uppercase tracking-[0.6em] italic">Bundle Intelligence Panel</span>
           </div>
 
-          {/* Tabs Navigation */}
-          <div className="flex overflow-x-auto no-scrollbar gap-2 p-1.5 bg-white/[0.03] border border-white/5 rounded-[2rem] mb-12 max-w-4xl mx-auto">
+          {/* Desktop Tabs Navigation */}
+          <div className="hidden sm:flex overflow-x-auto no-scrollbar gap-2 p-1.5 bg-white/[0.03] border border-white/5 rounded-[2rem] mb-12 max-w-4xl mx-auto">
             {[
               { id: 'description', label: 'Overview', icon: FileText },
               { id: 'included', label: 'Inside the Box', icon: Package },
@@ -168,7 +168,6 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
               { id: 'files', label: 'Included Files', icon: Files }
             ].map((tab) => {
               const isActive = activeTab === tab.id;
-              // Visibility logic
               if (tab.id === 'included' && items.length === 0) return null;
               if (tab.id === 'advantages' && !title.why_buy?.length) return null;
               if (tab.id === 'usecases' && !title.use_cases?.length && !title.target_audience?.length) return null;
@@ -191,8 +190,8 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
             })}
           </div>
 
-          {/* Tab Content Panel */}
-          <div className="bg-white/[0.01] border border-white/5 rounded-[3.5rem] p-8 sm:p-16 min-h-[500px] relative overflow-hidden group shadow-2xl">
+          {/* Desktop Tab Content Panel */}
+          <div className="hidden sm:block bg-white/[0.01] border border-white/5 rounded-[3.5rem] p-8 sm:p-16 min-h-[500px] relative overflow-hidden group shadow-2xl">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
             
             <AnimatePresence mode="wait">
@@ -310,6 +309,52 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
                 )}
               </motion.div>
             </AnimatePresence>
+          </div>
+
+          {/* Mobile Vertical Stack */}
+          <div className="block sm:hidden space-y-12">
+            {/* Overview */}
+            <div className="space-y-4">
+              <h3 className="text-primary font-black uppercase tracking-[0.2em] text-[10px]">Overview</h3>
+              <p className="text-zinc-400 text-sm leading-relaxed italic">
+                {bundle.description?.en || "Strategic presentation architecture designed for high-stakes professional environments."}
+              </p>
+            </div>
+
+            {/* Included Assets */}
+            {items.length > 0 && (
+              <div className="space-y-6">
+                <h3 className="text-primary font-black uppercase tracking-[0.2em] text-[10px]">Inside the Box ({items.length})</h3>
+                <div className="grid grid-cols-1 gap-6">
+                  {items.map((item: any, idx: number) => (
+                    <div key={idx} className="flex items-center gap-4 p-4 bg-white/[0.02] border border-white/5 rounded-2xl">
+                      <div className="w-16 h-16 relative rounded-lg overflow-hidden shrink-0">
+                        <Image src={item.image || "/placeholder.jpg"} alt={item.name} fill className="object-cover" />
+                      </div>
+                      <div className="flex-1">
+                        <h5 className="text-[10px] font-black text-white uppercase tracking-widest">{item.name}</h5>
+                        <Link href={`/product/${item.product_id}`} className="text-primary text-[8px] font-black uppercase tracking-widest">View Asset</Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Advantages */}
+            {title.why_buy?.length > 0 && (
+              <div className="space-y-6">
+                <h3 className="text-primary font-black uppercase tracking-[0.2em] text-[10px]">Advantages</h3>
+                <div className="grid grid-cols-1 gap-4">
+                  {title.why_buy.map((point: string, i: number) => (
+                    <div key={i} className="flex items-center gap-3 p-4 bg-white/[0.02] border border-white/5 rounded-2xl">
+                      <CheckCircle className="w-4 h-4 text-primary" />
+                      <span className="text-zinc-400 text-[10px] font-bold uppercase tracking-widest">{point}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>

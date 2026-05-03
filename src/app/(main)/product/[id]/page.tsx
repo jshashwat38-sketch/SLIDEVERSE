@@ -348,8 +348,8 @@ export default function ProductDetailsPage() {
                 <span className="text-[10px] font-black text-primary uppercase tracking-[0.5em] italic">Product Intelligence Panel</span>
               </div>
 
-              {/* Tabs Navigation */}
-              <div className="flex overflow-x-auto no-scrollbar gap-2 p-1.5 bg-white/[0.03] border border-white/5 rounded-2xl mb-8">
+              {/* Desktop Tabs Navigation */}
+              <div className="hidden sm:flex overflow-x-auto no-scrollbar gap-2 p-1.5 bg-white/[0.03] border border-white/5 rounded-2xl mb-8">
                 {[
                   { id: 'description', label: 'Description', icon: FileText },
                   { id: 'features', label: 'Features', icon: List },
@@ -358,7 +358,6 @@ export default function ProductDetailsPage() {
                   { id: 'faq', label: 'FAQ', icon: HelpCircle }
                 ].map((tab) => {
                   const isActive = activeTab === tab.id;
-                  // Skip empty tabs logic
                   if (tab.id === 'features' && (!product.features || product.features.length === 0)) return null;
                   if (tab.id === 'included' && (!product.description?.included_files || product.description.included_files.length === 0)) return null;
                   if (tab.id === 'usecases' && (!product.description?.use_cases || product.description.use_cases.length === 0)) return null;
@@ -381,8 +380,8 @@ export default function ProductDetailsPage() {
                 })}
               </div>
 
-              {/* Tab Content */}
-              <div className="bg-white/[0.01] border border-white/5 rounded-[2.5rem] p-8 sm:p-12 min-h-[300px] relative overflow-hidden group">
+              {/* Desktop Tab Content */}
+              <div className="hidden sm:block bg-white/[0.01] border border-white/5 rounded-[2.5rem] p-8 sm:p-12 min-h-[300px] relative overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                 
                 <AnimatePresence mode="wait">
@@ -453,6 +452,62 @@ export default function ProductDetailsPage() {
                     )}
                   </motion.div>
                 </AnimatePresence>
+              </div>
+
+              {/* Mobile Vertical Stack */}
+              <div className="block sm:hidden space-y-12">
+                {/* Description */}
+                <div className="space-y-4">
+                  <h3 className="text-primary font-black uppercase tracking-[0.2em] text-[10px]">Description</h3>
+                  <p className="text-zinc-400 text-sm leading-relaxed whitespace-pre-wrap">
+                    {typeof product.description === 'object' ? (product.description.en || Object.values(product.description)[0]) : product.description}
+                  </p>
+                </div>
+
+                {/* Features */}
+                {product.features && product.features.length > 0 && (
+                  <div className="space-y-6">
+                    <h3 className="text-primary font-black uppercase tracking-[0.2em] text-[10px]">Features</h3>
+                    <div className="grid grid-cols-1 gap-4">
+                      {product.features.map((feature: string, i: number) => (
+                        <div key={i} className="flex items-center gap-3 p-4 bg-white/[0.02] border border-white/5 rounded-2xl">
+                          <CheckCircle2 className="w-4 h-4 text-primary" />
+                          <span className="text-zinc-400 text-[10px] font-black uppercase tracking-widest">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Included Files */}
+                {product.description?.included_files && product.description.included_files.length > 0 && (
+                  <div className="space-y-6">
+                    <h3 className="text-primary font-black uppercase tracking-[0.2em] text-[10px]">Included Files</h3>
+                    <div className="grid grid-cols-1 gap-4">
+                      {product.description.included_files.map((file: string, i: number) => (
+                        <div key={i} className="flex items-center gap-3 p-4 bg-white/[0.02] border border-white/5 rounded-2xl">
+                          <Files className="w-4 h-4 text-primary" />
+                          <span className="text-white text-[10px] font-black uppercase tracking-widest">{file}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Use Cases */}
+                {product.description?.use_cases && product.description.use_cases.length > 0 && (
+                  <div className="space-y-6">
+                    <h3 className="text-primary font-black uppercase tracking-[0.2em] text-[10px]">Use Cases</h3>
+                    <div className="grid grid-cols-1 gap-4">
+                      {product.description.use_cases.map((usecase: string, i: number) => (
+                        <div key={i} className="flex items-center gap-3 p-4 bg-white/[0.02] border border-white/5 rounded-2xl">
+                          <Target className="w-4 h-4 text-primary" />
+                          <span className="text-white text-[10px] font-black uppercase tracking-widest">{usecase}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
