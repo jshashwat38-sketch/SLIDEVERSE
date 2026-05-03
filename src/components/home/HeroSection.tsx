@@ -67,23 +67,28 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="mt-10 md:hidden"
           >
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-5">
               <span className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em]">{t("active_sectors")}</span>
               <div className="flex items-center gap-2">
                 <span className="text-[8px] font-black text-primary uppercase tracking-widest italic opacity-80">{t("online_status")}</span>
               </div>
             </div>
-            <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide -mx-2 px-2">
+            
+            <div className="grid grid-cols-3 gap-3">
               {[
                 { name: t("about"), icon: Shield, link: "/#about", code: "01" },
                 { name: t("contact"), icon: Send, link: "/#contact", code: "02" },
                 { name: t("vault"), icon: Sparkles, link: "/account", code: "03" }
               ].map((btn, i) => (
-                <motion.div key={i} initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.5 }}>
-                  <a href={btn.link} onClick={(e) => handleScroll(e, btn.link)} className="shrink-0 w-28 aspect-square flex flex-col items-center justify-center bg-white/[0.03] border border-white/10 rounded-[2rem] group active:scale-95 transition-all relative overflow-hidden cursor-pointer">
-                    <div className="absolute top-3 left-3 text-[7px] font-black text-zinc-800">{btn.code}</div>
-                    <btn.icon className="w-6 h-6 text-primary mb-2" />
-                    <span className="text-[9px] font-black text-white uppercase tracking-widest italic">{btn.name}</span>
+                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.5 }}>
+                  <a 
+                    href={btn.link} 
+                    onClick={(e) => handleScroll(e, btn.link)} 
+                    className="w-full aspect-square flex flex-col items-center justify-center bg-white/[0.03] border border-white/10 rounded-[1.8rem] group active:scale-95 transition-all relative overflow-hidden cursor-pointer"
+                  >
+                    <div className="absolute top-2.5 left-2.5 text-[7px] font-black text-zinc-800/60 dark:text-zinc-500/20">{btn.code}</div>
+                    <btn.icon className="w-5 h-5 text-primary mb-2" />
+                    <span className="text-[9px] font-black text-white uppercase tracking-widest italic text-center px-1 leading-tight">{btn.name}</span>
                   </a>
                 </motion.div>
               ))}
