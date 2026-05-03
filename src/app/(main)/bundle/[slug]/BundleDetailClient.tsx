@@ -63,7 +63,7 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
                   alt={title.en}
                   fill
                   priority
-                  className="object-cover group-hover:scale-110 transition-transform duration-1000 rounded-[2.5rem]"
+                  className="object-cover group-hover:scale-110 transition-transform duration-1000 rounded-[3rem]"
                 />
                 {savings > 0 && (
                   <div className="absolute top-8 left-8 bg-primary text-black font-black px-6 py-2 rounded-full text-sm uppercase tracking-tighter shadow-xl italic">
@@ -228,7 +228,7 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
                               src={item.image || "/placeholder.jpg"} 
                               alt={item.name}
                               fill
-                              className="object-cover opacity-60 group-hover/card:opacity-100 group-hover/card:scale-105 transition-all duration-700"
+                              className="w-full h-full object-cover rounded-[3rem] opacity-60 group-hover/card:opacity-100 group-hover/card:scale-105 transition-all duration-700"
                             />
                           </div>
                           <div className="p-6 space-y-3">

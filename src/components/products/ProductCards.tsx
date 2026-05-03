@@ -487,7 +487,7 @@ export function HeroProductCard(props: any) {
             }}
             src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
             alt={displayTitle} 
-            className="w-full h-full object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.6)] select-none rounded-3xl" 
+            className="w-full h-full object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.6)] select-none rounded-[3rem]" 
             onError={(e) => {
               (e.target as HTMLImageElement).src = "https://placehold.co/800x400?text=No+Image";
             }}
