@@ -379,7 +379,7 @@ export default function CartPage() {
 
             <div className="space-y-4">
               <motion.button 
-                whileHover={{ y: -2, shadow: "0 20px 40px rgba(197,165,114,0.3)" }}
+                whileHover={{ y: -2, boxShadow: "0 20px 40px rgba(197,165,114,0.3)" }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleCheckout}
                 disabled={isProcessing || (!isRazorpayLoaded && !window.Razorpay)}

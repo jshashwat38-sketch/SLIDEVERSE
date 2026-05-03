@@ -37,7 +37,7 @@ export default function CategoriesPage() {
       uploadFormData.append("imageFile", optimized);
 
       const result = await uploadImage(uploadFormData);
-      if (result.success && result.url) {
+      if (result.success) {
         if (editingCategory) {
           setEditingCategory({ ...editingCategory, imageUrl: result.url });
         } else {

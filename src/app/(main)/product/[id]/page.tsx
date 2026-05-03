@@ -61,6 +61,7 @@ export default function ProductDetailsPage() {
   const [submittingReview, setSubmittingReview] = useState(false);
   const [hasReviewed, setHasReviewed] = useState(false);
   const [activeTab, setActiveTab] = useState('description');
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchProduct = async () => {

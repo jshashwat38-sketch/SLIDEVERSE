@@ -153,13 +153,14 @@ export default function BundlesPage() {
       categoryId: categories[0]?.id || "",
       imageUrl: "",
       driveLink: "",
-      features: "",
+      features: [],
       isBestseller: false,
       isTop9: false,
       active: true,
       whyBuy: [],
       targetAudience: [],
-      useCases: []
+      useCases: [],
+      includedFiles: []
     });
     setImageFile(null);
     setSelectedProductIds([]);

@@ -181,7 +181,7 @@ export default function AppearancePage() {
     formData.append("imageFile", file);
 
     const result = await uploadImage(formData);
-    if (result.success && result.url) {
+    if (result.success) {
       updateField(section, field, result.url);
       toast.success("Asset uploaded.");
     } else {
@@ -562,7 +562,15 @@ class PreviewErrorBoundary extends React.Component<any, any> {
   }
 }
 
-function EditorField({ label, value, onChange, type = "text", rows = 3 }: any) {
+interface EditorFieldProps {
+  label: string;
+  value: any;
+  onChange: (val: any) => void;
+  type?: string;
+  rows?: number;
+}
+
+function EditorField({ label, value, onChange, type = "text", rows = 3 }: EditorFieldProps) {
   return (
     <div className="space-y-2">
       <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] ml-2">{label}</label>
@@ -585,7 +593,15 @@ function EditorField({ label, value, onChange, type = "text", rows = 3 }: any) {
   );
 }
 
-function ImageUploadField({ label, value, uploading, onUpload, onChange }: any) {
+interface ImageUploadFieldProps {
+  label: string;
+  value: any;
+  uploading: boolean;
+  onUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (val: string) => void;
+}
+
+function ImageUploadField({ label, value, uploading, onUpload, onChange }: ImageUploadFieldProps) {
   return (
     <div className="space-y-3">
       <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] ml-2">{label}</label>
@@ -617,7 +633,14 @@ function ImageUploadField({ label, value, uploading, onUpload, onChange }: any) 
   );
 }
 
-function ProductSelector({ label, products, selectedIds, onChange }: any) {
+interface ProductSelectorProps {
+  label: string;
+  products: any[];
+  selectedIds: string[];
+  onChange: (ids: string[]) => void;
+}
+
+function ProductSelector({ label, products, selectedIds, onChange }: ProductSelectorProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const filtered = products.filter((p: any) => 
     (typeof p.title === 'string' ? p.title : (p.title?.en || "")).toLowerCase().includes(searchTerm.toLowerCase())

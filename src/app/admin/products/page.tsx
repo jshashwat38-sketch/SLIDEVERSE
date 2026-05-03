@@ -80,6 +80,7 @@ export default function ProductsPage() {
       description: typeof product.description === 'object' && product.description !== null ? (product.description.en || Object.values(product.description)[0] || "") : (product.description || ""),
       price: product.price ? product.price.toString() : "",
       driveLink: product.drive_link || "",
+      categoryId: product.category_id || "",
       isBestseller: product.is_bestseller || (typeof product.title === 'object' && product.title?.is_bestseller) || false,
       isTop9: product.is_top9 || (typeof product.title === 'object' && product.title?.is_top9) || false,
       mrp: typeof product.title === 'object' && product.title !== null ? (product.title.mrp || "").toString() : "",

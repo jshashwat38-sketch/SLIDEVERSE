@@ -32,8 +32,7 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
       id: bundle.id,
       title: title.en || "Premium Bundle",
       price: bundle.price,
-      image: bundle.image_url,
-      quantity: 1
+      imageUrl: bundle.image_url
     });
     toast.success("Added to your vault!");
   };
