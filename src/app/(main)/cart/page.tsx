@@ -343,19 +343,19 @@ export default function CartPage() {
             {/* Coupon Code Panel */}
             <div className="border-t border-border dark:border-white/5 pt-6 mt-6 mb-8">
               <label className="block text-[9px] font-black text-muted-foreground uppercase tracking-[0.3em] mb-3 ml-2">Promo Code / Voucher</label>
-              <div className="flex gap-2">
+              <div className="flex gap-2 items-center">
                 <input 
                   type="text"
                   placeholder="SAVE50"
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
                   disabled={appliedCoupon}
-                  className="flex-1 px-4 py-3 bg-zinc-500/5 dark:bg-white/5 border border-border dark:border-white/10 focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/5 rounded-xl text-foreground font-black uppercase text-xs tracking-wider placeholder:text-muted-foreground/30"
+                  className="flex-1 min-w-0 px-4 py-3 bg-zinc-500/5 dark:bg-white/5 border border-border dark:border-white/10 focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/5 rounded-xl text-foreground font-black uppercase text-xs tracking-wider placeholder:text-muted-foreground/30"
                 />
                 <button 
                   onClick={handleApplyCoupon}
                   disabled={verifyingCoupon || appliedCoupon}
-                  className="bg-zinc-500/10 dark:bg-white/10 hover:bg-zinc-500/20 dark:hover:bg-white/20 text-foreground px-5 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all disabled:opacity-50"
+                  className="shrink-0 bg-zinc-500/10 dark:bg-white/10 hover:bg-zinc-500/20 dark:hover:bg-white/20 text-foreground px-5 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all disabled:opacity-50"
                 >
                   {appliedCoupon ? "applied" : verifyingCoupon ? "..." : "apply"}
                 </button>
