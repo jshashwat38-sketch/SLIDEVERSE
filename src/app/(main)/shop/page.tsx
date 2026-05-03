@@ -33,7 +33,6 @@ export default function ShopPage() {
       ]);
       setProducts(prodData || []);
       setReviews(revData || []);
-      setFilteredProducts(prodData || []);
       setLoading(false);
     }
     loadData();
@@ -188,8 +187,8 @@ export default function ShopPage() {
                 {categoryFilter === "all" && <Check className="w-4 h-4 text-black" />}
               </button>
               {uniqueCategories.map((cat) => {
-                let rawStr = String(cat || "").replace(/^\[HI\]\s*/i, "").replace(/^\[EN\]\s*/i, "").trim();
-                let key = rawStr.toLowerCase().replace(/\s+/g, '_');
+                const rawStr = String(cat || "").replace(/^\[HI\]\s*/i, "").replace(/^\[EN\]\s*/i, "").trim();
+                const key = rawStr.toLowerCase().replace(/\s+/g, '_');
                 let catLabel = t(key);
                 if (catLabel === key || !catLabel) {
                   catLabel = rawStr;
@@ -366,8 +365,8 @@ export default function ShopPage() {
                       {t("all_categories")}
                     </button>
                     {uniqueCategories.map((cat) => {
-                      let rawStr = String(cat || "").replace(/^\[HI\]\s*/i, "").replace(/^\[EN\]\s*/i, "").trim();
-                      let key = rawStr.toLowerCase().replace(/\s+/g, '_');
+                      const rawStr = String(cat || "").replace(/^\[HI\]\s*/i, "").replace(/^\[EN\]\s*/i, "").trim();
+                      const key = rawStr.toLowerCase().replace(/\s+/g, '_');
                       let catLabel = t(key);
                       if (catLabel === key || !catLabel) {
                         catLabel = rawStr;

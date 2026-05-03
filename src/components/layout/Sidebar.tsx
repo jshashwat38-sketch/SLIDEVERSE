@@ -165,8 +165,8 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
                 if (typeof cat.title === 'object' && cat.title !== null) {
                   catLabel = (cat.title as any)[language] || (cat.title as any).en || "";
                 } else {
-                  let rawStr = String(cat.title || "").replace(/^\[HI\]\s*/i, "").replace(/^\[EN\]\s*/i, "").trim();
-                  let key = rawStr.toLowerCase().replace(/\s+/g, '_');
+                  const rawStr = String(cat.title || "").replace(/^\[HI\]\s*/i, "").replace(/^\[EN\]\s*/i, "").trim();
+                  const key = rawStr.toLowerCase().replace(/\s+/g, '_');
                   catLabel = t(key);
                   if (catLabel === key || !catLabel) {
                     catLabel = rawStr;

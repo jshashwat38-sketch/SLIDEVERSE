@@ -75,7 +75,7 @@ export async function addProduct(formData: FormData) {
 
     const variants: any[] = [];
     for (let i = 0; i < variantNames.length; i++) {
-      let variantImage = variantImageUrls[i] || "";
+      const variantImage = variantImageUrls[i] || "";
       const file = variantImageFiles[i];
       
       const variantObj = {
@@ -422,7 +422,7 @@ export async function updateProduct(id: string, formData: FormData) {
 
     const variants: any[] = [];
     for (let i = 0; i < variantNames.length; i++) {
-      let variantImage = variantImageUrls[i] || "";
+      const variantImage = variantImageUrls[i] || "";
       const file = variantImageFiles[i];
       
       const variantObj = {

@@ -36,12 +36,12 @@ function Counter({ value }: { value: string }) {
       return;
     }
 
-    let totalDuration = 2000;
-    let stepTime = 16;
-    let steps = totalDuration / stepTime;
-    let increment = end / steps;
+    const totalDuration = 2000;
+    const stepTime = 16;
+    const steps = totalDuration / stepTime;
+    const increment = end / steps;
     
-    let timer = setInterval(() => {
+    const timer = setInterval(() => {
       start += increment;
       if (start >= end) {
         setCount(end);
