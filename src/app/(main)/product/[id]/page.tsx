@@ -325,6 +325,22 @@ export default function ProductDetailsPage() {
               </div>
             </div>
 
+            <div className="flex flex-col sm:flex-row gap-6">
+              <button 
+                onClick={handleAcquire}
+                className="flex-1 bg-primary hover:bg-primary-hover text-black px-10 py-6 rounded-3xl font-black text-xl transition-all shadow-[0_0_30px_rgba(197,165,114,0.2)] hover:shadow-[0_0_50px_rgba(197,165,114,0.4)] hover:-translate-y-1 uppercase tracking-widest italic"
+              >
+                Buy Now
+              </button>
+              <button 
+                onClick={handleAddToCart}
+                className="px-10 py-6 rounded-3xl font-black text-xs text-white border border-white/10 hover:bg-white/5 transition-all uppercase tracking-[0.2em] flex items-center justify-center gap-3"
+              >
+                <Plus className="w-5 h-5" />
+                Add to Cart
+              </button>
+            </div>
+
             {/* Product Intelligence Panel */}
             <div className="mt-16 mb-20">
               <div className="flex items-center gap-3 mb-8">
@@ -438,22 +454,6 @@ export default function ProductDetailsPage() {
                   </motion.div>
                 </AnimatePresence>
               </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-6 mt-auto">
-              <button 
-                onClick={handleAcquire}
-                className="flex-1 bg-primary hover:bg-primary-hover text-black px-10 py-6 rounded-3xl font-black text-xl transition-all shadow-[0_0_30px_rgba(197,165,114,0.2)] hover:shadow-[0_0_50px_rgba(197,165,114,0.4)] hover:-translate-y-1 uppercase tracking-widest italic"
-              >
-                Buy Now
-              </button>
-              <button 
-                onClick={handleAddToCart}
-                className="px-10 py-6 rounded-3xl font-black text-xs text-white border border-white/10 hover:bg-white/5 transition-all uppercase tracking-[0.2em] flex items-center justify-center gap-3"
-              >
-                <Plus className="w-5 h-5" />
-                Add to Cart
-              </button>
             </div>
 
             {/* Trust Badges */}
