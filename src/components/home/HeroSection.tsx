@@ -100,7 +100,7 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="hidden lg:block relative group z-10 aspect-square w-full max-w-[750px] ml-auto overflow-hidden bg-transparent"
+          className="hidden lg:block relative group z-10 aspect-square w-full max-w-[750px] ml-auto overflow-hidden bg-transparent rounded-[2.5rem]"
         >
           {/* Background Ambient Layers: Subtle Glow Only */}
           <div className="absolute inset-0 z-0">

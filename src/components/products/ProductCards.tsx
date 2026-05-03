@@ -467,7 +467,7 @@ export function HeroProductCard(props: any) {
 
       <Link 
         href={`/product/${id}`} 
-        className="w-full lg:w-1/2 relative aspect-square lg:aspect-[4/5] overflow-hidden cursor-pointer order-1 lg:order-2 bg-transparent group/img"
+        className="w-full lg:w-1/2 relative aspect-square lg:aspect-[4/5] overflow-hidden cursor-pointer order-1 lg:order-2 bg-transparent group/img rounded-[2.5rem]"
       >
         {/* Background Option: Minimal Ambient Glow */}
         <div className="absolute inset-0 z-0">
