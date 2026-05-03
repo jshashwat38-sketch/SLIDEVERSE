@@ -106,10 +106,10 @@ export function ProductCard(props: any) {
               (e.target as HTMLImageElement).src = "https://placehold.co/400x300?text=No+Image";
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#09090B] via-transparent to-transparent opacity-30" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-white dark:from-black via-transparent to-transparent opacity-30" />
         </Link>
 
-        <div className="p-3 sm:p-4 flex flex-col flex-1 relative z-10">
+        <div className="p-3 sm:p-4 flex flex-col flex-1 relative z-10 bg-white dark:bg-black">
           <div className="mb-2">
             <Link href={isBundle ? `/bundle/${props.title?.slug || id}` : `/product/${id}`}>
               <h3 className="text-xs font-black text-white italic uppercase tracking-tighter group-hover:text-primary transition-colors cursor-pointer line-clamp-2 leading-tight">{displayTitle}</h3>
@@ -432,7 +432,7 @@ export function HeroProductCard(props: any) {
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="group bg-[#09090B] border border-white/5 rounded-[3.5rem] overflow-hidden flex flex-col lg:flex-row min-h-[500px] hover:border-primary/20 transition-all duration-700 hover:shadow-[0_0_80px_rgba(197,165,114,0.05)] relative"
+      className="group bg-white dark:bg-black border border-black/5 dark:border-white/5 rounded-[3.5rem] overflow-hidden flex flex-col lg:flex-row min-h-[500px] hover:border-primary/20 transition-all duration-700 hover:shadow-[0_0_80px_rgba(197,165,114,0.05)] relative"
     >
       <div className="flex-1 p-8 md:p-10 lg:p-16 flex flex-col justify-center relative z-10 order-2 lg:order-1">
         <div className="flex items-center gap-3 mb-8 w-full">
@@ -494,7 +494,7 @@ export function HeroProductCard(props: any) {
             alt="" 
             className="w-full h-full object-cover blur-2xl opacity-30 scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#09090B]/40 to-[#09090B]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-white dark:to-black" />
         </div>
 
         {/* Main Image Layer */}

@@ -40,7 +40,7 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
   const savings = title.mrp ? Math.round(((title.mrp - bundle.price) / title.mrp) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-primary selection:text-black">
+    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-primary selection:text-black">
       {/* Premium Hero Section */}
       <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Background Glows */}
@@ -57,7 +57,7 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
               className="relative aspect-square group"
             >
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-[3rem] blur-2xl group-hover:scale-105 transition-transform duration-700" />
-              <div className="relative h-full w-full rounded-[3rem] overflow-hidden border border-white/10 bg-zinc-900 shadow-2xl">
+              <div className="relative h-full w-full rounded-[3rem] overflow-hidden border border-black/5 dark:border-white/10 bg-white dark:bg-black shadow-2xl transition-colors duration-300">
                 <Image 
                   src={bundle.image_url || "/placeholder.jpg"} 
                   alt={title.en}
@@ -151,7 +151,7 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
       </section>
 
       {/* Product Intelligence Panel */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-black">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-black transition-colors duration-300">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-12">
             <div className="w-12 h-[1px] bg-primary/30" />

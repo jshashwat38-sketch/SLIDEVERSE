@@ -100,7 +100,7 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="hidden lg:block relative group z-10 aspect-square w-full max-w-[700px] ml-auto overflow-hidden rounded-[3rem] border border-white/10 shadow-[0_30px_70px_rgba(197,165,114,0.1)]"
+          className="hidden lg:block relative group z-10 aspect-square w-full max-w-[700px] ml-auto overflow-hidden rounded-[3rem] border border-black/5 dark:border-white/10 bg-white dark:bg-black shadow-[0_30px_70px_rgba(197,165,114,0.1)]"
         >
           {/* Background Ambient Layer */}
           <div className="absolute inset-0 z-0">
@@ -109,7 +109,7 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
               alt="" 
               className="w-full h-full object-cover blur-3xl opacity-20 scale-110"
             />
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#09090B] via-transparent to-primary/5" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-white dark:from-black via-transparent to-primary/5" />
           </div>
 
           {/* Main Visual */}

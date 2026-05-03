@@ -62,7 +62,7 @@ html:not(.dark) .bg-\[\#050505\],
 html:not(.dark) .bg-\[\#000000\],
 html:not(.dark) .bg-black,
 html:not(.dark) .bg-zinc-950 {
-  background-color: #F8F6F1 !important;
+  background-color: #FFFFFF !important;
 }
 
 @media (max-width: 768px) {
@@ -187,6 +187,14 @@ html:not(.dark) .border-white\/10 {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Dark Mode Pure Black Overrides */
+html.dark .bg-\[\#09090B\],
+html.dark .bg-\[\#0A0A0C\],
+html.dark .bg-\[\#050505\],
+html.dark .bg-zinc-900 {
+  background-color: #000000 !important;
 }
 
 /* Hide Next.js Development Indicator */
