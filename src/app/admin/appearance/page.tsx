@@ -12,6 +12,7 @@ import {
   getCategories,
   getReviews
 } from "@/actions/adminActions";
+import { useTheme } from "@/context/ThemeContext";
 import { 
   Save, 
   Send, 
@@ -49,6 +50,7 @@ export default function AppearancePage() {
   const [activeSection, setActiveSection] = useState<string>("hero");
   const [isUploading, setIsUploading] = useState<string | null>(null);
   const isLoaded = useRef(false);
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (isLoaded.current) return;
@@ -202,7 +204,7 @@ export default function AppearancePage() {
   ], []);
 
   if (!appearance) return (
-    <div className="flex items-center justify-center min-h-screen bg-[#09090B]">
+    <div className={`flex items-center justify-center min-h-screen ${theme === 'dark' ? 'bg-[#09090B]' : 'bg-[#F8F6F1]'}`}>
       <LogoLoader />
     </div>
   );
@@ -211,17 +213,17 @@ export default function AppearancePage() {
 
   return (
     <TopLevelErrorBoundary>
-      <div className="absolute inset-0 flex flex-col bg-[#09090B] overflow-hidden text-zinc-300 font-sans z-[100]">
+      <div className={`absolute inset-0 flex flex-col overflow-hidden font-sans z-[100] ${theme === 'dark' ? 'bg-[#09090B] text-zinc-300' : 'bg-[#F8F6F1] text-zinc-700'}`}>
       {/* Top Header Bar */}
-      <header className="h-16 border-b border-white/5 bg-black/40 backdrop-blur-3xl flex items-center justify-between px-6 z-50 shrink-0">
+      <header className={`h-16 border-b backdrop-blur-3xl flex items-center justify-between px-6 z-50 shrink-0 ${theme === 'dark' ? 'bg-black/40 border-white/5' : 'bg-white/80 border-zinc-200'}`}>
         <div className="flex items-center gap-6">
-          <h1 className="text-xl font-black text-white uppercase italic tracking-tighter">
+          <h1 className={`text-xl font-black uppercase italic tracking-tighter ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>
             Homepage <span className="text-primary">Visual Editor</span>
           </h1>
-          <div className="h-6 w-[1px] bg-white/10" />
+          <div className={`h-6 w-[1px] ${theme === 'dark' ? 'bg-white/10' : 'bg-zinc-200'}`} />
           <button 
             onClick={() => window.location.reload()}
-            className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-500 hover:text-white transition-all border border-white/5"
+            className={`p-2.5 rounded-xl border transition-all ${theme === 'dark' ? 'bg-white/5 border-white/5 text-zinc-500 hover:text-white' : 'bg-zinc-100 border-zinc-200 text-zinc-500 hover:text-zinc-900'}`}
             title="Refresh System"
           >
             <RotateCcw className="w-4 h-4" />
@@ -232,14 +234,14 @@ export default function AppearancePage() {
           <button 
             onClick={handleRevert}
             disabled={isReverting}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-black uppercase tracking-widest transition-all"
+            className={`flex items-center gap-2 px-6 py-3 rounded-xl border text-xs font-black uppercase tracking-widest transition-all ${theme === 'dark' ? 'bg-white/5 hover:bg-white/10 border-white/10' : 'bg-white hover:bg-zinc-50 border-zinc-200'}`}
           >
             <RotateCcw className="w-4 h-4" /> Revert
           </button>
           <button 
             onClick={handleSaveDraft}
             disabled={isSaving}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-black uppercase tracking-widest transition-all"
+            className={`flex items-center gap-2 px-6 py-3 rounded-xl border text-xs font-black uppercase tracking-widest transition-all ${theme === 'dark' ? 'bg-white/5 hover:bg-white/10 border-white/10' : 'bg-white hover:bg-zinc-50 border-zinc-200'}`}
           >
             <Save className="w-4 h-4" /> {isSaving ? "Saving..." : "Save Draft"}
           </button>
@@ -255,9 +257,9 @@ export default function AppearancePage() {
 
       <div className="flex-1 flex overflow-hidden relative">
         {/* Left Sidebar: Section Management */}
-        <aside className="w-60 border-r border-white/5 bg-black/20 flex flex-col shrink-0 overflow-y-auto custom-scrollbar">
+        <aside className={`w-60 border-r flex flex-col shrink-0 overflow-y-auto custom-scrollbar ${theme === 'dark' ? 'bg-black/20 border-white/5' : 'bg-white border-zinc-200'}`}>
           <div className="p-4">
-            <h3 className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.25em] mb-4">Page Architecture</h3>
+            <h3 className={`text-[9px] font-black uppercase tracking-[0.25em] mb-4 ${theme === 'dark' ? 'text-zinc-600' : 'text-zinc-400'}`}>Page Architecture</h3>
             <Reorder.Group 
               axis="y" 
               values={(appearance?.homepageLayout || []).filter((id: string, index: number, self: string[]) => 
@@ -281,16 +283,18 @@ export default function AppearancePage() {
                     className={`group flex items-center gap-2.5 p-2.5 rounded-lg border transition-all cursor-pointer ${
                       isActive 
                         ? "bg-primary/10 border-primary/20 text-primary" 
-                        : "bg-white/[0.01] border-white/5 hover:border-white/10 text-zinc-500"
+                        : theme === 'dark'
+                          ? "bg-white/[0.01] border-white/5 hover:border-white/10 text-zinc-500"
+                          : "bg-zinc-50 border-zinc-100 hover:border-zinc-200 text-zinc-600"
                     }`}
                     onClick={() => setActiveSection(id)}
                   >
-                    <GripVertical className="w-3 h-3 text-zinc-800 group-hover:text-zinc-600 shrink-0 cursor-grab active:cursor-grabbing" />
+                    <GripVertical className={`w-3 h-3 shrink-0 cursor-grab active:cursor-grabbing ${theme === 'dark' ? 'text-zinc-800 group-hover:text-zinc-600' : 'text-zinc-300 group-hover:text-zinc-400'}`} />
                     <config.icon className="w-3.5 h-3.5 shrink-0" />
                     <span className="text-[10px] font-bold uppercase tracking-wider flex-1 truncate">{config.name}</span>
                     <button 
                       onClick={(e) => { e.stopPropagation(); toggleVisibility(id); }}
-                      className={`p-1 rounded-md transition-all ${isVisible ? "text-primary hover:text-primary-hover" : "text-zinc-800 hover:text-zinc-600"}`}
+                      className={`p-1 rounded-md transition-all ${isVisible ? "text-primary hover:text-primary-hover" : theme === 'dark' ? "text-zinc-800 hover:text-zinc-600" : "text-zinc-300 hover:text-zinc-400"}`}
                     >
                       {isVisible ? <Eye className="w-3.5 h-3.5" /> : <X className="w-3.5 h-3.5" />}
                     </button>
@@ -302,7 +306,7 @@ export default function AppearancePage() {
         </aside>
 
         {/* Center: Editor Canvas */}
-        <main className="flex-1 flex flex-col bg-[#050505] overflow-y-auto custom-scrollbar relative">
+        <main className={`flex-1 flex flex-col overflow-y-auto custom-scrollbar relative ${theme === 'dark' ? 'bg-[#050505]' : 'bg-white'}`}>
           <div className="p-6 md:p-10 max-w-5xl mx-auto w-full pb-32">
             <AnimatePresence mode="wait">
               <motion.div
@@ -314,17 +318,17 @@ export default function AppearancePage() {
                 className="space-y-10"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-12">
-                  <div className="w-16 h-16 rounded-3xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shadow-2xl shrink-0">
+                  <div className={`w-16 h-16 rounded-3xl flex items-center justify-center text-primary border shadow-2xl shrink-0 ${theme === 'dark' ? 'bg-primary/10 border-primary/20' : 'bg-primary/5 border-primary/10'}`}>
                     {(() => {
                       const Icon = sections.find(s => s.id === activeSection)?.icon || Settings;
                       return <Icon className="w-8 h-8" />;
                     })()}
                   </div>
                   <div>
-                    <h2 className="text-4xl font-black text-white uppercase italic tracking-tighter leading-none mb-2">
+                    <h2 className={`text-4xl font-black uppercase italic tracking-tighter leading-none mb-2 ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>
                       {sections.find(s => s.id === activeSection)?.name}
                     </h2>
-                    <p className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] opacity-60">System Configuration Layer v2.0</p>
+                    <p className={`text-[10px] font-black uppercase tracking-[0.3em] opacity-60 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>System Configuration Layer v2.0</p>
                   </div>
                 </div>
 
@@ -443,7 +447,7 @@ export default function AppearancePage() {
           </div>
 
           {/* Fixed Bottom Action Bar for Editor */}
-          <div className="sticky bottom-0 left-0 w-full p-4 bg-black/80 backdrop-blur-3xl border-t border-white/10 flex items-center justify-between z-40">
+          <div className={`sticky bottom-0 left-0 w-full p-4 backdrop-blur-3xl border-t flex items-center justify-between z-40 ${theme === 'dark' ? 'bg-black/80 border-white/10' : 'bg-white/80 border-zinc-200 shadow-[0_-10px_30px_rgba(0,0,0,0.05)]'}`}>
             <div className="flex items-center gap-3">
               <button 
                 onClick={handleSaveDraft}
@@ -455,13 +459,13 @@ export default function AppearancePage() {
               <button 
                 onClick={handleRevert}
                 disabled={isReverting}
-                className="flex items-center gap-2 px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 text-white font-black text-[9px] uppercase tracking-[0.15em] transition-all border border-white/5"
+                className={`flex items-center gap-2 px-4 py-3 rounded-lg border font-black text-[9px] uppercase tracking-[0.15em] transition-all ${theme === 'dark' ? 'bg-white/5 hover:bg-white/10 text-white border-white/5' : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-900 border-zinc-200'}`}
               >
                 <RotateCcw className="w-3 h-3" /> Reset
               </button>
             </div>
             
-            <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/5">
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-full border ${theme === 'dark' ? 'bg-white/5 border-white/5' : 'bg-zinc-50 border-zinc-200'}`}>
               <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               <span className="text-[8px] font-black text-zinc-500 uppercase tracking-widest">Auto-save Enabled</span>
             </div>

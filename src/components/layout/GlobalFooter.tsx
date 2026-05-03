@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import { getAppearance } from "@/actions/adminActions";
 import Link from "next/link";
 import { Mail, Phone, ShieldCheck, FolderOpen, Zap } from "lucide-react";
-
-
+import { useTheme } from "@/context/ThemeContext";
 
 import Image from "next/image";
 
@@ -29,7 +28,7 @@ const InstagramIcon = ({ className }: { className?: string }) => (
 );
 
 export function GlobalFooter() {
-
+  const { theme } = useTheme();
   const [appearance, setAppearance] = useState<any>(null);
 
   useEffect(() => {
@@ -45,7 +44,7 @@ export function GlobalFooter() {
   ];
 
   return (
-    <footer className="bg-[#09090B] border-t border-white/5 pt-28 pb-12 px-4 sm:px-6 lg:px-8">
+    <footer className={`border-t pt-28 pb-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${theme === 'dark' ? 'bg-[#09090B] border-white/5' : 'bg-white border-zinc-200'}`}>
       <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-24 mb-20">
           {/* Brand Section */}
@@ -61,21 +60,21 @@ export function GlobalFooter() {
                   className="w-full h-full object-cover" 
                 />
               </div>
-              <h2 className="text-2xl font-black text-white italic uppercase tracking-tighter">
+              <h2 className={`text-2xl font-black italic uppercase tracking-tighter ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>
                 {appearance?.site?.name || "Slideverse"}
               </h2>
             </div>
-            <p className="text-zinc-500 text-sm font-medium leading-relaxed max-w-xs">
+            <p className={`text-sm font-medium leading-relaxed max-w-xs ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-600'}`}>
               Elevating digital storytelling through premium presentation architecture. Join the elite network of curators.
             </p>
             <div className="flex gap-4">
-              <a href="https://www.instagram.com/slideversestudio?igsh=ODJkOTFhZm8wYzY3" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-500 hover:text-primary hover:border-primary/50 transition-all active:scale-95">
+              <a href="https://www.instagram.com/slideversestudio?igsh=ODJkOTFhZm8wYzY3" target="_blank" rel="noopener noreferrer" className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all active:scale-95 ${theme === 'dark' ? 'bg-white/5 border-white/10 text-zinc-500 hover:text-primary hover:border-primary/50' : 'bg-zinc-50 border-zinc-200 text-zinc-500 hover:text-primary hover:border-primary'}`}>
                 <InstagramIcon className="w-5 h-5" />
               </a>
-              <Link href="/#featured" className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-500 hover:text-primary hover:border-primary/50 transition-all">
+              <Link href="/#featured" className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all ${theme === 'dark' ? 'bg-white/5 border-white/10 text-zinc-500 hover:text-primary hover:border-primary/50' : 'bg-zinc-50 border-zinc-200 text-zinc-500 hover:text-primary hover:border-primary'}`}>
                 <FolderOpen className="w-5 h-5" />
               </Link>
-              <a href={`mailto:${appearance?.contact?.email || "support@slideverse.pro"}`} className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-500 hover:text-primary hover:border-primary/50 transition-all">
+              <a href={`mailto:${appearance?.contact?.email || "support@slideverse.pro"}`} className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all ${theme === 'dark' ? 'bg-white/5 border-white/10 text-zinc-500 hover:text-primary hover:border-primary/50' : 'bg-zinc-50 border-zinc-200 text-zinc-500 hover:text-primary hover:border-primary'}`}>
                 <Mail className="w-5 h-5" />
               </a>
             </div>
@@ -83,11 +82,11 @@ export function GlobalFooter() {
 
           {/* Policy Links */}
           <div className="space-y-6">
-            <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] italic">Legal Framework</h3>
+            <h3 className={`text-xs font-black uppercase tracking-[0.3em] italic ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>Legal Framework</h3>
             <ul className="space-y-4">
               {policyLinks.map((link, i) => (
                 <li key={i}>
-                  <Link href={link.href} className="text-zinc-500 hover:text-primary text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2 group">
+                  <Link href={link.href} className={`hover:text-primary text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2 group ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-600'}`}>
                     <span className="w-0 h-px bg-primary transition-all group-hover:w-4" />
                     {link.label}
                   </Link>
@@ -98,7 +97,7 @@ export function GlobalFooter() {
 
           {/* Quick Navigation */}
           <div className="space-y-6">
-            <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] italic">Navigation</h3>
+            <h3 className={`text-xs font-black uppercase tracking-[0.3em] italic ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>Navigation</h3>
             <ul className="space-y-4">
               {[
                 { name: "Home", link: "/" },
@@ -108,7 +107,7 @@ export function GlobalFooter() {
                 { name: "Contact Us", link: "/#contact" }
               ].map((item, i) => (
                 <li key={i}>
-                  <Link href={item.link} className="text-zinc-500 hover:text-primary text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2 group">
+                  <Link href={item.link} className={`hover:text-primary text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2 group ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-600'}`}>
                     <span className="w-0 h-px bg-primary transition-all group-hover:w-4" />
                     {item.name}
                   </Link>
@@ -119,15 +118,15 @@ export function GlobalFooter() {
 
           {/* Contact Details */}
           <div className="space-y-6">
-            <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] italic">Communication</h3>
+            <h3 className={`text-xs font-black uppercase tracking-[0.3em] italic ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>Communication</h3>
             <div className="space-y-4">
               <a href={`mailto:${appearance?.contact?.email || "support@slideverse.pro"}`} className="flex items-center gap-4 group">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-all">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">Email Endpoint</p>
-                  <p className="text-xs font-bold text-white">{appearance?.contact?.email || "support@slideverse.pro"}</p>
+                  <p className={`text-[10px] font-black uppercase tracking-widest ${theme === 'dark' ? 'text-zinc-600' : 'text-zinc-400'}`}>Email Endpoint</p>
+                  <p className={`text-xs font-bold ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>{appearance?.contact?.email || "support@slideverse.pro"}</p>
                 </div>
               </a>
               <a href={`tel:${(appearance?.contact?.mobile || "+91 99999 99999").replace(/[^0-9+]/g, '')}`} className="flex items-center gap-4 group touch-manipulation">
@@ -135,8 +134,8 @@ export function GlobalFooter() {
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">Secure Line</p>
-                  <p className="text-xs font-bold text-white">{appearance?.contact?.mobile || "+91 99999 99999"}</p>
+                  <p className={`text-[10px] font-black uppercase tracking-widest ${theme === 'dark' ? 'text-zinc-600' : 'text-zinc-400'}`}>Secure Line</p>
+                  <p className={`text-xs font-bold ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>{appearance?.contact?.mobile || "+91 99999 99999"}</p>
                 </div>
               </a>
             </div>
@@ -144,51 +143,31 @@ export function GlobalFooter() {
         </div>
 
         {/* Footer Trust Area */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-y border-white/5 mb-12">
-          <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left group">
-            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-zinc-600 group-hover:text-primary group-hover:border-primary/20 border border-transparent transition-all">
-              <ShieldCheck className="w-5 h-5" />
+        <div className={`grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-y mb-12 ${theme === 'dark' ? 'border-white/5' : 'border-zinc-100'}`}>
+          {[
+            { icon: ShieldCheck, title: "Secure Payments", subtitle: "100% Encrypted" },
+            { icon: Zap, title: "Fast Delivery", subtitle: "Instant Activation" },
+            { icon: Mail, title: "Expert Support", subtitle: "24/7 Assistance" },
+            { icon: FolderOpen, title: "Premium Assets", subtitle: "Elite Templates" }
+          ].map((stat, i) => (
+            <div key={i} className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left group">
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center border border-transparent transition-all ${theme === 'dark' ? 'bg-white/5 text-zinc-600 group-hover:text-primary group-hover:border-primary/20' : 'bg-zinc-50 text-zinc-400 group-hover:text-primary group-hover:border-primary'}`}>
+                <stat.icon className="w-5 h-5" />
+              </div>
+              <div>
+                <p className={`text-[10px] font-black uppercase tracking-widest mb-0.5 ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>{stat.title}</p>
+                <p className={`text-[9px] font-bold uppercase tracking-widest ${theme === 'dark' ? 'text-zinc-600' : 'text-zinc-400'}`}>{stat.subtitle}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-[10px] font-black text-white uppercase tracking-widest mb-0.5">Secure Payments</p>
-              <p className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">100% Encrypted</p>
-            </div>
-          </div>
-          <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left group">
-            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-zinc-600 group-hover:text-primary group-hover:border-primary/20 border border-transparent transition-all">
-              <Zap className="w-5 h-5" />
-            </div>
-            <div>
-              <p className="text-[10px] font-black text-white uppercase tracking-widest mb-0.5">Fast Delivery</p>
-              <p className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">Instant Activation</p>
-            </div>
-          </div>
-          <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left group">
-            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-zinc-600 group-hover:text-primary group-hover:border-primary/20 border border-transparent transition-all">
-              <Mail className="w-5 h-5" />
-            </div>
-            <div>
-              <p className="text-[10px] font-black text-white uppercase tracking-widest mb-0.5">Expert Support</p>
-              <p className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">24/7 Assistance</p>
-            </div>
-          </div>
-          <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left group">
-            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-zinc-600 group-hover:text-primary group-hover:border-primary/20 border border-transparent transition-all">
-              <FolderOpen className="w-5 h-5" />
-            </div>
-            <div>
-              <p className="text-[10px] font-black text-white uppercase tracking-widest mb-0.5">Premium Assets</p>
-              <p className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">Elite Templates</p>
-            </div>
-          </div>
+          ))}
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.3em] italic text-center md:text-left">
+        <div className={`pt-10 border-t flex flex-col md:flex-row justify-between items-center gap-6 ${theme === 'dark' ? 'border-white/5' : 'border-zinc-100'}`}>
+          <p className={`text-[10px] font-black uppercase tracking-[0.3em] italic text-center md:text-left ${theme === 'dark' ? 'text-zinc-600' : 'text-zinc-400'}`}>
             © 2024 {appearance?.site?.name || "Slideverse"} Studio. All rights reserved. Built for the elite.
           </p>
-          <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10">
+          <div className={`flex items-center gap-2 px-4 py-2 rounded-full border ${theme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-zinc-50 border-zinc-200'}`}>
             <ShieldCheck className="w-3 h-3 text-primary" />
             <span className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Encrypted Session</span>
           </div>
@@ -196,5 +175,6 @@ export function GlobalFooter() {
 
       </div>
     </footer>
+
   );
 }
