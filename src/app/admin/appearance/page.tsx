@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { 
   getProductsAdmin,
   getAppearance,
@@ -208,13 +208,7 @@ export default function AppearancePage() {
     setIsUploading(null);
   };
 
-  if (!appearance) return (
-    <div className="flex items-center justify-center min-h-screen bg-[#09090B]">
-      <LogoLoader />
-    </div>
-  );
-
-  const sections = [
+  const sections = useMemo(() => [
     { id: 'hero', name: 'Hero Banner', icon: Layout },
     { id: 'trust', name: 'Trust Stats', icon: Star },
     { id: 'featured', name: 'Featured Additions', icon: Sparkles },
@@ -225,10 +219,19 @@ export default function AppearancePage() {
     { id: 'story', name: 'The Story', icon: Type },
     { id: 'testimonials', name: 'Testimonials', icon: Mail },
     { id: 'contact', name: 'Contact Hub', icon: Phone },
-  ];
+  ], []);
+
+  if (!appearance) return (
+    <div className="flex items-center justify-center min-h-screen bg-[#09090B]">
+      <LogoLoader />
+    </div>
+  );
+
+  console.log("AppearancePage: Rendering core UI...");
 
   return (
-    <div className="absolute inset-0 flex flex-col bg-[#09090B] overflow-hidden text-zinc-300 font-sans z-[100]">
+    <TopLevelErrorBoundary>
+      <div className="absolute inset-0 flex flex-col bg-[#09090B] overflow-hidden text-zinc-300 font-sans z-[100]">
       {/* Top Header Bar */}
       <header className="h-16 border-b border-white/5 bg-black/40 backdrop-blur-3xl flex items-center justify-between px-6 z-50 shrink-0">
         <div className="flex items-center gap-6">
@@ -470,7 +473,6 @@ export default function AppearancePage() {
                   </div>
                 )}
 
-                {/* ... (rest of sections) */}
 
               </motion.div>
             </AnimatePresence>
@@ -584,6 +586,44 @@ export default function AppearancePage() {
       `}</style>
     </div>
   );
+}
+
+// Top Level Error Boundary
+class TopLevelErrorBoundary extends React.Component<any, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error: any) {
+    return { hasError: true, error };
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-[#09090B] flex items-center justify-center p-12 text-center">
+          <div className="max-w-xl">
+            <div className="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-8 border border-red-500/20">
+              <X className="w-10 h-10 text-red-500" />
+            </div>
+            <h1 className="text-4xl font-black text-white uppercase italic tracking-tighter mb-4">Kernel Panic</h1>
+            <p className="text-zinc-500 text-xs uppercase tracking-[0.3em] leading-relaxed mb-10">
+              A critical rendering exception has occurred in the CMS core. The system has been halted to prevent data corruption.
+            </p>
+            <div className="bg-black/40 border border-white/5 p-6 rounded-2xl mb-10 text-left">
+              <p className="text-[10px] font-mono text-red-400 break-all">{this.state.error?.toString()}</p>
+            </div>
+            <button 
+              onClick={() => window.location.reload()}
+              className="px-10 py-4 bg-white text-black font-black text-xs uppercase tracking-widest rounded-xl hover:bg-zinc-200 transition-all"
+            >
+              Reboot Terminal
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
 }
 
 // Error Boundary for Preview

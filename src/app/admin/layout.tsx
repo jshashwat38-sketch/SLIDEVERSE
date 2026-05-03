@@ -132,9 +132,9 @@ export default function AdminLayout({
           </button>
           <button 
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className={`p-2 rounded-lg ${theme === 'dark' ? 'bg-white/5 text-white' : 'bg-zinc-50 text-zinc-900 border border-zinc-200'}`}
+            className={`p-1.5 rounded-lg ${theme === 'dark' ? 'bg-white/5 text-white' : 'bg-zinc-50 text-zinc-900 border border-zinc-200'}`}
           >
-            {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
@@ -202,7 +202,7 @@ export default function AdminLayout({
           </button>
         </div>
         
-        <div className="max-w-[1600px] w-[95%] mx-auto 2xl:max-w-[1800px] p-6 lg:p-12">
+        <div className="max-w-[1600px] w-[96%] mx-auto 2xl:max-w-[1800px] p-4 lg:p-8">
           {children}
         </div>
       </main>
