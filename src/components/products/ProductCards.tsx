@@ -486,39 +486,46 @@ export function HeroProductCard(props: any) {
         </div>
       </div>
 
-      <Link href={`/product/${id}`} className="w-full lg:w-1/2 relative aspect-square lg:aspect-auto lg:min-h-full overflow-hidden cursor-pointer order-1 lg:order-2 bg-black/40">
-        {/* Background Blur Layer */}
+      <Link 
+        href={`/product/${id}`} 
+        className="w-full lg:w-1/2 relative aspect-square lg:aspect-[4/5] overflow-hidden cursor-pointer order-1 lg:order-2 bg-gradient-to-br from-black via-zinc-900 to-black group/img"
+      >
+        {/* Background Option B: Blurred Duplicate */}
         <div className="absolute inset-0 z-0">
           <img 
             src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
             alt="" 
-            className="w-full h-full object-cover blur-2xl opacity-30 scale-110"
+            className="w-full h-full object-cover blur-3xl opacity-40 scale-125"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-white dark:to-black" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60" />
         </div>
 
-        {/* Main Image Layer */}
-        <div className="absolute inset-0 z-10 flex items-center justify-center p-6 md:p-12">
+        {/* Main Image Layer: Immersive Frame */}
+        <div className="absolute inset-0 z-10 flex items-center justify-center p-8 md:p-12 lg:p-16">
           <motion.img 
             initial={{ scale: 1 }}
-            animate={{ scale: 1.03 }}
+            animate={{ scale: 1.02 }}
             transition={{ 
-              duration: 8, 
+              duration: 10, 
               repeat: Infinity, 
               repeatType: "reverse", 
               ease: "easeInOut" 
             }}
             src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
             alt={displayTitle} 
-            className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]" 
+            className="w-full h-full object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.8)] select-none" 
             onError={(e) => {
               (e.target as HTMLImageElement).src = "https://placehold.co/800x400?text=No+Image";
             }}
           />
         </div>
         
-        {/* Decorative ambient glow */}
-        <div className="absolute -bottom-1/4 -right-1/4 w-full h-full bg-primary/10 blur-[120px] rounded-full z-20 pointer-events-none" />
+        {/* Premium Frame Styling: Gold Glow & Inner Shadow */}
+        <div className="absolute inset-0 border-l border-white/10 pointer-events-none z-20 shadow-[inset_0_0_100px_rgba(0,0,0,0.5)]" />
+        <div className="absolute inset-0 opacity-0 group-hover/img:opacity-100 transition-opacity duration-700 pointer-events-none z-30 border border-primary/20 rounded-none shadow-[0_0_50px_rgba(197,165,114,0.1)]" />
+        
+        {/* Subtle cinematic glow */}
+        <div className="absolute -top-1/4 -left-1/4 w-full h-full bg-primary/5 blur-[120px] rounded-full z-0 pointer-events-none" />
       </Link>
     </motion.div>
   );
