@@ -142,11 +142,11 @@ export default function CategoryShowcase({ products, categories, language, t }: 
               </div>
             </div>
 
-            {/* Mobile Premium Category Grid - 2 Options Per Strip */}
+            {/* Mobile Premium Category Grid - 3 Options Per Strip */}
             <div className="md:hidden mb-12 px-4">
-              <div className="flex flex-col items-center gap-6">
+              <div className="flex flex-col items-center gap-5">
                 <span className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.4em] italic opacity-60">ACTIVE SECTORS</span>
-                <div className="grid grid-cols-2 gap-3 w-full max-w-sm mx-auto">
+                <div className="grid grid-cols-3 gap-2 w-full max-w-md mx-auto">
                   {categories.map((cat) => {
                     const catName = typeof cat.title === 'object' ? (cat.title[language] || cat.title.en) : cat.title;
                     const isActive = cat.id === selectedCategoryId;
@@ -154,9 +154,9 @@ export default function CategoryShowcase({ products, categories, language, t }: 
                       <button
                         key={cat.id}
                         onClick={() => setSelectedCategoryId(cat.id)}
-                        className={`py-3 px-2 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all duration-300 border text-center truncate ${
+                        className={`py-2 px-1 rounded-lg font-black text-[9px] uppercase tracking-wider transition-all duration-300 border text-center truncate ${
                           isActive 
-                            ? 'bg-primary text-black border-primary shadow-[0_5px_15px_rgba(197,165,114,0.2)] scale-105' 
+                            ? 'bg-primary text-black border-primary shadow-[0_4px_10px_rgba(197,165,114,0.2)]' 
                             : 'bg-zinc-100 dark:bg-[#0B0B0D] text-zinc-500 dark:text-zinc-500 border-zinc-200 dark:border-white/5'
                         }`}
                       >
