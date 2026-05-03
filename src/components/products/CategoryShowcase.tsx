@@ -142,34 +142,28 @@ export default function CategoryShowcase({ products, categories, language, t }: 
               </div>
             </div>
 
-            {/* Mobile Premium Text Slider - Minimalist Chip Strip */}
-            <div className="md:hidden mb-12">
-              <div className="flex flex-col items-center gap-4">
+            {/* Mobile Premium Category Grid - 2 Options Per Strip */}
+            <div className="md:hidden mb-12 px-4">
+              <div className="flex flex-col items-center gap-6">
                 <span className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.4em] italic opacity-60">ACTIVE SECTORS</span>
-                <div className="w-full overflow-x-auto scrollbar-none">
-                  <div className="flex items-center gap-4 px-4 whitespace-nowrap min-w-max mx-auto justify-center">
-                    {categories.map((cat, idx) => {
-                      const catName = typeof cat.title === 'object' ? (cat.title[language] || cat.title.en) : cat.title;
-                      const isActive = cat.id === selectedCategoryId;
-                      return (
-                        <div key={cat.id} className="flex items-center gap-4">
-                          <button
-                            onClick={() => setSelectedCategoryId(cat.id)}
-                            className={`text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300 cursor-pointer ${
-                              isActive 
-                                ? 'text-primary italic scale-110' 
-                                : 'text-zinc-400 dark:text-zinc-600 hover:text-zinc-900 dark:hover:text-white'
-                            }`}
-                          >
-                            {catName}
-                          </button>
-                          {idx < categories.length - 1 && (
-                            <span className="w-1 h-1 rounded-full bg-primary/30" />
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
+                <div className="grid grid-cols-2 gap-3 w-full max-w-sm mx-auto">
+                  {categories.map((cat) => {
+                    const catName = typeof cat.title === 'object' ? (cat.title[language] || cat.title.en) : cat.title;
+                    const isActive = cat.id === selectedCategoryId;
+                    return (
+                      <button
+                        key={cat.id}
+                        onClick={() => setSelectedCategoryId(cat.id)}
+                        className={`py-3 px-2 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all duration-300 border text-center truncate ${
+                          isActive 
+                            ? 'bg-primary text-black border-primary shadow-[0_5px_15px_rgba(197,165,114,0.2)] scale-105' 
+                            : 'bg-zinc-100 dark:bg-[#0B0B0D] text-zinc-500 dark:text-zinc-500 border-zinc-200 dark:border-white/5'
+                        }`}
+                      >
+                        {catName}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -201,22 +195,21 @@ export default function CategoryShowcase({ products, categories, language, t }: 
               ref={sliderRef}
               className="flex gap-8 overflow-x-auto snap-x snap-mandatory scrollbar-none select-none pb-12"
             >
-              {isLoading ? (
-                [1, 2, 3, 4].map((n) => (
-                  <div key={`skel-${n}`} className="snap-start shrink-0 w-[45%] md:w-[30%] lg:w-[23%] bg-white dark:bg-[#09090B] border border-zinc-200 dark:border-white/5 rounded-3xl overflow-hidden flex flex-col animate-pulse shadow-sm">
-                    <div className="aspect-square bg-zinc-100 dark:bg-zinc-800" />
-                    <div className="p-4 flex flex-col flex-1 space-y-3">
-                      <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-3/4" />
-                      <div className="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-1/2" />
-                      <div className="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-1/4 mt-auto" />
-                    </div>
+              {(isLoading || filtered.length === 0) ? (
+                <div className="w-full text-center py-24 bg-white/[0.01] border border-zinc-200 dark:border-white/5 rounded-[2.5rem] flex flex-col items-center justify-center gap-6">
+                  <div className="relative flex items-center justify-center w-16 h-16">
+                    <div className="absolute inset-0 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
+                    <Package className="w-6 h-6 text-primary/40" />
                   </div>
-                ))
-              ) : filtered.length === 0 ? (
-                <div className="w-full text-center py-16 bg-white/[0.01] border border-zinc-200 dark:border-white/5 rounded-[2.5rem]">
-                  <span className="text-xs text-zinc-500 font-bold uppercase tracking-widest flex items-center justify-center gap-2 animate-pulse">
-                    <div className="w-2 h-2 rounded-full bg-primary" /> Your content is loading...
-                  </span>
+                  <div className="space-y-2">
+                    <span className="text-xs text-zinc-500 font-black uppercase tracking-[0.4em] flex items-center justify-center gap-3 animate-pulse">
+                      <div className="w-1.5 h-1.5 rounded-full bg-primary" /> 
+                      Your content is loading...
+                    </span>
+                    <p className="text-[9px] text-zinc-400 dark:text-zinc-600 uppercase tracking-widest font-black italic">
+                      Staging {selectedCatName} assets from the vault
+                    </p>
+                  </div>
                 </div>
               ) : (
                 filtered.map((prod) => {
