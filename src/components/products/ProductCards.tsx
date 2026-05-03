@@ -184,7 +184,7 @@ export function ProductCard(props: any) {
         animate={{ opacity: 1, y: 0 }}
         className="group bg-[#09090B] border border-white/5 rounded-[2.5rem] overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,165,114,0.05)] relative"
       >
-        <Link href={bundleHref} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer">
+        <Link href={bundleHref} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-t-[2.5rem]">
           <img 
             src={displayImage || "https://placehold.co/600x400?text=No+Image"} 
             alt={displayTitle} 
@@ -292,7 +292,7 @@ export function ProductCard(props: any) {
       animate={{ opacity: 1, y: 0 }}
       className="group bg-[#09090B] border border-white/5 rounded-[2.5rem] overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,165,114,0.05)] relative"
     >
-      <Link href={`/product/${id}`} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer">
+      <Link href={`/product/${id}`} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-t-[2.5rem]">
         <img 
           src={displayImage || "https://placehold.co/600x400?text=No+Image"} 
           alt={displayTitle} 
@@ -487,7 +487,7 @@ export function HeroProductCard(props: any) {
             }}
             src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
             alt={displayTitle} 
-            className="w-full h-full object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.6)] select-none rounded-[3rem]" 
+            className="w-full h-full object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.6)] select-none rounded-3xl" 
             onError={(e) => {
               (e.target as HTMLImageElement).src = "https://placehold.co/800x400?text=No+Image";
             }}

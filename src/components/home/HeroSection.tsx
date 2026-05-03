@@ -126,7 +126,7 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
                 alt="Hero Visual"
                 width={800}
                 height={800}
-                className="w-full h-full object-contain drop-shadow-[0_50px_100px_rgba(0,0,0,0.6)] select-none rounded-[3.5rem]"
+                className="w-full h-full object-contain drop-shadow-[0_50px_100px_rgba(0,0,0,0.6)] select-none rounded-3xl"
                 priority
               />
             </motion.div>
