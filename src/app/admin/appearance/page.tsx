@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { 
   getProductsAdmin,
   getAppearance,
@@ -288,9 +288,9 @@ export default function AppearancePage() {
 
       <div className="flex-1 flex overflow-hidden relative">
         {/* Left Sidebar: Section Management */}
-        <aside className="w-64 border-r border-white/5 bg-black/20 flex flex-col shrink-0 overflow-y-auto custom-scrollbar">
-          <div className="p-6">
-            <h3 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-6">Page Architecture</h3>
+        <aside className="w-60 border-r border-white/5 bg-black/20 flex flex-col shrink-0 overflow-y-auto custom-scrollbar">
+          <div className="p-4">
+            <h3 className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.25em] mb-4">Page Architecture</h3>
             <Reorder.Group 
               axis="y" 
               values={(appearance?.homepageLayout || []).filter((id: string, index: number, self: string[]) => 
@@ -311,21 +311,21 @@ export default function AppearancePage() {
                   <Reorder.Item 
                     key={id} 
                     value={id}
-                    className={`group flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
+                    className={`group flex items-center gap-2.5 p-2.5 rounded-lg border transition-all cursor-pointer ${
                       isActive 
                         ? "bg-primary/10 border-primary/20 text-primary" 
-                        : "bg-white/[0.02] border-white/5 hover:border-white/10 text-zinc-400"
+                        : "bg-white/[0.01] border-white/5 hover:border-white/10 text-zinc-500"
                     }`}
                     onClick={() => setActiveSection(id)}
                   >
-                    <GripVertical className="w-4 h-4 text-zinc-700 group-hover:text-zinc-500 shrink-0 cursor-grab active:cursor-grabbing" />
-                    <config.icon className="w-4 h-4 shrink-0" />
-                    <span className="text-xs font-bold uppercase tracking-wider flex-1 truncate">{config.name}</span>
+                    <GripVertical className="w-3 h-3 text-zinc-800 group-hover:text-zinc-600 shrink-0 cursor-grab active:cursor-grabbing" />
+                    <config.icon className="w-3.5 h-3.5 shrink-0" />
+                    <span className="text-[10px] font-bold uppercase tracking-wider flex-1 truncate">{config.name}</span>
                     <button 
                       onClick={(e) => { e.stopPropagation(); toggleVisibility(id); }}
-                      className={`p-1 rounded-md transition-all ${isVisible ? "text-primary hover:text-primary-hover" : "text-zinc-700 hover:text-zinc-500"}`}
+                      className={`p-1 rounded-md transition-all ${isVisible ? "text-primary hover:text-primary-hover" : "text-zinc-800 hover:text-zinc-600"}`}
                     >
-                      {isVisible ? <Eye className="w-4 h-4" /> : <X className="w-4 h-4" />}
+                      {isVisible ? <Eye className="w-3.5 h-3.5" /> : <X className="w-3.5 h-3.5" />}
                     </button>
                   </Reorder.Item>
                 );
@@ -477,21 +477,21 @@ export default function AppearancePage() {
           </div>
 
           {/* Fixed Bottom Action Bar for Editor */}
-          <div className="sticky bottom-0 left-0 w-full p-6 bg-black/80 backdrop-blur-3xl border-t border-white/10 flex items-center justify-between z-40">
-            <div className="flex items-center gap-4">
+          <div className="sticky bottom-0 left-0 w-full p-4 bg-black/80 backdrop-blur-3xl border-t border-white/10 flex items-center justify-between z-40">
+            <div className="flex items-center gap-3">
               <button 
                 onClick={handleSaveDraft}
                 disabled={isSaving}
-                className="flex items-center gap-3 px-8 py-4 rounded-xl bg-primary hover:bg-primary-hover text-black font-black text-xs uppercase tracking-[0.2em] transition-all shadow-[0_10px_20px_rgba(197,165,114,0.2)] disabled:opacity-50"
+                className="flex items-center gap-2 px-6 py-3 rounded-lg bg-primary hover:bg-primary-hover text-black font-black text-[10px] uppercase tracking-[0.15em] transition-all shadow-xl disabled:opacity-50"
               >
-                <Save className="w-5 h-5" /> {isSaving ? "Saving..." : "Save Draft"}
+                <Save className="w-4 h-4" /> {isSaving ? "Archiving..." : "Save Draft"}
               </button>
               <button 
                 onClick={handleRevert}
                 disabled={isReverting}
-                className="flex items-center gap-3 px-6 py-4 rounded-xl bg-white/5 hover:bg-white/10 text-white font-black text-[10px] uppercase tracking-[0.2em] transition-all border border-white/5"
+                className="flex items-center gap-2 px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 text-white font-black text-[9px] uppercase tracking-[0.15em] transition-all border border-white/5"
               >
-                <RotateCcw className="w-4 h-4" /> Reset
+                <RotateCcw className="w-3 h-3" /> Reset
               </button>
             </div>
             
@@ -545,12 +545,14 @@ export default function AppearancePage() {
                   </div>
                 ) : (
                   <div className="h-full w-full pointer-events-none">
-                    <HomeClient 
-                      initialAppearance={appearance} 
-                      initialProducts={products} 
-                      initialReviews={reviews} 
-                      isEditor={true} 
-                    />
+                    <PreviewErrorBoundary>
+                      <HomeClient 
+                        initialAppearance={appearance} 
+                        initialProducts={products} 
+                        initialReviews={reviews} 
+                        isEditor={true} 
+                      />
+                    </PreviewErrorBoundary>
                   </div>
                 )}
               </div>
@@ -584,7 +586,39 @@ export default function AppearancePage() {
   );
 }
 
-// Helper Components
+// Error Boundary for Preview
+class PreviewErrorBoundary extends React.Component<any, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError(error: any) {
+    return { hasError: true };
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="p-12 text-center bg-black/40 h-full flex flex-col items-center justify-center border border-primary/20 rounded-3xl m-8">
+          <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+            <X className="w-8 h-8 text-primary" />
+          </div>
+          <h2 className="text-xl font-black text-white uppercase italic tracking-tighter mb-2">Preview Interrupted</h2>
+          <p className="text-zinc-500 text-[10px] uppercase tracking-widest max-w-xs">The current draft configuration has caused a rendering exception. Please adjust your settings or revert to the last stable state.</p>
+          <button 
+            onClick={() => this.setState({ hasError: false })}
+            className="mt-6 px-6 py-2 bg-primary text-black text-[8px] font-black uppercase tracking-widest rounded-lg"
+          >
+            Attempt Restoration
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+function EditorField({ label, value, onChange, type = "text", rows = 3 }: any) {
+  return (
     <div className="space-y-2">
       <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] ml-2">{label}</label>
       {type === "textarea" ? (
