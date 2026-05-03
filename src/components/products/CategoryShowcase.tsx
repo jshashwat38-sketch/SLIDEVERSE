@@ -258,7 +258,11 @@ export default function CategoryShowcase({ products, categories, language, t, is
                     }}
                   >
                     <div className="bg-white dark:bg-[#09090B] border border-zinc-200 dark:border-white/5 rounded-3xl overflow-hidden h-full flex flex-col hover:border-primary/20 transition-all duration-500 shadow-sm">
-                      <Link href={`/product/${prod.id}`} className="block aspect-square bg-black overflow-hidden relative cursor-pointer">
+                      {/* Main Card Link */}
+                      <Link 
+                        href={typeof prod.title === 'object' && prod.title?.is_bundle ? `/bundle/${prod.title?.slug || prod.id}` : `/product/${prod.id}`} 
+                        className="block aspect-square bg-black overflow-hidden relative cursor-pointer"
+                      >
                         <img
                           src={prod.image_url || prod.imageUrl || (prod.images && prod.images[0]) || "https://placehold.co/1000x1000?text=No+Asset"}
                           alt={titleStr}
@@ -276,7 +280,7 @@ export default function CategoryShowcase({ products, categories, language, t, is
                       </Link>
 
                       <div className="p-4 flex flex-col flex-1">
-                        <Link href={`/product/${prod.id}`}>
+                        <Link href={typeof prod.title === 'object' && prod.title?.is_bundle ? `/bundle/${prod.title?.slug || prod.id}` : `/product/${prod.id}`}>
                           <h3 className="text-xs sm:text-sm font-black text-zinc-900 dark:text-white uppercase italic tracking-tight line-clamp-1 hover:text-primary cursor-pointer">{titleStr}</h3>
                         </Link>
                         <p className="text-[9px] text-zinc-600 font-black uppercase tracking-widest mt-1">{selectedCatName}</p>
@@ -309,12 +313,17 @@ export default function CategoryShowcase({ products, categories, language, t, is
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              addToCart({ id: prod.id, title: titleStr, price: prod.price, imageUrl: prod.image_url || prod.imageUrl || (prod.images && prod.images[0]) || "" });
-                              router.push("/cart");
+                              const isBundle = typeof prod.title === 'object' && prod.title?.is_bundle;
+                              if (isBundle) {
+                                router.push(`/bundle/${prod.title?.slug || prod.id}`);
+                              } else {
+                                addToCart({ id: prod.id, title: titleStr, price: prod.price, imageUrl: prod.image_url || prod.imageUrl || (prod.images && prod.images[0]) || "" });
+                                router.push("/cart");
+                              }
                             }}
                             className="w-full bg-primary hover:bg-primary-hover text-black font-black text-xs py-2.5 rounded-xl uppercase tracking-wider cursor-pointer transition-all shadow-lg text-center"
                           >
-                            {t("buy_now")}
+                            {typeof prod.title === 'object' && prod.title?.is_bundle ? "Explore Bundle" : t("buy_now")}
                           </button>
                         </motion.div>
                       )}
@@ -397,16 +406,23 @@ export default function CategoryShowcase({ products, categories, language, t, is
                 <div className="text-2xl font-black text-primary font-mono">₹{activeMobilePopup.price}</div>
               </div>
 
-              <button
+               <button
                 onClick={() => {
                   const titleStr = typeof activeMobilePopup.title === 'object' ? (activeMobilePopup.title[language] || activeMobilePopup.title.en) : activeMobilePopup.title;
-                  addToCart({ id: activeMobilePopup.id, title: titleStr, price: activeMobilePopup.price, imageUrl: activeMobilePopup.image_url || activeMobilePopup.imageUrl || (activeMobilePopup.images && activeMobilePopup.images[0]) || "" });
-                  setActiveMobilePopup(null);
-                  router.push("/cart");
+                  const isBundle = typeof activeMobilePopup.title === 'object' && activeMobilePopup.title?.is_bundle;
+                  
+                  if (isBundle) {
+                    setActiveMobilePopup(null);
+                    router.push(`/bundle/${activeMobilePopup.title?.slug || activeMobilePopup.id}`);
+                  } else {
+                    addToCart({ id: activeMobilePopup.id, title: titleStr, price: activeMobilePopup.price, imageUrl: activeMobilePopup.image_url || activeMobilePopup.imageUrl || (activeMobilePopup.images && activeMobilePopup.images[0]) || "" });
+                    setActiveMobilePopup(null);
+                    router.push("/cart");
+                  }
                 }}
                 className="w-full bg-primary text-black font-black text-sm py-4 rounded-2xl uppercase tracking-widest cursor-pointer shadow-xl text-center"
               >
-                {t("buy_now")}
+                {typeof activeMobilePopup.title === 'object' && activeMobilePopup.title?.is_bundle ? "Explore Bundle Entity" : t("buy_now")}
               </button>
             </motion.div>
           </>

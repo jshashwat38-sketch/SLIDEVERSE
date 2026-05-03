@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Save, Image as ImageIcon, Link as LinkIcon, AlertCircle, Package, FolderOpen, Trash2, Edit2, X, Sparkles } from "lucide-react";
+import { Plus, Save, Image as ImageIcon, Link as LinkIcon, AlertCircle, Package, FolderOpen, Trash2, Edit2, X, Sparkles, FileText, List, Files, Target, ChevronDown, ChevronUp } from "lucide-react";
 import { addProduct, getProducts, updateProduct, deleteProduct } from "@/actions/productActions";
 import { getCategories } from "@/actions/adminActions";
 import { toast } from "react-hot-toast";
@@ -14,16 +14,19 @@ export default function ProductsPage() {
   const [products, setProducts] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [expandedCard, setExpandedCard] = useState<string | null>("description");
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     price: "",
     driveLink: "",
-    features: "",
     categoryId: "",
     isBestseller: false,
     isTop9: false,
-    mrp: ""
+    mrp: "",
+    features: [] as string[],
+    includedFiles: [] as string[],
+    useCases: [] as string[]
   });
 
   const [imageUrls, setImageUrls] = useState<string[]>(["", "", "", "", "", ""]);
@@ -52,7 +55,19 @@ export default function ProductsPage() {
   const resetForm = () => {
     setIsAdding(false);
     setEditingId(null);
-    setFormData({ title: "", description: "", price: "", driveLink: "", features: "", categoryId: categories[0]?.id || "", isBestseller: false, isTop9: false, mrp: "" });
+    setFormData({ 
+      title: "", 
+      description: "", 
+      price: "", 
+      driveLink: "", 
+      features: [], 
+      categoryId: categories[0]?.id || "", 
+      isBestseller: false, 
+      isTop9: false, 
+      mrp: "",
+      includedFiles: [],
+      useCases: []
+    });
     setImageUrls(["", "", "", "", "", ""]);
     setImageFiles([null, null, null, null, null, null]);
     setFaqs(Array.from({ length: 7 }, () => ({ question: "", answer: "" })));
@@ -65,11 +80,12 @@ export default function ProductsPage() {
       description: typeof product.description === 'object' && product.description !== null ? (product.description.en || Object.values(product.description)[0] || "") : (product.description || ""),
       price: product.price ? product.price.toString() : "",
       driveLink: product.drive_link || "",
-      features: Array.isArray(product.features) ? product.features.join(", ") : "",
-      categoryId: product.category_id || "",
       isBestseller: product.is_bestseller || (typeof product.title === 'object' && product.title?.is_bestseller) || false,
       isTop9: product.is_top9 || (typeof product.title === 'object' && product.title?.is_top9) || false,
-      mrp: typeof product.title === 'object' && product.title !== null ? (product.title.mrp || "").toString() : ""
+      mrp: typeof product.title === 'object' && product.title !== null ? (product.title.mrp || "").toString() : "",
+      features: Array.isArray(product.features) ? product.features : [],
+      includedFiles: product.description?.included_files || [],
+      useCases: product.description?.use_cases || []
     });
     
     const existingImages = product.images || [product.image_url];
@@ -119,11 +135,18 @@ export default function ProductsPage() {
       data.append("title", formData.title);
       data.append("description", formData.description);
       data.append("price", formData.price);
-      data.append("features", formData.features);
-      data.append("driveLink", formData.driveLink);
-      data.append("categoryId", formData.categoryId);
       data.append("isBestseller", String(formData.isBestseller));
       data.append("mrp", formData.mrp);
+      
+      formData.features.forEach(f => {
+        if (f.trim()) data.append("features", f.trim());
+      });
+      formData.includedFiles.forEach(f => {
+        if (f.trim()) data.append("includedFiles", f.trim());
+      });
+      formData.useCases.forEach(u => {
+        if (u.trim()) data.append("useCases", u.trim());
+      });
       
       console.log("Form data assembled. Title:", formData.title);
 
@@ -234,18 +257,210 @@ export default function ProductsPage() {
                   </select>
                 </div>
                 
-                <div className="md:col-span-2">
-                  <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-3 ml-4">Entity Description</label>
-                  <textarea
-                    rows={3}
-                    value={(() => {
-                      const val = formData.description;
-                      return typeof val === 'object' && val !== null ? ((val as any).en || Object.values(val)[0] || "") : (val || "");
-                    })()}
-                    onChange={(e) => setFormData({...formData, description: e.target.value})}
-                    className="w-full px-8 py-5 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-[1.5rem] focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400 resize-none font-medium text-sm leading-relaxed"
-                    placeholder="PROVIDE SYSTEM SPECIFICATIONS..."
-                  />
+                {/* Intelligence Panel Section */}
+                <div className="md:col-span-2 space-y-6">
+                  <div className="flex items-center gap-4 mb-8">
+                    <div className="h-[1px] flex-1 bg-white/5" />
+                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.4em] italic">Product Intelligence Panel Editor</span>
+                    <div className="h-[1px] flex-1 bg-white/5" />
+                  </div>
+
+                  {/* 1. Description Card */}
+                  <div className="bg-white/[0.02] border border-white/5 rounded-[2rem] overflow-hidden transition-all">
+                    <button 
+                      type="button"
+                      onClick={() => setExpandedCard(expandedCard === 'description' ? null : 'description')}
+                      className="w-full px-8 py-6 flex items-center justify-between hover:bg-white/[0.02] transition-colors"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                          <FileText className="w-5 h-5" />
+                        </div>
+                        <span className="text-sm font-black text-white uppercase tracking-widest italic">1. Description</span>
+                      </div>
+                      {expandedCard === 'description' ? <ChevronUp className="w-5 h-5 text-zinc-500" /> : <ChevronDown className="w-5 h-5 text-zinc-500" />}
+                    </button>
+                    {expandedCard === 'description' && (
+                      <div className="p-8 pt-0 border-t border-white/5 bg-black/20">
+                        <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-4 mt-6">Rich Formatted Description</label>
+                        <textarea
+                          rows={6}
+                          value={(() => {
+                            const val = formData.description;
+                            return typeof val === 'object' && val !== null ? ((val as any).en || Object.values(val)[0] || "") : (val || "");
+                          })()}
+                          onChange={(e) => setFormData({...formData, description: e.target.value})}
+                          className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:outline-none focus:border-primary/40 transition-all text-white placeholder:text-zinc-600 resize-none font-medium text-sm leading-relaxed"
+                          placeholder="Provide the core narrative of the product..."
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 2. Features Card */}
+                  <div className="bg-white/[0.02] border border-white/5 rounded-[2rem] overflow-hidden transition-all">
+                    <button 
+                      type="button"
+                      onClick={() => setExpandedCard(expandedCard === 'features' ? null : 'features')}
+                      className="w-full px-8 py-6 flex items-center justify-between hover:bg-white/[0.02] transition-colors"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                          <List className="w-5 h-5" />
+                        </div>
+                        <span className="text-sm font-black text-white uppercase tracking-widest italic">2. Features List</span>
+                      </div>
+                      {expandedCard === 'features' ? <ChevronUp className="w-5 h-5 text-zinc-500" /> : <ChevronDown className="w-5 h-5 text-zinc-500" />}
+                    </button>
+                    {expandedCard === 'features' && (
+                      <div className="p-8 pt-0 border-t border-white/5 bg-black/20 space-y-4">
+                        <div className="mt-6 space-y-3">
+                          {formData.features.map((feature, idx) => (
+                            <div key={idx} className="flex gap-3">
+                              <input
+                                type="text"
+                                value={feature}
+                                onChange={(e) => {
+                                  const newFeatures = [...formData.features];
+                                  newFeatures[idx] = e.target.value;
+                                  setFormData({...formData, features: newFeatures});
+                                }}
+                                className="flex-1 px-6 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary/40 text-xs text-white"
+                                placeholder={`Feature ${idx + 1}`}
+                              />
+                              <button 
+                                type="button"
+                                onClick={() => {
+                                  const newFeatures = formData.features.filter((_, i) => i !== idx);
+                                  setFormData({...formData, features: newFeatures});
+                                }}
+                                className="p-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-black transition-all"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          ))}
+                          <button 
+                            type="button"
+                            onClick={() => setFormData({...formData, features: [...formData.features, ""]})}
+                            className="w-full py-3 border border-dashed border-white/10 rounded-xl text-[10px] font-black text-zinc-500 uppercase tracking-widest hover:border-primary/40 hover:text-primary transition-all flex items-center justify-center gap-2"
+                          >
+                            <Plus className="w-4 h-4" /> Add Feature
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 3. Included Files Card */}
+                  <div className="bg-white/[0.02] border border-white/5 rounded-[2rem] overflow-hidden transition-all">
+                    <button 
+                      type="button"
+                      onClick={() => setExpandedCard(expandedCard === 'included_files' ? null : 'included_files')}
+                      className="w-full px-8 py-6 flex items-center justify-between hover:bg-white/[0.02] transition-colors"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                          <Files className="w-5 h-5" />
+                        </div>
+                        <span className="text-sm font-black text-white uppercase tracking-widest italic">3. Included Files</span>
+                      </div>
+                      {expandedCard === 'included_files' ? <ChevronUp className="w-5 h-5 text-zinc-500" /> : <ChevronDown className="w-5 h-5 text-zinc-500" />}
+                    </button>
+                    {expandedCard === 'included_files' && (
+                      <div className="p-8 pt-0 border-t border-white/5 bg-black/20 space-y-4">
+                        <div className="mt-6 space-y-3">
+                          {formData.includedFiles.map((file, idx) => (
+                            <div key={idx} className="flex gap-3">
+                              <input
+                                type="text"
+                                value={file}
+                                onChange={(e) => {
+                                  const newFiles = [...formData.includedFiles];
+                                  newFiles[idx] = e.target.value;
+                                  setFormData({...formData, includedFiles: newFiles});
+                                }}
+                                className="flex-1 px-6 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary/40 text-xs text-white"
+                                placeholder="E.G. POWERPOINT (.PPTX)"
+                              />
+                              <button 
+                                type="button"
+                                onClick={() => {
+                                  const newFiles = formData.includedFiles.filter((_, i) => i !== idx);
+                                  setFormData({...formData, includedFiles: newFiles});
+                                }}
+                                className="p-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-black transition-all"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          ))}
+                          <button 
+                            type="button"
+                            onClick={() => setFormData({...formData, includedFiles: [...formData.includedFiles, ""]})}
+                            className="w-full py-3 border border-dashed border-white/10 rounded-xl text-[10px] font-black text-zinc-500 uppercase tracking-widest hover:border-primary/40 hover:text-primary transition-all flex items-center justify-center gap-2"
+                          >
+                            <Plus className="w-4 h-4" /> Add Included File
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 4. Use Cases Card */}
+                  <div className="bg-white/[0.02] border border-white/5 rounded-[2rem] overflow-hidden transition-all">
+                    <button 
+                      type="button"
+                      onClick={() => setExpandedCard(expandedCard === 'use_cases' ? null : 'use_cases')}
+                      className="w-full px-8 py-6 flex items-center justify-between hover:bg-white/[0.02] transition-colors"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                          <Target className="w-5 h-5" />
+                        </div>
+                        <span className="text-sm font-black text-white uppercase tracking-widest italic">4. Use Cases</span>
+                      </div>
+                      {expandedCard === 'use_cases' ? <ChevronUp className="w-5 h-5 text-zinc-500" /> : <ChevronDown className="w-5 h-5 text-zinc-500" />}
+                    </button>
+                    {expandedCard === 'use_cases' && (
+                      <div className="p-8 pt-0 border-t border-white/5 bg-black/20 space-y-4">
+                        <div className="mt-6 space-y-3">
+                          {formData.useCases.map((useCase, idx) => (
+                            <div key={idx} className="flex gap-3">
+                              <input
+                                type="text"
+                                value={useCase}
+                                onChange={(e) => {
+                                  const newCases = [...formData.useCases];
+                                  newCases[idx] = e.target.value;
+                                  setFormData({...formData, useCases: newCases});
+                                }}
+                                className="flex-1 px-6 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary/40 text-xs text-white"
+                                placeholder="E.G. STARTUP PITCH"
+                              />
+                              <button 
+                                type="button"
+                                onClick={() => {
+                                  const newCases = formData.useCases.filter((_, i) => i !== idx);
+                                  setFormData({...formData, useCases: newCases});
+                                }}
+                                className="p-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-black transition-all"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          ))}
+                          <button 
+                            type="button"
+                            onClick={() => setFormData({...formData, useCases: [...formData.useCases, ""]})}
+                            className="w-full py-3 border border-dashed border-white/10 rounded-xl text-[10px] font-black text-zinc-500 uppercase tracking-widest hover:border-primary/40 hover:text-primary transition-all flex items-center justify-center gap-2"
+                          >
+                            <Plus className="w-4 h-4" /> Add Use Case
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div>
@@ -277,16 +492,6 @@ export default function ProductsPage() {
                   )}
                 </div>
 
-                <div>
-                  <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-3 ml-4">Core Features (CSV)</label>
-                  <input
-                    type="text"
-                    value={formData.features}
-                    onChange={(e) => setFormData({...formData, features: e.target.value})}
-                    className="w-full px-8 py-5 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-[1.5rem] focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400 font-bold text-sm"
-                    placeholder="FEATURE A, FEATURE B..."
-                  />
-                </div>
 
                 <div className="md:col-span-2 bg-white/[0.02] p-8 rounded-[2rem] border border-white/5">
                   <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-6 ml-2">Storefront Assignment</label>
@@ -669,7 +874,12 @@ export default function ProductsPage() {
                   disabled={isSubmitting}
                   className={`bg-primary hover:bg-primary-hover text-black px-12 py-5 rounded-[1.5rem] font-black text-xl transition-all shadow-[0_0_20px_rgba(197,165,114,0.3)] hover:shadow-[0_0_50px_rgba(197,165,114,0.5)] hover:-translate-y-1 uppercase tracking-widest italic ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
-                  {isSubmitting ? "Processing..." : "Execute Deployment"}
+                  {isSubmitting ? (
+                    <span className="flex items-center gap-3">
+                      <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                      Deploying changes...
+                    </span>
+                  ) : "Execute Deployment"}
                 </button>
               </div>
             </form>

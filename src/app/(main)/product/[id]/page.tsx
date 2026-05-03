@@ -19,7 +19,12 @@ import {
   Download,
   Sparkles,
   Lock,
-  ShoppingCart
+  ShoppingCart,
+  FileText,
+  List,
+  Files,
+  Target,
+  HelpCircle
 } from "lucide-react";
 import { getProducts } from "@/actions/productActions";
 import { createRazorpayOrder, verifyPayment } from "@/actions/paymentActions";
@@ -55,6 +60,7 @@ export default function ProductDetailsPage() {
   const [userComment, setUserComment] = useState("");
   const [submittingReview, setSubmittingReview] = useState(false);
   const [hasReviewed, setHasReviewed] = useState(false);
+  const [activeTab, setActiveTab] = useState('description');
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -223,7 +229,7 @@ export default function ProductDetailsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
           {/* Left: Gallery */}
           <div className="space-y-6">
-            <div className="aspect-square bg-white/[0.02] rounded-[2rem] sm:rounded-[3rem] overflow-hidden border border-white/5 relative group">
+            <div className={`bg-white/[0.02] rounded-[2rem] sm:rounded-[3rem] overflow-hidden border border-white/5 relative group transition-all duration-700 ${activeImage === 0 ? 'aspect-square' : 'aspect-[9/16] max-h-[80vh] mx-auto'}`}>
               <AnimatePresence mode="wait">
                 <motion.img
                   key={activeImage}
@@ -260,7 +266,7 @@ export default function ProductDetailsPage() {
                 <button
                   key={i}
                   onClick={() => setActiveImage(i)}
-                  className={`aspect-square rounded-2xl overflow-hidden border-2 transition-all ${activeImage === i ? 'border-primary shadow-[0_0_15px_rgba(197, 165, 114, 0.3)]' : 'border-white/5 hover:border-white/20'}`}
+                  className={`rounded-2xl overflow-hidden border-2 transition-all ${i === 0 ? 'aspect-square' : 'aspect-[9/16]'} ${activeImage === i ? 'border-primary shadow-[0_0_15px_rgba(197, 165, 114, 0.3)]' : 'border-white/5 hover:border-white/20'}`}
                 >
                   <img 
                     src={img || "https://placehold.co/600x400?text=No+Image"} 
@@ -318,19 +324,119 @@ export default function ProductDetailsPage() {
               </div>
             </div>
 
-            <p className="text-zinc-400 text-lg mb-12 leading-relaxed font-medium">
-              {typeof product.description === 'object' ? (product.description.en || Object.values(product.description)[0]) : product.description}
-            </p>
+            {/* Product Intelligence Panel */}
+            <div className="mt-16 mb-20">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-10 h-[1px] bg-primary/30" />
+                <span className="text-[10px] font-black text-primary uppercase tracking-[0.5em] italic">Product Intelligence Panel</span>
+              </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
-              {(product.features || []).map((feature: string, i: number) => (
-                <div key={i} className="flex items-center gap-4 group">
-                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-primary/40 transition-colors">
-                    <CheckCircle2 className="w-5 h-5 text-primary opacity-60 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                  <span className="text-zinc-400 font-bold uppercase text-[10px] tracking-widest group-hover:text-zinc-200 transition-colors">{feature}</span>
-                </div>
-              ))}
+              {/* Tabs Navigation */}
+              <div className="flex overflow-x-auto no-scrollbar gap-2 p-1.5 bg-white/[0.03] border border-white/5 rounded-2xl mb-8">
+                {[
+                  { id: 'description', label: 'Description', icon: FileText },
+                  { id: 'features', label: 'Features', icon: List },
+                  { id: 'included', label: 'Included Files', icon: Files },
+                  { id: 'usecases', label: 'Use Cases', icon: Target },
+                  { id: 'faq', label: 'FAQ', icon: HelpCircle }
+                ].map((tab) => {
+                  const isActive = activeTab === tab.id;
+                  // Skip empty tabs logic
+                  if (tab.id === 'features' && (!product.features || product.features.length === 0)) return null;
+                  if (tab.id === 'included' && (!product.description?.included_files || product.description.included_files.length === 0)) return null;
+                  if (tab.id === 'usecases' && (!product.description?.use_cases || product.description.use_cases.length === 0)) return null;
+                  if (tab.id === 'faq' && (!product.faqs || product.faqs.length === 0)) return null;
+
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`flex items-center gap-3 px-6 py-3 rounded-xl transition-all duration-300 shrink-0 ${
+                        isActive 
+                        ? 'bg-primary text-black font-black shadow-[0_0_20px_rgba(197,165,114,0.3)]' 
+                        : 'text-zinc-500 hover:text-white hover:bg-white/5 font-bold'
+                      }`}
+                    >
+                      <tab.icon className={`w-4 h-4 ${isActive ? 'text-black' : 'text-zinc-600'}`} />
+                      <span className="text-[10px] uppercase tracking-widest">{tab.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Tab Content */}
+              <div className="bg-white/[0.01] border border-white/5 rounded-[2.5rem] p-8 sm:p-12 min-h-[300px] relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeTab}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                    className="relative z-10"
+                  >
+                    {activeTab === 'description' && (
+                      <div className="space-y-6">
+                        <p className="text-zinc-400 text-lg leading-relaxed font-medium whitespace-pre-wrap">
+                          {typeof product.description === 'object' ? (product.description.en || Object.values(product.description)[0]) : product.description}
+                        </p>
+                      </div>
+                    )}
+
+                    {activeTab === 'features' && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+                        {(product.features || []).map((feature: string, i: number) => (
+                          <div key={i} className="flex items-center gap-4 group/feat">
+                            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover/feat:border-primary/40 transition-colors">
+                              <CheckCircle2 className="w-5 h-5 text-primary opacity-60 group-hover/feat:opacity-100 transition-opacity" />
+                            </div>
+                            <span className="text-zinc-400 font-bold uppercase text-[10px] tracking-widest group-hover/feat:text-zinc-200 transition-colors">{feature}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {activeTab === 'included' && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {(product.description?.included_files || []).map((file: string, i: number) => (
+                          <div key={i} className="flex items-center gap-4 p-5 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-primary/20 transition-all">
+                            <div className="p-3 bg-primary/10 rounded-xl text-primary">
+                              <Files className="w-5 h-5" />
+                            </div>
+                            <span className="text-xs font-black text-white uppercase tracking-widest">{file}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {activeTab === 'usecases' && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {(product.description?.use_cases || []).map((usecase: string, i: number) => (
+                          <div key={i} className="flex items-center gap-4 p-5 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-primary/20 transition-all">
+                            <div className="p-3 bg-primary/10 rounded-xl text-primary">
+                              <Target className="w-5 h-5" />
+                            </div>
+                            <span className="text-xs font-black text-white uppercase tracking-widest">{usecase}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {activeTab === 'faq' && (
+                      <div className="space-y-6">
+                        {(product.faqs || []).map((faq: any, i: number) => (
+                          <div key={i} className="bg-white/[0.02] border border-white/5 rounded-2xl p-6">
+                            <h4 className="text-primary font-black uppercase tracking-widest text-[10px] mb-2">{faq.question}</h4>
+                            <p className="text-zinc-400 text-xs font-medium leading-relaxed">{faq.answer}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-6 mt-auto">

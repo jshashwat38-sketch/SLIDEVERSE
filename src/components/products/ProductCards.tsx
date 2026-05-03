@@ -87,13 +87,17 @@ export function ProductCard(props: any) {
   };
 
   if (variant === "compact-home-mobile") {
+    const isBundle = typeof props.title === 'object' && props.title?.is_bundle;
+    const bundleHref = `/bundle/${props.title?.slug || id}`;
+    const productHref = `/product/${id}`;
+
     return (
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         className="group bg-[#09090B] border border-white/5 rounded-2xl overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all duration-500 hover:shadow-[0_0_20px_rgba(197,165,114,0.1)] relative"
       >
-        <Link href={`/product/${id}`} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-t-2xl">
+        <Link href={isBundle ? bundleHref : productHref} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-t-2xl">
           <img 
             src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
             alt={displayTitle} 
@@ -107,7 +111,7 @@ export function ProductCard(props: any) {
 
         <div className="p-3 sm:p-4 flex flex-col flex-1 relative z-10">
           <div className="mb-2">
-            <Link href={`/product/${id}`}>
+            <Link href={isBundle ? `/bundle/${props.title?.slug || id}` : `/product/${id}`}>
               <h3 className="text-xs font-black text-white italic uppercase tracking-tighter group-hover:text-primary transition-colors cursor-pointer line-clamp-2 leading-tight">{displayTitle}</h3>
             </Link>
             <p className="text-[7px] text-zinc-600 font-black uppercase tracking-wider mt-1">{displayCategory}</p>
@@ -171,13 +175,16 @@ export function ProductCard(props: any) {
   const bundleItems = typeof props.title === 'object' && Array.isArray(props.title?.bundle_items) ? props.title.bundle_items : [];
 
   if (isBundle) {
+    const slug = props.title?.slug || id;
+    const bundleHref = `/bundle/${slug}`;
+
     return (
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="group bg-[#09090B] border border-white/5 rounded-[2.5rem] overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,165,114,0.05)] relative"
       >
-        <Link href={`/product/${id}`} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer">
+        <Link href={bundleHref} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer">
           <img 
             src={displayImage || "https://placehold.co/600x400?text=No+Image"} 
             alt={displayTitle} 
@@ -194,7 +201,7 @@ export function ProductCard(props: any) {
 
         <div className="p-4 sm:p-6 flex flex-col flex-1 relative z-10">
           <div className="mb-4">
-            <Link href={`/product/${id}`}>
+            <Link href={bundleHref}>
               <h3 className="text-sm sm:text-lg font-black text-white italic uppercase tracking-tighter group-hover:text-primary transition-colors cursor-pointer line-clamp-1">{displayTitle}</h3>
             </Link>
           </div>
@@ -479,16 +486,39 @@ export function HeroProductCard(props: any) {
         </div>
       </div>
 
-      <Link href={`/product/${id}`} className="w-full lg:w-1/2 relative aspect-square lg:aspect-auto lg:min-h-full overflow-hidden cursor-pointer order-1 lg:order-2">
-        <img 
-          src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
-          alt={displayTitle} 
-          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2000ms] opacity-80 group-hover:opacity-100" 
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = "https://placehold.co/800x400?text=No+Image";
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#09090B]/60" />
+      <Link href={`/product/${id}`} className="w-full lg:w-1/2 relative aspect-square lg:aspect-auto lg:min-h-full overflow-hidden cursor-pointer order-1 lg:order-2 bg-black/40">
+        {/* Background Blur Layer */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
+            alt="" 
+            className="w-full h-full object-cover blur-2xl opacity-30 scale-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#09090B]/40 to-[#09090B]" />
+        </div>
+
+        {/* Main Image Layer */}
+        <div className="absolute inset-0 z-10 flex items-center justify-center p-6 md:p-12">
+          <motion.img 
+            initial={{ scale: 1 }}
+            animate={{ scale: 1.03 }}
+            transition={{ 
+              duration: 8, 
+              repeat: Infinity, 
+              repeatType: "reverse", 
+              ease: "easeInOut" 
+            }}
+            src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
+            alt={displayTitle} 
+            className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]" 
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "https://placehold.co/800x400?text=No+Image";
+            }}
+          />
+        </div>
+        
+        {/* Decorative ambient glow */}
+        <div className="absolute -bottom-1/4 -right-1/4 w-full h-full bg-primary/10 blur-[120px] rounded-full z-20 pointer-events-none" />
       </Link>
     </motion.div>
   );

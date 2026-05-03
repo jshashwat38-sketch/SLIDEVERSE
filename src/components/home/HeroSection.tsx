@@ -97,20 +97,47 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
         </motion.div>
 
         <motion.div 
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: [0, -15, 0] }}
-          transition={{ opacity: { duration: 0.8 }, scale: { duration: 0.8 }, y: { duration: 5, repeat: Infinity, ease: "easeInOut" } }}
-          className="hidden lg:block relative group z-10"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="hidden lg:block relative group z-10 aspect-square w-full max-w-[700px] ml-auto overflow-hidden rounded-[3rem] border border-white/10 shadow-[0_30px_70px_rgba(197,165,114,0.1)]"
         >
-          <div className="absolute inset-0 bg-primary/10 rounded-[2.5rem] blur-2xl group-hover:bg-primary/20 transition-all duration-700 -z-10" />
-          <Image 
-            src={appearance?.hero?.image || "/uploads/slideverse_presentation_hero.png"}
-            alt="Hero Visual"
-            width={750}
-            height={750}
-            className="rounded-[3rem] border border-white/10 shadow-2xl object-cover hover:border-primary/40 transition-colors duration-500 shadow-[0_30px_70px_rgba(197,165,114,0.2)] w-full h-auto"
-            priority
-          />
+          {/* Background Ambient Layer */}
+          <div className="absolute inset-0 z-0">
+            <img 
+              src={appearance?.hero?.image || "/uploads/slideverse_presentation_hero.png"}
+              alt="" 
+              className="w-full h-full object-cover blur-3xl opacity-20 scale-110"
+            />
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#09090B] via-transparent to-primary/5" />
+          </div>
+
+          {/* Main Visual */}
+          <div className="absolute inset-0 z-10 flex items-center justify-center p-12">
+            <motion.div
+              animate={{ 
+                y: [0, -10, 0],
+                scale: [1, 1.02, 1]
+              }}
+              transition={{ 
+                duration: 6, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
+              className="w-full h-full"
+            >
+              <Image 
+                src={appearance?.hero?.image || "/uploads/slideverse_presentation_hero.png"}
+                alt="Hero Visual"
+                width={800}
+                height={800}
+                className="w-full h-full object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)] group-hover:drop-shadow-[0_30px_80px_rgba(197,165,114,0.3)] transition-all duration-700"
+                priority
+              />
+            </motion.div>
+          </div>
+
+          <div className="absolute inset-0 border border-white/10 rounded-[3rem] pointer-events-none z-20 group-hover:border-primary/30 transition-colors duration-500" />
         </motion.div>
       </div>
     </section>

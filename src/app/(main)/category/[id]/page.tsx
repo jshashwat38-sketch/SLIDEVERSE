@@ -1,14 +1,8 @@
+export const dynamic = 'force-dynamic';
 import { getProducts } from "@/actions/productActions";
 import { getCategories } from "@/actions/adminActions";
 import { notFound } from "next/navigation";
 import CategoryClientPage from "@/components/products/CategoryClientPage";
-
-export async function generateStaticParams() {
-  const categories = await getCategories();
-  return categories.map((cat: any) => ({
-    id: cat.id.replace('cat-', '')
-  }));
-}
 
 interface CategoryPageProps {
   params: Promise<{ id: string }>;

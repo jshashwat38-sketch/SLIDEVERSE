@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Save, Image as ImageIcon, Link as LinkIcon, FolderOpen, Trash2, Edit2, X, Sparkles, Package, Gift, ChevronRight } from "lucide-react";
+import { Plus, Save, Image as ImageIcon, Link as LinkIcon, FolderOpen, Trash2, Edit2, X, Sparkles, Package, Gift, ChevronRight, FileText, List, Files, Target, ChevronDown, ChevronUp } from "lucide-react";
 import { getProducts, deleteProduct, addBundle, updateBundle } from "@/actions/productActions";
 import { getCategories } from "@/actions/adminActions";
 import { toast } from "react-hot-toast";
@@ -14,19 +14,26 @@ export default function BundlesPage() {
   const [allProducts, setAllProducts] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [expandedCard, setExpandedCard] = useState<string | null>("description");
 
   const [formData, setFormData] = useState({
     title: "",
-    description: "",
+    slug: "",
+    shortDescription: "",
+    fullDescription: "",
     price: "",
     mrp: "",
     categoryId: "",
     imageUrl: "",
     driveLink: "",
-    features: "",
+    features: [] as string[],
     isBestseller: false,
     isTop9: false,
-    active: true
+    active: true,
+    whyBuy: [] as string[],
+    targetAudience: [] as string[],
+    useCases: [] as string[],
+    includedFiles: [] as string[]
   });
 
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
@@ -53,16 +60,22 @@ export default function BundlesPage() {
     const titleObj = bundle.title || {};
     setFormData({
       title: titleObj.en || "",
-      description: bundle.description?.en || "",
+      slug: titleObj.slug || "",
+      shortDescription: titleObj.short_description || "",
+      fullDescription: bundle.description?.en || "",
       price: bundle.price?.toString() || "",
       mrp: titleObj.mrp?.toString() || "",
       categoryId: bundle.category_id || (categories[0]?.id || ""),
       imageUrl: bundle.image_url || "",
       driveLink: bundle.drive_link || "",
-      features: Array.isArray(bundle.features) ? bundle.features.join(", ") : "",
       isBestseller: titleObj.is_bestseller || false,
       isTop9: titleObj.is_top9 || false,
-      active: true
+      active: true,
+      whyBuy: titleObj.why_buy || [],
+      targetAudience: titleObj.target_audience || [],
+      useCases: titleObj.use_cases || [],
+      features: Array.isArray(bundle.features) ? bundle.features : [],
+      includedFiles: bundle.description?.included_files || []
     });
 
     const items = titleObj.bundle_items || [];
@@ -100,8 +113,9 @@ export default function BundlesPage() {
     if (selectedProductIds.includes(productId)) {
       setSelectedProductIds(selectedProductIds.filter(id => id !== productId));
     } else {
-      setSelectedProductIds([...selectedProductIds, productId]);
-      // Pre-fill with existing product data
+      const newSelectedIds = [...selectedProductIds, productId];
+      setSelectedProductIds(newSelectedIds);
+      
       const prod = allProducts.find(p => p.id === productId);
       if (prod) {
         setBundleItemsCustomData(prev => ({
@@ -117,12 +131,23 @@ export default function BundlesPage() {
     }
   };
 
+  const moveItem = (index: number, direction: 'up' | 'down') => {
+    const newIds = [...selectedProductIds];
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= newIds.length) return;
+    
+    [newIds[index], newIds[targetIndex]] = [newIds[targetIndex], newIds[index]];
+    setSelectedProductIds(newIds);
+  };
+
   const resetForm = () => {
     setIsAdding(false);
     setEditingId(null);
     setFormData({
       title: "",
-      description: "",
+      slug: "",
+      shortDescription: "",
+      fullDescription: "",
       price: "",
       mrp: "",
       categoryId: categories[0]?.id || "",
@@ -131,7 +156,10 @@ export default function BundlesPage() {
       features: "",
       isBestseller: false,
       isTop9: false,
-      active: true
+      active: true,
+      whyBuy: [],
+      targetAudience: [],
+      useCases: []
     });
     setImageFile(null);
     setSelectedProductIds([]);
@@ -222,6 +250,18 @@ export default function BundlesPage() {
                 </div>
 
                 <div>
+                  <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-3">Slug (URL)</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.slug}
+                    onChange={(e) => setFormData({...formData, slug: e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-')})}
+                    className="w-full px-6 py-4 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl text-zinc-900 dark:text-white font-mono"
+                    placeholder="startup-pitch-bundle"
+                  />
+                </div>
+
+                <div>
                   <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-3">Category</label>
                   <select
                     value={formData.categoryId}
@@ -234,6 +274,18 @@ export default function BundlesPage() {
                       </option>
                     ))}
                   </select>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-3">Short Description (Card View)</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.shortDescription}
+                    onChange={(e) => setFormData({...formData, shortDescription: e.target.value})}
+                    className="w-full px-6 py-4 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl text-zinc-900 dark:text-white"
+                    placeholder="10+ Premium Startup Templates"
+                  />
                 </div>
 
                 <div>
@@ -258,6 +310,209 @@ export default function BundlesPage() {
                     className="w-full px-6 py-4 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl text-zinc-900 dark:text-white font-bold font-mono"
                     placeholder="999"
                   />
+                </div>
+              </div>
+
+              {/* Product Intelligence Panel Section */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="h-[1px] flex-1 bg-white/5" />
+                  <span className="text-[10px] font-black text-primary uppercase tracking-[0.4em] italic">Product Intelligence Panel Editor</span>
+                  <div className="h-[1px] flex-1 bg-white/5" />
+                </div>
+
+                {/* 1. Description Card */}
+                <div className="bg-white/[0.02] border border-white/5 rounded-[2rem] overflow-hidden transition-all">
+                  <button 
+                    type="button"
+                    onClick={() => setExpandedCard(expandedCard === 'description' ? null : 'description')}
+                    className="w-full px-8 py-6 flex items-center justify-between hover:bg-white/[0.02] transition-colors"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                        <FileText className="w-5 h-5" />
+                      </div>
+                      <span className="text-sm font-black text-white uppercase tracking-widest italic">1. Full Description</span>
+                    </div>
+                    {expandedCard === 'description' ? <ChevronUp className="w-5 h-5 text-zinc-500" /> : <ChevronDown className="w-5 h-5 text-zinc-500" />}
+                  </button>
+                  {expandedCard === 'description' && (
+                    <div className="p-8 pt-0 border-t border-white/5 bg-black/20">
+                      <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-4 mt-6">Rich Formatted Narrative</label>
+                      <textarea
+                        rows={6}
+                        value={formData.fullDescription}
+                        onChange={(e) => setFormData({...formData, fullDescription: e.target.value})}
+                        className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[1.5rem] focus:outline-none focus:border-primary/40 transition-all text-white placeholder:text-zinc-600 resize-none font-medium text-sm leading-relaxed"
+                        placeholder="Describe the entire value proposition of this bundle..."
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* 2. Features Card (Why Buy) */}
+                <div className="bg-white/[0.02] border border-white/5 rounded-[2rem] overflow-hidden transition-all">
+                  <button 
+                    type="button"
+                    onClick={() => setExpandedCard(expandedCard === 'features' ? null : 'features')}
+                    className="w-full px-8 py-6 flex items-center justify-between hover:bg-white/[0.02] transition-colors"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                        <List className="w-5 h-5" />
+                      </div>
+                      <span className="text-sm font-black text-white uppercase tracking-widest italic">2. Key Features (Why Buy)</span>
+                    </div>
+                    {expandedCard === 'features' ? <ChevronUp className="w-5 h-5 text-zinc-500" /> : <ChevronDown className="w-5 h-5 text-zinc-500" />}
+                  </button>
+                  {expandedCard === 'features' && (
+                    <div className="p-8 pt-0 border-t border-white/5 bg-black/20 space-y-4">
+                      <div className="mt-6 space-y-3">
+                        {formData.features.map((feature, idx) => (
+                          <div key={idx} className="flex gap-3">
+                            <input
+                              type="text"
+                              value={feature}
+                              onChange={(e) => {
+                                const newFeatures = [...formData.features];
+                                newFeatures[idx] = e.target.value;
+                                setFormData({...formData, features: newFeatures});
+                              }}
+                              className="flex-1 px-6 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary/40 text-xs text-white"
+                              placeholder={`Feature ${idx + 1}`}
+                            />
+                            <button 
+                              type="button"
+                              onClick={() => {
+                                const newFeatures = formData.features.filter((_, i) => i !== idx);
+                                setFormData({...formData, features: newFeatures});
+                              }}
+                              className="p-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-black transition-all"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                        <button 
+                          type="button"
+                          onClick={() => setFormData({...formData, features: [...formData.features, ""]})}
+                          className="w-full py-3 border border-dashed border-white/10 rounded-xl text-[10px] font-black text-zinc-500 uppercase tracking-widest hover:border-primary/40 hover:text-primary transition-all flex items-center justify-center gap-2"
+                        >
+                          <Plus className="w-4 h-4" /> Add Feature
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* 3. Included Files Card */}
+                <div className="bg-white/[0.02] border border-white/5 rounded-[2rem] overflow-hidden transition-all">
+                  <button 
+                    type="button"
+                    onClick={() => setExpandedCard(expandedCard === 'included_files' ? null : 'included_files')}
+                    className="w-full px-8 py-6 flex items-center justify-between hover:bg-white/[0.02] transition-colors"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                        <Files className="w-5 h-5" />
+                      </div>
+                      <span className="text-sm font-black text-white uppercase tracking-widest italic">3. Included Assets</span>
+                    </div>
+                    {expandedCard === 'included_files' ? <ChevronUp className="w-5 h-5 text-zinc-500" /> : <ChevronDown className="w-5 h-5 text-zinc-500" />}
+                  </button>
+                  {expandedCard === 'included_files' && (
+                    <div className="p-8 pt-0 border-t border-white/5 bg-black/20 space-y-4">
+                      <div className="mt-6 space-y-3">
+                        {formData.includedFiles.map((file, idx) => (
+                          <div key={idx} className="flex gap-3">
+                            <input
+                              type="text"
+                              value={file}
+                              onChange={(e) => {
+                                const newFiles = [...formData.includedFiles];
+                                newFiles[idx] = e.target.value;
+                                setFormData({...formData, includedFiles: newFiles});
+                              }}
+                              className="flex-1 px-6 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary/40 text-xs text-white"
+                              placeholder="E.G. MAIN PPTX FILE"
+                            />
+                            <button 
+                              type="button"
+                              onClick={() => {
+                                const newFiles = formData.includedFiles.filter((_, i) => i !== idx);
+                                setFormData({...formData, includedFiles: newFiles});
+                              }}
+                              className="p-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-black transition-all"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                        <button 
+                          type="button"
+                          onClick={() => setFormData({...formData, includedFiles: [...formData.includedFiles, ""]})}
+                          className="w-full py-3 border border-dashed border-white/10 rounded-xl text-[10px] font-black text-zinc-500 uppercase tracking-widest hover:border-primary/40 hover:text-primary transition-all flex items-center justify-center gap-2"
+                        >
+                          <Plus className="w-4 h-4" /> Add Asset Info
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* 4. Use Cases Card */}
+                <div className="bg-white/[0.02] border border-white/5 rounded-[2rem] overflow-hidden transition-all">
+                  <button 
+                    type="button"
+                    onClick={() => setExpandedCard(expandedCard === 'use_cases' ? null : 'use_cases')}
+                    className="w-full px-8 py-6 flex items-center justify-between hover:bg-white/[0.02] transition-colors"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                        <Target className="w-5 h-5" />
+                      </div>
+                      <span className="text-sm font-black text-white uppercase tracking-widest italic">4. Target Use Cases</span>
+                    </div>
+                    {expandedCard === 'use_cases' ? <ChevronUp className="w-5 h-5 text-zinc-500" /> : <ChevronDown className="w-5 h-5 text-zinc-500" />}
+                  </button>
+                  {expandedCard === 'use_cases' && (
+                    <div className="p-8 pt-0 border-t border-white/5 bg-black/20 space-y-4">
+                      <div className="mt-6 space-y-3">
+                        {formData.useCases.map((useCase, idx) => (
+                          <div key={idx} className="flex gap-3">
+                            <input
+                              type="text"
+                              value={useCase}
+                              onChange={(e) => {
+                                const newCases = [...formData.useCases];
+                                newCases[idx] = e.target.value;
+                                setFormData({...formData, useCases: newCases});
+                              }}
+                              className="flex-1 px-6 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary/40 text-xs text-white"
+                              placeholder="E.G. CORPORATE STRATEGY"
+                            />
+                            <button 
+                              type="button"
+                              onClick={() => {
+                                const newCases = formData.useCases.filter((_, i) => i !== idx);
+                                setFormData({...formData, useCases: newCases});
+                              }}
+                              className="p-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-black transition-all"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                        <button 
+                          type="button"
+                          onClick={() => setFormData({...formData, useCases: [...formData.useCases, ""]})}
+                          className="w-full py-3 border border-dashed border-white/10 rounded-xl text-[10px] font-black text-zinc-500 uppercase tracking-widest hover:border-primary/40 hover:text-primary transition-all flex items-center justify-center gap-2"
+                        >
+                          <Plus className="w-4 h-4" /> Add Use Case
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -411,91 +666,136 @@ export default function BundlesPage() {
                   })}
                 </div>
               </div>
-
               {/* Custom Details for Each Selected PPT */}
               {selectedProductIds.length > 0 && (
                 <div className="border-t border-white/5 pt-8 space-y-6">
-                  <h3 className="text-sm font-black text-white uppercase tracking-widest mb-4">Customize Bundle Display Details</h3>
-                  {selectedProductIds.map(id => (
-                    <div key={id} className="p-6 bg-white/[0.02] border border-white/5 rounded-2xl grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                      <div className="md:col-span-1 flex items-center gap-4">
-                        <img 
-                          src={bundleItemsCustomData[id]?.image || "https://placehold.co/100x100"} 
-                          className="w-12 h-12 object-cover rounded-lg border border-white/10" 
-                          alt="PPT preview" 
-                        />
-                        <div className="flex-1">
-                          <span className="text-[10px] text-zinc-500 font-bold uppercase block mb-1">Display Name</span>
-                          <input
-                            type="text"
-                            required
-                            value={bundleItemsCustomData[id]?.name || ""}
-                            onChange={(e) => setBundleItemsCustomData({
-                              ...bundleItemsCustomData,
-                              [id]: { ...bundleItemsCustomData[id], name: e.target.value }
-                            })}
-                            className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white font-bold text-xs"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="md:col-span-1">
-                        <span className="text-[10px] text-zinc-500 font-bold uppercase block mb-1">Short Description</span>
-                        <input
-                          type="text"
-                          required
-                          value={bundleItemsCustomData[id]?.description || ""}
-                          onChange={(e) => setBundleItemsCustomData({
-                            ...bundleItemsCustomData,
-                            [id]: { ...bundleItemsCustomData[id], description: e.target.value }
-                          })}
-                          className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-xs"
-                          placeholder="Startup funding slides"
-                        />
-                      </div>
-
-                      <div className="md:col-span-1">
-                        <span className="text-[10px] text-zinc-500 font-bold uppercase block mb-1">Display Image Asset (Recommended: 1200x800px)</span>
-                        <div className="flex items-center gap-4">
-                          <div className="relative shrink-0">
-                            <input
-                              type="file"
-                              accept="image/*"
-                              id={`bundle-item-img-${id}`}
-                              className="hidden"
-                              onChange={(e) => {
-                                if (e.target.files && e.target.files[0]) {
-                                  const file = e.target.files[0];
-                                  compressImage(file).then(optimized => {
-                                    setBundleItemsCustomData(prev => ({
-                                      ...prev,
-                                      [id]: { ...prev[id], imageFile: optimized, image: "" }
-                                    }));
-                                  });
-                                }
-                              }}
-                            />
-                            <label 
-                              htmlFor={`bundle-item-img-${id}`}
-                              className={`flex items-center justify-center w-10 h-10 rounded-lg border cursor-pointer transition-all ${bundleItemsCustomData[id]?.imageFile ? 'bg-primary text-black border-primary shadow-[0_0_15px_rgba(197,165,114,0.3)]' : 'bg-white/5 text-zinc-500 border-white/10 hover:border-primary/40 hover:bg-primary/5'}`}
-                            >
-                              <ImageIcon className="w-4 h-4" />
-                            </label>
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-sm font-black text-white uppercase tracking-widest">Configure Asset Deployment Order & Details</h3>
+                    <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest bg-white/5 px-3 py-1 rounded-full border border-white/10 italic">
+                      {selectedProductIds.length} Assets Selected
+                    </span>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    {selectedProductIds.map((id, index) => (
+                      <div key={id} className="p-6 bg-white/[0.02] border border-white/5 rounded-[2rem] hover:border-primary/20 transition-all group/item">
+                        <div className="flex flex-col md:flex-row gap-8 items-center">
+                          {/* Order & Preview */}
+                          <div className="flex items-center gap-6 shrink-0">
+                            <div className="flex flex-col gap-2">
+                              <button 
+                                type="button" 
+                                onClick={() => moveItem(index, 'up')}
+                                disabled={index === 0}
+                                className="p-2 bg-white/5 rounded-lg hover:bg-primary hover:text-black disabled:opacity-20 transition-all"
+                              >
+                                <ChevronRight className="w-4 h-4 -rotate-90" />
+                              </button>
+                              <button 
+                                type="button" 
+                                onClick={() => moveItem(index, 'down')}
+                                disabled={index === selectedProductIds.length - 1}
+                                className="p-2 bg-white/5 rounded-lg hover:bg-primary hover:text-black disabled:opacity-20 transition-all"
+                              >
+                                <ChevronRight className="w-4 h-4 rotate-90" />
+                              </button>
+                            </div>
+                            <div className="relative w-20 h-20 rounded-2xl overflow-hidden border border-white/10">
+                              <img 
+                                src={bundleItemsCustomData[id]?.image || "https://placehold.co/100x100"} 
+                                className="w-full h-full object-cover" 
+                                alt="PPT preview" 
+                              />
+                              <div className="absolute top-0 left-0 bg-black/60 text-[10px] font-black text-white px-2 py-1 rounded-br-xl italic">
+                                #{index + 1}
+                              </div>
+                            </div>
                           </div>
-                          <input
-                            type="url"
-                            value={bundleItemsCustomData[id]?.image || ""}
-                            onChange={(e) => setBundleItemsCustomData({
-                              ...bundleItemsCustomData,
-                              [id]: { ...bundleItemsCustomData[id], image: e.target.value, imageFile: null }
-                            })}
-                            className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-xs"
-                            placeholder="URL..."
-                          />
+
+                          {/* Editable Fields */}
+                          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                            <div>
+                              <label className="block text-[8px] font-black text-zinc-600 uppercase tracking-[0.3em] mb-2">Marketplace Identity</label>
+                              <input
+                                type="text"
+                                required
+                                value={bundleItemsCustomData[id]?.name || ""}
+                                onChange={(e) => setBundleItemsCustomData({
+                                  ...bundleItemsCustomData,
+                                  [id]: { ...bundleItemsCustomData[id], name: e.target.value }
+                                })}
+                                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white font-bold text-[10px] focus:border-primary/40 focus:outline-none transition-all"
+                                placeholder="Display Name"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[8px] font-black text-zinc-600 uppercase tracking-[0.3em] mb-2">Product Description</label>
+                              <input
+                                type="text"
+                                required
+                                value={bundleItemsCustomData[id]?.description || ""}
+                                onChange={(e) => setBundleItemsCustomData({
+                                  ...bundleItemsCustomData,
+                                  [id]: { ...bundleItemsCustomData[id], description: e.target.value }
+                                })}
+                                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-[10px] focus:border-primary/40 focus:outline-none transition-all"
+                                placeholder="Startup funding slides..."
+                              />
+                            </div>
+                          </div>
+
+                          {/* Image Override */}
+                          <div className="shrink-0 w-full md:w-auto">
+                            <label className="block text-[8px] font-black text-zinc-600 uppercase tracking-[0.3em] mb-2">Asset Visual Override</label>
+                            <div className="flex items-center gap-3">
+                              <div className="relative">
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  id={`bundle-item-img-${id}`}
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    if (e.target.files && e.target.files[0]) {
+                                      const file = e.target.files[0];
+                                      compressImage(file).then(optimized => {
+                                        setBundleItemsCustomData(prev => ({
+                                          ...prev,
+                                          [id]: { ...prev[id], imageFile: optimized, image: "" }
+                                        }));
+                                      });
+                                    }
+                                  }}
+                                />
+                                <label 
+                                  htmlFor={`bundle-item-img-${id}`}
+                                  className={`flex items-center justify-center w-10 h-10 rounded-xl border cursor-pointer transition-all ${bundleItemsCustomData[id]?.imageFile ? 'bg-primary text-black border-primary shadow-[0_0_15px_rgba(197,165,114,0.3)]' : 'bg-white/5 text-zinc-500 border-white/10 hover:border-primary/40 hover:bg-primary/5'}`}
+                                >
+                                  <ImageIcon className="w-4 h-4" />
+                                </label>
+                              </div>
+                              <input
+                                type="url"
+                                value={bundleItemsCustomData[id]?.image || ""}
+                                onChange={(e) => setBundleItemsCustomData({
+                                  ...bundleItemsCustomData,
+                                  [id]: { ...bundleItemsCustomData[id], image: e.target.value, imageFile: null }
+                                })}
+                                className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-[10px] w-32 focus:border-primary/40 focus:outline-none transition-all"
+                                placeholder="URL..."
+                              />
+                              <button 
+                                type="button"
+                                onClick={() => handleProductToggle(id)}
+                                className="p-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-black transition-all"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               )}
 
@@ -504,7 +804,12 @@ export default function BundlesPage() {
                 disabled={isSubmitting}
                 className="w-full bg-primary hover:bg-primary-hover text-black py-4 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl cursor-pointer"
               >
-                {isSubmitting ? "Processing..." : <><Save className="w-5 h-5" /> Save Bundle Entity</>}
+                {isSubmitting ? (
+                  <span className="flex items-center gap-3">
+                    <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                    Deploying changes...
+                  </span>
+                ) : <><Save className="w-5 h-5" /> Save Bundle Entity</>}
               </button>
             </form>
           </div>

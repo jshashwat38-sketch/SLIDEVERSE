@@ -1,9 +1,10 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, unstable_noStore as noStore } from "next/cache";
 import { supabase } from "@/lib/supabase";
 
 export async function getProducts() {
+  noStore();
   try {
     const { data, error } = await supabase
       .from("products")
@@ -127,7 +128,11 @@ export async function addProduct(formData: FormData) {
         is_bestseller: formData.get("isBestseller") === "true",
         is_top9: formData.get("isTop9") === "true"
       }, 
-      description: { en: description }, 
+      description: { 
+        en: description,
+        included_files: formData.getAll("includedFiles").filter(Boolean),
+        use_cases: formData.getAll("useCases").filter(Boolean)
+      }, 
       price: Number(price),
       category_id: categoryId,
       image_url: finalImages[0] || "",
@@ -145,7 +150,10 @@ export async function addProduct(formData: FormData) {
     if (insertError) throw insertError;
 
     revalidatePath("/");
+    revalidatePath("/shop");
     revalidatePath("/admin/products");
+    revalidatePath("/category", "layout");
+    revalidatePath("/product/[id]", "layout");
     return { success: true, product: newProduct };
   } catch (error) {
     console.error("Error adding product:", error);
@@ -212,18 +220,26 @@ export async function addBundle(formData: FormData) {
       id,
       title: { 
         en: bundleData.title, 
+        slug: bundleData.slug || bundleData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
         mrp: Number(bundleData.mrp || 0),
         is_bestseller: bundleData.isBestseller,
         is_top9: bundleData.isTop9,
         is_bundle: true,
-        bundle_items: bundleData.bundleItems || []
+        bundle_items: bundleData.bundleItems || [],
+        why_buy: bundleData.whyBuy || [],
+        target_audience: bundleData.targetAudience || [],
+        use_cases: bundleData.useCases || [],
+        short_description: bundleData.shortDescription || ""
       },
-      description: { en: bundleData.description || "" },
+      description: { 
+        en: bundleData.fullDescription || bundleData.description || "",
+        included_files: bundleData.includedFiles || []
+      },
       price: Number(bundleData.price || 0),
       category_id: bundleData.categoryId || null,
       image_url: finalImageUrl,
       images: [finalImageUrl].filter(Boolean),
-      features: typeof bundleData.features === 'string' ? bundleData.features.split(',').map((f: string) => f.trim()).filter(Boolean) : [],
+      features: Array.isArray(bundleData.features) ? bundleData.features : [],
       drive_link: bundleData.driveLink || "",
       faqs: [],
       variants: []
@@ -236,8 +252,11 @@ export async function addBundle(formData: FormData) {
     if (error) throw error;
     
     revalidatePath("/");
+    revalidatePath("/shop");
     revalidatePath("/admin/products");
     revalidatePath("/admin/bundles");
+    revalidatePath("/category", "layout");
+    revalidatePath("/bundle/[slug]", "layout");
     return { success: true, product: newBundle };
   } catch (error) {
     console.error("Error adding bundle:", error);
@@ -297,28 +316,37 @@ export async function updateBundle(id: string, formData: FormData) {
 
     await Promise.all(uploadPromises);
 
+    const currentBundleRes = await supabase.from("products").select("description").eq("id", id).single();
+    const currentDescription = currentBundleRes.data?.description || {};
+
     const updatedBundle: any = {
       title: { 
         en: bundleData.title, 
+        slug: bundleData.slug || bundleData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
         mrp: Number(bundleData.mrp || 0),
         is_bestseller: bundleData.isBestseller,
         is_top9: bundleData.isTop9,
         is_bundle: true,
-        bundle_items: bundleData.bundleItems || []
+        bundle_items: bundleData.bundleItems || [],
+        why_buy: bundleData.whyBuy || [],
+        target_audience: bundleData.targetAudience || [],
+        use_cases: bundleData.useCases || [],
+        short_description: bundleData.shortDescription || ""
       },
-      description: { en: bundleData.description || "" },
+      description: { 
+        ...currentDescription,
+        en: bundleData.fullDescription || bundleData.description || "",
+        included_files: bundleData.includedFiles || []
+      },
       price: Number(bundleData.price || 0),
       category_id: bundleData.categoryId || null,
-      drive_link: bundleData.driveLink || ""
+      drive_link: bundleData.driveLink || "",
+      features: Array.isArray(bundleData.features) ? bundleData.features : []
     };
 
     if (finalImageUrl) {
       updatedBundle.image_url = finalImageUrl;
       updatedBundle.images = [finalImageUrl];
-    }
-
-    if (typeof bundleData.features === 'string') {
-      updatedBundle.features = bundleData.features.split(',').map((f: string) => f.trim()).filter(Boolean);
     }
 
     const { error } = await supabase
@@ -329,8 +357,11 @@ export async function updateBundle(id: string, formData: FormData) {
     if (error) throw error;
 
     revalidatePath("/");
+    revalidatePath("/shop");
     revalidatePath("/admin/products");
     revalidatePath("/admin/bundles");
+    revalidatePath("/category", "layout");
+    revalidatePath("/bundle/[slug]", "layout");
     return { success: true };
   } catch (error) {
     console.error("Error updating bundle:", error);
@@ -433,6 +464,9 @@ export async function updateProduct(id: string, formData: FormData) {
       answer: answers[i]?.trim() || ""
     })).filter(faq => faq.question && faq.answer);
 
+    const currentProductRes = await supabase.from("products").select("description").eq("id", id).single();
+    const currentDescription = currentProductRes.data?.description || {};
+
     const updateData: any = {
       title: { 
         en: title, 
@@ -440,7 +474,12 @@ export async function updateProduct(id: string, formData: FormData) {
         is_bestseller: formData.get("isBestseller") === "true",
         is_top9: formData.get("isTop9") === "true"
       },
-      description: { en: description },
+      description: { 
+        ...currentDescription,
+        en: description,
+        included_files: formData.getAll("includedFiles").filter(Boolean),
+        use_cases: formData.getAll("useCases").filter(Boolean)
+      },
       price: Number(price),
       category_id: categoryId,
       features: features.split(',').map((f: string) => f.trim()).filter(Boolean),
@@ -462,7 +501,10 @@ export async function updateProduct(id: string, formData: FormData) {
     if (updateError) throw updateError;
 
     revalidatePath("/");
+    revalidatePath("/shop");
     revalidatePath("/admin/products");
+    revalidatePath("/category", "layout");
+    revalidatePath("/product/[id]", "layout");
     return { success: true };
   } catch (error) {
     console.error("Error updating product:", error);
@@ -480,7 +522,11 @@ export async function deleteProduct(id: string) {
     if (error) throw error;
 
     revalidatePath("/");
+    revalidatePath("/shop");
     revalidatePath("/admin/products");
+    revalidatePath("/admin/bundles");
+    revalidatePath("/category", "layout");
+    revalidatePath("/product/[id]", "layout");
     return { success: true };
   } catch (error) {
     console.error("Error deleting product:", error);

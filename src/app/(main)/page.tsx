@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { getProducts } from "@/actions/productActions";
 import { getAppearance, getReviews } from "@/actions/adminActions";
 import HomeClient from "./HomeClient";

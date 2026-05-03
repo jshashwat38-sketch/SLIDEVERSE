@@ -51,7 +51,7 @@ export default function LogoLoader() {
         className="flex flex-col items-center gap-2"
       >
         <span className="text-[10px] font-black text-primary uppercase tracking-[0.5em] animate-pulse italic">
-          Initializing Vault
+          Your Content Is Loading...
         </span>
         <div className="w-32 h-1 bg-primary/10 rounded-full overflow-hidden">
           <motion.div

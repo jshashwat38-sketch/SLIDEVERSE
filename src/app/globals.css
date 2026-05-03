@@ -195,12 +195,12 @@ nextjs-portal {
 }
 
 :root {
-  --background: 0 0% 2%;
-  --foreground: 0 0% 98%;
-  --primary: 37 46% 61%; /* #C5A572 */
-  --primary-hover: 37 46% 71%;
-  --card: 240 10% 4%;
-  --sidebar: 240 10% 2%;
+  --background: #050505;
+  --foreground: #FAFAFA;
+  --primary: #C5A572; /* #C5A572 */
+  --primary-hover: #D9B986;
+  --card: #0A0A0C;
+  --sidebar: #080808;
   --font-sans: 'Inter', sans-serif;
   --font-heading: 'Space Grotesk', sans-serif;
   --logo-gold: #C5A572;
