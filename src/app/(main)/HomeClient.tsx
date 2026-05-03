@@ -42,11 +42,13 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
   const [ratingSort] = useState<"none" | "highest" | "lowest">("none");
   const [langFilter] = useState<"all" | "hindi" | "english">("all");
   const [categories, setCategories] = useState<any[]>([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
 
   useEffect(() => {
     getCategories().then((data) => {
       setCategories(data);
+      setCategoriesLoading(false);
       if (data.length > 0) {
         setSelectedCategoryId(data[0].id);
       }
@@ -175,8 +177,8 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
   const sections: Record<string, React.ReactNode> = {
     hero: <HeroSection key="hero" appearance={appearance} t={t} language={language} handleScroll={handleScroll} />,
     trust: <TrustStrip key="trust" data={appearance?.trust} />,
-    featured: <FeaturedSection key="featured" appearance={appearance} t={t} language={language} featuredProducts={featuredProducts} activeHeroIndex={activeHeroIndex} handleGridItemClick={handleGridItemClick} />,
-    bestsellers: <BestsellersSection key="bestsellers" appearance={appearance} t={t} language={language} bestsellers={bestsellers} />,
+    featured: <FeaturedSection key="featured" appearance={appearance} t={t} language={language} featuredProducts={featuredProducts} activeHeroIndex={activeHeroIndex} handleGridItemClick={handleGridItemClick} isLoading={categoriesLoading} />,
+    bestsellers: <BestsellersSection key="bestsellers" appearance={appearance} t={t} language={language} bestsellers={bestsellers} isLoading={categoriesLoading} />,
     categories: (
       <CategoryShowcase 
         key="categories"
@@ -184,6 +186,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
         categories={categories} 
         language={language} 
         t={t} 
+        isLoading={categoriesLoading}
       />
     ),
     customPpt: (

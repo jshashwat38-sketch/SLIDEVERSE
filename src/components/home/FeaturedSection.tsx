@@ -6,7 +6,31 @@ import { ArrowRight } from "lucide-react";
 import { ProductCard, HeroProductCard } from "@/components/products/ProductCards";
 import { getLangString } from "@/utils/lang";
 
-export default function FeaturedSection({ appearance, t, language, featuredProducts, activeHeroIndex, handleGridItemClick }: any) {
+export default function FeaturedSection({ appearance, t, language, featuredProducts, activeHeroIndex, handleGridItemClick, isLoading }: any) {
+  if (isLoading) {
+    return (
+      <section className="py-20 md:py-32 relative border-t border-white/5 animate-in fade-in duration-700">
+        <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 mb-16 flex flex-col items-center justify-center text-center gap-6">
+          <div className="h-10 md:h-12 w-64 md:w-96 bg-white/5 rounded-full animate-pulse" />
+          <div className="h-4 w-48 bg-white/5 rounded-full animate-pulse" />
+          <div className="h-14 w-64 bg-white/5 rounded-2xl animate-pulse" />
+        </div>
+        <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+          <div className="h-[500px] w-full bg-white/5 rounded-[3.5rem] animate-pulse">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
+          </div>
+          <div className="grid grid-cols-3 gap-8">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="aspect-square bg-white/5 rounded-[2.5rem] animate-pulse">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   if (!featuredProducts || featuredProducts.length === 0) return null;
 
   return (

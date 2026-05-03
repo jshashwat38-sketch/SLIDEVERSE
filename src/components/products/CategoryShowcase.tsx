@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
 
-export default function CategoryShowcase({ products, categories, language, t }: { products: any[]; categories: any[]; language: string; t: any }) {
+export default function CategoryShowcase({ products, categories, language, t, isLoading: propIsLoading }: { products: any[]; categories: any[]; language: string; t: any; isLoading?: boolean }) {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [visibleCount, setVisibleCount] = useState(4);
@@ -16,11 +16,12 @@ export default function CategoryShowcase({ products, categories, language, t }: 
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
-    const initTimer = setTimeout(() => {
-      setIsInitialLoading(false);
-    }, 4000);
-    return () => clearTimeout(initTimer);
-  }, []);
+    if (!propIsLoading) {
+      // Small delay for smooth transition once data is ready
+      const timer = setTimeout(() => setIsInitialLoading(false), 800);
+      return () => clearTimeout(timer);
+    }
+  }, [propIsLoading]);
 
   useEffect(() => {
     if (selectedCategoryId) {
@@ -80,21 +81,47 @@ export default function CategoryShowcase({ products, categories, language, t }: 
         </div>
 
         {isInitialLoading ? (
-          <div className="flex flex-col items-center justify-center py-24 animate-in fade-in duration-500">
-            {/* Elegant Spinning Gold Ring */}
-            <div className="relative flex items-center justify-center w-24 h-24 mb-8">
-              <div className="absolute inset-0 border-4 border-primary/20 border-t-primary rounded-full animate-spin [animation-duration:1200ms]" />
-              <div className="w-12 h-12 bg-primary/10 rounded-full animate-pulse flex items-center justify-center">
-                <div className="w-4 h-4 bg-primary rounded-full shadow-[0_0_20px_rgba(197,165,114,0.8)]" />
+          <div className="animate-in fade-in duration-700">
+            {/* Loading Header */}
+            <div className="flex flex-col items-center justify-center mb-16 space-y-4">
+              <div className="relative flex items-center justify-center w-20 h-20 mb-4">
+                <div className="absolute inset-0 border-2 border-primary/10 border-t-primary rounded-full animate-spin" />
+                <Package className="w-8 h-8 text-primary/30 animate-pulse" />
               </div>
-            </div>
-            
-            {/* Premium Typography */}
-            <div className="text-center">
-              <span className="text-xs font-black text-primary uppercase tracking-[0.5em] animate-pulse">Loading Templates...</span>
-              <p className="text-[10px] text-zinc-500 dark:text-zinc-500 uppercase tracking-widest mt-3 font-black italic">
-                Staging your premium presentation assets
+              <h3 className="text-2xl md:text-3xl font-black text-foreground italic uppercase tracking-tighter animate-pulse">
+                Your Content Is <span className="text-primary">Loading…</span>
+              </h3>
+              <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.4em] italic">
+                Preparing premium templates for you
               </p>
+            </div>
+
+            {/* Category Tabs Skeleton */}
+            <div className="flex gap-4 justify-center mb-12 overflow-hidden px-4">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="h-10 w-24 md:w-32 bg-white/5 border border-white/5 rounded-xl animate-pulse shrink-0" />
+              ))}
+            </div>
+
+            {/* Product Cards Skeleton Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 mb-12">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className={`bg-white/5 border border-white/5 rounded-[2rem] overflow-hidden flex flex-col h-[350px] animate-pulse ${i > 2 ? 'hidden md:flex' : 'flex'} ${i > 3 ? 'hidden lg:flex' : 'flex'}`}>
+                  <div className="aspect-square bg-white/5 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
+                  </div>
+                  <div className="p-6 space-y-4 flex-1 flex flex-col">
+                    <div className="h-4 bg-white/10 rounded-full w-3/4" />
+                    <div className="h-3 bg-white/5 rounded-full w-1/2" />
+                    <div className="mt-auto h-10 bg-white/10 rounded-xl w-full" />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA Button Skeleton */}
+            <div className="flex justify-center">
+              <div className="h-14 w-64 bg-white/5 border border-white/5 rounded-xl animate-pulse" />
             </div>
           </div>
         ) : (

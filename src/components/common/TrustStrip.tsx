@@ -87,12 +87,44 @@ function StatItem({ icon: Icon, value, label, delay = 0 }: StatItemProps) {
 }
 
 export default function TrustStrip({ data }: { data?: any }) {
+  const isLoading = !data || Object.keys(data).length === 0;
+
   const stats = [
     { icon: Download, value: data?.downloads || "1200+", label: "Premium Downloads" },
     { icon: Users, value: data?.users || "500+", label: "Happy Strategists" },
     { icon: Star, value: data?.rating || "4.9/5", label: "Executive Rating" },
     { icon: Gift, value: data?.customOrders || "100+", label: "Custom Deployments" }
   ];
+
+  if (isLoading) {
+    return (
+      <section className="py-8 md:py-16 relative overflow-hidden animate-in fade-in duration-700">
+        <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="hidden md:flex items-center justify-between py-12 px-8 border-y border-white/5 bg-white/[0.02] rounded-[3rem]">
+            <div className="grid grid-cols-4 gap-12 w-full divide-x divide-white/5">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="flex items-center justify-center first:pl-0 pl-12 gap-5">
+                  <div className="w-14 h-14 rounded-2xl bg-white/5 animate-pulse" />
+                  <div className="space-y-2">
+                    <div className="h-8 w-20 bg-white/10 rounded animate-pulse" />
+                    <div className="h-3 w-24 bg-white/5 rounded animate-pulse" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="md:hidden bg-white dark:bg-[#09090B] border border-white/5 rounded-[2.5rem] p-8 space-y-8">
+            {[1, 2].map((i) => (
+              <div key={i} className="flex flex-col items-center gap-4">
+                <div className="h-8 w-32 bg-white/5 rounded animate-pulse" />
+                <div className="h-3 w-40 bg-white/5 rounded animate-pulse" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-8 md:py-16 relative overflow-hidden">

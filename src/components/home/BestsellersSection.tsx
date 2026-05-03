@@ -4,7 +4,27 @@ import { motion } from "framer-motion";
 import { ProductCard } from "@/components/products/ProductCards";
 import { getLangString } from "@/utils/lang";
 
-export default function BestsellersSection({ appearance, t, language, bestsellers }: any) {
+export default function BestsellersSection({ appearance, t, language, bestsellers, isLoading }: any) {
+  if (isLoading) {
+    return (
+      <section className="py-20 md:py-32 relative border-t border-white/5 animate-in fade-in duration-700">
+        <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center justify-center text-center mb-16 gap-4">
+            <div className="h-10 md:h-12 w-64 md:w-96 bg-white/5 rounded-full animate-pulse" />
+            <div className="h-3 w-48 bg-white/5 rounded-full animate-pulse" />
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="aspect-[4/5] bg-white/5 rounded-[2rem] animate-pulse relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   if (!bestsellers || bestsellers.length === 0) return null;
 
   return (
