@@ -557,7 +557,6 @@ export default function AppearancePage() {
                     </PreviewErrorBoundary>
                   </div>
                 )}
-              </div>
             </div>
           </div>
 
@@ -584,7 +583,8 @@ export default function AppearancePage() {
           background: rgba(255, 255, 255, 0.1);
         }
       `}</style>
-    </div>
+      </div>
+    </TopLevelErrorBoundary>
   );
 }
 
@@ -680,6 +680,8 @@ function EditorField({ label, value, onChange, type = "text", rows = 3 }: any) {
   );
 }
 
+function ImageUploadField({ label, value, uploading, onUpload, onChange }: any) {
+  return (
     <div className="space-y-3">
       <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] ml-2">{label}</label>
       <div className="flex gap-4">
