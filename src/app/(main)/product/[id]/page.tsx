@@ -230,7 +230,7 @@ export default function ProductDetailsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
           {/* Left: Gallery */}
           <div className="space-y-6">
-            <div className={`bg-white/[0.02] rounded-[2rem] sm:rounded-[3rem] overflow-hidden border border-white/5 relative group transition-all duration-700 ${activeImage === 0 ? 'aspect-square' : 'aspect-[9/16] max-h-[80vh] mx-auto'}`}>
+            <div className={`bg-white/[0.02] rounded-[2rem] sm:rounded-[3rem] overflow-hidden border border-white/5 relative group transition-all duration-700 ${activeImage === 0 ? 'aspect-square' : 'aspect-video max-h-[80vh] mx-auto'}`}>
               <AnimatePresence mode="wait">
                 <motion.img
                   key={activeImage}
@@ -267,7 +267,7 @@ export default function ProductDetailsPage() {
                 <button
                   key={i}
                   onClick={() => setActiveImage(i)}
-                  className={`rounded-2xl overflow-hidden border-2 transition-all ${i === 0 ? 'aspect-square' : 'aspect-[9/16]'} ${activeImage === i ? 'border-primary shadow-[0_0_15px_rgba(197, 165, 114, 0.3)]' : 'border-white/5 hover:border-white/20'}`}
+                  className={`rounded-2xl overflow-hidden border-2 transition-all ${i === 0 ? 'aspect-square' : 'aspect-video'} ${activeImage === i ? 'border-primary shadow-[0_0_15px_rgba(197, 165, 114, 0.3)]' : 'border-white/5 hover:border-white/20'}`}
                 >
                   <img 
                     src={img || "https://placehold.co/600x400?text=No+Image"} 

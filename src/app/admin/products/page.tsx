@@ -619,7 +619,7 @@ export default function ProductsPage() {
                       <div key={index} className="flex flex-col gap-3">
                         <div className="flex items-center justify-between px-2">
                           <span className="text-[9px] font-black text-zinc-700 uppercase tracking-widest">
-                            Gallery Asset {index} (Rec: 9:16 Ratio - 1080x1920px Portrait)
+                            Gallery Asset {index} (Rec: 16:9 Ratio - 1920x1080px Widescreen)
                           </span>
                           {imageUrls[index] || imageFiles[index] ? (
                             <span className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">Active</span>
