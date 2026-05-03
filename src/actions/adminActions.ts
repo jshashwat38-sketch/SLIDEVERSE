@@ -366,11 +366,13 @@ export async function getReviews() {
 export async function saveReview(review: any) {
   try {
     const data = {
-      name: review.name,
-      rating: Number(review.rating),
-      comment: review.comment,
+      name: typeof review.name === 'string' ? { en: review.name } : review.name,
+      role: typeof review.role === 'string' ? { en: review.role } : review.role,
+      text: typeof (review.text || review.comment) === 'string' ? { en: (review.text || review.comment) } : (review.text || review.comment),
+      rating: Number(review.rating || 5),
+      code: review.code || "SIGMA-XX",
       date: review.date || new Date().toLocaleDateString(),
-      status: review.status || "pending"
+      status: review.status || "approved"
     };
 
     let error;
