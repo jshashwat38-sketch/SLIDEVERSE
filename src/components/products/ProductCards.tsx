@@ -488,23 +488,18 @@ export function HeroProductCard(props: any) {
 
       <Link 
         href={`/product/${id}`} 
-        className="w-full lg:w-1/2 relative aspect-square lg:aspect-[4/5] overflow-hidden cursor-pointer order-1 lg:order-2 bg-gradient-to-br from-black via-zinc-900 to-black group/img"
+        className="w-full lg:w-1/2 relative aspect-square lg:aspect-[4/5] overflow-hidden cursor-pointer order-1 lg:order-2 bg-transparent group/img"
       >
-        {/* Background Option B: Blurred Duplicate */}
+        {/* Background Option: Minimal Ambient Glow */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
-            alt="" 
-            className="w-full h-full object-cover blur-3xl opacity-40 scale-125"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity duration-1000" />
         </div>
 
-        {/* Main Image Layer: Immersive Frame */}
+        {/* Main Image Layer: Immersive Floating */}
         <div className="absolute inset-0 z-10 flex items-center justify-center p-8 md:p-12 lg:p-16">
           <motion.img 
             initial={{ scale: 1 }}
-            animate={{ scale: 1.02 }}
+            animate={{ scale: 1.02, y: [0, -10, 0] }}
             transition={{ 
               duration: 10, 
               repeat: Infinity, 
@@ -513,18 +508,14 @@ export function HeroProductCard(props: any) {
             }}
             src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
             alt={displayTitle} 
-            className="w-full h-full object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.8)] select-none" 
+            className="w-full h-full object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.6)] select-none" 
             onError={(e) => {
               (e.target as HTMLImageElement).src = "https://placehold.co/800x400?text=No+Image";
             }}
           />
         </div>
         
-        {/* Premium Frame Styling: Gold Glow & Inner Shadow */}
-        <div className="absolute inset-0 border-l border-white/10 pointer-events-none z-20 shadow-[inset_0_0_100px_rgba(0,0,0,0.5)]" />
-        <div className="absolute inset-0 opacity-0 group-hover/img:opacity-100 transition-opacity duration-700 pointer-events-none z-30 border border-primary/20 rounded-none shadow-[0_0_50px_rgba(197,165,114,0.1)]" />
-        
-        {/* Subtle cinematic glow */}
+        {/* Cinematic glow */}
         <div className="absolute -top-1/4 -left-1/4 w-full h-full bg-primary/5 blur-[120px] rounded-full z-0 pointer-events-none" />
       </Link>
     </motion.div>

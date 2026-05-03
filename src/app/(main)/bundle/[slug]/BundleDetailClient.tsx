@@ -57,7 +57,7 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
               className="relative aspect-square group"
             >
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-[3rem] blur-2xl group-hover:scale-105 transition-transform duration-700" />
-              <div className="relative h-full w-full rounded-[3rem] overflow-hidden border border-black/5 dark:border-white/10 bg-white dark:bg-black shadow-2xl transition-colors duration-300">
+              <div className="relative h-full w-full rounded-[3rem] overflow-hidden bg-white dark:bg-black transition-colors duration-300">
                 <Image 
                   src={bundle.image_url || "/placeholder.jpg"} 
                   alt={title.en}

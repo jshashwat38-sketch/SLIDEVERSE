@@ -100,24 +100,18 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="hidden lg:block relative group z-10 aspect-square w-full max-w-[750px] ml-auto overflow-hidden rounded-[2rem] border border-black/5 dark:border-white/10 bg-gradient-to-br from-black via-zinc-900 to-black shadow-[0_40px_100px_rgba(0,0,0,0.4)]"
+          className="hidden lg:block relative group z-10 aspect-square w-full max-w-[750px] ml-auto overflow-hidden bg-transparent"
         >
-          {/* Background Ambient Layers (Option B + Glow) */}
+          {/* Background Ambient Layers: Subtle Glow Only */}
           <div className="absolute inset-0 z-0">
-            <img 
-              src={appearance?.hero?.image || "/uploads/slideverse_presentation_hero.png"}
-              alt="" 
-              className="w-full h-full object-cover blur-3xl opacity-30 scale-125"
-            />
-            <div className="absolute inset-0 bg-gradient-to-tr from-black via-transparent to-primary/5" />
-            <div className="absolute inset-0 shadow-[inset_0_0_120px_rgba(0,0,0,0.8)]" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
           </div>
 
-          {/* Main Visual: Premium Fit & Cinematic Shadow */}
-          <div className="absolute inset-0 z-10 flex items-center justify-center p-12">
+          {/* Main Visual: Pure Floating with Cinematic Shadow */}
+          <div className="absolute inset-0 z-10 flex items-center justify-center p-4">
             <motion.div
               animate={{ 
-                y: [0, -10, 0],
+                y: [0, -15, 0],
                 scale: [1, 1.02, 1]
               }}
               transition={{ 
@@ -132,15 +126,11 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
                 alt="Hero Visual"
                 width={800}
                 height={800}
-                className="w-full h-full object-contain drop-shadow-[0_50px_100px_rgba(0,0,0,0.7)] select-none"
+                className="w-full h-full object-contain drop-shadow-[0_50px_100px_rgba(0,0,0,0.6)] select-none"
                 priority
               />
             </motion.div>
           </div>
-
-          {/* Premium Frame styling */}
-          <div className="absolute inset-0 border border-white/5 rounded-[2rem] pointer-events-none z-20 group-hover:border-primary/20 transition-all duration-700 shadow-[inset_0_0_80px_rgba(0,0,0,0.4)]" />
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 bg-gradient-to-tr from-primary/5 via-transparent to-transparent pointer-events-none z-0" />
         </motion.div>
       </div>
     </section>
