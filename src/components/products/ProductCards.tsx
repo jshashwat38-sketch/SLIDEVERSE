@@ -101,7 +101,7 @@ export function ProductCard(props: any) {
           <img 
             src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
             alt={displayTitle} 
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100" 
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100 rounded-2xl" 
             onError={(e) => {
               (e.target as HTMLImageElement).src = "https://placehold.co/400x300?text=No+Image";
             }}
@@ -145,7 +145,7 @@ export function ProductCard(props: any) {
             src={displayImage || "https://placehold.co/200x150?text=No+Image"} 
             alt={displayTitle} 
             loading="lazy"
-            className="w-full h-full object-cover" 
+            className="w-full h-full object-cover rounded-xl" 
             onError={(e) => {
               (e.target as HTMLImageElement).src = "https://placehold.co/200x150?text=No+Image";
             }}
@@ -188,7 +188,7 @@ export function ProductCard(props: any) {
           <img 
             src={displayImage || "https://placehold.co/600x400?text=No+Image"} 
             alt={displayTitle} 
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100" 
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100 rounded-2xl" 
             onError={(e) => {
               (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=No+Image";
             }}
@@ -297,7 +297,7 @@ export function ProductCard(props: any) {
         <img 
           src={displayImage || "https://placehold.co/600x400?text=No+Image"} 
           alt={displayTitle} 
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100" 
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100 rounded-[2rem]" 
           onError={(e) => {
             (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=No+Image";
           }}

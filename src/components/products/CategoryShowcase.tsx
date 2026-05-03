@@ -267,7 +267,7 @@ export default function CategoryShowcase({ products, categories, language, t, is
                           src={prod.image_url || prod.imageUrl || (prod.images && prod.images[0]) || "https://placehold.co/1000x1000?text=No+Asset"}
                           alt={titleStr}
                           loading="lazy"
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover rounded-2xl"
                           onError={(e) => {
                             (e.target as HTMLImageElement).src = "https://placehold.co/1000x1000?text=No+Asset";
                           }}
