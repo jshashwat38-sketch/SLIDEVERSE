@@ -8,12 +8,24 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-async function getBundleBySlug(slug: string) {
-  const { data, error } = await supabase
+async function getBundleBySlug(slugOrId: string) {
+  // First try by slug
+  let { data, error } = await supabase
     .from("products")
     .select("*, categories(*)")
-    .eq("title->>slug", slug)
+    .eq("title->>slug", slugOrId)
     .maybeSingle();
+
+  // If not found, try by id (in case slug is actually an id)
+  if (!data) {
+    const { data: dataById, error: errorById } = await supabase
+      .from("products")
+      .select("*, categories(*)")
+      .eq("id", slugOrId)
+      .maybeSingle();
+    data = dataById;
+    error = errorById;
+  }
 
   if (error || !data) {
     console.error("Error fetching bundle:", error);
