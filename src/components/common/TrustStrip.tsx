@@ -69,16 +69,18 @@ function StatItem({ icon: Icon, value, label, delay = 0 }: StatItemProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay }}
-      className="flex flex-col md:flex-row items-center gap-4 px-8 py-6 group"
+      className="flex flex-col items-center justify-center p-5 sm:p-6 md:p-8 bg-white dark:bg-[#0c0c0c] md:bg-transparent md:dark:bg-transparent rounded-2xl md:rounded-none border border-zinc-100 dark:border-white/5 md:border-none shadow-sm md:shadow-none group text-center"
     >
-      <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 group-hover:scale-110 group-hover:bg-primary group-hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(197,165,114,0.1)]">
-        <Icon className="w-6 h-6" />
+      <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 group-hover:scale-110 group-hover:bg-primary group-hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(197,165,114,0.1)] mb-4 md:mb-0 md:mr-4">
+        <Icon className="w-5 h-5 md:w-6 md:h-6" />
       </div>
-      <div className="text-center md:text-left">
-        <div className="text-2xl md:text-3xl font-black text-zinc-900 dark:text-white italic tracking-tighter">
+      <div className="md:text-left">
+        <div className="text-xl md:text-3xl font-black text-zinc-900 dark:text-white italic tracking-tighter leading-none">
           <Counter value={value} />
         </div>
-        <div className="text-[10px] font-black text-zinc-500 dark:text-zinc-500 uppercase tracking-[0.3em] mt-1">{label}</div>
+        <div className="text-[8px] md:text-[10px] font-black text-zinc-500 dark:text-zinc-500 uppercase tracking-[0.2em] md:tracking-[0.3em] mt-2 leading-none whitespace-nowrap">
+          {label}
+        </div>
       </div>
     </motion.div>
   );
@@ -93,18 +95,48 @@ export default function TrustStrip({ data }: { data?: any }) {
   ];
 
   return (
-    <section className="py-12 border-y border-zinc-200 dark:border-white/5 bg-white/[0.02] dark:bg-white/[0.01] backdrop-blur-sm relative overflow-hidden">
-      {/* Decorative background element */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -z-10" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -z-10" />
-
+    <section className="py-8 md:py-16 relative overflow-hidden">
       <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 divide-y md:divide-y-0 md:divide-x divide-zinc-200 dark:divide-white/5">
-          {stats.map((stat, i) => (
-            <div key={i} className="pt-8 md:pt-0 first:pt-0">
-               <StatItem {...stat} delay={i * 0.1} />
-            </div>
-          ))}
+        {/* Mobile Wrapper: Compact Ivory Block */}
+        <div className="md:hidden bg-[#FAF9F6] dark:bg-[#09090B] border border-zinc-200 dark:border-white/5 rounded-[2.5rem] p-4 shadow-xl relative overflow-hidden">
+           {/* Ambient Glow for Mobile */}
+           <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[60px] pointer-events-none" />
+           <div className="absolute bottom-0 left-0 w-32 h-32 bg-primary/5 blur-[60px] pointer-events-none" />
+           
+           <div className="grid grid-cols-2 gap-3 relative z-10">
+              {stats.map((stat, i) => (
+                <StatItem key={i} {...stat} delay={i * 0.1} />
+              ))}
+           </div>
+        </div>
+
+        {/* Desktop Version: Horizontal Strip */}
+        <div className="hidden md:flex items-center justify-between py-12 px-8 border-y border-zinc-200 dark:border-white/5 bg-white/[0.02] dark:bg-white/[0.01] backdrop-blur-sm rounded-[3rem]">
+          <div className="grid grid-cols-4 gap-12 w-full divide-x divide-zinc-200 dark:divide-white/5">
+            {stats.map((stat, i) => (
+              <div key={i} className="flex items-center justify-center first:pl-0 pl-12">
+                 <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="flex items-center gap-5 group"
+                 >
+                    <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 group-hover:scale-110 group-hover:bg-primary group-hover:text-black transition-all duration-500">
+                      <stat.icon className="w-7 h-7" />
+                    </div>
+                    <div>
+                      <div className="text-3xl font-black text-zinc-900 dark:text-white italic tracking-tighter">
+                        <Counter value={stat.value} />
+                      </div>
+                      <div className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mt-1">
+                        {stat.label}
+                      </div>
+                    </div>
+                 </motion.div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
