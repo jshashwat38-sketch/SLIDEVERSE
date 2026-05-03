@@ -68,7 +68,7 @@ export default function CategoryShowcase({ products, categories, language, t, is
   };
 
   return (
-    <section className="py-24 border-t border-zinc-200 dark:border-white/5 relative bg-[#FCFBF8] dark:bg-[#040405]">
+    <section className="py-24 border-t border-zinc-200 dark:border-white/5 relative bg-white dark:bg-[#040405]">
       <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Headings */}
         <div className="text-center mb-16">

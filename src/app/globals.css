@@ -83,12 +83,14 @@ html:not(.dark) .bg-zinc-950 {
   }
 }
 
-/* Secondary Backgrounds -> Soft Warm White */
-html.light section:nth-of-type(even),
-html.light .bg-\[\#F5F5F2\],
-html.light .bg-zinc-900,
-html:not(.dark) section:nth-of-type(even) {
-  background-color: #FCFBF8 !important;
+/* Secondary Backgrounds -> Soft Warm White (Desktop Only) */
+@media (min-width: 769px) {
+  html.light section:nth-of-type(even),
+  html.light .bg-\[\#F5F5F2\],
+  html.light .bg-zinc-900,
+  html:not(.dark) section:nth-of-type(even) {
+    background-color: #FCFBF8 !important;
+  }
 }
 
 /* Panel/Card Elements -> Pure White */
