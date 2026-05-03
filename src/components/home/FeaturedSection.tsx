@@ -38,7 +38,7 @@ export default function FeaturedSection({ appearance, t, language, featuredProdu
       <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 mb-16 flex flex-col items-center justify-center text-center gap-6">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-xl">
           <h2 
-            className="text-4xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight italic uppercase" 
+            className="text-4xl md:text-5xl font-heading font-bold text-zinc-900 dark:text-white mb-4 tracking-tight italic uppercase" 
             dangerouslySetInnerHTML={{ 
               __html: (getLangString(appearance?.featured?.heading, language) || t("ppt_marketplace"))
                 .replace(/Marketplace/gi, '<span class="text-primary">Marketplace</span>')
@@ -80,7 +80,7 @@ export default function FeaturedSection({ appearance, t, language, featuredProdu
         
         <div className="mt-16">
           <div className="flex items-center justify-between mb-8">
-            <h3 className="text-xl font-black uppercase tracking-[0.2em] text-white italic">
+            <h3 className="text-xl font-black uppercase tracking-[0.2em] text-zinc-900 dark:text-white italic">
               <span className="text-primary">{t("featured_additions")}</span>
             </h3>
           </div>
