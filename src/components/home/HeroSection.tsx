@@ -119,7 +119,7 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
                 repeat: Infinity, 
                 ease: "easeInOut" 
               }}
-              className="w-full h-full flex items-center justify-center"
+              className="w-full h-full flex items-center justify-center overflow-hidden rounded-[18px] lg:rounded-[24px]"
             >
               <Image 
                 src={appearance?.hero?.image || "/uploads/slideverse_presentation_hero.png"}

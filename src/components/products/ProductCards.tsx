@@ -475,7 +475,7 @@ export function HeroProductCard(props: any) {
         </div>
 
         {/* Main Image Layer: Immersive Floating */}
-        <div className="absolute inset-0 z-10 flex items-center justify-center p-8 md:p-12 lg:p-16">
+        <div className="w-full h-full flex items-center justify-center overflow-hidden rounded-[18px] lg:rounded-[24px] p-8 md:p-12 lg:p-16">
           <motion.img 
             initial={{ scale: 1 }}
             animate={{ scale: 1.02, y: [0, -10, 0] }}
@@ -487,7 +487,7 @@ export function HeroProductCard(props: any) {
             }}
             src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
             alt={displayTitle} 
-            className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.25)] select-none rounded-[18px] lg:rounded-[24px] transition-transform duration-700 will-change-transform" 
+            className="w-full h-full object-contain drop-shadow-[0_50px_100px_rgba(0,0,0,0.6)] select-none rounded-[18px] lg:rounded-[24px] transition-transform duration-700 will-change-transform" 
             onError={(e) => {
               (e.target as HTMLImageElement).src = "https://placehold.co/800x400?text=No+Image";
             }}
