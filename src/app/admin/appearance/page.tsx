@@ -23,8 +23,6 @@ import {
   Trash2, 
   GripVertical, 
   ChevronRight,
-  Monitor,
-  Smartphone,
   Check,
   X,
   Type,
@@ -40,7 +38,6 @@ import {
 import LogoLoader from "@/components/common/LogoLoader";
 import { toast } from "react-hot-toast";
 import { motion, Reorder, AnimatePresence } from "framer-motion";
-import HomeClient from "@/app/(main)/HomeClient";
 
 export default function AppearancePage() {
   const [appearance, setAppearance] = useState<any>(null);
@@ -50,30 +47,13 @@ export default function AppearancePage() {
   const [isPublishing, setIsPublishing] = useState(false);
   const [isReverting, setIsReverting] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("hero");
-  const [previewMode, setPreviewMode] = useState<"desktop" | "mobile">("desktop");
   const [isUploading, setIsUploading] = useState<string | null>(null);
-
-  const [fetchError, setFetchError] = useState<string | null>(null);
   const isLoaded = useRef(false);
-  const [previewScale, setPreviewScale] = useState(0.4);
 
   useEffect(() => {
     if (isLoaded.current) return;
     isLoaded.current = true;
     loadData();
-
-    // Initial scale calculation
-    const handleResize = () => {
-      const availableWidth = window.innerWidth - 64 - 256; // aside widths
-      if (availableWidth < 1000) {
-        setPreviewScale(Math.max(0.2, (availableWidth - 100) / 1440));
-      } else {
-        setPreviewScale(0.25);
-      }
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   async function loadData() {
@@ -239,22 +219,6 @@ export default function AppearancePage() {
             Homepage <span className="text-primary">Visual Editor</span>
           </h1>
           <div className="h-6 w-[1px] bg-white/10" />
-          <div className="flex items-center bg-white/5 p-1 rounded-xl border border-white/5">
-            <button 
-              onClick={() => { setPreviewMode("desktop"); setPreviewScale(0.4); }}
-              className={`p-2 rounded-lg transition-all ${previewMode === "desktop" ? "bg-primary text-black" : "hover:text-white"}`}
-              title="Desktop View"
-            >
-              <Monitor className="w-4 h-4" />
-            </button>
-            <button 
-              onClick={() => { setPreviewMode("mobile"); setPreviewScale(0.85); }}
-              className={`p-2 rounded-lg transition-all ${previewMode === "mobile" ? "bg-primary text-black" : "hover:text-white"}`}
-              title="Mobile View"
-            >
-              <Smartphone className="w-4 h-4" />
-            </button>
-          </div>
           <button 
             onClick={() => window.location.reload()}
             className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-500 hover:text-white transition-all border border-white/5"
@@ -339,7 +303,7 @@ export default function AppearancePage() {
 
         {/* Center: Editor Canvas */}
         <main className="flex-1 flex flex-col bg-[#050505] overflow-y-auto custom-scrollbar relative">
-          <div className="p-6 md:p-10 max-w-4xl mx-auto w-full pb-32">
+          <div className="p-6 md:p-10 max-w-5xl mx-auto w-full pb-32">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeSection}
@@ -503,69 +467,6 @@ export default function AppearancePage() {
             </div>
           </div>
         </main>
-
-        {/* Right Sidebar: Live Preview Screen */}
-        <aside className="w-[420px] border-l border-white/5 bg-black/40 relative overflow-hidden shrink-0 flex flex-col">
-          <div className="h-12 bg-black/40 border-b border-white/5 flex items-center justify-between px-4 shrink-0">
-            <div className="flex items-center gap-2">
-              <span className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Real-time Preview</span>
-              <button 
-                onClick={() => setPreviewScale(previewMode === "desktop" ? 0.4 : 0.8)}
-                className="p-1.5 rounded-md hover:bg-white/5 text-[8px] font-black text-zinc-600 uppercase tracking-widest border border-white/5 transition-all"
-              >
-                Reset
-              </button>
-            </div>
-            <div className="flex items-center gap-4">
-              <input 
-                type="range" 
-                min="0.3" 
-                max="1.0" 
-                step="0.05" 
-                value={previewScale} 
-                onChange={(e) => setPreviewScale(parseFloat(e.target.value))}
-                className="w-20 h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary"
-              />
-              <span className="text-[8px] font-black text-primary uppercase w-8">{Math.round(previewScale * 100)}%</span>
-            </div>
-          </div>
-          
-          <div className="flex-1 overflow-auto p-4 flex items-start justify-center bg-[#09090B] custom-scrollbar">
-            <div 
-              className={`transition-all duration-300 border border-white/10 rounded-[1.5rem] overflow-hidden shadow-2xl bg-background origin-top`}
-              style={{ 
-                width: previewMode === "desktop" ? "1440px" : "375px",
-                height: previewMode === "desktop" ? "2500px" : "812px",
-                transform: `scale(${previewScale || 0.6})`,
-                minWidth: previewMode === "desktop" ? "1440px" : "375px",
-              }}
-            >
-                {fetchError ? (
-                  <div className="p-20 text-center">
-                    <div className="text-primary text-4xl mb-4 font-black italic uppercase">System Alert</div>
-                    <p className="text-zinc-500 text-xs uppercase tracking-[0.3em]">{fetchError}</p>
-                  </div>
-                ) : (
-                  <div className="h-full w-full pointer-events-none">
-                    <PreviewErrorBoundary>
-                      <HomeClient 
-                        initialAppearance={appearance} 
-                        initialProducts={products} 
-                        initialReviews={reviews} 
-                        isEditor={true} 
-                      />
-                    </PreviewErrorBoundary>
-                  </div>
-                )}
-            </div>
-          </div>
-
-          <div className="absolute bottom-10 right-10 pointer-events-none">
-            <div className="bg-primary/10 backdrop-blur-3xl border border-primary/20 px-4 py-2 rounded-xl">
-              <span className="text-[9px] font-black text-primary uppercase tracking-widest">Draft Context Active</span>
-            </div>
-          </div>
-        </aside>
       </div>
 
       <style jsx global>{`
