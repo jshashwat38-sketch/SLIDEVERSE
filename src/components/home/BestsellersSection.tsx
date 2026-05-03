@@ -42,7 +42,7 @@ export default function BestsellersSection({ appearance, t, language, bestseller
           </p>
         </div>
 
-        <div className="grid grid-cols-4 gap-2 sm:gap-7 lg:gap-8">
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 sm:gap-7 lg:gap-8">
           {bestsellers.slice(0, 24).map((product: any, index: number) => (
             <motion.div 
               key={`best-${product.id}`}
@@ -54,7 +54,7 @@ export default function BestsellersSection({ appearance, t, language, bestseller
               <div className="hidden sm:block">
                 <ProductCard {...product} />
               </div>
-              <div className="block sm:hidden">
+              <div className="block sm:hidden h-full">
                 <ProductCard {...product} variant="micro-grid-mobile" />
               </div>
             </motion.div>
