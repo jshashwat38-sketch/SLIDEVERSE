@@ -8,7 +8,7 @@ import { toast } from "react-hot-toast";
 export default function ContactSection({ appearance, t }: any) {
   return (
     <section id="contact" className="scroll-mt-24 py-24 md:py-32 relative border-t border-white/5">
-      <div className="w-[94%] max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-16 md:gap-20">
+      <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-16 md:gap-20">
         <div className="lg:col-span-1">
           <div className="flex items-center gap-3 mb-8">
             <Sparkles className="w-5 h-5 text-primary animate-pulse" />

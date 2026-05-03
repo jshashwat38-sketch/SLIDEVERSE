@@ -70,7 +70,7 @@ export default function SignInPage() {
       {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] -z-10" />
 
-      <div className="bg-card p-12 md:p-16 rounded-[3rem] shadow-2xl border border-white/5 w-full max-w-lg relative overflow-hidden group">
+      <div className="bg-card p-6 sm:p-12 md:p-16 rounded-[2rem] sm:rounded-[3rem] shadow-2xl border border-white/5 w-full max-w-lg relative overflow-hidden group">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
         
         <div className="text-center mb-12">

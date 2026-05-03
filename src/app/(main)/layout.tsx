@@ -62,7 +62,7 @@ export default function MainLayout({
           className="flex-1 overflow-y-auto scroll-smooth bg-[#09090B] custom-scrollbar"
         >
 
-          <div className="w-[94%] max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-6 py-8 md:py-12">
+          <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
             {children}
           </div>
           <GlobalFooter />

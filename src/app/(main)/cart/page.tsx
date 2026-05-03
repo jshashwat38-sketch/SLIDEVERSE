@@ -238,7 +238,7 @@ export default function CartPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ delay: index * 0.1 }}
                 key={item.id} 
-                className="bg-card dark:bg-[#09090B] rounded-[2.5rem] p-8 shadow-2xl border border-border dark:border-white/5 flex flex-col sm:flex-row gap-8 items-center group relative overflow-hidden"
+                className="bg-card dark:bg-[#09090B] rounded-[2rem] md:rounded-[2.5rem] p-5 sm:p-8 shadow-2xl border border-border dark:border-white/5 flex flex-col sm:flex-row gap-6 sm:gap-8 items-center group relative overflow-hidden"
               >
                 <div className="absolute top-0 left-0 w-1 h-full bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                 
@@ -306,7 +306,7 @@ export default function CartPage() {
           >
             <Link 
               href="/" 
-              className="group flex items-center gap-4 px-8 py-6 rounded-[2rem] border-2 border-dashed border-border dark:border-white/10 hover:border-primary/50 hover:bg-primary/5 transition-all w-full max-w-sm"
+              className="group flex items-center gap-4 px-6 py-5 rounded-[2rem] border-2 border-dashed border-border dark:border-white/10 hover:border-primary/50 hover:bg-primary/5 transition-all w-full md:max-w-sm"
             >
               <div className="w-12 h-12 rounded-2xl bg-zinc-500/10 dark:bg-white/5 flex items-center justify-center group-hover:bg-primary group-hover:text-black transition-all">
                 <PlusCircle className="w-6 h-6" />
@@ -320,7 +320,7 @@ export default function CartPage() {
         </div>
 
         <div className="lg:col-span-1">
-          <div className="bg-card/80 dark:bg-[#09090B]/80 backdrop-blur-3xl rounded-[3rem] p-10 shadow-2xl border border-border dark:border-white/5 sticky top-28 overflow-hidden group">
+          <div className="bg-card/80 dark:bg-[#09090B]/80 backdrop-blur-3xl rounded-[2.5rem] md:rounded-[3rem] p-6 sm:p-10 shadow-2xl border border-border dark:border-white/5 sticky top-28 overflow-hidden group">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
             
             <h2 className="text-3xl font-black text-foreground mb-10 tracking-tighter italic uppercase leading-none">Valuation Summary</h2>

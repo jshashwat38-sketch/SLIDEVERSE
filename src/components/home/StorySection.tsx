@@ -8,7 +8,7 @@ export default function StorySection({ appearance, t, language, pillarRef }: any
   return (
     <section className="py-24 md:py-40 bg-card/60 relative overflow-hidden border-y border-white/5">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(197,165,114,0.05),transparent_50%)]" />
-      <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px] relative z-10">
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center mb-40">
           <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="relative lg:order-2">
             <div className="absolute -inset-4 bg-primary/10 blur-3xl rounded-[4rem] opacity-50" />

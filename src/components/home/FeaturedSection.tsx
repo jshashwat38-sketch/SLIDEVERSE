@@ -11,7 +11,7 @@ export default function FeaturedSection({ appearance, t, language, featuredProdu
 
   return (
     <section id="featured" className="scroll-mt-24 py-20 md:py-32 relative border-t border-white/5">
-      <div className="w-[94%] max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-6 mb-16 flex flex-col items-center justify-center text-center gap-6">
+      <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 mb-16 flex flex-col items-center justify-center text-center gap-6">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-xl">
           <h2 
             className="text-4xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight italic uppercase" 
@@ -34,7 +34,7 @@ export default function FeaturedSection({ appearance, t, language, featuredProdu
         </motion.div>
       </div>
       
-      <div className="w-[94%] max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-6 space-y-32">
+      <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 space-y-32">
         {featuredProducts[activeHeroIndex] && (
           <div className="relative">
             <AnimatePresence mode="wait">

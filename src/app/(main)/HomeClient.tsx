@@ -188,7 +188,7 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
     ),
     customPpt: (
       <section key="customPpt" className="py-20 md:py-28 relative overflow-hidden bg-[#09090B]">
-        <div className="w-[94%] max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-6 relative z-10">
+        <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-3 mb-6">
               <div className="w-16 h-[1px] bg-primary/30" />

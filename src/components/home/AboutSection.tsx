@@ -6,7 +6,7 @@ import { getLangString } from "@/utils/lang";
 export default function AboutSection({ appearance, t, language }: any) {
   return (
     <section id="about" className="scroll-mt-24 py-20 md:py-32 relative overflow-hidden">
-      <div className="w-[94%] max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
         <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative lg:w-[110%] -ml-[5%]">
           <div className="absolute inset-0 bg-primary/10 blur-[120px] rounded-full" />
           <div className="relative z-10 p-2 bg-gradient-to-br from-primary/20 to-transparent rounded-[3.2rem]">

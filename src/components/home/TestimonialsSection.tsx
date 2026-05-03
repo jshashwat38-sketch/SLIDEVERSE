@@ -9,7 +9,7 @@ export default function TestimonialsSection({ appearance, t, language, reviews, 
 
   return (
     <section id="testimonials" className="py-24 md:py-32 relative overflow-hidden bg-card">
-      <div className="max-w-[1600px] w-[95%] mx-auto px-6 2xl:max-w-[1800px]">
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-left mb-16">
           <h2 
             className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tighter italic uppercase"

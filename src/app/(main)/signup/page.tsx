@@ -153,7 +153,7 @@ export default function SignUpPage() {
       {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[180px] -z-10" />
 
-      <div className="bg-card p-10 md:p-14 rounded-[3.5rem] shadow-2xl border border-white/5 w-full max-w-2xl relative overflow-hidden group">
+      <div className="bg-card p-6 sm:p-10 md:p-14 rounded-[2rem] sm:rounded-[3.5rem] shadow-2xl border border-white/5 w-full max-w-2xl relative overflow-hidden group">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
         
         <AnimatePresence mode="wait">

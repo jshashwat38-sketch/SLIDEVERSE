@@ -210,7 +210,7 @@ export default function ProductDetailsPage() {
 
   return (
     <div className="min-h-screen bg-[#09090B] text-white pt-24 pb-32">
-      <div className="w-[94%] max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-6">
+      <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Navigation Breadcrumb */}
         <button 
           onClick={() => router.back()}
@@ -223,7 +223,7 @@ export default function ProductDetailsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
           {/* Left: Gallery */}
           <div className="space-y-6">
-            <div className="aspect-square bg-white/[0.02] rounded-[3rem] overflow-hidden border border-white/5 relative group">
+            <div className="aspect-square bg-white/[0.02] rounded-[2rem] sm:rounded-[3rem] overflow-hidden border border-white/5 relative group">
               <AnimatePresence mode="wait">
                 <motion.img
                   key={activeImage}
@@ -299,7 +299,7 @@ export default function ProductDetailsPage() {
               )}
             </div>
 
-            <h1 className="text-5xl lg:text-7xl font-black text-white italic uppercase tracking-tighter mb-8 leading-[0.9]">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white italic uppercase tracking-tighter mb-8 leading-[0.9]">
               {typeof product.title === 'object' ? (product.title.en || Object.values(product.title)[0]) : product.title}
             </h1>
             

@@ -45,8 +45,8 @@ export function GlobalFooter() {
   ];
 
   return (
-    <footer className="bg-[#09090B] border-t border-white/5 pt-28 pb-12 px-6">
-      <div className="w-[94%] max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto">
+    <footer className="bg-[#09090B] border-t border-white/5 pt-28 pb-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-24 mb-20">
           {/* Brand Section */}
           <div className="space-y-6">

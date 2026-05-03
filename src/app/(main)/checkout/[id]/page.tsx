@@ -188,12 +188,12 @@ export default function CheckoutPage({ params }: { params: Promise<{ id: string 
         Back to Catalog
       </Link>
 
-      <div className="bg-[#09090B] rounded-[3rem] shadow-2xl border border-white/5 overflow-hidden group">
+      <div className="bg-[#09090B] rounded-[2.5rem] sm:rounded-[3rem] shadow-2xl border border-white/5 overflow-hidden group">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
         
         <div className="md:flex">
           {/* Order Summary */}
-          <div className="md:w-1/3 bg-white/[0.02] p-10 border-r border-white/5">
+          <div className="md:w-1/3 bg-white/[0.02] p-6 sm:p-10 border-r border-white/5">
             <h2 className="text-2xl font-black text-white mb-8 uppercase italic tracking-widest">Summary</h2>
             <div className="space-y-8 mb-10">
               <div className="flex flex-col gap-2">
@@ -219,7 +219,7 @@ export default function CheckoutPage({ params }: { params: Promise<{ id: string 
           </div>
 
           {/* Checkout Form */}
-          <div className="md:w-2/3 p-10 relative overflow-hidden">
+          <div className="md:w-2/3 p-6 sm:p-10 relative overflow-hidden">
             <h1 className="text-3xl font-black text-white mb-8 uppercase italic tracking-tighter">Deployment Details</h1>
             
             {error && (
