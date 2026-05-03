@@ -305,22 +305,22 @@ export function ProductCard(props: any) {
       </Link>
 
       <div className="p-4 sm:p-6 md:p-8 flex flex-col flex-1 relative z-10">
-          <div className="mb-4 min-h-[3rem] sm:min-h-[4rem]">
-            <Link href={`/product/${id}`}>
-              <h3 className="text-sm sm:text-lg md:text-xl font-black text-white italic uppercase tracking-tighter group-hover:text-primary transition-colors cursor-pointer line-clamp-2 leading-tight">{displayTitle}</h3>
-            </Link>
-          </div>
-            <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
-            <p className="text-[10px] text-zinc-600 font-black uppercase tracking-[0.2em]">{displayCategory}</p>
-            {avgRating !== null && (
-              <div className="flex items-center gap-1 text-[10px] text-primary ml-auto font-bold">
-                <Star className="w-3.5 h-3.5 fill-primary text-primary" />
-                <span>{avgRating.toFixed(1)} ({reviewsCount})</span>
-              </div>
-            )}
-          </div>
+        <div className="mb-4 min-h-[3rem] sm:min-h-[4rem]">
+          <Link href={`/product/${id}`}>
+            <h3 className="text-sm sm:text-lg md:text-xl font-black text-white italic uppercase tracking-tighter group-hover:text-primary transition-colors cursor-pointer line-clamp-2 leading-tight">{displayTitle}</h3>
+          </Link>
         </div>
-        
+
+        <div className="flex items-center gap-2 mt-2 w-full mb-8">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
+          <p className="text-[10px] text-zinc-600 font-black uppercase tracking-[0.2em]">{displayCategory}</p>
+          {avgRating !== null && (
+            <div className="flex items-center gap-1 text-[10px] text-primary ml-auto font-bold">
+              <Star className="w-3.5 h-3.5 fill-primary text-primary" />
+              <span>{avgRating.toFixed(1)} ({reviewsCount})</span>
+            </div>
+          )}
+        </div>
         
         {mrp > price && (
           <div className="flex items-center gap-2 mb-4">
@@ -332,7 +332,7 @@ export function ProductCard(props: any) {
           </div>
         )}
         
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
+        <div className="mt-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
           <button 
             onClick={handleAddToCart}
             className="flex-1 bg-white/5 hover:bg-white/10 text-white px-2 py-2.5 sm:py-3 rounded-xl font-black text-[8px] sm:text-[9px] uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all border border-white/5 text-center flex items-center justify-center min-h-[36px]"
