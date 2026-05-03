@@ -305,11 +305,11 @@ export function ProductCard(props: any) {
       </Link>
 
       <div className="p-4 sm:p-6 md:p-8 flex flex-col flex-1 relative z-10">
-        <div className="mb-4">
-          <Link href={`/product/${id}`}>
-            <h3 className="text-sm sm:text-lg md:text-xl font-black text-white italic uppercase tracking-tighter group-hover:text-primary transition-colors cursor-pointer line-clamp-2">{displayTitle}</h3>
-          </Link>
-          <div className="flex items-center gap-2 mt-2 w-full">
+          <div className="mb-4 min-h-[3rem] sm:min-h-[4rem]">
+            <Link href={`/product/${id}`}>
+              <h3 className="text-sm sm:text-lg md:text-xl font-black text-white italic uppercase tracking-tighter group-hover:text-primary transition-colors cursor-pointer line-clamp-2 leading-tight">{displayTitle}</h3>
+            </Link>
+          </div>
             <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
             <p className="text-[10px] text-zinc-600 font-black uppercase tracking-[0.2em]">{displayCategory}</p>
             {avgRating !== null && (

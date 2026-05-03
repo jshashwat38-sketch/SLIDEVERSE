@@ -85,7 +85,7 @@ export default function FeaturedSection({ appearance, t, language, featuredProdu
             </h3>
           </div>
 
-          <div className="grid grid-cols-3 gap-3 sm:gap-7 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
             {featuredProducts.slice(0, 12).map((product: any, index: number) => (
               <motion.div 
                 key={product.id}
@@ -93,7 +93,7 @@ export default function FeaturedSection({ appearance, t, language, featuredProdu
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05, duration: 0.6 }}
-                className={`transition-all duration-500 rounded-[2.5rem] cursor-pointer ${
+                className={`transition-all duration-500 rounded-[2.5rem] cursor-pointer h-full ${
                   index === activeHeroIndex 
                     ? "ring-2 ring-primary border border-primary/20 bg-primary/5 shadow-[0_0_30px_rgba(197,165,114,0.15)] scale-[1.02]" 
                     : "border border-transparent hover:border-white/5"
