@@ -228,12 +228,12 @@ export default function ProductDetailsPage() {
           <span className="text-[10px] font-black uppercase tracking-[0.3em]">Return to Sector</span>
         </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+        <div className="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-20">
           {/* Left: Static Premium Gallery */}
           <div className="space-y-4">
             {/* 1st Image: Large Square Cover */}
             <div 
-              className="w-full aspect-square rounded-[2rem] sm:rounded-[3rem] overflow-hidden border border-white/5 bg-white/[0.02] cursor-zoom-in group transition-all duration-700 hover:border-primary/20"
+              className="w-full lg:max-w-[600px] aspect-square rounded-[2rem] sm:rounded-[3rem] overflow-hidden border border-white/5 bg-white/[0.02] cursor-zoom-in group transition-all duration-700 hover:border-primary/20"
               onClick={() => setActiveIndex(0)}
             >
               <img
