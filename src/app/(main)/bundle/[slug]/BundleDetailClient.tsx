@@ -20,8 +20,10 @@ import { useCart } from "@/context/CartContext";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function BundleDetailClient({ bundle }: { bundle: any }) {
+  const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState('description');
   const { addToCart } = useCart();
   const title = bundle.title || {};
@@ -178,7 +180,7 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
                   className={`flex items-center gap-3 px-8 py-4 rounded-2xl transition-all duration-300 shrink-0 ${
                     isActive 
                     ? 'bg-primary text-black font-black shadow-[0_0_20px_rgba(197,165,114,0.3)]' 
-                    : 'text-zinc-500 hover:text-white hover:bg-white/5 font-bold'
+                    : `${theme === 'dark' ? 'text-zinc-500 hover:text-white' : 'text-zinc-600 hover:text-black'} hover:bg-white/5 font-bold`
                   }`}
                 >
                   <tab.icon className={`w-4 h-4 ${isActive ? 'text-black' : 'text-zinc-600'}`} />
@@ -222,8 +224,8 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                       {items.map((item: Record<string, any>, idx: number) => (
-                        <div key={idx} className="group/card bg-black/40 border border-white/5 rounded-[2rem] overflow-hidden hover:border-primary/20 transition-all duration-500">
-                          <div className="aspect-video relative overflow-hidden bg-zinc-900">
+                        <div key={idx} className={`group/card border rounded-[2rem] overflow-hidden transition-all duration-500 ${theme === 'dark' ? 'bg-black/40 border-white/5 hover:border-primary/20' : 'bg-zinc-50 border-zinc-200 hover:border-primary/40'}`}>
+                          <div className={`aspect-video relative overflow-hidden ${theme === 'dark' ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
                             <img 
                               src={item.image || item.imageUrl || "/placeholder.jpg"} 
                               alt={item.name}
@@ -231,7 +233,7 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
                             />
                           </div>
                           <div className="p-6 space-y-3">
-                            <h5 className="text-lg font-black uppercase italic tracking-tighter text-white">{item.name}</h5>
+                            <h5 className={`text-lg font-black uppercase italic tracking-tighter ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>{item.name}</h5>
                             <p className="text-[10px] font-medium text-zinc-500 uppercase tracking-widest line-clamp-2">{item.description}</p>
                             <Link href={`/product/${item.product_id}`} className="inline-flex items-center gap-2 text-primary text-[10px] font-black uppercase tracking-widest mt-4 group/link">
                               View Details <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
@@ -322,12 +324,12 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
                 </div>
                 <div className="grid grid-cols-1 gap-6">
                   {items.map((item: any, idx: number) => (
-                    <div key={idx} className="group/mob bg-white/[0.02] border border-white/5 rounded-[2rem] overflow-hidden">
+                    <div key={idx} className={`group/mob border rounded-[2rem] overflow-hidden ${theme === 'dark' ? 'bg-white/[0.02] border-white/5' : 'bg-zinc-50 border-zinc-200'}`}>
                       <div className="aspect-video relative overflow-hidden">
                         <img src={item.image || item.imageUrl || "/placeholder.jpg"} alt={item.name} className="w-full h-full object-cover opacity-80" />
                       </div>
                       <div className="p-6 space-y-3">
-                        <h5 className="text-sm font-black text-white uppercase italic tracking-tighter">{item.name}</h5>
+                        <h5 className={`text-sm font-black uppercase italic tracking-tighter ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>{item.name}</h5>
                         <p className="text-[10px] text-zinc-500 leading-relaxed line-clamp-2">{item.description}</p>
                         <Link href={`/product/${item.product_id}`} className="inline-flex items-center gap-2 text-primary text-[10px] font-black uppercase tracking-widest pt-2">
                           View Details <ChevronRight className="w-3 h-3" />
