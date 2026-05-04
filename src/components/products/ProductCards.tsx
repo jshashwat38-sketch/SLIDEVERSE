@@ -138,9 +138,13 @@ export function ProductCard(props: any) {
   }
 
   if (variant === "micro-grid-mobile") {
+    const isBundle = typeof props.title === 'object' && props.title?.is_bundle;
+    const bundleHref = `/bundle/${props.title?.slug || id}`;
+    const productHref = `/product/${id}`;
+
     return (
       <div className="bg-[#09090B] border border-white/5 rounded-2xl overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all relative">
-        <Link href={`/product/${id}`} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-2xl">
+        <Link href={isBundle ? bundleHref : productHref} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-2xl">
           <img 
             src={displayImage || "https://placehold.co/200x150?text=No+Image"} 
             alt={displayTitle} 
@@ -154,7 +158,7 @@ export function ProductCard(props: any) {
 
         <div className="p-2 flex flex-col justify-between flex-1">
           <div className="space-y-1">
-            <Link href={`/product/${id}`}>
+            <Link href={isBundle ? bundleHref : productHref}>
               <h3 className="text-[8px] font-black text-white italic uppercase tracking-tighter line-clamp-1 leading-none">{displayTitle}</h3>
             </Link>
             <span className="text-[7px] font-bold text-zinc-500 font-mono block">₹{price}</span>
@@ -357,6 +361,10 @@ export function HeroProductCard(props: any) {
   const router = useRouter();
   const { language, t } = useLanguage();
 
+  const isBundle = typeof props.title === 'object' && props.title?.is_bundle;
+  const bundleHref = `/bundle/${props.title?.slug || id}`;
+  const productHref = `/product/${id}`;
+
   const displayImage = image_url || imageUrl || (images && images.length > 0 ? images[0] : "");
   const safeFeatures = Array.isArray(features) ? features : [];
   
@@ -435,7 +443,7 @@ export function HeroProductCard(props: any) {
           )}
         </div>
         
-        <Link href={`/product/${id}`}>
+        <Link href={isBundle ? bundleHref : productHref}>
           <h2 className="text-3xl md:text-4xl lg:text-6xl font-black text-zinc-900 dark:text-white italic uppercase tracking-tighter mb-6 group-hover:text-primary transition-colors cursor-pointer leading-[0.9]">{displayTitle}</h2>
         </Link>
 
@@ -466,7 +474,7 @@ export function HeroProductCard(props: any) {
       </div>
 
       <Link 
-        href={`/product/${id}`} 
+        href={isBundle ? bundleHref : productHref} 
         className="w-full lg:w-1/2 relative aspect-square lg:aspect-[4/5] overflow-hidden cursor-pointer order-1 lg:order-2 bg-[#F8F9FA] dark:bg-white/[0.02] group/img rounded-[2.5rem]"
       >
         {/* Background Option: Minimal Ambient Glow */}

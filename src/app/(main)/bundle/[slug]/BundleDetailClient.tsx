@@ -208,7 +208,10 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
                   <div className="max-w-4xl mx-auto text-center space-y-10">
                     <h4 className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] italic">Intellectual Narrative</h4>
                     <p className="text-2xl md:text-4xl font-medium leading-[1.4] text-zinc-400 italic">
-                      {bundle.description?.en || "Strategic presentation architecture designed for high-stakes professional environments."}
+                      {typeof bundle.description === 'object' 
+                        ? (bundle.description?.en || bundle.description?.hi || "Strategic presentation architecture designed for high-stakes professional environments.")
+                        : (bundle.description || "Strategic presentation architecture designed for high-stakes professional environments.")
+                      }
                     </p>
                   </div>
                 )}
@@ -222,12 +225,12 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                       {items.map((item: Record<string, any>, idx: number) => (
                         <div key={idx} className="group/card bg-black/40 border border-white/5 rounded-[2rem] overflow-hidden hover:border-primary/20 transition-all duration-500">
-                          <div className="aspect-[9/16] relative overflow-hidden bg-zinc-900">
+                          <div className="aspect-video relative overflow-hidden bg-zinc-900">
                             <Image 
                               src={item.image || "/placeholder.jpg"} 
                               alt={item.name}
                               fill
-                              className="object-cover opacity-60 group-hover/card:opacity-100 group-hover/card:scale-105 transition-all duration-700"
+                              className="object-cover opacity-80 group-hover/card:opacity-100 group-hover/card:scale-105 transition-all duration-700"
                             />
                           </div>
                           <div className="p-6 space-y-3">
@@ -297,7 +300,7 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
                 {/* 5. Included Files Tab */}
                 {activeTab === 'files' && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {(bundle.description?.included_files || []).map((file: string, i: number) => (
+                    {(typeof bundle.description === 'object' ? (bundle.description?.included_files || []) : []).map((file: string, i: number) => (
                       <div key={i} className="flex items-center gap-4 p-6 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-primary/20 transition-all">
                         <div className="p-3 bg-primary/10 rounded-xl text-primary">
                           <Files className="w-5 h-5" />
@@ -313,33 +316,42 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
 
           {/* Mobile Vertical Stack */}
           <div className="block sm:hidden space-y-12">
-            {/* Overview */}
-            <div className="space-y-4">
-              <h3 className="text-primary font-black uppercase tracking-[0.2em] text-[10px]">Overview</h3>
-              <p className="text-zinc-400 text-sm leading-relaxed italic">
-                {bundle.description?.en || "Strategic presentation architecture designed for high-stakes professional environments."}
-              </p>
-            </div>
-
             {/* Included Assets */}
             {items.length > 0 && (
               <div className="space-y-6">
-                <h3 className="text-primary font-black uppercase tracking-[0.2em] text-[10px]">Inside the Box ({items.length})</h3>
+                <div className="flex items-center justify-between">
+                  <h3 className="text-primary font-black uppercase tracking-[0.2em] text-[10px]">Inside the Box ({items.length})</h3>
+                  <div className="h-[1px] flex-1 bg-primary/20 ml-4" />
+                </div>
                 <div className="grid grid-cols-1 gap-6">
                   {items.map((item: any, idx: number) => (
-                    <div key={idx} className="flex items-center gap-4 p-4 bg-white/[0.02] border border-white/5 rounded-2xl">
-                      <div className="w-16 h-16 relative rounded-lg overflow-hidden shrink-0">
-                        <Image src={item.image || "/placeholder.jpg"} alt={item.name} fill className="object-cover" />
+                    <div key={idx} className="group/mob bg-white/[0.02] border border-white/5 rounded-[2rem] overflow-hidden">
+                      <div className="aspect-video relative overflow-hidden">
+                        <Image src={item.image || "/placeholder.jpg"} alt={item.name} fill className="object-cover opacity-80" />
                       </div>
-                      <div className="flex-1">
-                        <h5 className="text-[10px] font-black text-white uppercase tracking-widest">{item.name}</h5>
-                        <Link href={`/product/${item.product_id}`} className="text-primary text-[8px] font-black uppercase tracking-widest">View Asset</Link>
+                      <div className="p-6 space-y-3">
+                        <h5 className="text-sm font-black text-white uppercase italic tracking-tighter">{item.name}</h5>
+                        <p className="text-[10px] text-zinc-500 leading-relaxed line-clamp-2">{item.description}</p>
+                        <Link href={`/product/${item.product_id}`} className="inline-flex items-center gap-2 text-primary text-[10px] font-black uppercase tracking-widest pt-2">
+                          View Details <ChevronRight className="w-3 h-3" />
+                        </Link>
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
             )}
+
+            {/* Overview */}
+            <div className="space-y-4">
+              <h3 className="text-primary font-black uppercase tracking-[0.2em] text-[10px]">Strategic Overview</h3>
+              <p className="text-zinc-400 text-sm leading-relaxed italic border-l-2 border-primary/20 pl-4">
+                {typeof bundle.description === 'object' 
+                  ? (bundle.description?.en || "Strategic presentation architecture designed for high-stakes professional environments.")
+                  : (bundle.description || "Strategic presentation architecture designed for high-stakes professional environments.")
+                }
+              </p>
+            </div>
 
             {/* Advantages */}
             {title.why_buy?.length > 0 && (
