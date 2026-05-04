@@ -32,7 +32,7 @@ export default function BestsellersSection({ appearance, t, language, bestseller
       <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-center text-center mb-16 gap-2">
           <h3 
-            className="text-3xl md:text-5xl font-heading font-bold text-zinc-900 dark:text-white uppercase tracking-tighter italic"
+            className="text-3xl md:text-5xl font-heading font-bold text-white uppercase tracking-tighter italic"
             dangerouslySetInnerHTML={{ 
               __html: getLangString(appearance?.bestsellers?.heading, language) || `Our <span class="text-primary">Bestsellers</span>`
             }}
