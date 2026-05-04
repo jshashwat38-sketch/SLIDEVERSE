@@ -181,7 +181,7 @@ export default function ForgotPasswordPage() {
                 <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-8 border border-primary/20 shadow-[0_0_15px_rgba(197,165,114,0.1)]">
                   <Mail className="w-10 h-10 text-primary" />
                 </div>
-                <h1 className="text-4xl font-black text-white italic uppercase tracking-tighter mb-4">Forgot <span className="text-primary">Vault</span> Key</h1>
+                <h1 className="text-4xl font-black text-zinc-900 dark:text-white italic uppercase tracking-tighter mb-4">Forgot <span className="text-primary">Vault</span> Key</h1>
                 <p className="text-zinc-500 font-medium tracking-tight">Enter your identity email to receive an authorization OTP.</p>
               </div>
 
@@ -194,7 +194,7 @@ export default function ForgotPasswordPage() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="IDENTITY@SLIDEVERSE.PRO"
-                      className="w-full pl-14 pr-6 py-5 bg-white/5 border border-white/10 rounded-2xl focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary/50 transition-all text-white placeholder:text-zinc-700"
+                      className="w-full pl-14 pr-6 py-5 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary/50 transition-all text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-700"
                       required
                     />
                     <Mail className="w-6 h-6 text-zinc-500 absolute left-5 top-1/2 -translate-y-1/2 group-focus-within:text-primary transition-colors" />
@@ -233,8 +233,8 @@ export default function ForgotPasswordPage() {
                 <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-8 border border-primary/20 shadow-[0_0_15px_rgba(197,165,114,0.1)]">
                   <ShieldCheck className="w-10 h-10 text-primary" />
                 </div>
-                <h1 className="text-4xl font-black text-white italic uppercase tracking-tighter mb-4">Security <span className="text-primary">Verification</span></h1>
-                <p className="text-zinc-500 font-medium tracking-tight">Enter the 6-digit sequence sent to <span className="text-white">{email}</span></p>
+                <h1 className="text-4xl font-black text-zinc-900 dark:text-white italic uppercase tracking-tighter mb-4">Security <span className="text-primary">Verification</span></h1>
+                <p className="text-zinc-500 font-medium tracking-tight">Enter the 6-digit sequence sent to <span className="text-zinc-900 dark:text-white">{email}</span></p>
               </div>
 
               <form onSubmit={handleVerifyOTP} className="space-y-10">
@@ -252,8 +252,8 @@ export default function ForgotPasswordPage() {
                       value={digit}
                       onChange={(e) => handleOtpChange(index, e.target.value)}
                       onKeyDown={(e) => handleKeyDown(index, e)}
-                      className={`w-12 h-16 md:w-16 md:h-20 bg-white/5 border rounded-2xl focus:bg-black focus:outline-none focus:ring-4 transition-all text-white text-center text-3xl font-black ${
-                        isError ? "border-red-500 ring-red-500/20" : "border-white/10 focus:ring-primary/10 focus:border-primary/50"
+                      className={`w-12 h-16 md:w-16 md:h-20 bg-white dark:bg-white/5 border rounded-2xl focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 transition-all text-zinc-900 dark:text-white text-center text-3xl font-black ${
+                        isError ? "border-red-500 ring-red-500/20" : "border-zinc-200 dark:border-white/10 focus:ring-primary/10 focus:border-primary/50"
                       }`}
                       required
                     />
@@ -302,7 +302,7 @@ export default function ForgotPasswordPage() {
                 <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-8 border border-primary/20 shadow-[0_0_15px_rgba(197,165,114,0.1)]">
                   <Lock className="w-10 h-10 text-primary" />
                 </div>
-                <h1 className="text-4xl font-black text-white italic uppercase tracking-tighter mb-4">Reset <span className="text-primary">Credentials</span></h1>
+                <h1 className="text-4xl font-black text-zinc-900 dark:text-white italic uppercase tracking-tighter mb-4">Reset <span className="text-primary">Credentials</span></h1>
                 <p className="text-zinc-500 font-medium tracking-tight">Identity verified. Update your vault access key.</p>
               </div>
 
@@ -362,7 +362,7 @@ export default function ForgotPasswordPage() {
               </div>
               
               <div>
-                <h1 className="text-4xl font-black text-white italic uppercase tracking-tighter mb-4">Vault <span className="text-blue-500">Secured</span></h1>
+                <h1 className="text-4xl font-black text-zinc-900 dark:text-white italic uppercase tracking-tighter mb-4">Vault <span className="text-blue-500">Secured</span></h1>
                 <p className="text-zinc-500 font-medium tracking-tight">Your credentials have been successfully updated. You may now access the platform.</p>
               </div>
 

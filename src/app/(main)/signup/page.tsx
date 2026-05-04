@@ -169,7 +169,7 @@ export default function SignUpPage() {
                   <ShieldCheck className="w-4 h-4 text-primary" />
                   <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">Secure Registration Protocol</span>
                 </div>
-                <h1 className="text-4xl font-black text-white mb-3 tracking-tighter italic uppercase">Create Identity</h1>
+                <h1 className="text-4xl font-black text-zinc-900 dark:text-white mb-3 tracking-tighter italic uppercase">Create Identity</h1>
                 <p className="text-zinc-500 text-sm font-medium uppercase tracking-widest italic">Join the elite curator network</p>
               </div>
 
@@ -199,7 +199,7 @@ export default function SignUpPage() {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full pl-14 pr-6 py-4 bg-white/5 border border-white/10 rounded-2xl focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white text-sm font-bold placeholder:text-zinc-800"
+                      className="w-full pl-14 pr-6 py-4 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white text-sm font-bold placeholder:text-zinc-400 dark:placeholder:text-zinc-800"
                       placeholder="ENTER FULL NAME"
                       required
                     />
@@ -215,7 +215,7 @@ export default function SignUpPage() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full pl-14 pr-6 py-4 bg-white/5 border border-white/10 rounded-2xl focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white text-sm font-bold placeholder:text-zinc-800"
+                      className="w-full pl-14 pr-6 py-4 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white text-sm font-bold placeholder:text-zinc-400 dark:placeholder:text-zinc-800"
                       placeholder="YOU@SECURE.COM"
                       required
                     />
@@ -231,7 +231,7 @@ export default function SignUpPage() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full pl-14 pr-6 py-4 bg-white/5 border border-white/10 rounded-2xl focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-white text-sm font-bold placeholder:text-zinc-800"
+                      className="w-full pl-14 pr-6 py-4 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all text-zinc-900 dark:text-white text-sm font-bold placeholder:text-zinc-400 dark:placeholder:text-zinc-800"
                       placeholder="+91..."
                       required
                     />
@@ -292,8 +292,8 @@ export default function SignUpPage() {
                 <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-8 border border-primary/20 shadow-[0_0_15px_rgba(197,165,114,0.1)]">
                   <ShieldCheck className="w-10 h-10 text-primary" />
                 </div>
-                <h1 className="text-4xl font-black text-white italic uppercase tracking-tighter mb-4">Security <span className="text-primary">Verification</span></h1>
-                <p className="text-zinc-500 font-medium tracking-tight italic">Enter the 6-digit sequence sent to <span className="text-white">{formData.email}</span></p>
+                <h1 className="text-4xl font-black text-zinc-900 dark:text-white italic uppercase tracking-tighter mb-4">Security <span className="text-primary">Verification</span></h1>
+                <p className="text-zinc-500 font-medium tracking-tight italic">Enter the 6-digit sequence sent to <span className="text-zinc-900 dark:text-white">{formData.email}</span></p>
               </div>
 
               {error && (
@@ -310,19 +310,19 @@ export default function SignUpPage() {
                   className="flex justify-between gap-2"
                 >
                   {otpArray.map((digit, index) => (
-                    <input
-                      key={index}
-                      ref={(el) => { inputRefs.current[index] = el; }}
-                      type="text"
-                      maxLength={1}
-                      value={digit}
-                      onChange={(e) => handleOtpChange(index, e.target.value)}
-                      onKeyDown={(e) => handleKeyDown(index, e)}
-                      className={`w-12 h-16 md:w-16 md:h-20 bg-white/5 border rounded-2xl focus:bg-black focus:outline-none focus:ring-4 transition-all text-white text-center text-3xl font-black ${
-                        isError ? "border-red-500 ring-red-500/20" : "border-white/10 focus:ring-primary/10 focus:border-primary/50"
-                      }`}
-                      required
-                    />
+                      <input
+                        key={index}
+                        ref={(el) => { inputRefs.current[index] = el; }}
+                        type="text"
+                        maxLength={1}
+                        value={digit}
+                        onChange={(e) => handleOtpChange(index, e.target.value)}
+                        onKeyDown={(e) => handleKeyDown(index, e)}
+                        className={`w-12 h-16 md:w-16 md:h-20 bg-white dark:bg-white/5 border rounded-2xl focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 transition-all text-zinc-900 dark:text-white text-center text-3xl font-black ${
+                          isError ? "border-red-500 ring-red-500/20" : "border-zinc-200 dark:border-white/10 focus:ring-primary/10 focus:border-primary/50"
+                        }`}
+                        required
+                      />
                   ))}
                 </motion.div>
 

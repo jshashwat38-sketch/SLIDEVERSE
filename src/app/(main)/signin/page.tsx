@@ -74,7 +74,7 @@ export default function SignInPage() {
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
         
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-black text-white mb-4 tracking-tighter italic uppercase">{t("welcome_back")}</h1>
+          <h1 className="text-4xl font-black text-zinc-900 dark:text-white mb-4 tracking-tighter italic uppercase">{t("welcome_back")}</h1>
           <p className="text-zinc-500 text-lg">{t("signin_subtitle")}</p>
         </div>
 
@@ -102,7 +102,7 @@ export default function SignInPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-14 pr-6 py-4 bg-white/5 border border-white/10 rounded-2xl focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary/50 transition-all text-white"
+                className="w-full pl-14 pr-6 py-4 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl focus:bg-white dark:focus:bg-black focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary/50 transition-all text-zinc-900 dark:text-white"
                 placeholder="YOU@EXAMPLE.COM"
                 required
               />
