@@ -295,12 +295,12 @@ export default function ProductDetailsPage() {
               {typeof product.title === 'object' ? (product.title.en || Object.values(product.title)[0]) : product.title}
             </h1>
             
-            <div className="flex items-center gap-6 mb-12 p-6 bg-white/[0.02] border border-white/5 rounded-[2rem]">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-8 sm:gap-12 mb-12 p-8 bg-white/[0.02] border border-white/5 rounded-[2.5rem]">
               <div className="flex flex-col">
                 <span className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mb-1">Market Valuation</span>
                 <span className="text-4xl font-black text-white italic tracking-tighter italic">₹{product.price}</span>
               </div>
-              <div className="h-12 w-[1px] bg-white/5 mx-4" />
+              <div className="hidden sm:block h-12 w-[1px] bg-white/5" />
               <div className="flex flex-col">
                 <span className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mb-1">Status</span>
                 <span className="text-xs font-black text-primary uppercase tracking-widest flex items-center gap-2">
