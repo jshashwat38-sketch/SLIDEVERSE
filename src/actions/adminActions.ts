@@ -1,5 +1,5 @@
 "use server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, unstable_noStore as noStore } from "next/cache";
 import { supabase } from "@/lib/supabase";
 
 export async function getProductsAdmin() {
