@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import { supabase } from "@/lib/supabase";
 
 export async function getProductsAdmin() {
+  noStore();
   try {
     const { data, error } = await supabase
       .from("products")
@@ -28,11 +29,15 @@ export async function uploadImage(formData: FormData): Promise<UploadResult> {
     const filename = `appearance/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
     const { data, error } = await supabase.storage
       .from("product-images")
-      .upload(filename, file);
+      .upload(filename, file, {
+        contentType: file.type || 'image/jpeg',
+        cacheControl: '3600',
+        upsert: true
+      });
 
     if (error) {
-      console.error("Upload error in product-images bucket:", error);
-      throw new Error(`Critical asset upload failure: ${error.message}`);
+      console.error("Asset Upload Error:", error);
+      throw new Error(`Storage Engine Error: ${error.message}`);
     }
 
     const { data: publicUrlData } = supabase.storage
@@ -41,8 +46,8 @@ export async function uploadImage(formData: FormData): Promise<UploadResult> {
 
     return { success: true, url: publicUrlData.publicUrl };
   } catch (error: any) {
-    console.error("Category image upload error:", error);
-    return { success: false, error: error.message || "Failed to upload architectural asset" };
+    console.error("System-level upload failure:", error);
+    return { success: false, error: error.message || "Failed to synchronize asset with storage matrix" };
   }
 }
 
@@ -113,6 +118,7 @@ export async function deleteCategory(id: string) {
 
 // --- APPEARANCE ---
 export async function getAppearance() {
+  noStore();
   const defaultAppearance = {
     hero: {
       title: 'Master the Art of <span class="text-primary neon-text">Presentation Design</span>',
@@ -246,6 +252,7 @@ export async function getAppearance() {
 }
 
 export async function getAppearanceDraft() {
+  noStore();
   // Use a local copy of defaultAppearance to avoid unnecessary async chain
   const defaultApp = await getAppearance(); 
   

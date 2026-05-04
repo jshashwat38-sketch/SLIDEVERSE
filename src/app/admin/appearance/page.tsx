@@ -13,6 +13,7 @@ import {
   getReviews
 } from "@/actions/adminActions";
 import { useTheme } from "@/context/ThemeContext";
+import { compressImage } from "@/utils/imageUtils";
 import { 
   Save, 
   Send, 
@@ -177,17 +178,24 @@ export default function AppearancePage() {
     if (!file) return;
 
     setIsUploading(`${section}-${field}`);
-    const formData = new FormData();
-    formData.append("imageFile", file);
+    try {
+      const optimizedFile = await compressImage(file);
+      const formData = new FormData();
+      formData.append("imageFile", optimizedFile);
 
-    const result = await uploadImage(formData);
-    if (result.success) {
-      updateField(section, field, result.url);
-      toast.success("Asset uploaded.");
-    } else {
-      toast.error(result.error || "Upload failed.");
+      const result = await uploadImage(formData);
+      if (result.success) {
+        updateField(section, field, result.url);
+        toast.success("Asset optimized and uploaded.");
+      } else {
+        toast.error(result.error || "Upload failed.");
+      }
+    } catch (error) {
+      console.error("Upload process failure:", error);
+      toast.error("Process failed during optimization.");
+    } finally {
+      setIsUploading(null);
     }
-    setIsUploading(null);
   };
 
   const sections = useMemo(() => [

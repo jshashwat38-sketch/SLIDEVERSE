@@ -228,9 +228,9 @@ export default function ProductDetailsPage() {
         </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
-          {/* Left: Gallery (Sticky on Desktop) */}
-          <div className="lg:sticky lg:top-32 h-fit space-y-8">
-            <div className={`bg-white/[0.02] rounded-[2rem] sm:rounded-[3rem] overflow-hidden border border-white/5 relative group transition-all duration-700 aspect-square shadow-2xl`}>
+          {/* Left: Gallery */}
+          <div className="space-y-6">
+            <div className={`bg-white/[0.02] rounded-[2rem] sm:rounded-[3rem] overflow-hidden border border-white/5 relative group transition-all duration-700 ${activeImage === 0 ? 'aspect-square' : 'aspect-video max-h-[80vh] mx-auto'}`}>
               <AnimatePresence mode="wait">
                 <motion.img
                   key={activeImage}
@@ -248,25 +248,35 @@ export default function ProductDetailsPage() {
               </AnimatePresence>
               
               <div className="absolute inset-0 bg-gradient-to-t from-[#09090B] via-transparent to-transparent opacity-40" />
+
+              {allImages.length > 1 && (
+                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-3 z-10">
+                  {allImages.map((_: any, i: number) => (
+                    <button
+                      key={i}
+                      onClick={() => setActiveImage(i)}
+                      className={`w-2 h-2 rounded-full transition-all ${activeImage === i ? 'bg-primary w-8' : 'bg-white/20 hover:bg-white/40'}`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
 
-            {/* Cinematic 16:9 Thumbnail Matrix */}
-            <div className="grid grid-cols-2 gap-4">
-              {allImages.slice(0, 4).map((img: string, i: number) => (
+            <div className="grid grid-cols-6 gap-4">
+              {allImages.map((img: string, i: number) => (
                 <button
                   key={i}
                   onClick={() => setActiveImage(i)}
-                  className={`relative rounded-2xl overflow-hidden border-2 transition-all aspect-video group/thumb ${activeImage === i ? 'border-primary shadow-[0_0_20px_rgba(197, 165, 114, 0.2)]' : 'border-white/5 hover:border-white/20'}`}
+                  className={`rounded-2xl overflow-hidden border-2 transition-all ${i === 0 ? 'aspect-square' : 'aspect-video'} ${activeImage === i ? 'border-primary shadow-[0_0_15px_rgba(197, 165, 114, 0.3)]' : 'border-white/5 hover:border-white/20'}`}
                 >
                   <img 
                     src={img || "https://placehold.co/600x400?text=No+Image"} 
-                    className={`w-full h-full object-cover transition-all duration-500 ${activeImage === i ? 'opacity-100 scale-110' : 'opacity-40 group-hover/thumb:opacity-100 group-hover/thumb:scale-105'}`} 
+                    className="w-full h-full object-cover opacity-60 hover:opacity-100 transition-opacity" 
                     alt="" 
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = "https://placehold.co/400x225?text=No+Image";
+                      (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=No+Image";
                     }}
                   />
-                  <div className={`absolute inset-0 bg-primary/10 transition-opacity duration-500 ${activeImage === i ? 'opacity-100' : 'opacity-0'}`} />
                 </button>
               ))}
             </div>
