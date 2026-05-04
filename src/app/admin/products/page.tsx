@@ -550,7 +550,28 @@ export default function ProductsPage() {
                       <div className="flex items-center justify-between px-2">
                         <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-3">Main Cover Asset (Recommended: 1000x1000px Square)</label>
                         {imageUrls[0] || imageFiles[0] ? (
-                          <span className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">Active</span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">Active</span>
+                            <button 
+                              type="button"
+                              onClick={() => {
+                                setImageUrls(prev => {
+                                  const next = [...prev];
+                                  next[0] = "";
+                                  return next;
+                                });
+                                setImageFiles(prev => {
+                                  const next = [...prev];
+                                  next[0] = null;
+                                  return next;
+                                });
+                              }}
+                              className="p-1 text-red-500 hover:bg-red-500/10 rounded transition-all"
+                              title="Remove Cover Image"
+                            >
+                              <Trash2 className="w-3 h-3" />
+                            </button>
+                          </div>
                         ) : (
                           <span className="text-[8px] font-black text-zinc-800 uppercase tracking-widest bg-white/[0.02] px-2 py-0.5 rounded-full border border-white/5">Required</span>
                         )}
@@ -622,7 +643,28 @@ export default function ProductsPage() {
                             Gallery Asset {index} (Rec: 16:9 Ratio - 1920x1080px Widescreen)
                           </span>
                           {imageUrls[index] || imageFiles[index] ? (
-                            <span className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">Active</span>
+                            <div className="flex items-center gap-2">
+                              <span className="text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">Active</span>
+                              <button 
+                                type="button"
+                                onClick={() => {
+                                  setImageUrls(prev => {
+                                    const next = [...prev];
+                                    next[index] = "";
+                                    return next;
+                                  });
+                                  setImageFiles(prev => {
+                                    const next = [...prev];
+                                    next[index] = null;
+                                    return next;
+                                  });
+                                }}
+                                className="p-1 text-red-500 hover:bg-red-500/10 rounded transition-all"
+                                title={`Remove Gallery Image ${index}`}
+                              >
+                                <Trash2 className="w-3 h-3" />
+                              </button>
+                            </div>
                           ) : (
                             <span className="text-[8px] font-black text-zinc-800 uppercase tracking-widest bg-white/[0.02] px-2 py-0.5 rounded-full border border-white/5">Optional</span>
                           )}
