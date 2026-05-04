@@ -421,7 +421,7 @@ export function HeroProductCard(props: any) {
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="group bg-white border border-black/5 rounded-[3.5rem] overflow-hidden flex flex-col lg:flex-row min-h-[500px] hover:border-primary/20 transition-all duration-700 hover:shadow-[0_40px_100px_rgba(0,0,0,0.05)] relative"
+      className="group bg-white dark:bg-[#0c0c0e] border border-black/5 dark:border-white/5 rounded-[3.5rem] overflow-hidden flex flex-col lg:flex-row min-h-[500px] hover:border-primary/20 transition-all duration-700 hover:shadow-[0_40px_100px_rgba(0,0,0,0.05)] dark:hover:shadow-[0_40px_100px_rgba(0,0,0,0.5)] relative"
     >
       <div className="flex-1 p-8 md:p-10 lg:p-16 flex flex-col justify-center relative z-10 order-2 lg:order-1">
         <div className="flex items-center gap-3 mb-8 w-full">
@@ -436,12 +436,12 @@ export function HeroProductCard(props: any) {
         </div>
         
         <Link href={`/product/${id}`}>
-          <h2 className="text-3xl md:text-4xl lg:text-6xl font-black text-zinc-900 italic uppercase tracking-tighter mb-6 group-hover:text-primary transition-colors cursor-pointer leading-[0.9]">{displayTitle}</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-6xl font-black text-zinc-900 dark:text-white italic uppercase tracking-tighter mb-6 group-hover:text-primary transition-colors cursor-pointer leading-[0.9]">{displayTitle}</h2>
         </Link>
 
         {mrp > price && (
           <div className="flex items-center gap-3 mb-8">
-            <span className="text-lg text-zinc-400 line-through font-black italic font-mono">₹{mrp}</span>
+            <span className="text-lg text-zinc-400 dark:text-zinc-600 line-through font-black italic font-mono">₹{mrp}</span>
             <span className="text-2xl text-primary font-black italic font-mono">₹{price}</span>
             <span className="text-[10px] font-black bg-primary/20 text-primary border border-primary/20 px-3 py-1 rounded-full uppercase tracking-widest">
               {Math.round(((mrp - price) / mrp) * 100)}% DISCOUNT
@@ -458,7 +458,7 @@ export function HeroProductCard(props: any) {
           </button>
           <button 
             onClick={handleAddToCart}
-            className="w-full sm:w-auto px-8 py-4 md:py-5 rounded-2xl font-black text-[10px] text-zinc-400 border border-zinc-200 hover:bg-zinc-50 transition-all uppercase tracking-[0.2em] text-center"
+            className="w-full sm:w-auto px-8 py-4 md:py-5 rounded-2xl font-black text-[10px] text-zinc-400 dark:text-zinc-500 border border-zinc-200 dark:border-white/10 hover:bg-zinc-50 dark:hover:bg-white/5 transition-all uppercase tracking-[0.2em] text-center"
           >
             {t("add_to_vault")}
           </button>
@@ -467,7 +467,7 @@ export function HeroProductCard(props: any) {
 
       <Link 
         href={`/product/${id}`} 
-        className="w-full lg:w-1/2 relative aspect-square lg:aspect-[4/5] overflow-hidden cursor-pointer order-1 lg:order-2 bg-[#F8F9FA] group/img rounded-[2.5rem]"
+        className="w-full lg:w-1/2 relative aspect-square lg:aspect-[4/5] overflow-hidden cursor-pointer order-1 lg:order-2 bg-[#F8F9FA] dark:bg-white/[0.02] group/img rounded-[2.5rem]"
       >
         {/* Background Option: Minimal Ambient Glow */}
         <div className="absolute inset-0 z-0">
@@ -487,7 +487,7 @@ export function HeroProductCard(props: any) {
             }}
             src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
             alt={displayTitle} 
-            className="w-full h-full object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.15)] select-none rounded-[2.5rem] transition-transform duration-700 will-change-transform" 
+            className="w-full h-full object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.15)] dark:drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)] select-none rounded-[2.5rem] transition-transform duration-700 will-change-transform" 
             onError={(e) => {
               (e.target as HTMLImageElement).src = "https://placehold.co/800x400?text=No+Image";
             }}

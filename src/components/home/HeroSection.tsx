@@ -21,40 +21,40 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
   };
 
   return (
-    <section className="relative pt-12 pb-16 flex items-center">
+    <section className="relative pt-12 pb-16 flex items-center bg-white dark:bg-black transition-colors duration-500">
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#141414_1px,transparent_1px),linear-gradient(to_bottom,#141414_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_95%_80%_at_50%_50%,#000_70%,transparent_100%)] lg:[mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#141414_1px,transparent_1px),linear-gradient(to_bottom,#141414_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_95%_80%_at_50%_50%,#000_70%,transparent_100%)] lg:[mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
         <div className="absolute top-[-5%] left-[-5%] w-[40%] h-[40%] bg-primary/10 blur-[100px] rounded-full" />
         <div className="absolute bottom-[-5%] right-[-5%] w-[30%] h-[30%] bg-primary/5 blur-[120px] rounded-full" />
       </div>
 
       <div className="w-full max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] lg:gap-[60px] gap-12 md:gap-20 items-center relative z-10">
         <motion.div variants={containerVariants} initial="hidden" animate="visible" className="text-left">
-          <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-xl text-primary font-bold px-5 py-2.5 rounded-xl mb-8 text-[9px] uppercase tracking-[0.4em] border border-white/5">
+          <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-zinc-100 dark:bg-white/5 backdrop-blur-xl text-primary font-bold px-5 py-2.5 rounded-xl mb-8 text-[9px] uppercase tracking-[0.4em] border border-zinc-200 dark:border-white/5">
             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
             {getLangString(appearance?.hero?.badge, language) || t("hero_badge")}
           </motion.div>
           
           <motion.h1 
             variants={itemVariants} 
-            className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-white mb-8 leading-[1.1] tracking-tight italic uppercase"
+            className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-zinc-900 dark:text-white mb-8 leading-[1.1] tracking-tight italic uppercase"
             dangerouslySetInnerHTML={{ 
               __html: (getLangString(appearance?.hero?.title, language) || t("hero_title"))
                 .replace(/Presentation Design/gi, '<span class="text-primary neon-text">Presentation Design</span>')
             }}
           />
           
-          <motion.p variants={itemVariants} className="text-lg md:text-xl text-zinc-400 mb-12 max-w-lg leading-relaxed font-medium tracking-normal">
+          <motion.p variants={itemVariants} className="text-lg md:text-xl text-zinc-500 dark:text-zinc-400 mb-12 max-w-lg leading-relaxed font-medium tracking-normal">
             {getLangString(appearance?.hero?.subtitle, language) || t("hero_subtitle")}
           </motion.p>
           
           <motion.div variants={itemVariants} className="hidden md:flex flex-col sm:flex-row items-center gap-6">
             <Link href={appearance?.buttons?.primary?.link || "/shop"} className="group relative w-full sm:w-auto">
-              <button className="relative w-full sm:w-auto bg-primary hover:bg-white text-black px-10 py-5 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-3 uppercase tracking-wider italic">
+              <button className="relative w-full sm:w-auto bg-primary hover:bg-zinc-900 dark:hover:bg-white text-black dark:hover:text-black hover:text-white px-10 py-5 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-3 uppercase tracking-wider italic">
                 {getLangString(appearance?.buttons?.primary?.label, language) || t("explore_collection")} <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </button>
             </Link>
-            <Link href={appearance?.buttons?.secondary?.link || "/signin"} className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white px-10 py-5 rounded-xl font-bold text-base transition-all border border-white/5 uppercase tracking-wider italic text-center">
+            <Link href={appearance?.buttons?.secondary?.link || "/signin"} className="w-full sm:w-auto bg-zinc-100 dark:bg-white/5 hover:bg-zinc-200 dark:hover:bg-white/10 text-zinc-900 dark:text-white px-10 py-5 rounded-xl font-bold text-base transition-all border border-zinc-200 dark:border-white/5 uppercase tracking-wider italic text-center">
               {getLangString(appearance?.buttons?.secondary?.label, language) || t("sign_in_securely")}
             </Link>
           </motion.div>
@@ -68,7 +68,7 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
             className="mt-10 md:hidden"
           >
             <div className="flex items-center justify-between mb-5">
-              <span className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em]">{t("active_sectors")}</span>
+              <span className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-[0.4em]">{t("active_sectors")}</span>
               <div className="flex items-center gap-2">
                 <span className="text-[8px] font-black text-primary uppercase tracking-widest italic opacity-80">{t("online_status")}</span>
               </div>
@@ -84,11 +84,11 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
                   <a 
                     href={btn.link} 
                     onClick={(e) => handleScroll(e, btn.link)} 
-                    className="w-full aspect-square flex flex-col items-center justify-center bg-white/[0.03] border border-white/10 rounded-[1.8rem] group active:scale-95 transition-all relative overflow-hidden cursor-pointer"
+                    className="w-full aspect-square flex flex-col items-center justify-center bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 rounded-[1.8rem] group active:scale-95 transition-all relative overflow-hidden cursor-pointer"
                   >
-                    <div className="absolute top-2.5 left-2.5 text-[7px] font-black text-zinc-800/60 dark:text-zinc-500/20">{btn.code}</div>
+                    <div className="absolute top-2.5 left-2.5 text-[7px] font-black text-zinc-300 dark:text-zinc-500/20">{btn.code}</div>
                     <btn.icon className="w-5 h-5 text-primary mb-2" />
-                    <span className="text-[9px] font-black text-white uppercase tracking-widest italic text-center px-1 leading-tight">{btn.name}</span>
+                    <span className="text-[9px] font-black text-zinc-900 dark:text-white uppercase tracking-widest italic text-center px-1 leading-tight">{btn.name}</span>
                   </a>
                 </motion.div>
               ))}
@@ -119,14 +119,14 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
                 repeat: Infinity, 
                 ease: "easeInOut" 
               }}
-              className="w-full h-full flex items-center justify-center overflow-hidden rounded-[18px] lg:rounded-[24px]"
+              className="w-full h-full flex items-center justify-center overflow-hidden rounded-[2.5rem]"
             >
               <Image 
                 src={appearance?.hero?.image || "/uploads/slideverse_presentation_hero.png"}
                 alt="Hero Visual"
                 width={800}
                 height={800}
-                className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.12)] select-none rounded-[18px] lg:rounded-[24px] transition-transform duration-700"
+                className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.12)] dark:drop-shadow-[0_20px_50px_rgba(0,0,0,0.6)] select-none rounded-[2.5rem] transition-transform duration-700"
                 priority
               />
             </motion.div>
