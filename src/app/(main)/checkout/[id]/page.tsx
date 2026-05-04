@@ -86,7 +86,7 @@ export default function CheckoutPage({ params }: { params: Promise<{ id: string 
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: res.order.amount,
         currency: res.order.currency,
-        name: "Slideverse Pro",
+        name: "Slideverse",
         description: `Acquisition of ${product.title}`,
         order_id: res.order.id,
         handler: async function (response: any) {

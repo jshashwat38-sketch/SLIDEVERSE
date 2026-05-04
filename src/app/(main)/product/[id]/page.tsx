@@ -177,7 +177,7 @@ export default function ProductDetailsPage() {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: res.order.amount,
         currency: res.order.currency,
-        name: "Slideverse Pro",
+        name: "Slideverse",
         description: `Acquisition of ${getLangString(product.title, language)}`,
         order_id: res.order.id,
         handler: async function (response: any) {

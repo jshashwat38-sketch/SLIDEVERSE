@@ -87,7 +87,7 @@ export async function sendOTP(email: string, type: 'reset' | 'signup' = 'reset')
           <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #000000; padding: 60px 20px; text-align: center;">
             <div style="max-width: 600px; margin: 0 auto; background-color: #050505; border: 2px solid #C5A572; border-radius: 40px; padding: 50px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);">
               <div style="margin-bottom: 40px;">
-                <h1 style="color: #C5A572; font-size: 24px; font-weight: 900; letter-spacing: 5px; text-transform: uppercase; margin: 0;">SLIDEVERSE PRO</h1>
+                <h1 style="color: #C5A572; font-size: 24px; font-weight: 900; letter-spacing: 5px; text-transform: uppercase; margin: 0;">SLIDEVERSE</h1>
                 <p style="color: #FFFFFF; font-size: 10px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; margin-top: 10px; opacity: 0.8;">Secure Identity Protocol</p>
               </div>
               <h2 style="font-size: 32px; font-weight: 900; font-style: italic; text-transform: uppercase; margin-bottom: 20px; color: #fff;">Verification Required</h2>

@@ -1,5 +1,5 @@
 [
-  { "id": "ORD-98231", "customer": "Rahul Sharma", "email": "rahul@example.com", "phone": "+91 9876543210", "product": "Slideverse Pro", "amount": 999, "status": "pending", "date": "2 mins ago" },
+  { "id": "ORD-98231", "customer": "Rahul Sharma", "email": "rahul@example.com", "phone": "+91 9876543210", "product": "Slideverse", "amount": 999, "status": "pending", "date": "2 mins ago" },
   { "id": "ORD-98230", "customer": "Priya Desai", "email": "priya@example.com", "phone": "+91 8765432109", "product": "Business Presentation", "amount": 499, "status": "accepted", "date": "1 hour ago" },
   { "id": "ORD-98229", "customer": "Amit Patel", "email": "amit@example.com", "phone": "+91 7654321098", "product": "Marketing Pitch Deck", "amount": 499, "status": "rejected", "date": "3 hours ago" }
 ]

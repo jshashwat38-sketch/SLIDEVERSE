@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Slideverse Pro",
+  title: "Slideverse",
   description: "Discover and share premium presentations.",
   icons: {
     icon: "/logo.png",

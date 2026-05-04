@@ -58,12 +58,10 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
             >
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-[3rem] blur-2xl group-hover:scale-105 transition-transform duration-700" />
               <div className="relative h-full w-full rounded-[3rem] overflow-hidden bg-white dark:bg-black transition-colors duration-300">
-                <Image 
-                  src={bundle.image_url || "/placeholder.jpg"} 
+                <img 
+                  src={bundle.image_url || bundle.imageUrl || (bundle.images && bundle.images[0]) || "/placeholder.jpg"} 
                   alt={title.en}
-                  fill
-                  priority
-                  className="object-cover group-hover:scale-110 transition-transform duration-1000 rounded-[2.5rem]"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 rounded-[2.5rem]"
                 />
                 {savings > 0 && (
                   <div className="absolute top-8 left-8 bg-primary text-black font-black px-6 py-2 rounded-full text-sm uppercase tracking-tighter shadow-xl italic">
@@ -226,11 +224,10 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
                       {items.map((item: Record<string, any>, idx: number) => (
                         <div key={idx} className="group/card bg-black/40 border border-white/5 rounded-[2rem] overflow-hidden hover:border-primary/20 transition-all duration-500">
                           <div className="aspect-video relative overflow-hidden bg-zinc-900">
-                            <Image 
-                              src={item.image || "/placeholder.jpg"} 
+                            <img 
+                              src={item.image || item.imageUrl || "/placeholder.jpg"} 
                               alt={item.name}
-                              fill
-                              className="object-cover opacity-80 group-hover/card:opacity-100 group-hover/card:scale-105 transition-all duration-700"
+                              className="w-full h-full object-cover opacity-80 group-hover/card:opacity-100 group-hover/card:scale-105 transition-all duration-700"
                             />
                           </div>
                           <div className="p-6 space-y-3">
@@ -327,7 +324,7 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
                   {items.map((item: any, idx: number) => (
                     <div key={idx} className="group/mob bg-white/[0.02] border border-white/5 rounded-[2rem] overflow-hidden">
                       <div className="aspect-video relative overflow-hidden">
-                        <Image src={item.image || "/placeholder.jpg"} alt={item.name} fill className="object-cover opacity-80" />
+                        <img src={item.image || item.imageUrl || "/placeholder.jpg"} alt={item.name} className="w-full h-full object-cover opacity-80" />
                       </div>
                       <div className="p-6 space-y-3">
                         <h5 className="text-sm font-black text-white uppercase italic tracking-tighter">{item.name}</h5>
