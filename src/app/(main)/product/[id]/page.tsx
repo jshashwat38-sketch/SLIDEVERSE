@@ -24,7 +24,8 @@ import {
   List,
   Files,
   Target,
-  HelpCircle
+  HelpCircle,
+  X
 } from "lucide-react";
 import { getProducts } from "@/actions/productActions";
 import { createRazorpayOrder, verifyPayment } from "@/actions/paymentActions";
@@ -52,7 +53,6 @@ export default function ProductDetailsPage() {
   const { language } = useLanguage();
 
   const [product, setProduct] = useState<any>(null);
-  const [activeImage, setActiveImage] = useState(0);
   const [loading, setLoading] = useState(true);
   const [hasPurchased, setHasPurchased] = useState(false);
   const [productReviews, setProductReviews] = useState<any[]>([]);
@@ -62,6 +62,7 @@ export default function ProductDetailsPage() {
   const [hasReviewed, setHasReviewed] = useState(false);
   const [activeTab, setActiveTab] = useState('description');
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -228,56 +229,40 @@ export default function ProductDetailsPage() {
         </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
-          {/* Left: Gallery */}
-          <div className="space-y-6">
-            <div className={`bg-white/[0.02] rounded-[2rem] sm:rounded-[3rem] overflow-hidden border border-white/5 relative group transition-all duration-700 ${activeImage === 0 ? 'aspect-square' : 'aspect-video max-h-[80vh] mx-auto'}`}>
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={activeImage}
-                  src={allImages[activeImage] || "https://placehold.co/600x400?text=No+Image"}
-                  alt={product.title}
-                  initial={{ opacity: 0, scale: 1.1 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as any }}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = "https://placehold.co/800x1000?text=No+Image";
-                  }}
-                />
-              </AnimatePresence>
-              
-              <div className="absolute inset-0 bg-gradient-to-t from-[#09090B] via-transparent to-transparent opacity-40" />
-
-              {allImages.length > 1 && (
-                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-3 z-10">
-                  {allImages.map((_: any, i: number) => (
-                    <button
-                      key={i}
-                      onClick={() => setActiveImage(i)}
-                      className={`w-2 h-2 rounded-full transition-all ${activeImage === i ? 'bg-primary w-8' : 'bg-white/20 hover:bg-white/40'}`}
-                    />
-                  ))}
-                </div>
-              )}
+          {/* Left: Static Premium Gallery */}
+          <div className="space-y-4">
+            {/* 1st Image: Large Square Cover */}
+            <div 
+              className="w-full aspect-square rounded-[2rem] sm:rounded-[3rem] overflow-hidden border border-white/5 bg-white/[0.02] cursor-zoom-in group transition-all duration-700 hover:border-primary/20"
+              onClick={() => setActiveIndex(0)}
+            >
+              <img
+                src={allImages[0] || "https://placehold.co/1000x1000?text=No+Asset"}
+                alt={product.title}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = "https://placehold.co/1000x1000?text=No+Image";
+                }}
+              />
             </div>
 
-            <div className="grid grid-cols-6 gap-4">
-              {allImages.map((img: string, i: number) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveImage(i)}
-                  className={`rounded-2xl overflow-hidden border-2 transition-all ${i === 0 ? 'aspect-square' : 'aspect-video'} ${activeImage === i ? 'border-primary shadow-[0_0_15px_rgba(197, 165, 114, 0.3)]' : 'border-white/5 hover:border-white/20'}`}
+            {/* Other Images: 16:9 Horizontal Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {allImages.slice(1).map((img: string, i: number) => (
+                <div
+                  key={i + 1}
+                  onClick={() => setActiveIndex(i + 1)}
+                  className="aspect-[16/9] rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border border-white/5 bg-white/[0.02] cursor-zoom-in group transition-all duration-700 hover:border-primary/20"
                 >
                   <img 
-                    src={img || "https://placehold.co/600x400?text=No+Image"} 
-                    className="w-full h-full object-cover opacity-60 hover:opacity-100 transition-opacity" 
+                    src={img || "https://placehold.co/800x450?text=No+Asset"} 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                     alt="" 
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=No+Image";
+                      (e.target as HTMLImageElement).src = "https://placehold.co/800x450?text=No+Image";
                     }}
                   />
-                </button>
+                </div>
               ))}
             </div>
           </div>
@@ -738,6 +723,46 @@ export default function ProductDetailsPage() {
         </div>
       </div>
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
+      
+      {/* Premium Lightbox Zoom */}
+      <AnimatePresence>
+        {activeIndex !== null && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center p-4 sm:p-10 cursor-zoom-out"
+            onClick={() => setActiveIndex(null)}
+          >
+            <motion.button 
+              className="absolute top-8 right-8 p-3 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition-all text-white z-50"
+              onClick={() => setActiveIndex(null)}
+            >
+              <X className="w-6 h-6" />
+            </motion.button>
+            
+            <motion.img 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              src={allImages[activeIndex]} 
+              className="max-w-full max-h-full rounded-2xl shadow-2xl drop-shadow-[0_0_50px_rgba(197,165,114,0.1)]" 
+              alt="Zoomed View"
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <style jsx global>{`
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </div>
   );
 }
