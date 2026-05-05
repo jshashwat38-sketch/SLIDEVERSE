@@ -210,7 +210,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
   }
 
   return (
-    <div id="custom-ppt-form-section" className="bg-card border border-white/10 rounded-[2.5rem] p-8 md:p-12 lg:p-16 relative overflow-hidden group hover:border-primary/10 transition-all w-[94%] max-w-[1500px] mx-auto shadow-2xl my-16 border-t-2 border-t-primary/30">
+    <div id="custom-ppt-form-section" className="bg-card border border-white/10 rounded-[2rem] sm:rounded-[2.5rem] p-4 sm:p-8 md:p-12 lg:p-16 relative overflow-hidden group hover:border-primary/10 transition-all w-[94%] max-w-[1500px] mx-auto shadow-2xl my-16 border-t-2 border-t-primary/30">
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       <div className="absolute top-0 right-0 w-80 h-80 bg-primary/5 rounded-full blur-[100px] -mr-40 -mt-40 group-hover:bg-primary/10 transition-colors pointer-events-none" />
       
@@ -246,7 +246,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
         </div>
 
         {/* Right Input Form */}
-        <form onSubmit={handleRequest} className="w-full bg-background/40 border border-white/10 rounded-[2rem] p-6 md:p-10 space-y-6">
+        <form onSubmit={handleRequest} className="w-full bg-background/40 border border-white/10 rounded-[1.5rem] sm:rounded-[2rem] p-4 sm:p-6 md:p-10 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] px-1">Full Name *</label>
@@ -400,7 +400,7 @@ export default function CustomPptBox({ isCompact = false }: CustomPptBoxProps) {
             <div className="relative border border-white/10 bg-background rounded-xl px-5 py-4 flex items-center justify-between group-hover:border-primary/10 transition-colors">
               <div className="flex items-center gap-3">
                 <Upload className="w-4 h-4 text-primary" />
-                <span className="text-xs font-bold text-zinc-400 truncate max-w-[200px]">
+                <span className="text-xs font-bold text-zinc-400 truncate max-w-[100px] sm:max-w-[200px]">
                   {fileName || "Click to upload files..."}
                 </span>
               </div>
