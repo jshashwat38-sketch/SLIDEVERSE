@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Sparkles, Mail, Phone } from "lucide-react";
 import { saveGrievance } from "@/actions/adminActions";
 import { toast } from "react-hot-toast";
+import { renderDualToneTitle } from "@/utils/lang";
 
 export default function ContactSection({ appearance, t }: any) {
   return (
@@ -14,7 +15,10 @@ export default function ContactSection({ appearance, t }: any) {
             <Sparkles className="w-5 h-5 text-primary animate-pulse" />
             <span className="text-[10px] font-black text-primary uppercase tracking-[0.6em] italic">The Relay Hub</span>
           </div>
-          <h2 className="text-4xl md:text-6xl font-heading font-bold text-white mb-10 tracking-tighter italic uppercase leading-[0.9]">Establish <br /> <span className="text-primary">Contact</span></h2>
+          <h2 
+            className="text-4xl md:text-6xl font-heading font-bold text-white mb-10 tracking-tighter italic uppercase leading-[0.9]"
+            dangerouslySetInnerHTML={{ __html: renderDualToneTitle("Establish Contact") }}
+          />
           
           <div className="space-y-10">
             <div className="flex items-center gap-6 group">

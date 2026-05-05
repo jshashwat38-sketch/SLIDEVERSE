@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { ProductCard, HeroProductCard } from "@/components/products/ProductCards";
-import { getLangString } from "@/utils/lang";
+import { getLangString, renderDualToneTitle } from "@/utils/lang";
 
 export default function FeaturedSection({ appearance, t, language, featuredProducts, activeHeroIndex, handleGridItemClick, isLoading }: any) {
   if (isLoading) {
@@ -40,15 +40,7 @@ export default function FeaturedSection({ appearance, t, language, featuredProdu
           <h2 
             className="text-4xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight italic uppercase" 
             dangerouslySetInnerHTML={{ 
-              __html: (() => {
-                const title = getLangString(appearance?.featured?.heading, language) || t("ppt_marketplace");
-                const words = title.split(" ");
-                if (words.length <= 1) return title;
-                const half = Math.floor(words.length / 2);
-                const firstHalf = words.slice(0, words.length - half).join(" ");
-                const secondHalf = words.slice(words.length - half).join(" ");
-                return `${firstHalf} <span class="text-primary">${secondHalf}</span>`;
-              })()
+              __html: renderDualToneTitle(getLangString(appearance?.featured?.heading, language) || t("ppt_marketplace"))
             }} 
           />
           <p className="text-sm text-zinc-500 font-medium tracking-wide mb-8">

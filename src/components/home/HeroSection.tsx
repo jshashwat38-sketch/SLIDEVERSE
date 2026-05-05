@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Shield, Send, Sparkles } from "lucide-react";
-import { getLangString } from "@/utils/lang";
+import { getLangString, renderDualToneTitle } from "@/utils/lang";
 
 export default function HeroSection({ appearance, t, language, featuredProducts, handleScroll }: any) {
   const containerVariants = {
@@ -20,15 +20,6 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
     visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
   };
 
-  const renderTitle = (title: string) => {
-    if (!title) return "";
-    const words = title.split(" ");
-    if (words.length <= 1) return title;
-    const half = Math.floor(words.length / 2);
-    const firstHalf = words.slice(0, words.length - half).join(" ");
-    const secondHalf = words.slice(words.length - half).join(" ");
-    return `${firstHalf} <span class="text-primary neon-text">${secondHalf}</span>`;
-  };
 
   return (
     <section className="relative pt-12 pb-16 flex items-center bg-white dark:bg-black transition-colors duration-500">
@@ -40,21 +31,16 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
 
       <div className="w-full max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] lg:gap-[60px] gap-12 md:gap-20 items-center relative z-10">
         <motion.div variants={containerVariants} initial="hidden" animate="visible" className="text-left">
-          <motion.div variants={itemVariants} className="flex items-center flex-wrap gap-3 mb-8">
-            <div className="inline-flex items-center gap-2 bg-zinc-100 dark:bg-white/5 backdrop-blur-xl text-primary font-bold px-5 py-2.5 rounded-xl text-[9px] uppercase tracking-[0.4em] border border-zinc-200 dark:border-white/5">
-              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-              {getLangString(appearance?.hero?.badge, language) || t("hero_badge")}
-            </div>
-            <div className="inline-flex items-center gap-2 bg-primary/10 backdrop-blur-xl text-primary font-black px-5 py-2.5 rounded-xl text-[9px] uppercase tracking-[0.4em] border border-primary/20 italic">
-              Fully <span className="text-white dark:text-white">Editable</span>
-            </div>
+          <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-zinc-100 dark:bg-white/5 backdrop-blur-xl text-primary font-bold px-5 py-2.5 rounded-xl mb-8 text-[9px] uppercase tracking-[0.4em] border border-zinc-200 dark:border-white/5">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            {getLangString(appearance?.hero?.badge, language) || t("hero_badge")}
           </motion.div>
           
           <motion.h1 
             variants={itemVariants} 
             className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-zinc-900 dark:text-white mb-8 leading-[1.1] tracking-tight italic uppercase"
             dangerouslySetInnerHTML={{ 
-              __html: renderTitle(getLangString(appearance?.hero?.title, language) || t("hero_title"))
+              __html: renderDualToneTitle(getLangString(appearance?.hero?.title, language) || t("hero_title"))
             }}
           />
           
