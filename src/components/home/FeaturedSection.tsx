@@ -40,9 +40,15 @@ export default function FeaturedSection({ appearance, t, language, featuredProdu
           <h2 
             className="text-4xl md:text-5xl font-heading font-bold text-white mb-4 tracking-tight italic uppercase" 
             dangerouslySetInnerHTML={{ 
-              __html: (getLangString(appearance?.featured?.heading, language) || t("ppt_marketplace"))
-                .replace(/Marketplace/gi, '<span class="text-primary">Marketplace</span>')
-                .replace(/Featured/gi, '<span class="text-primary">Featured</span>')
+              __html: (() => {
+                const title = getLangString(appearance?.featured?.heading, language) || t("ppt_marketplace");
+                const words = title.split(" ");
+                if (words.length <= 1) return title;
+                const half = Math.floor(words.length / 2);
+                const firstHalf = words.slice(0, words.length - half).join(" ");
+                const secondHalf = words.slice(words.length - half).join(" ");
+                return `${firstHalf} <span class="text-primary">${secondHalf}</span>`;
+              })()
             }} 
           />
           <p className="text-sm text-zinc-500 font-medium tracking-wide mb-8">

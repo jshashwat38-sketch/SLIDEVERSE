@@ -25,7 +25,17 @@ export default function AboutSection({ appearance, t, language }: any) {
           </div>
           <h2 
             className="text-5xl md:text-6xl font-heading font-bold text-white mb-8 tracking-tighter italic uppercase leading-[0.9]"
-            dangerouslySetInnerHTML={{ __html: getLangString(appearance?.about?.title, language) || 'The Digital <span class="text-primary">Atelier</span>' }}
+            dangerouslySetInnerHTML={{ 
+              __html: (() => {
+                const title = getLangString(appearance?.about?.title, language) || 'The Digital Atelier';
+                const words = title.split(" ");
+                if (words.length <= 1) return title;
+                const half = Math.floor(words.length / 2);
+                const firstHalf = words.slice(0, words.length - half).join(" ");
+                const secondHalf = words.slice(words.length - half).join(" ");
+                return `${firstHalf} <span class="text-primary">${secondHalf}</span>`;
+              })()
+            }}
           />
           <p className="text-xl text-zinc-400 mb-12 leading-relaxed font-medium italic border-l-2 border-primary/20 pl-8">
             {getLangString(appearance?.about?.description, language) || "We are a specialized laboratory of digital architects, dedicated to engineering the most sophisticated presentation frameworks in the modern era."}

@@ -34,7 +34,15 @@ export default function BestsellersSection({ appearance, t, language, bestseller
           <h3 
             className="text-3xl md:text-5xl font-heading font-bold text-white uppercase tracking-tighter italic"
             dangerouslySetInnerHTML={{ 
-              __html: getLangString(appearance?.bestsellers?.heading, language) || `Our <span class="text-primary">Bestsellers</span>`
+              __html: (() => {
+                const title = getLangString(appearance?.bestsellers?.heading, language) || "Our Bestsellers";
+                const words = title.split(" ");
+                if (words.length <= 1) return title;
+                const half = Math.floor(words.length / 2);
+                const firstHalf = words.slice(0, words.length - half).join(" ");
+                const secondHalf = words.slice(words.length - half).join(" ");
+                return `${firstHalf} <span class="text-primary">${secondHalf}</span>`;
+              })()
             }}
           />
           <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em] mt-2">

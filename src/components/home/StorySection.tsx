@@ -26,7 +26,17 @@ export default function StorySection({ appearance, t, language, pillarRef }: any
             </div>
             <h2 
               className="text-5xl md:text-7xl font-heading font-bold text-white mb-10 tracking-tighter italic uppercase leading-[0.85]"
-              dangerouslySetInnerHTML={{ __html: getLangString(appearance?.story?.title, language) || `Beyond the <br /> <span class="text-primary">Standard</span>` }}
+              dangerouslySetInnerHTML={{ 
+                __html: (() => {
+                  const title = getLangString(appearance?.story?.title, language) || "Beyond the Standard";
+                  const words = title.split(" ");
+                  if (words.length <= 1) return title;
+                  const half = Math.floor(words.length / 2);
+                  const firstHalf = words.slice(0, words.length - half).join(" ");
+                  const secondHalf = words.slice(words.length - half).join(" ");
+                  return `${firstHalf} <br /> <span class="text-primary">${secondHalf}</span>`;
+                })()
+              }}
             />
             <p className="text-xl text-zinc-500 mb-12 leading-relaxed font-medium italic border-l-4 border-primary/20 pl-8">
               {getLangString(appearance?.story?.subtitle, language) || "Elevating professional narratives into cinematic experiences of architectural clarity."}

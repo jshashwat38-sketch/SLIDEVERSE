@@ -21,6 +21,7 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
   };
 
   const renderTitle = (title: string) => {
+    if (!title) return "";
     const words = title.split(" ");
     if (words.length <= 1) return title;
     const half = Math.floor(words.length / 2);
@@ -39,9 +40,14 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
 
       <div className="w-full max-w-[1600px] 2xl:max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] lg:gap-[60px] gap-12 md:gap-20 items-center relative z-10">
         <motion.div variants={containerVariants} initial="hidden" animate="visible" className="text-left">
-          <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-zinc-100 dark:bg-white/5 backdrop-blur-xl text-primary font-bold px-5 py-2.5 rounded-xl mb-8 text-[9px] uppercase tracking-[0.4em] border border-zinc-200 dark:border-white/5">
-            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-            {getLangString(appearance?.hero?.badge, language) || t("hero_badge")}
+          <motion.div variants={itemVariants} className="flex items-center flex-wrap gap-3 mb-8">
+            <div className="inline-flex items-center gap-2 bg-zinc-100 dark:bg-white/5 backdrop-blur-xl text-primary font-bold px-5 py-2.5 rounded-xl text-[9px] uppercase tracking-[0.4em] border border-zinc-200 dark:border-white/5">
+              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+              {getLangString(appearance?.hero?.badge, language) || t("hero_badge")}
+            </div>
+            <div className="inline-flex items-center gap-2 bg-primary/10 backdrop-blur-xl text-primary font-black px-5 py-2.5 rounded-xl text-[9px] uppercase tracking-[0.4em] border border-primary/20 italic">
+              Fully <span className="text-white dark:text-white">Editable</span>
+            </div>
           </motion.div>
           
           <motion.h1 
