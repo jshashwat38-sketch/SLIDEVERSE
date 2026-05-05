@@ -39,13 +39,13 @@ export default function ContactPage() {
                 </div>
               </a>
               
-              <a href={`tel:${(appearance?.contact?.mobile || "+1 (800) SLIDEVERSE").replace(/\s/g, '')}`} className="flex items-center gap-6 group">
+              <a href={`tel:${(appearance?.contact?.mobile || "+91 8602328776").replace(/[^0-9+]/g, '')}`} className="flex items-center gap-6 group">
                 <div className="w-16 h-16 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-black transition-all duration-500">
                   <Phone className="w-6 h-6 text-primary group-hover:text-black" />
                 </div>
                 <div>
                   <h3 className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em] mb-1">Direct Line</h3>
-                  <p className="text-xl text-white font-bold tracking-tight">{appearance?.contact?.mobile || "+1 (800) SLIDEVERSE"}</p>
+                  <p className="text-xl text-white font-bold tracking-tight">{appearance?.contact?.mobile || "+91 8602328776"}</p>
                 </div>
               </a>
             </div>

@@ -129,13 +129,13 @@ export function GlobalFooter() {
                   <p className={`text-xs font-bold ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>{appearance?.contact?.email || "support@slideverse.pro"}</p>
                 </div>
               </a>
-              <a href={`tel:${(appearance?.contact?.mobile || "+91 99999 99999").replace(/[^0-9+]/g, '')}`} className="flex items-center gap-4 group touch-manipulation">
+              <a href={`tel:${(appearance?.contact?.mobile || "+91 8602328776").replace(/[^0-9+]/g, '')}`} className="flex items-center gap-4 group touch-manipulation">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-all">
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
                   <p className={`text-[10px] font-black uppercase tracking-widest ${theme === 'dark' ? 'text-zinc-600' : 'text-zinc-400'}`}>Secure Line</p>
-                  <p className={`text-xs font-bold ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>{appearance?.contact?.mobile || "+91 99999 99999"}</p>
+                  <p className={`text-xs font-bold ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>{appearance?.contact?.mobile || "+91 8602328776"}</p>
                 </div>
               </a>
             </div>
