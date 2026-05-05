@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Shield, Send, Sparkles } from "lucide-react";
-import { getLangString, renderDualToneTitle } from "@/utils/lang";
+import { getLangString } from "@/utils/lang";
 
 export default function HeroSection({ appearance, t, language, featuredProducts, handleScroll }: any) {
   const containerVariants = {
@@ -20,6 +20,14 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
     visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
   };
 
+  const renderTitle = (title: string) => {
+    const words = title.split(" ");
+    if (words.length <= 1) return title;
+    const half = Math.floor(words.length / 2);
+    const firstHalf = words.slice(0, words.length - half).join(" ");
+    const secondHalf = words.slice(words.length - half).join(" ");
+    return `${firstHalf} <span class="text-primary neon-text">${secondHalf}</span>`;
+  };
 
   return (
     <section className="relative pt-12 pb-16 flex items-center bg-white dark:bg-black transition-colors duration-500">
@@ -40,7 +48,7 @@ export default function HeroSection({ appearance, t, language, featuredProducts,
             variants={itemVariants} 
             className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold text-zinc-900 dark:text-white mb-8 leading-[1.1] tracking-tight italic uppercase"
             dangerouslySetInnerHTML={{ 
-              __html: renderDualToneTitle(getLangString(appearance?.hero?.title, language) || t("hero_title"))
+              __html: renderTitle(getLangString(appearance?.hero?.title, language) || t("hero_title"))
             }}
           />
           

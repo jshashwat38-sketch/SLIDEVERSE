@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ProductCard } from "@/components/products/ProductCards";
-import { getLangString, renderDualToneTitle } from "@/utils/lang";
+import { getLangString } from "@/utils/lang";
 
 export default function BestsellersSection({ appearance, t, language, bestsellers, isLoading }: any) {
   if (isLoading) {
@@ -34,7 +34,7 @@ export default function BestsellersSection({ appearance, t, language, bestseller
           <h3 
             className="text-3xl md:text-5xl font-heading font-bold text-white uppercase tracking-tighter italic"
             dangerouslySetInnerHTML={{ 
-              __html: renderDualToneTitle(getLangString(appearance?.bestsellers?.heading, language) || t?.bestsellers_title || "Our Bestsellers")
+              __html: getLangString(appearance?.bestsellers?.heading, language) || `Our <span class="text-primary">Bestsellers</span>`
             }}
           />
           <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em] mt-2">
