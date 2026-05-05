@@ -392,15 +392,6 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
         </div>
       </section>
 
-      {/* Sticky Mobile CTA */}
-      <div className="fixed bottom-8 left-4 right-4 md:hidden z-50">
-        <button 
-          onClick={handleAddToCart}
-          className="w-full bg-primary text-black py-5 rounded-2xl font-black flex items-center justify-center gap-3 shadow-2xl active:scale-95 transition-transform uppercase tracking-widest text-[10px]"
-        >
-          <ShoppingBag className="w-4 h-4" /> Acquisition Ready — ₹{bundle.price}
-        </button>
-      </div>
     </div>
   );
 }
