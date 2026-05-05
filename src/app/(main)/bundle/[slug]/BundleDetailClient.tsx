@@ -155,7 +155,7 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-12">
             <div className="w-12 h-[1px] bg-primary/30" />
-            <span className="text-[10px] font-black text-primary uppercase tracking-[0.6em] italic">Bundle Intelligence Panel</span>
+            <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em] sm:tracking-[0.6em] italic">Bundle Intelligence Panel</span>
           </div>
 
           {/* Desktop Tabs Navigation */}
@@ -374,7 +374,7 @@ export default function BundleDetailClient({ bundle }: { bundle: any }) {
       <section className="py-32 px-4 text-center relative">
         <div className="max-w-4xl mx-auto space-y-12">
           <div className="space-y-6">
-             <h2 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter leading-none">
+             <h2 className="text-3xl sm:text-5xl md:text-7xl font-black italic uppercase tracking-tighter leading-tight sm:leading-none">
               Deploy Your <span className="text-primary">Intelligence</span>
             </h2>
             <p className="text-zinc-500 font-medium uppercase tracking-[0.3em] text-xs italic">
