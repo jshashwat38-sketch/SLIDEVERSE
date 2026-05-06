@@ -26,12 +26,13 @@ interface HomeClientProps {
   initialAppearance: any;
   initialProducts: any[];
   initialReviews: any[];
+  initialCategories: any[];
   isEditor?: boolean; // New prop for CMS preview mode
 }
 
 const PILLAR_COUNT = 3;
 
-export default function HomeClient({ initialAppearance, initialProducts, initialReviews, isEditor = false }: HomeClientProps) {
+export default function HomeClient({ initialAppearance, initialProducts, initialReviews, initialCategories, isEditor = false }: HomeClientProps) {
   const { t, language } = useLanguage();
   const appearance = initialAppearance;
   const reviews = initialReviews;
@@ -41,19 +42,9 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
   const [priceSort] = useState<"none" | "low-to-high" | "high-to-low">("none");
   const [ratingSort] = useState<"none" | "highest" | "lowest">("none");
   const [langFilter] = useState<"all" | "hindi" | "english">("all");
-  const [categories, setCategories] = useState<any[]>([]);
-  const [categoriesLoading, setCategoriesLoading] = useState(true);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
-
-  useEffect(() => {
-    getCategories().then((data) => {
-      setCategories(data);
-      setCategoriesLoading(false);
-      if (data.length > 0) {
-        setSelectedCategoryId(data[0].id);
-      }
-    });
-  }, []);
+  const [categories, setCategories] = useState<any[]>(initialCategories || []);
+  const [categoriesLoading, setCategoriesLoading] = useState(false);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(initialCategories?.[0]?.id || null);
 
   const [activeHeroIndex, setActiveHeroIndex] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -177,8 +168,8 @@ export default function HomeClient({ initialAppearance, initialProducts, initial
   const sections: Record<string, React.ReactNode> = {
     hero: <HeroSection key="hero" appearance={appearance} t={t} language={language} handleScroll={handleScroll} />,
     trust: <TrustStrip key="trust" data={appearance?.trust} />,
-    featured: <FeaturedSection key="featured" appearance={appearance} t={t} language={language} featuredProducts={featuredProducts} activeHeroIndex={activeHeroIndex} handleGridItemClick={handleGridItemClick} isLoading={categoriesLoading} />,
-    bestsellers: <BestsellersSection key="bestsellers" appearance={appearance} t={t} language={language} bestsellers={bestsellers} isLoading={categoriesLoading} />,
+    featured: <FeaturedSection key="featured" appearance={appearance} t={t} language={language} featuredProducts={featuredProducts} activeHeroIndex={activeHeroIndex} handleGridItemClick={handleGridItemClick} isLoading={categoriesLoading} reviews={reviews} />,
+    bestsellers: <BestsellersSection key="bestsellers" appearance={appearance} t={t} language={language} bestsellers={bestsellers} isLoading={categoriesLoading} reviews={reviews} />,
     categories: (
       <CategoryShowcase 
         key="categories"

@@ -2,11 +2,11 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { CheckCircle2, ShoppingCart, Star, ChevronRight } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { getReviews } from "@/actions/adminActions";
 import { useLanguage } from "@/context/LanguageContext";
 
 export interface ProductProps {
@@ -20,33 +20,29 @@ export interface ProductProps {
 }
 
 export function ProductCard(props: any) {
-  const { id, price, imageUrl, image_url, images, features, variant } = props;
+  const { id, price, imageUrl, image_url, images, features, variant, reviews: allReviews = [] } = props;
   const { addToCart } = useCart();
   const router = useRouter();
   const { language, t } = useLanguage();
   
   const displayImage = image_url || imageUrl || (images && images.length > 0 ? images[0] : "");
-  const safeFeatures = Array.isArray(features) ? features : [];
   
   const [avgRating, setAvgRating] = useState<number | null>(null);
   const [reviewsCount, setReviewsCount] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      const allReviews = await getReviews();
-      const relevant = allReviews.filter((rev: any) => {
-        const pId = typeof rev.role === "object" ? rev.role?.en || rev.role?.product_id : String(rev.role);
-        return pId === id && rev.code === "VERIFIED_BUYER";
-      });
-      if (relevant.length > 0) {
-        const sum = relevant.reduce((acc: number, cur: any) => acc + Number(cur.rating || 5), 0);
-        setAvgRating(sum / relevant.length);
-        setReviewsCount(relevant.length);
-      }
-    };
-    fetchReviews();
-  }, [id]);
+    if (!allReviews || allReviews.length === 0) return;
+    const relevant = allReviews.filter((rev: any) => {
+      const pId = typeof rev.role === "object" ? rev.role?.en || rev.role?.product_id : String(rev.role);
+      return pId === id && rev.code === "VERIFIED_BUYER";
+    });
+    if (relevant.length > 0) {
+      const sum = relevant.reduce((acc: number, cur: any) => acc + Number(cur.rating || 5), 0);
+      setAvgRating(sum / relevant.length);
+      setReviewsCount(relevant.length);
+    }
+  }, [id, allReviews]);
 
   let displayTitle = "";
   if (language === 'hi') {
@@ -98,13 +94,11 @@ export function ProductCard(props: any) {
         className="group bg-[#09090B] border border-white/5 rounded-2xl overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all duration-500 hover:shadow-[0_0_20px_rgba(197,165,114,0.1)] relative"
       >
         <Link href={isBundle ? bundleHref : productHref} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-[2.5rem]">
-          <img 
+          <Image 
             src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
             alt={displayTitle} 
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100 rounded-[2.5rem]" 
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = "https://placehold.co/400x300?text=No+Image";
-            }}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100 rounded-[2.5rem]" 
           />
           <div className="absolute inset-0 bg-gradient-to-tr from-white dark:from-black via-transparent to-transparent opacity-30" />
         </Link>
@@ -145,14 +139,11 @@ export function ProductCard(props: any) {
     return (
       <div className="bg-[#09090B] border border-white/5 rounded-2xl overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all relative">
         <Link href={isBundle ? bundleHref : productHref} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-2xl">
-          <img 
+          <Image 
             src={displayImage || "https://placehold.co/200x150?text=No+Image"} 
             alt={displayTitle} 
-            loading="lazy"
-            className="w-full h-full object-cover rounded-2xl" 
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = "https://placehold.co/200x150?text=No+Image";
-            }}
+            fill
+            className="object-cover rounded-2xl" 
           />
         </Link>
 
@@ -189,13 +180,11 @@ export function ProductCard(props: any) {
         className="group bg-[#09090B] border border-white/5 rounded-[2.5rem] overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,165,114,0.05)] relative"
       >
         <Link href={bundleHref} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-[2.5rem]">
-          <img 
+          <Image 
             src={displayImage || "https://placehold.co/600x400?text=No+Image"} 
             alt={displayTitle} 
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100 rounded-[2.5rem]" 
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=No+Image";
-            }}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100 rounded-[2.5rem]" 
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#09090B] via-transparent to-transparent opacity-40" />
           <div className="absolute top-4 right-4 bg-primary text-black font-black text-[9px] px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
@@ -217,7 +206,7 @@ export function ProductCard(props: any) {
               {bundleItems.slice(0, 3).map((item: any, i: number) => (
                 <div key={i} className="flex items-center gap-1.5 bg-white/[0.03] border border-white/5 rounded-lg px-2 py-1">
                   {item.image && (
-                    <img src={item.image} className="w-4 h-4 object-cover rounded" alt="mini-icon" />
+                    <Image src={item.image} width={16} height={16} className="object-cover rounded" alt="mini-icon" />
                   )}
                   <span className="text-[8px] font-bold text-white line-clamp-1 uppercase tracking-wider">{item.name}</span>
                 </div>
@@ -274,7 +263,7 @@ export function ProductCard(props: any) {
                 {bundleItems.map((item: any, i: number) => (
                   <div key={i} className="bg-white/[0.02] p-2 rounded-xl border border-white/5 flex gap-3">
                     {item.image && (
-                      <img src={item.image} className="w-10 h-10 object-cover rounded-lg border border-white/10 shrink-0" alt={item.name} />
+                      <Image src={item.image} width={40} height={40} className="object-cover rounded-lg border border-white/10 shrink-0" alt={item.name} />
                     )}
                     <div>
                       <div className="text-[10px] font-black text-white line-clamp-1 uppercase">{item.name}</div>
@@ -297,13 +286,11 @@ export function ProductCard(props: any) {
       className="group bg-[#09090B] border border-white/5 rounded-[2.5rem] overflow-hidden flex flex-col h-full hover:border-primary/20 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,165,114,0.05)] relative"
     >
       <Link href={`/product/${id}`} className="block aspect-square bg-black relative shrink-0 overflow-hidden cursor-pointer rounded-[2.5rem]">
-        <img 
+        <Image 
           src={displayImage || "https://placehold.co/600x400?text=No+Image"} 
           alt={displayTitle} 
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100 rounded-[2.5rem]" 
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = "https://placehold.co/400x400?text=No+Image";
-          }}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-1000 opacity-90 group-hover:opacity-100 rounded-[2.5rem]" 
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#09090B] via-transparent to-transparent opacity-40" />
       </Link>
@@ -356,7 +343,7 @@ export function ProductCard(props: any) {
 }
 
 export function HeroProductCard(props: any) {
-  const { id, price, imageUrl, image_url, images, features } = props;
+  const { id, price, imageUrl, image_url, images, features, reviews: allReviews = [] } = props;
   const { addToCart } = useCart();
   const router = useRouter();
   const { language, t } = useLanguage();
@@ -366,26 +353,22 @@ export function HeroProductCard(props: any) {
   const productHref = `/product/${id}`;
 
   const displayImage = image_url || imageUrl || (images && images.length > 0 ? images[0] : "");
-  const safeFeatures = Array.isArray(features) ? features : [];
   
   const [avgRating, setAvgRating] = useState<number | null>(null);
   const [reviewsCount, setReviewsCount] = useState(0);
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      const allReviews = await getReviews();
-      const relevant = allReviews.filter((rev: any) => {
-        const pId = typeof rev.role === "object" ? rev.role?.en || rev.role?.product_id : String(rev.role);
-        return pId === id && rev.code === "VERIFIED_BUYER";
-      });
-      if (relevant.length > 0) {
-        const sum = relevant.reduce((acc: number, cur: any) => acc + Number(cur.rating || 5), 0);
-        setAvgRating(sum / relevant.length);
-        setReviewsCount(relevant.length);
-      }
-    };
-    fetchReviews();
-  }, [id]);
+    if (!allReviews || allReviews.length === 0) return;
+    const relevant = allReviews.filter((rev: any) => {
+      const pId = typeof rev.role === "object" ? rev.role?.en || rev.role?.product_id : String(rev.role);
+      return pId === id && rev.code === "VERIFIED_BUYER";
+    });
+    if (relevant.length > 0) {
+      const sum = relevant.reduce((acc: number, cur: any) => acc + Number(cur.rating || 5), 0);
+      setAvgRating(sum / relevant.length);
+      setReviewsCount(relevant.length);
+    }
+  }, [id, allReviews]);
 
   let displayTitle = "";
   if (language === 'hi') {
@@ -484,7 +467,7 @@ export function HeroProductCard(props: any) {
 
         {/* Main Image Layer: Immersive Floating */}
         <div className="w-full h-full flex items-center justify-center overflow-hidden rounded-[2.5rem] p-8 md:p-12 lg:p-16">
-          <motion.img 
+          <motion.div
             initial={{ scale: 1 }}
             animate={{ scale: 1.02, y: [0, -10, 0] }}
             transition={{ 
@@ -493,13 +476,15 @@ export function HeroProductCard(props: any) {
               repeatType: "reverse", 
               ease: "easeInOut" 
             }}
-            src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
-            alt={displayTitle} 
-            className="w-full h-full object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.15)] dark:drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)] select-none rounded-[2.5rem] transition-transform duration-700 will-change-transform" 
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = "https://placehold.co/800x400?text=No+Image";
-            }}
-          />
+            className="w-full h-full relative"
+          >
+            <Image 
+              src={displayImage || "https://placehold.co/1000x1000?text=No+Asset"} 
+              alt={displayTitle} 
+              fill
+              className="object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.15)] dark:drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)] select-none rounded-[2.5rem] transition-transform duration-700 will-change-transform" 
+            />
+          </motion.div>
         </div>
         
         {/* Cinematic glow */}

@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { ProductCard, HeroProductCard } from "@/components/products/ProductCards";
 import { getLangString } from "@/utils/lang";
 
-export default function FeaturedSection({ appearance, t, language, featuredProducts, activeHeroIndex, handleGridItemClick, isLoading }: any) {
+export default function FeaturedSection({ appearance, t, language, featuredProducts, activeHeroIndex, handleGridItemClick, isLoading, reviews }: any) {
   if (isLoading) {
     return (
       <section className="py-20 md:py-32 relative border-t border-white/5 animate-in fade-in duration-700">
@@ -72,7 +72,7 @@ export default function FeaturedSection({ appearance, t, language, featuredProdu
                   ease: [0.22, 1, 0.36, 1] 
                 }}
               >
-                <HeroProductCard {...featuredProducts[activeHeroIndex]} />
+                <HeroProductCard {...featuredProducts[activeHeroIndex]} reviews={reviews} />
               </motion.div>
             </AnimatePresence>
           </div>
@@ -101,10 +101,10 @@ export default function FeaturedSection({ appearance, t, language, featuredProdu
                 onClick={() => handleGridItemClick(index)}
               >
                 <div className="hidden sm:block h-full">
-                  <ProductCard {...product} />
+                  <ProductCard {...product} reviews={reviews} />
                 </div>
                 <div className="block sm:hidden h-full">
-                  <ProductCard {...product} variant="micro-grid-mobile" />
+                  <ProductCard {...product} variant="micro-grid-mobile" reviews={reviews} />
                 </div>
               </motion.div>
             ))}

@@ -1,14 +1,15 @@
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // Revalidate every hour
 import { getProducts } from "@/actions/productActions";
-import { getAppearance, getReviews } from "@/actions/adminActions";
+import { getAppearance, getReviews, getCategories } from "@/actions/adminActions";
 import HomeClient from "./HomeClient";
 
 export default async function HomePage() {
-  // Fetch data on the server for instant rendering
-  const [featuredProducts, appearance, reviews] = await Promise.all([
+  // Fetch all data in parallel on the server for instant rendering
+  const [featuredProducts, appearance, reviews, categories] = await Promise.all([
     getProducts(),
     getAppearance(),
-    getReviews()
+    getReviews(),
+    getCategories()
   ]);
 
   return (
@@ -16,6 +17,7 @@ export default async function HomePage() {
       initialAppearance={appearance}
       initialProducts={featuredProducts}
       initialReviews={reviews}
+      initialCategories={categories}
     />
   );
 }

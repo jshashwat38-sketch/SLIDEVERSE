@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { ProductCard } from "@/components/products/ProductCards";
 import { getLangString } from "@/utils/lang";
 
-export default function BestsellersSection({ appearance, t, language, bestsellers, isLoading }: any) {
+export default function BestsellersSection({ appearance, t, language, bestsellers, isLoading, reviews }: any) {
   if (isLoading) {
     return (
       <section className="py-20 md:py-32 relative border-t border-white/5 animate-in fade-in duration-700">
@@ -52,10 +52,10 @@ export default function BestsellersSection({ appearance, t, language, bestseller
               transition={{ delay: (index % 4) * 0.05, duration: 0.6 }}
             >
               <div className="hidden sm:block">
-                <ProductCard {...product} />
+                <ProductCard {...product} reviews={reviews} />
               </div>
               <div className="block sm:hidden h-full">
-                <ProductCard {...product} variant="micro-grid-mobile" />
+                <ProductCard {...product} variant="micro-grid-mobile" reviews={reviews} />
               </div>
             </motion.div>
           ))}
