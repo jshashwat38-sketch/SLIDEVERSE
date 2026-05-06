@@ -22,6 +22,7 @@ export default function ShopPage() {
   const [ratingSort, setRatingSort] = useState<"none" | "highest">("none");
   const [langFilter, setLangFilter] = useState<"all" | "hindi" | "english">("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
+  const [bundleFilter, setBundleFilter] = useState<"all" | "bundle" | "single">("all");
   const [isFilterOpen, setIsFilterOpen] = useState(false); // Bottom sheet mobile
 
   useEffect(() => {
@@ -79,6 +80,14 @@ export default function ShopPage() {
     if (categoryFilter !== "all") {
       result = result.filter(p => String(p.category_id || "").toLowerCase() === categoryFilter.toLowerCase());
     }
+    
+    // 5. Bundle Filter
+    if (bundleFilter !== "all") {
+      result = result.filter(p => {
+        const isBundle = typeof p.title === 'object' && p.title?.is_bundle;
+        return bundleFilter === "bundle" ? isBundle : !isBundle;
+      });
+    }
 
     // Pre-calculate ratings
     const ratingsMap: Record<string, { sum: number; count: number }> = {};
@@ -108,7 +117,7 @@ export default function ShopPage() {
     }
 
     return result;
-  }, [searchQuery, filterType, langFilter, categoryFilter, priceSort, ratingSort, products, reviews]);
+  }, [searchQuery, filterType, langFilter, categoryFilter, bundleFilter, priceSort, ratingSort, products, reviews]);
 
   const uniqueCategories = Array.from(new Set(products.map(p => String(p.category_id || "General").trim()))).filter(Boolean);
 
@@ -152,7 +161,7 @@ export default function ShopPage() {
 
       <div className="w-full max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-4 gap-12 relative">
         {/* Desktop Sidebar Filters */}
-        <div className="hidden lg:block lg:col-span-1 bg-[#09090B] border border-white/5 rounded-[2.5rem] p-8 space-y-8 sticky top-28 h-fit shadow-xl border-t border-t-primary/10">
+        <div className="hidden lg:block lg:col-span-1 bg-[#09090B] border border-white/5 rounded-[2.5rem] p-8 space-y-8 sticky top-28 h-fit shadow-xl border-t border-t-primary/10 max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar pr-4">
           <div className="flex items-center gap-3 pb-4 border-b border-white/5">
             <SlidersHorizontal className="w-4 h-4 text-primary" />
             <span className="text-[11px] font-black text-white uppercase tracking-widest italic">{t("browsing_parameters")}</span>
@@ -170,6 +179,27 @@ export default function ShopPage() {
                 >
                   <span>{getPriceLabel(tType)}</span>
                   {filterType === tType && <Check className="w-4 h-4 text-black" />}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Product Type (Bundles) */}
+          <div className="space-y-4">
+            <label className="text-[9px] font-black text-zinc-500 uppercase tracking-[0.3em] italic">Product Type</label>
+            <div className="flex flex-col gap-2">
+              {[
+                { value: "all", label: "All Items" },
+                { value: "bundle", label: "Bundles Only" },
+                { value: "single", label: "Single Templates" }
+              ].map((b) => (
+                <button 
+                  key={b.value}
+                  onClick={() => setBundleFilter(b.value as any)}
+                  className={`px-4 py-3 rounded-xl text-left text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-between ${bundleFilter === b.value ? 'bg-primary text-black border-transparent' : 'bg-white/[0.02] text-zinc-400 hover:text-white border border-white/5'}`}
+                >
+                  <span>{b.label}</span>
+                  {bundleFilter === b.value && <Check className="w-4 h-4 text-black" />}
                 </button>
               ))}
             </div>

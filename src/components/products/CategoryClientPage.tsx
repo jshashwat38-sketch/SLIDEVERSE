@@ -160,7 +160,7 @@ export default function CategoryClientPage({ category, products, id }: CategoryC
 
       <div className="flex flex-col lg:flex-row gap-10 pb-20">
         {/* Sidebar Filters */}
-        <aside className="hidden lg:block w-64 shrink-0 bg-white dark:bg-[#09090B] border border-zinc-200 dark:border-white/5 rounded-[2rem] p-6 h-fit sticky top-24 shadow-sm">
+        <aside className="hidden lg:block w-72 shrink-0 bg-white dark:bg-[#09090B] border border-zinc-200 dark:border-white/5 rounded-[2.5rem] p-8 h-fit sticky top-28 shadow-xl max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar pr-4">
           <div className="flex items-center justify-between mb-6 border-b border-zinc-100 dark:border-white/5 pb-4">
             <h3 className="text-xs font-black text-zinc-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
               <Filter className="w-4 h-4 text-primary" /> Filters
@@ -179,38 +179,53 @@ export default function CategoryClientPage({ category, products, id }: CategoryC
             </button>
           </div>
 
-          {/* Filters Mapping */}
-          <div className="mb-6">
-            <h4 className="text-[11px] font-black text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-3">Price Type</h4>
+          <div className="mb-8">
+            <h4 className="text-[11px] font-black text-zinc-700 dark:text-zinc-300 uppercase tracking-widest mb-4 italic">Price Type</h4>
             <div className="flex flex-col gap-2">
               {['all', 'free', 'paid'].map(t => (
-                <label key={t} className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 font-medium cursor-pointer">
-                  <input type="radio" name="priceType" checked={priceType === t} onChange={() => { setPriceType(t); updateURLParams('priceType', t); }} className="accent-primary" />
-                  <span className="capitalize">{t === 'all' ? 'All Prices' : t}</span>
+                <label key={t} className="flex items-center gap-3 text-xs text-zinc-500 dark:text-zinc-400 font-bold cursor-pointer group hover:text-primary transition-colors">
+                  <input type="radio" name="priceType" checked={priceType === t} onChange={() => { setPriceType(t); updateURLParams('priceType', t); }} className="accent-primary w-4 h-4" />
+                  <span className="capitalize tracking-wide">{t === 'all' ? 'All Formats' : t === 'free' ? 'Free PPTs' : 'Paid PPTs'}</span>
                 </label>
               ))}
             </div>
           </div>
 
-          <div className="mb-6">
-            <h4 className="text-[11px] font-black text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-3">Price Range</h4>
+          <div className="mb-8">
+            <h4 className="text-[11px] font-black text-zinc-700 dark:text-zinc-300 uppercase tracking-widest mb-4 italic">Product Type</h4>
+            <div className="flex flex-col gap-2">
+              {[
+                { id: 'all', label: 'All Items' },
+                { id: 'bundle', label: 'Bundles Only' },
+                { id: 'single', label: 'Single Templates' }
+              ].map(b => (
+                <label key={b.id} className="flex items-center gap-3 text-xs text-zinc-500 dark:text-zinc-400 font-bold cursor-pointer group hover:text-primary transition-colors">
+                  <input type="radio" name="bundle" checked={bundleFilter === b.id} onChange={() => { setBundleFilter(b.id); updateURLParams('bundle', b.id); }} className="accent-primary w-4 h-4" />
+                  <span className="tracking-wide">{b.label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-8">
+            <h4 className="text-[11px] font-black text-zinc-700 dark:text-zinc-300 uppercase tracking-widest mb-4 italic">Price Range</h4>
             <div className="flex flex-col gap-2">
               {['all', '0-99', '100-299', '300-499', '500+'].map(r => (
-                <label key={r} className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 font-medium cursor-pointer">
-                  <input type="radio" name="priceRange" checked={priceRange === r} onChange={() => { setPriceRange(r); updateURLParams('priceRange', r); }} className="accent-primary" />
-                  <span>{r === 'all' ? 'Any' : r.startsWith('500') ? '₹500+' : `₹${r}`}</span>
+                <label key={r} className="flex items-center gap-3 text-xs text-zinc-500 dark:text-zinc-400 font-bold cursor-pointer group hover:text-primary transition-colors">
+                  <input type="radio" name="priceRange" checked={priceRange === r} onChange={() => { setPriceRange(r); updateURLParams('priceRange', r); }} className="accent-primary w-4 h-4" />
+                  <span className="tracking-wide">{r === 'all' ? 'Any Price' : r.startsWith('500') ? '₹500+' : `₹${r}`}</span>
                 </label>
               ))}
             </div>
           </div>
 
-          <div className="mb-6">
-            <h4 className="text-[11px] font-black text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-3">Language</h4>
+          <div className="mb-8">
+            <h4 className="text-[11px] font-black text-zinc-700 dark:text-zinc-300 uppercase tracking-widest mb-4 italic">Language</h4>
             <div className="flex flex-col gap-2">
               {['all', 'en', 'hindi'].map(l => (
-                <label key={l} className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 font-medium cursor-pointer">
-                  <input type="radio" name="lang" checked={langFilter === l} onChange={() => { setLangFilter(l); updateURLParams('lang', l); }} className="accent-primary" />
-                  <span className="capitalize">{l === 'all' ? 'Any' : l === 'en' ? 'English' : 'Hindi'}</span>
+                <label key={l} className="flex items-center gap-3 text-xs text-zinc-500 dark:text-zinc-400 font-bold cursor-pointer group hover:text-primary transition-colors">
+                  <input type="radio" name="lang" checked={langFilter === l} onChange={() => { setLangFilter(l); updateURLParams('lang', l); }} className="accent-primary w-4 h-4" />
+                  <span className="capitalize tracking-wide">{l === 'all' ? 'Any Language' : l === 'en' ? 'English Only' : 'Hindi Only'}</span>
                 </label>
               ))}
             </div>
