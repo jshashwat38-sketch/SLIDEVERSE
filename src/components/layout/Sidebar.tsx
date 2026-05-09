@@ -251,7 +251,14 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           )}
         </div>
         
-        <CustomPptBox isCompact />
+          <a
+            href="#custom-ppt"
+            onClick={(e) => handleScroll(e, "custom-ppt")}
+            className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer text-zinc-500 hover:text-primary hover:bg-primary/5 border border-primary/10 bg-primary/5 mt-4"
+          >
+            <FolderOpen className="w-5 h-5 text-primary" />
+            <span className="font-bold text-primary">{t("custom_ppt")}</span>
+          </a>
       </nav>
     </aside>
   );

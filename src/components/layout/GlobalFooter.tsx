@@ -102,6 +102,7 @@ export function GlobalFooter() {
               {[
                 { name: "Home", link: "/" },
                 { name: "Categories", link: "/#featured" },
+                { name: "Custom PPT", link: "/#custom-ppt" },
                 { name: "About Us", link: "/#about" },
                 { name: "Our Story", link: "/#story" },
                 { name: "Contact Us", link: "/#contact" }
