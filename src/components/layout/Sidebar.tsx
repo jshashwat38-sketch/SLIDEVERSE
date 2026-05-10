@@ -36,7 +36,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
     } else {
       const element = document.getElementById(id);
       if (element) {
-        if (id === "story") {
+        if (id === "story" || id === "custom-ppt") {
           element.scrollIntoView({ behavior: "smooth", block: "start" });
         } else {
           element.scrollIntoView({ behavior: "smooth", block: "center" });

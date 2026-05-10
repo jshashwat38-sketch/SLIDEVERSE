@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getAppearance } from "@/actions/adminActions";
 import Link from "next/link";
 import { Mail, Phone, ShieldCheck, FolderOpen, Zap } from "lucide-react";
-import { useTheme } from "@/context/ThemeContext";
+import { usePathname } from "next/navigation";
 
 import Image from "next/image";
 
@@ -33,7 +33,21 @@ export function GlobalFooter() {
 
   useEffect(() => {
     getAppearance().then(setAppearance);
-  }, []);
+  }, []); // end useEffect
+
+const pathname = usePathname();
+
+const handleFooterScroll = (e: React.MouseEvent, id: string) => {
+  e.preventDefault();
+  if (pathname !== '/') {
+    window.location.href = `/#${id}`;
+  } else {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+};
 
   const policyLinks = [
     { label: "User Agreement", href: "/policies?tab=userAgreement" },
@@ -108,10 +122,9 @@ export function GlobalFooter() {
                 { name: "Contact Us", link: "/#contact" }
               ].map((item, i) => (
                 <li key={i}>
-                  <Link href={item.link} className={`hover:text-primary text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2 group ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-600'}`}>
-                    <span className="w-0 h-px bg-primary transition-all group-hover:w-4" />
+                  <a href={item.link} onClick={(e) => handleFooterScroll(e, item.link.replace('/#', ''))} className={`hover:text-primary text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2 group ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-600'}`}>                    <span className="w-0 h-px bg-primary transition-all group-hover:w-4" />
                     {item.name}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
